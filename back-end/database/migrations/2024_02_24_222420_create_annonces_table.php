@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,14 +18,16 @@ return new class extends Migration
             $table->string('titre');
             $table->string('description');
             $table->enum('type_annonce', ['location', 'vente']);
+            $table->enum('statut_annonce', ['onhold', 'approved', 'disabled']);
+            $table->enum('etat', ['neuf', 'occasion']);
             $table->enum('carburant', ['diesel', 'hybride', 'essence', 'electrique']);
+            $table->unsignedInteger('kilometrage');
             $table->string('couleur');
-            $table->decimal('prix_vente', 12, 3);
-            $table->decimal('prix_location', 12, 3);
+            $table->year('annee_fabrication');
+            $table->json('options')->nullable();
+            $table->decimal('prix_vente', 12, 3)->nullable();
+            $table->decimal('prix_location', 12, 3)->nullable();
             $table->json('image');
-
-
-
             $table->timestamps();
         });
     }

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,6 +12,12 @@ return new class extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('client_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('voiture_id')->constrained('annonces')->cascadeOnDelete();
+            $table->dateTime('date_debut')->default(now());
+            $table->dateTime('date_fin');
+            $table->enum('statut_location', ['en_cours', 'termine', 'annule']);
+            $table->decimal('prix_total_location', 12, 3);
             $table->timestamps();
         });
     }

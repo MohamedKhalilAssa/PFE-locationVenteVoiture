@@ -2,15 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Marque;
+use App\Models\Annonce;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Modele extends Model
 {
     use HasFactory;
-
+    protected $guarded = [];
     public function marque()
     {
         return $this->belongsTo(Marque::class);
+    }
+    public function annonces()
+    {
+        return $this->hasMany(Annonce::class);
     }
 }
