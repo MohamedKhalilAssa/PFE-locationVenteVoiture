@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->foreignId('marque_id')->constrained('marques')->cascadeOnDelete();
             $table->string('titre');
             $table->string('description');
+            $table->string('ville');
             $table->enum('type_annonce', ['location', 'vente']);
             $table->enum('statut_annonce', ['onhold', 'approved', 'disabled']);
             $table->enum('etat', ['neuf', 'occasion']);
