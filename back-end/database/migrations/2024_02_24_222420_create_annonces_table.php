@@ -28,10 +28,10 @@ return new class extends Migration {
             $table->json('options')->nullable();
             $table->decimal('prix_vente', 12, 3)->nullable();
             $table->decimal('prix_location', 12, 3)->nullable();
-            $table->enum('disponibilite_vente', ['vendu', 'disponible', 'autres'])->nullable();
-            $table->enum('disponibilite_location', ['louer', 'disponible', 'autres'])->nullable();
+            $table->enum('disponibilite_vente', ['vendu', 'disponible', 'indisponible'])->nullable();
+            $table->enum('disponibilite_location', ['louer', 'disponible', 'indisponible'])->nullable();
             $table->json('image');
-            $table->timestamps();
+            $table->timestamps();   
         });
     }
 
