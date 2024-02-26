@@ -1,37 +1,23 @@
 <template>
   <nav
-    class="bg-white border border-gray-200 px-2 py-2 rounded shadow-lg flex justify-between items-center w-full h-20 sticky top-0 z-40 lg:px-8"
-  >
+    class="bg-white border border-gray-200 px-2 py-2 rounded shadow-lg flex justify-between items-center w-full h-20 sticky top-0 z-40 lg:px-8">
     <router-link to="/" class="inline-block w-min">
-      <div
-        class="brand h-full w-48 flex max-h-20 items-baseline mb-2 overflow-hidden"
-      >
-        <img
-          loading="lazy"
-          src="../assets/images/LogoPNGCroppedR.png"
-          alt="logo"
-          class="h-full w-full object-cover"
-        />
+      <div class="brand h-full w-48 flex max-h-20 items-baseline mb-2 overflow-hidden">
+        <img loading="lazy" src="../assets/images/LogoPNGCroppedR.png" alt="logo" class="h-full w-full object-cover" />
       </div>
     </router-link>
     <div class="links hidden space-x-4 md:flex">
-      <router-link class="link hover:font-bold duration-100" to="/"
-        >Home</router-link
-      >
-      <router-link class="link hover:font-bold duration-100" to="/neuf"
-        >Neuf</router-link
-      >
-      <router-link class="link hover:font-bold duration-100" to="/occasion"
-        >Occasion</router-link
-      >
-      <router-link class="link hover:font-bold duration-100" to="/location"
-        >Location</router-link
-      >
+      <router-link class="link hover:font-bold duration-100" to="/">Home</router-link>
+      <router-link class="link hover:font-bold duration-100" to="/neuf">Neuf</router-link>
+      <router-link class="link hover:font-bold duration-100" to="/occasion">Occasion</router-link>
+      <router-link class="link hover:font-bold duration-100" to="/location">Location</router-link>
     </div>
-    <div class="btns hidden md:block">
-      <button class="btn bg-red-500 text-white px-4 py-3 hover:bg-red-700">
-        Ajouter une annonce
-      </button>
+    <div class="btns hidden md:hidden" :class="{ blockImportant: !isAnnonce }">
+      <router-link to="/annonce">
+        <button class="btn bg-red-500 text-white px-4 py-3 hover:bg-red-700">
+          Ajouter une annonce
+        </button>
+      </router-link>
     </div>
     <div id="menuToggle" class="block md:hidden" @click="toggleMenu">
       <span></span>
@@ -40,32 +26,24 @@
     </div>
   </nav>
   <div
-    class="linksMenu flex flex-col items-center space-y-5 py-6 fixed left-0 top-20 w-full h-screen z-100 bg-white md:hidden"
-  >
-    <router-link class="link max-w-min hover:font-bold duration-100" to="/"
-      >Home</router-link
-    >
-    <router-link class="link max-w-min hover:font-bold duration-100" to="/neuf"
-      >Neuf</router-link
-    >
-    <router-link
-      class="link max-w-min hover:font-bold duration-100"
-      to="/occasion"
-      >Occasion</router-link
-    >
-    <router-link
-      class="link max-w-min hover:font-bold duration-100"
-      to="/location"
-      >Location</router-link
-    >
-    <div class="btns">
-      <button class="btn bg-red-500 text-white px-4 py-3 hover:bg-red-700">
-        <router-link to="/annonce"> Ajouter une annonce </router-link>
-      </button>
+    class="linksMenu flex flex-col items-center space-y-5 py-6 fixed left-0 top-20 w-full h-screen z-100 bg-white md:hidden">
+    <router-link class="link max-w-min hover:font-bold duration-100" to="/">Home</router-link>
+    <router-link class="link max-w-min hover:font-bold duration-100" to="/neuf">Neuf</router-link>
+    <router-link class="link max-w-min hover:font-bold duration-100" to="/occasion">Occasion</router-link>
+    <router-link class="link max-w-min hover:font-bold duration-100" to="/location">Location</router-link>
+    <div class="btns" :class="{ hidden: isAnnonce }">
+      <router-link to="/annonce">
+        <button class="btn bg-red-500 text-white px-4 py-3 hover:bg-red-700">
+          Ajouter une annonce
+        </button>
+      </router-link>
     </div>
   </div>
 </template>
 <script setup>
+import { ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+
 // handle hamburger menu
 const toggleMenu = (e) => {
   document.getElementById("menuToggle").classList.toggle("active");
@@ -73,6 +51,17 @@ const toggleMenu = (e) => {
   document.querySelector(".linksMenu").classList.toggle("show");
   document.querySelector("body").classList.toggle("overflow-hidden");
 };
+// show button or not 
+const route = useRoute();
+const isAnnonce = ref(true);
+watch(route, (to, from) => {
+  if (to.path !== "/annonce") {
+    isAnnonce.value = false;
+  } else {
+    isAnnonce.value = true;
+  }
+  console.log(isAnnonce.value);
+});
 </script>
 <style scoped>
 .dropdown {
@@ -163,6 +152,13 @@ const toggleMenu = (e) => {
 .linksMenu.show {
   left: 0%;
 }
+
+@media screen and (min-width: 768px) {
+  .blockImportant {
+    display: block !important;
+  }
+}
+
 .z-100 {
   z-index: 100;
 }

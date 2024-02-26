@@ -26,6 +26,11 @@ const router = createRouter({
       component: () => import("../views/Location/LocationListingsView.vue"),
     },
     {
+      path: "/annonce",
+      name: "annonce",
+      component: () => import("../views/AnnonceView.vue"),
+    },
+    {
       path: "/:catchAll(.*)",
       name: "NotFound",
       component: PageNotFound,

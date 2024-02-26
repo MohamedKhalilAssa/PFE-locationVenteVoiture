@@ -1,6 +1,10 @@
 
 <template>
   <main class="min-h-screen">
-    <p class="text-center text-3xl">Hello</p>
+    <Hero />
   </main>
 </template>
+<script setup>
+import Hero from '@/Components/HeroSection.vue' 
+</script>
+<style scoped></style>
