@@ -49,7 +49,7 @@ const toggleMenu = (e) => {
   document.getElementById("menuToggle").classList.toggle("active");
   document.querySelector("nav").classList.toggle("z-100");
   document.querySelector(".linksMenu").classList.toggle("show");
-  document.querySelector("body").classList.toggle("overflow-hidden");
+  document.querySelector("body").classList.toggle("!overflow-hidden");
 };
 // show button or not 
 const route = useRoute();

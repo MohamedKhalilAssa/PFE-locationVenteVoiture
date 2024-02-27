@@ -389,6 +389,7 @@ a {
   position: absolute;
   right: 0;
   width: 236px;
+  fill: rgb(239 68 68);
 }
 
 .footer-social-amoeba-svg {
