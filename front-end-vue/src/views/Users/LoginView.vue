@@ -1,12 +1,15 @@
 <template>
-    <div class="bg-gray-50 border border-gray-900 shadow-2xl p-3 md:p-10 rounded max-w-lg mx-auto mb-16 mt-24">
-        <header class="text-center">
-            <h2 class="text-2xl font-bold uppercase mb-1">
-                Login
-            </h2>
-        </header>
+    <section class="form bg-gray-200">
 
-        <form method="POST" action="" @submit.prevent="LoginHandling">
+        <form method="POST" action="" @submit.prevent="LoginHandling"
+            class="bg-white border border-gray-900 shadow-2xl p-3 md:p-10 rounded max-w-lg mx-auto mb-6 mt-24">
+            <header class="text-center">
+                <h2 class="text-2xl font-bold uppercase mb-1">
+                    Login
+                </h2>
+            </header>
+
+
 
 
             <div class="mb-6">
@@ -41,7 +44,10 @@
                 </p>
             </div>
         </form>
-    </div>
+        <div class="errors max-w-lg text-center mx-auto mb-10" v-if="serverError">
+            <p class="text-red-600">{{ serverError }}</p>
+        </div>
+    </section>
 </template>
 <script setup>
 import { ref } from "vue"
@@ -57,6 +63,7 @@ const form = ref({
 
 const user = ref(null)
 const errors = ref(null)
+const serverError = ref(null)
 const router = useRouter()
 const store = useStore()
 
@@ -74,14 +81,16 @@ const LoginHandling = async () => {
         let { data } = await axios.get('http://localhost:8000/api/user')
 
         // storing the data 
-        localStorage.setItem('Authentication', true)
-        localStorage.setItem('User', JSON.stringify(data))
+        sessionStorage.setItem('Authentication', true)
+        sessionStorage.setItem('User', JSON.stringify(data))
         store.commit('setAuthentication')
         store.commit('setUser')
 
-        router.push({ name: 'Listings' })
+        router.push({ name: 'home' })
     } catch (error) {
-
+        if (error) {
+            serverError.value = error.message;
+        }
         if (error.response) {
             errors.value = error.response.data.errors ?? null
         }

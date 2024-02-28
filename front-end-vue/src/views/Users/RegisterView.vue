@@ -107,8 +107,8 @@ const RegisterHandling = async () => {
         let { data } = await axios.get('http://localhost:8000/api/user')
 
         console.log(data)
-        localStorage.setItem('Authentication', true)
-        localStorage.setItem('User', JSON.stringify(data))
+        sessionStorage.setItem('Authentication', true)
+        sessionStorage.setItem('User', JSON.stringify(data))
         store.commit('setAuthentication')
         store.commit('setUser')
 
