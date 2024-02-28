@@ -27,10 +27,12 @@
   </nav>
   <div
     class="linksMenu flex flex-col items-center space-y-5 py-6 fixed left-0 top-20 w-full h-screen z-100 bg-white md:hidden">
-    <router-link class="link max-w-min hover:font-bold duration-100" to="/">Home</router-link>
-    <router-link class="link max-w-min hover:font-bold duration-100" to="/neuf">Neuf</router-link>
-    <router-link class="link max-w-min hover:font-bold duration-100" to="/occasion">Occasion</router-link>
-    <router-link class="link max-w-min hover:font-bold duration-100" to="/location">Location</router-link>
+    <router-link class="linkMob max-w-min hover:font-bold duration-100" @click="toggleMenu" to="/">Home</router-link>
+    <router-link class="linkMob max-w-min hover:font-bold duration-100" @click="toggleMenu" to="/neuf">Neuf</router-link>
+    <router-link class="linkMob max-w-min hover:font-bold duration-100" @click="toggleMenu"
+      to="/occasion">Occasion</router-link>
+    <router-link class="linkMob max-w-min hover:font-bold duration-100" @click="toggleMenu"
+      to="/location">Location</router-link>
     <div class="btns" :class="{ hidden: isAnnonce }">
       <router-link to="/annonce">
         <button class="btn bg-red-500 text-white px-4 py-3 hover:bg-red-700">
@@ -45,12 +47,16 @@ import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 // handle hamburger menu
-const toggleMenu = (e) => {
+const toggleMenu = () => {
   document.getElementById("menuToggle").classList.toggle("active");
   document.querySelector("nav").classList.toggle("z-100");
   document.querySelector(".linksMenu").classList.toggle("show");
   document.querySelector("body").classList.toggle("!overflow-hidden");
 };
+
+
+
+
 // show button or not 
 const route = useRoute();
 const isAnnonce = ref(true);
@@ -60,7 +66,6 @@ watch(route, (to, from) => {
   } else {
     isAnnonce.value = true;
   }
-  console.log(isAnnonce.value);
 });
 </script>
 <style scoped>

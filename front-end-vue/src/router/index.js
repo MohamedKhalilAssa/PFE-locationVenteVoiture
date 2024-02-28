@@ -29,6 +29,16 @@ const routes = [
     component: () => import("../views/AnnonceView.vue"),
   },
   {
+    path: "/register",
+    name: "Register",
+    component: () => import("../views/Users/RegisterView.vue"),
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: () => import("../views/Users/LoginView.vue"),
+  },
+  {
     path: "/:catchAll(.*)",
     name: "NotFound",
     component: PageNotFound,
