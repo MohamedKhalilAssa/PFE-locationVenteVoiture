@@ -1,8 +1,8 @@
 <template>
-    <section class="form bg-gray-200">
+    <section class="form bg-gray-200 flex justify-center items-center flex-col py-16 px-2 sm:px-16">
 
         <form method="POST" action="" @submit.prevent="LoginHandling"
-            class="bg-white border border-gray-900 shadow-2xl p-3 md:p-10 rounded max-w-lg mx-auto mb-6 mt-24">
+            class="bg-white border border-gray-900 shadow-2xl p-3 md:p-10 rounded max-w-lg">
             <header class="text-center">
                 <h2 class="text-2xl font-bold uppercase mb-1">
                     Login
@@ -32,7 +32,8 @@
             </div>
 
             <div class="mb-6">
-                <button type="submit" class="bg-black text-white rounded py-2 px-4 hover:scale-105 duration-300">Se
+                <button type="submit"
+                    class="bg-black text-white rounded py-2 px-4 hover:scale-105 duration-300 disabled:opacity-70 disabled:cursor-progress">Se
                     Connecter</button>
             </div>
 
@@ -44,7 +45,7 @@
                 </p>
             </div>
         </form>
-        <div class="errors max-w-lg text-center mx-auto mb-10" v-if="serverError">
+        <div class="errors max-w-lg text-center mx-auto mb-10 mt-10" v-if="serverError">
             <p class="text-red-600">{{ serverError }}</p>
         </div>
     </section>
@@ -68,7 +69,10 @@ const router = useRouter()
 const store = useStore()
 
 
+
 const LoginHandling = async () => {
+    const button = document.querySelector('button[type="submit"]')
+    button.disabled = true;
     axios.defaults.withCredentials = true
     axios.defaults.withXSRFToken = true
     try {
@@ -86,9 +90,11 @@ const LoginHandling = async () => {
         store.commit('setAuthentication')
         store.commit('setUser')
 
-        router.push({ name: 'home' })
+        router.push({ name: 'home', query: { message: 'loggedIn' } })
     } catch (error) {
-        if (error) {
+        button.disabled = false;
+
+        if (error.response.status == 404 || error.response.status == 500) {
             serverError.value = error.message;
         }
         if (error.response) {

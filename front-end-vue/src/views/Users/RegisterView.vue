@@ -1,14 +1,15 @@
 <template>
-    <div class="bg-white border border-gray-900 shadow-2xl p-3 md:p-10 rounded max-w-lg mx-auto mt-24 mb-16">
+    <section class="form bg-gray-200 flex justify-center items-center flex-col py-16 px-2 sm:px-16">
 
-        <header class="text-center">
-            <h2 class="text-2xl font-bold uppercase mb-1">
-                Register
-            </h2>
-            <p class="mb-4">Cree un compte pour partager vos annonces</p>
-        </header>
+        <form method="POST" @submit.prevent="RegisterHandling"
+            class="bg-white border border-gray-900 shadow-2xl p-3 md:p-10 rounded max-w-lg">
+            <header class="text-center">
+                <h2 class="text-2xl font-bold uppercase mb-1">
+                    Register
+                </h2>
+                <p class="mb-4">Cree un compte pour partager vos annonces</p>
+            </header>
 
-        <form method="POST" action="" @submit.prevent="RegisterHandling">
 
             <div class="mb-6">
                 <label for="nom" class="inline-block text-lg mb-2 required">Nom</label>
@@ -36,9 +37,13 @@
             </div>
 
             <div class="mb-6">
-                <label for="Telephone" class="inline-block text-lg mb-2">Telephone </label>
-                <input v-model="form.telephone" id="Telephone" type="test" class="border border-gray-600 rounded p-2 w-full"
-                    name="Telephone" placeholder="Exemple: 06 XX XX XX XX -- Facultatif" />
+                <label for="Telephone" class="inline-block text-lg mb-2 required">Telephone </label>
+                <input v-model="form.telephone" id="Telephone" type="test"
+                    class="border border-gray-600 rounded p-2 w-full " name="Telephone"
+                    placeholder="Exemple: 06 XX XX XX XX" />
+                <div class="errors" v-if="errors">
+                    <p class="text-red-600" v-if="errors.telephone">{{ errors.telephone[0] }}</p>
+                </div>
             </div>
             <div class="mb-6">
                 <label for="password" class="inline-block text-lg mb-2 required">Mot de Passe</label>
@@ -55,7 +60,7 @@
             </div>
             <div class="mb-6">
                 <button type="submit"
-                    class="bg-black text-white rounded py-2 px-4 hover:scale-105 duration-300">S'inscrire</button>
+                    class="bg-black text-white rounded py-2 px-4 hover:scale-105 duration-300 disabled:opacity-70 disabled:cursor-progress">S'inscrire</button>
             </div>
 
             <div class="mt-8">
@@ -66,7 +71,10 @@
                 </p>
             </div>
         </form>
-    </div>
+        <div class="errors max-w-lg text-center mx-auto mb-10 mt-10" v-if="serverError">
+            <p class="text-red-600">{{ serverError }}</p>
+        </div>
+    </section>
 </template>
 
 <script setup>
@@ -89,8 +97,13 @@ const form = ref({
 const errors = ref(null)
 const router = useRouter()
 const store = useStore()
+const serverError = ref(null)
 
 const RegisterHandling = async () => {
+    const button = document.querySelector('button[type="submit"]')
+    button.disabled = true;
+
+
     axios.defaults.withCredentials = true
     axios.defaults.withXSRFToken = true
     try {
@@ -114,7 +127,10 @@ const RegisterHandling = async () => {
 
         router.push({ name: 'home' })
     } catch (error) {
-        console.log(error)
+        button.disabled = false;
+        if (error.response.status == 404 || error.response.status == 500) {
+            serverError.value = error.message;
+        }
         if (error.response) {
             errors.value = error.response.data.errors ?? null
         }
