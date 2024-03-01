@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ref } from "vue";
 const serverError = ref(null);
 const result = ref([]);
 const getMarques = async () => {
@@ -7,7 +8,7 @@ const getMarques = async () => {
   try {
     await axios.get("http://localhost:8000/sanctum/csrf-cookie");
     result.value = await axios.get("http://localhost:8000/api/marque");
-
+    console.log(result.value);
     // storing the data
 
     return result, serverError;
@@ -17,5 +18,4 @@ const getMarques = async () => {
     }
   }
 };
-
 export default getMarques;

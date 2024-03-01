@@ -56,12 +56,15 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresGuest && localStorage.getItem("Authentication")) {
+  if (to.meta.requiresGuest && sessionStorage.getItem("Authentication")) {
     next({ name: "home" });
-  } else if (to.meta.requiresAuth && !localStorage.getItem("Authentication")) {
+  } else if (
+    to.meta.requiresAuth &&
+    !sessionStorage.getItem("Authentication")
+  ) {
     //initial check for token
     next({ name: "Login" });
-  } else if (to.meta.requiresAuth && localStorage.getItem("Authentication")) {
+  } else if (to.meta.requiresAuth && sessionStorage.getItem("Authentication")) {
     // to check the token authenticity
     axios.defaults.withCredentials = true;
     axios.defaults.withXSRFToken = true;
@@ -72,8 +75,8 @@ router.beforeEach((to, from, next) => {
         next();
       })
       .catch((error) => {
-        localStorage.removeItem("Authentication");
-        localStorage.removeItem("User");
+        sessionStorage.removeItem("Authentication");
+        sessionStorage.removeItem("User");
         store.commit("setAuthentication");
         store.commit("setUser");
         next({ name: "Login" });

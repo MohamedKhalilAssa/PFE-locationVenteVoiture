@@ -54,9 +54,6 @@ const toggleMenu = () => {
   document.querySelector("body").classList.toggle("!overflow-hidden");
 };
 
-
-
-
 // show button or not 
 const route = useRoute();
 const isAnnonce = ref(true);
