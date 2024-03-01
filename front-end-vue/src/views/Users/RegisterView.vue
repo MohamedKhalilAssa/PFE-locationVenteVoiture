@@ -125,7 +125,7 @@ const RegisterHandling = async () => {
         store.commit('setAuthentication')
         store.commit('setUser')
 
-        router.push({ name: 'home' })
+        router.push({ name: 'home', query: { message: 'loggedIn' } })
     } catch (error) {
         button.disabled = false;
         if (error.response.status == 404 || error.response.status == 500) {

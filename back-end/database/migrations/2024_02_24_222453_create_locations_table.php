@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('voiture_id')->constrained('annonces')->cascadeOnDelete();
+            $table->foreignId('client_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('voiture_id')->constrained('annonces')->onDelete('cascade');
             $table->dateTime('date_debut')->default(now());
             $table->dateTime('date_fin');
             $table->enum('statut_location', ['en_cours', 'termine', 'annule']);

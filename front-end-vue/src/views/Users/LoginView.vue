@@ -13,7 +13,7 @@
 
 
             <div class="mb-6">
-                <label for="email" class="inline-block text-lg mb-2">Email</label>
+                <label for="email" class="inline-block text-lg mb-2 required">Email</label>
                 <input v-model="form.email" id="email" type="email" class="border border-gray-600 rounded p-2 w-full"
                     name="email" />
                 <div class="errors" v-if="errors">
@@ -22,7 +22,7 @@
             </div>
 
             <div class="mb-6">
-                <label for="password" class="inline-block text-lg mb-2">Password</label>
+                <label for="password" class="inline-block text-lg mb-2 required">Password</label>
                 <input v-model="form.password" id="password" type="password"
                     class="border border-gray-600 rounded p-2 w-full" name="password" />
                 <div class="errors" v-if="errors">

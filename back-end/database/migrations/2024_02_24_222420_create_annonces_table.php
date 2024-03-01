@@ -12,9 +12,9 @@ return new class extends Migration {
     {
         Schema::create('annonces', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('owner_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('modele_id')->constrained('modeles')->cascadeOnDelete();
-            $table->foreignId('marque_id')->constrained('marques')->cascadeOnDelete();
+            $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('modele_id')->constrained('modeles')->onDelete('cascade');
+            $table->foreignId('marque_id')->constrained('marques')->onDelete('cascade');
             $table->string('titre');
             $table->string('description');
             $table->string('ville');
@@ -31,7 +31,7 @@ return new class extends Migration {
             $table->enum('disponibilite_vente', ['vendu', 'disponible', 'indisponible'])->nullable();
             $table->enum('disponibilite_location', ['louer', 'disponible', 'indisponible'])->nullable();
             $table->json('image');
-            $table->timestamps();   
+            $table->timestamps();
         });
     }
 
