@@ -57,13 +57,15 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresGuest && sessionStorage.getItem("Authentication")) {
-    next({ name: "home" });
+    console.log(from);
+    next(from.name ? { name: from.name } : { path: "/" });
   } else if (
     to.meta.requiresAuth &&
     !sessionStorage.getItem("Authentication")
   ) {
     //initial check for token
-    next({ name: "Login" });
+    let previous = to.name;
+    next({ name: "Login", query: { previous: previous } });
   } else if (to.meta.requiresAuth && sessionStorage.getItem("Authentication")) {
     // to check the token authenticity
     axios.defaults.withCredentials = true;
@@ -79,7 +81,8 @@ router.beforeEach((to, from, next) => {
         sessionStorage.removeItem("User");
         store.commit("setAuthentication");
         store.commit("setUser");
-        next({ name: "Login" });
+         let previous = to.name;
+        next({ name: "Login", query: { previous: previous } });
       });
   } else {
     next();

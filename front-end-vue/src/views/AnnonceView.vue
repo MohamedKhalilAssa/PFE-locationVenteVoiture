@@ -12,86 +12,93 @@
       </header>
 
       <div class="mb-6">
-        <label for="nom" class="inline-block text-lg mb-2 required">Nom</label>
+        <label for="nom" class="inline-block text-lg mb-2 required"
+          >Titre</label
+        >
         <input
-          v-model="form.nom"
-          id="nom"
+          v-model="form.titre"
+          id="titre"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
-          name="nom"
-          placeholder="Exemple: Doe"
+          name="titre"
+          placeholder="Exemple: Toyota Corolla Modele 2022 ..."
         />
         <div class="errors" v-if="errors">
-          <p class="text-red-600" v-if="errors.nom">{{ errors.nom[0] }}</p>
+          <p class="text-red-600" v-if="errors.titre">{{ errors.titre[0] }}</p>
         </div>
       </div>
       <div class="mb-6">
-        <label for="prenom" class="inline-block text-lg mb-2 required"
-          >Prenom</label
+        <label for="description" class="inline-block text-lg mb-2 required"
+          >Description</label
         >
-        <input
-          v-model="form.prenom"
-          id="prenom"
+        <textarea
+          v-model="form.description"
+          id="description"
           type="text"
-          class="border border-gray-600 rounded p-2 w-full"
-          name="prenom"
-          placeholder="Exemple: John"
-        />
+          class="border border-gray-600 rounded p-2 w-full min-h-20"
+          name="description"
+          placeholder="Exemple: Une voiture sportive, élégante et efficiente, offrant un équilibre parfait entre performances et confort"
+        ></textarea>
         <div class="errors" v-if="errors">
-          <p class="text-red-600" v-if="errors.prenom">
-            {{ errors.prenom[0] }}
+          <p class="text-red-600" v-if="errors.description">
+            {{ errors.description[0] }}
           </p>
         </div>
       </div>
       <div class="mb-6">
-        <label for="email" class="inline-block text-lg mb-2 required"
-          >Email</label
+        <label for="ville" class="inline-block text-lg mb-2 required"
+          >Ville</label
         >
         <input
-          v-model="form.email"
-          id="email"
-          type="email"
+          v-model="form.ville"
+          id="ville"
+          type="text"
           class="border border-gray-600 rounded p-2 w-full"
-          name="email"
-          placeholder="Exemple: exemple@exemple.com"
+          name="ville"
+          placeholder="Exemple: Casablanca"
         />
         <div class="errors" v-if="errors">
-          <p class="text-red-600" v-if="errors.email">{{ errors.email[0] }}</p>
+          <p class="text-red-600" v-if="errors.ville">{{ errors.ville[0] }}</p>
         </div>
       </div>
 
       <div class="mb-6">
-        <label for="Telephone" class="inline-block text-lg mb-2 required"
-          >Telephone
+        <label for="type_annonce" class="inline-block text-lg mb-2 required"
+          >Type d'annonce
         </label>
-        <input
-          v-model="form.telephone"
-          id="Telephone"
-          type="test"
+        <select
+          v-model="form.type_annonce"
+          id="type_annonce"
           class="border border-gray-600 rounded p-2 w-full"
-          name="Telephone"
-          placeholder="Exemple: 06 XX XX XX XX"
-        />
+          name="type_annonce"
+        >
+          <option selected :value="null">Choisir un type d'annonce</option>
+          <option value="vente">Vente</option>
+          <option value="location">Location</option>
+        </select>
         <div class="errors" v-if="errors">
-          <p class="text-red-600" v-if="errors.telephone">
-            {{ errors.telephone[0] }}
+          <p class="text-red-600" v-if="errors.type_annonce">
+            {{ errors.type_annonce[0] }}
           </p>
         </div>
       </div>
       <div class="mb-6">
-        <label for="password" class="inline-block text-lg mb-2 required"
-          >Mot de Passe</label
-        >
-        <input
-          v-model="form.password"
-          id="password"
-          type="password"
+        <label for="etat" class="inline-block text-lg mb-2 required"
+          >L'etat de la Voiture
+        </label>
+        <select
+          v-model="form.etat"
+          id="etat"
           class="border border-gray-600 rounded p-2 w-full"
-          name="password"
-        />
+          name="etat"
+        >
+          <option selected :value="null">Choisir l'etat de la Voiture</option>
+          <option value="neuf">Neuf</option>
+          <option value="occasion">Occasion</option>
+        </select>
         <div class="errors" v-if="errors">
-          <p class="text-red-600" v-if="errors.password">
-            {{ errors.password[0] }}
+          <p class="text-red-600" v-if="errors.etat">
+            {{ errors.etat[0] }}
           </p>
         </div>
       </div>
@@ -148,7 +155,6 @@ const form = ref({
   description: null,
   ville: null,
   type_annonce: null,
-  statut_annonce: null,
   etat: null,
   carburant: null,
   kilometrage: null,
@@ -162,11 +168,17 @@ const form = ref({
   images: [],
 });
 
+const errors = ref(null);
+
 getMarques();
 </script>
 
 <style scoped>
 main {
   min-height: 100vh;
+}
+.required:after {
+  content: " *";
+  color: red;
 }
 </style>

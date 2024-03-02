@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('description');
             $table->string('ville');
             $table->enum('type_annonce', ['location', 'vente']);
-            $table->enum('statut_annonce', ['onhold', 'approved', 'disabled']);
+            $table->enum('statut_annonce', ['onhold', 'approved', 'disabled'])->default('onhold');
             $table->enum('etat', ['neuf', 'occasion']);
             $table->enum('carburant', ['diesel', 'hybride', 'essence', 'electrique']);
             $table->unsignedInteger('kilometrage');
