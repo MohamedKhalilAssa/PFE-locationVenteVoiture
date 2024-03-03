@@ -111,7 +111,9 @@
               <a target="_blank" rel="noopener noreferrer" href="#">Kenitra</a>
             </li>
             <li class="menu-item menu-item-type-custom menu-item-object-custom">
-              <a target="_blank" rel="noopener noreferrer" href="#">Marakesh</a>
+              <a target="_blank" rel="noopener noreferrer" href="#"
+                >Berrechid</a
+              >
             </li>
             <li
               class="menu-item menu-item-type-post_type menu-item-object-page"

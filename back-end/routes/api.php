@@ -20,6 +20,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 Route::group(['prefix' => 'marque'], function () {
+    // only name and id here
     Route::get('/', [MarqueController::class, 'index'])->name("index");
 })->name("marque.");
 // Route::get('/modele',[App\Http\Controllers\ModeleController::class,'index']);

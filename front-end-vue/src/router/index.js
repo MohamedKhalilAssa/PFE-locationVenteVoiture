@@ -57,8 +57,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresGuest && sessionStorage.getItem("Authentication")) {
-    console.log(from);
-    next(from.name ? { name: from.name } : { path: "/" });
+    router.back();
   } else if (
     to.meta.requiresAuth &&
     !sessionStorage.getItem("Authentication")
@@ -81,7 +80,7 @@ router.beforeEach((to, from, next) => {
         sessionStorage.removeItem("User");
         store.commit("setAuthentication");
         store.commit("setUser");
-         let previous = to.name;
+        let previous = to.name;
         next({ name: "Login", query: { previous: previous } });
       });
   } else {

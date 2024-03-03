@@ -1,21 +1,22 @@
 import axios from "axios";
 import { ref } from "vue";
-const serverError = ref(null);
-const result = ref([]);
-const getMarques = async () => {
-  axios.defaults.withCredentials = true;
-  axios.defaults.withXSRFToken = true;
-  try {
-    await axios.get("http://localhost:8000/sanctum/csrf-cookie");
-    result.value = await axios.get("http://localhost:8000/api/marque");
-    console.log(result.value);
-    // storing the data
+const getMarques = () => {
+  const marqueResult = ref([]);
+  const Error = ref(null);
 
-    return result, serverError;
-  } catch (error) {
-    if (error.response.status == 404 || error.response.status == 500) {
-      serverError.value = error.message;
+  const load = async (count = 0) => {
+    axios.defaults.withCredentials = true;
+    axios.defaults.withXSRFToken = true;
+    try {
+      await axios.get("http://localhost:8000/sanctum/csrf-cookie");
+      let { data } = await axios.get("http://localhost:8000/api/marque");
+      marqueResult.value = data;
+    } catch (error) {
+      if (error) {
+        Error.value = error.message;
+      }
     }
-  }
+  };
+  return { marqueResult, Error, load };
 };
 export default getMarques;
