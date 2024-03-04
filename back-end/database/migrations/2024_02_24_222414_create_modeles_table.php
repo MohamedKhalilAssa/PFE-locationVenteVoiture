@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('marque_id')->constrained('marques')->onDelete('cascade');
             $table->string('nom');
+            $table->json('image')->nullable();
             $table->timestamps();
         });
     }

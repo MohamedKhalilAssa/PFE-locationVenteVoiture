@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarqueController;
+use App\Http\Controllers\ModeleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,8 @@ Route::group(['prefix' => 'marque'], function () {
 // Route::post('/vehicule',[App\Http\Controllers\VehiculeController::class,'store']);
 // Route::put('/vehicule/{id}',[App\Http\Controllers\VehiculeController::class,'update']);
 // Route::delete('/vehicule/{id}',[App\Http\Controllers\VehiculeController::class,'destroy']);
+
+Route::group(['prefix' => 'modele'], function () {
+    // only name and id here
+    Route::get('/{marque_id}', [ModeleController::class, 'show'])->where("marque_id", "[0-9]+")->name("show");
+})->name("modele.");

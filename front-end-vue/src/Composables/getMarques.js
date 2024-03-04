@@ -2,9 +2,9 @@ import axios from "axios";
 import { ref } from "vue";
 const getMarques = () => {
   const marqueResult = ref([]);
-  const Error = ref(null);
+  const ErrorMarque = ref(null);
 
-  const load = async (count = 0) => {
+  const loadMarque = async () => {
     axios.defaults.withCredentials = true;
     axios.defaults.withXSRFToken = true;
     try {
@@ -13,10 +13,10 @@ const getMarques = () => {
       marqueResult.value = data;
     } catch (error) {
       if (error) {
-        Error.value = error.message;
+        ErrorMarque.value = error.message;
       }
     }
   };
-  return { marqueResult, Error, load };
+  return { marqueResult, ErrorMarque, loadMarque };
 };
 export default getMarques;
