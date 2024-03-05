@@ -13,8 +13,8 @@
 
             <div class="mb-6">
                 <label for="nom" class="inline-block text-lg mb-2 required">Nom</label>
-                <input v-model="form.nom" id="nom" type="text" class="border border-gray-600 rounded p-2 w-full" name="nom"
-                    placeholder="Exemple: Doe" />
+                <input v-model="form.nom" id="nom" type="text" class="border border-gray-600 rounded p-2 w-full"
+                    name="nom" placeholder="Exemple: Doe" />
                 <div class="errors" v-if="errors">
                     <p class="text-red-600" v-if="errors.nom">{{ errors.nom[0] }}</p>
                 </div>
@@ -129,6 +129,7 @@ const RegisterHandling = async () => {
     } catch (error) {
         button.disabled = false;
         if (error.response.status == 404 || error.response.status == 500) {
+            console.log(error)
             serverError.value = error.message;
         }
         if (error.response) {
@@ -138,7 +139,7 @@ const RegisterHandling = async () => {
 }
 </script>
 
-<style >
+<style>
 .required:after {
     content: " *";
     color: red;

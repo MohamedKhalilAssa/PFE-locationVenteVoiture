@@ -81,7 +81,7 @@ const logout = async () => {
     });
 
     if (route.path == '/annonce') {
-      router.push({ name: 'home' })
+      router.push({ name: 'home', query: { message: 'loggedOut' } });
     }
   } catch (error) {
     Swal.fire({

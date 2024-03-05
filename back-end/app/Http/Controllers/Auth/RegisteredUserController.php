@@ -25,7 +25,7 @@ class RegisteredUserController extends Controller
         $validator = Validator::make($request->all(), [
             'nom' => ['required', 'string', 'max:255'],
             'prenom' => ['required', 'string', 'max:255'],
-            'telephone' => ['required', 'string', 'max:10', 'regex:/^((06)|(05)){1}[\d]{8}$/'],
+            'telephone' => ['required', 'string', 'min:10', 'max:10', 'unique:users', 'regex:/^((06)|(05)){1}[\d]{8}$/'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
