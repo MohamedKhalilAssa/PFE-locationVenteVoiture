@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Marque;
 use App\Models\Modele;
+use App\Models\couleursVoiture;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -27,5 +28,9 @@ class Annonce extends Model
     public function marque()
     {
         return $this->belongsTo(Marque::class, 'marque_id');
+    }
+    public function couleur()
+    {
+        return $this->belongsTo(couleursVoiture::class);
     }
 }

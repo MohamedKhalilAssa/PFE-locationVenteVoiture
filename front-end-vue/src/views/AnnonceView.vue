@@ -1,15 +1,15 @@
 <template>
   <section class="form bg-gray-200 flex justify-center items-center flex-col py-16 px-2 sm:px-16">
     <form method="POST" @submit.prevent="RegisterHandling"
-      class="bg-white border border-gray-900 shadow-2xl p-3 md:p-10 rounded max-w-lg">
+      class="bg-white border border-gray-900 shadow-2xl p-3 md:p-10 rounded max-w-lg" enctype="multipart/form-data">
       <header class="text-center mb-7">
         <h2 class="text-2xl font-bold uppercase mb-1">Creer une annonce</h2>
       </header>
 
       <div class="mb-6">
         <label for="titre" class="inline-block text-lg mb-2 required">Titre</label>
-        <input v-model="form.titre" id="titre" type="text" class="border border-gray-600 rounded p-2 w-full" name="titre"
-          placeholder="Exemple: Toyota Corolla Modele 2022 ..." />
+        <input v-model="form.titre" id="titre" type="text" class="border border-gray-600 rounded p-2 w-full"
+          name="titre" placeholder="Exemple: Toyota Corolla Modele 2022 ..." />
         <div class="errors" v-if="errors">
           <p class="text-red-600" v-if="errors.titre">{{ errors.titre[0] }}</p>
         </div>
@@ -27,8 +27,8 @@
       </div>
       <div class="mb-6">
         <label for="ville" class="inline-block text-lg mb-2 required">Ville</label>
-        <input v-model="form.ville" id="ville" type="text" class="border border-gray-600 rounded p-2 w-full" name="ville"
-          placeholder="Exemple: Casablanca" />
+        <input v-model="form.ville" id="ville" type="text" class="border border-gray-600 rounded p-2 w-full"
+          name="ville" placeholder="Exemple: Casablanca" />
         <div class="errors" v-if="errors">
           <p class="text-red-600" v-if="errors.ville">{{ errors.ville[0] }}</p>
         </div>
@@ -134,6 +134,22 @@
         </div>
       </div>
       <div class="mb-6">
+        <label for="couleur" class="inline-block text-lg mb-2 required">La Couleur
+        </label>
+        <select v-model="form.couleur_id" id="couleur" class="border border-gray-600 rounded p-2 w-full"
+          name="couleur_id">
+          <option selected :value="null">Choisir la couleur de la voiture</option>
+          <option v-for="couleur in couleurResult" :key="couleur.id" :value="couleur.id">
+            {{ couleur.nom }}
+          </option>
+        </select>
+        <div class="errors" v-if="errors">
+          <p class="text-red-600" v-if="errors.couleur_id">
+            {{ errors.couleur_id[0] }}
+          </p>
+        </div>
+      </div>
+      <div class="mb-6">
         <label for="kilometrage" class="inline-block text-lg mb-2 required">Kilometrage</label>
         <div class="inputField flex items-center">
           <input v-model="form.kilometrage" id="kilometrage" type="number"
@@ -207,6 +223,7 @@ import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import getMarques from "@/Composables/getMarques";
 import getModeles from "@/Composables/getModeles";
+import getCouleurs from "@/Composables/getCouleurs";
 
 const serverError = ref("");
 const form = ref({
@@ -219,7 +236,7 @@ const form = ref({
   modele_id: "",
   etat: "occasion",
   kilometrage: 0,
-  couleur: null,
+  couleur_id: null,
   annee_fabrication: null,
   options: [],
   prix_vente: null,
@@ -233,7 +250,7 @@ const errors = ref(null);
 // Fetching Marques
 const { marqueResult, ErrorMarque, loadMarque } = getMarques();
 loadMarque();
-serverError.value += Error.value || "";
+serverError.value += ErrorMarque.value || "";
 // end marques
 
 // Fetching Modeles after selecting marque
@@ -245,7 +262,11 @@ const marqueSelected = () => {
   }
 }
 // end Fetching Modeles
-
+// fetching color
+const { couleurResult, ErrorCouleur, loadCouleur } = getCouleurs();
+loadCouleur();
+serverError.value += ErrorCouleur.value || "";
+// end fetch
 // on mounted set years since 1970
 const annee_fabrication = ref([]);
 for (let i = 1970; i <= new Date().getFullYear(); i++) {

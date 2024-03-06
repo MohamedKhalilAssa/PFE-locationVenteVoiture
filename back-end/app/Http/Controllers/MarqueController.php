@@ -9,6 +9,6 @@ class MarqueController extends Controller
 {
     public function index()
     {
-        return Marque::all(["id", "nom"])->toJson();
+        return response(Marque::all(["id", "nom"]))->header('Content-Type', 'application/json');
     }
 }

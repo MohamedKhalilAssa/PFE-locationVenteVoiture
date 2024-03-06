@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ColorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarqueController;
@@ -33,7 +34,12 @@ Route::middleware('XSS')->group(function () {
 // Route::delete('/vehicule/{id}',[App\Http\Controllers\VehiculeController::class,'destroy']);
 
     Route::group(['prefix' => 'modele'], function () {
-        // only name and id here
+        // only name and id here based on marque
         Route::get('/{marque_id}', [ModeleController::class, 'show'])->where("marque_id", "[0-9]+")->name("show");
     })->name("modele.");
+    // couleur
+    Route::group(['prefix' => 'couleur'], function () {
+        // only name and id here
+        Route::get('/', [ColorController::class, 'index'])->name("index");
+    })->name("couleur.");
 });

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\couleursVoiture;
 
 return new class extends Migration {
     /**
@@ -15,6 +16,10 @@ return new class extends Migration {
             $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('modele_id')->constrained('modeles')->onDelete('cascade');
             $table->foreignId('marque_id')->constrained('marques')->onDelete('cascade');
+            $table->foreignId('couleur_id')->constrained(
+                table: 'couleurs_voitures',
+                indexName: 'id'
+            );
             $table->string('titre');
             $table->string('description');
             $table->string('ville');
@@ -23,7 +28,6 @@ return new class extends Migration {
             $table->enum('etat', ['neuf', 'occasion']);
             $table->enum('carburant', ['diesel', 'hybride', 'essence', 'electrique']);
             $table->unsignedInteger('kilometrage');
-            $table->string('couleur');
             $table->year('annee_fabrication');
             $table->json('options')->nullable();
             $table->decimal('prix_vente', 12, 3)->nullable();

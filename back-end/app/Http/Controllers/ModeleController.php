@@ -9,6 +9,6 @@ class ModeleController extends Controller
 {
     public function show($id)
     {
-        return Marque::find($id)->modeles()->get(["id", "nom"])->toJson();
+        return response(Marque::find($id)->modeles()->get(["id", "nom"]))->header('Content-Type', 'application/json');
     }
 }
