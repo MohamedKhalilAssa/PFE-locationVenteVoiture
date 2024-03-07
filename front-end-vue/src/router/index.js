@@ -28,7 +28,7 @@ const routes = [
   {
     path: "/annonce",
     name: "annonce",
-    component: () => import("../views/AnnonceView.vue"),
+    component: () => import("../views/Annonces/CreateAnnonceView.vue"),
     meta: { requiresAuth: true },
   },
   {
