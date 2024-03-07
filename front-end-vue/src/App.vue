@@ -29,7 +29,7 @@ onMounted(() => {
     () => route.path,
     (newPath, oldPath) => {
       if (newPath != "/login" && newPath != "/register") {
-        successLoggedInMessage(route.query.message || null);
+        successLoggedInMessage(route.query.message || null, store);
       }
     }
   );

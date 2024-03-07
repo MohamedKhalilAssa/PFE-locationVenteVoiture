@@ -1,16 +1,32 @@
 <template>
   <nav
-    class="bg-white border border-gray-200 px-2 py-2 rounded shadow-lg flex justify-between items-center w-full h-20 sticky top-0 z-40 lg:px-8">
+    class="bg-white border border-gray-200 px-2 py-2 rounded shadow-lg flex justify-between items-center w-full h-20 sticky top-0 z-40 lg:px-8"
+  >
     <router-link to="/" class="inline-block w-min">
-      <div class="brand h-full w-48 flex max-h-20 items-baseline mb-2 overflow-hidden">
-        <img loading="lazy" src="../assets/images/LogoPNGCroppedR.png" alt="logo" class="h-full w-full object-cover" />
+      <div
+        class="brand h-full w-48 flex max-h-20 items-baseline mb-2 overflow-hidden"
+      >
+        <img
+          loading="lazy"
+          src="../assets/images/LogoPNGCroppedR.png"
+          alt="logo"
+          class="h-full w-full object-cover"
+        />
       </div>
     </router-link>
     <div class="links hidden space-x-4 md:flex">
-      <router-link class="link hover:font-bold duration-100" to="/">Home</router-link>
-      <router-link class="link hover:font-bold duration-100" to="/neuf">Neuf</router-link>
-      <router-link class="link hover:font-bold duration-100" to="/occasion">Occasion</router-link>
-      <router-link class="link hover:font-bold duration-100" to="/location">Location</router-link>
+      <router-link class="link hover:font-bold duration-100" to="/"
+        >Home</router-link
+      >
+      <router-link class="link hover:font-bold duration-100" to="/neuf"
+        >Neuf</router-link
+      >
+      <router-link class="link hover:font-bold duration-100" to="/occasion"
+        >Occasion</router-link
+      >
+      <router-link class="link hover:font-bold duration-100" to="/location"
+        >Location</router-link
+      >
     </div>
     <div class="btns hidden md:hidden" :class="{ blockImportant: !isAnnonce }">
       <router-link to="/annonce">
@@ -26,13 +42,32 @@
     </div>
   </nav>
   <div
-    class="linksMenu flex flex-col items-center space-y-5 py-6 fixed left-0 top-20 w-full h-screen z-100 bg-white md:hidden">
-    <router-link class="linkMob max-w-min hover:font-bold duration-100" @click="toggleMenu" to="/">Home</router-link>
-    <router-link class="linkMob max-w-min hover:font-bold duration-100" @click="toggleMenu" to="/neuf">Neuf</router-link>
-    <router-link class="linkMob max-w-min hover:font-bold duration-100" @click="toggleMenu"
-      to="/occasion">Occasion</router-link>
-    <router-link class="linkMob max-w-min hover:font-bold duration-100" @click="toggleMenu"
-      to="/location">Location</router-link>
+    class="linksMenu flex flex-col items-center space-y-5 py-6 fixed left-0 top-20 w-full h-screen z-100 bg-white md:hidden"
+  >
+    <router-link
+      class="linkMob max-w-min hover:font-bold duration-100"
+      @click="toggleMenu"
+      to="/"
+      >Home</router-link
+    >
+    <router-link
+      class="linkMob max-w-min hover:font-bold duration-100"
+      @click="toggleMenu"
+      to="/neuf"
+      >Neuf</router-link
+    >
+    <router-link
+      class="linkMob max-w-min hover:font-bold duration-100"
+      @click="toggleMenu"
+      to="/occasion"
+      >Occasion</router-link
+    >
+    <router-link
+      class="linkMob max-w-min hover:font-bold duration-100"
+      @click="toggleMenu"
+      to="/location"
+      >Location</router-link
+    >
     <div class="btns" :class="{ hidden: isAnnonce }">
       <router-link to="/annonce">
         <button class="btn bg-red-500 text-white px-4 py-3 hover:bg-red-700">
@@ -43,8 +78,8 @@
   </div>
 </template>
 <script setup>
-import { ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, watch } from "vue";
+import { useRoute } from "vue-router";
 
 // handle hamburger menu
 const toggleMenu = () => {
@@ -54,7 +89,7 @@ const toggleMenu = () => {
   document.querySelector("body").classList.toggle("!overflow-hidden");
 };
 
-// show button or not 
+// show button or not
 const route = useRoute();
 const isAnnonce = ref(true);
 watch(route, (to, from) => {

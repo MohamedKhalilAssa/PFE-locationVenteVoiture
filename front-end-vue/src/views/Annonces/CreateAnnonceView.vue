@@ -5,7 +5,7 @@
     <form
       method="POST"
       @submit.prevent="uploadFiles"
-      class="bg-white border border-gray-900 shadow-2xl p-3 md:p-10 rounded max-w-lg"
+      class="bg-white border border-gray-900 shadow-2xl p-5 md:p-10 rounded max-w-lg w-full"
       enctype="multipart/form-data"
     >
       <header class="text-center mb-7">
@@ -316,16 +316,134 @@
         </div>
       </div>
       <div class="mb-6">
+        <label for="image" class="inline-block text-lg mb-2 required">
+          Options
+        </label>
+        <div class="container flex flex-wrap justify-center options space-y-3">
+          <div class="option flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="option1"
+              name="option[]"
+              value="toutes_options"
+              @change="toggleAllOptions"
+              v-model="form.options"
+            />
+            <label for="option1" class="ml-2">Toutes options</label>
+          </div>
+          <div class="option flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="option2"
+              name="option[]"
+              value="GPS"
+              v-model="form.options"
+            />
+            <label for="option2" class="ml-2">GPS</label>
+          </div>
+          <div class="option flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="option3"
+              name="option[]"
+              value="Sieges_chauffants"
+              v-model="form.options"
+            />
+            <label for="option3" class="ml-2">Sièges chauffants</label>
+          </div>
+          <div class="option flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="option4"
+              value="Camera_recul"
+              name="option[]"
+              v-model="form.options"
+            />
+            <label for="option4" class="ml-2">Caméra de recul</label>
+          </div>
+          <div class="option flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="option5"
+              value="Regulateur_vitesse"
+              name="option[]"
+              v-model="form.options"
+            />
+            <label for="option5" class="ml-2">Régulateur de vitesse</label>
+          </div>
+          <div class="option flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="option6"
+              name="option[]"
+              value="Ordinateur_de_bord"
+              v-model="form.options"
+            />
+            <label for="option6" class="ml-2">Ordinateur de bord</label>
+          </div>
+          <div class="option flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="option7"
+              name="option[]"
+              value="ABS"
+              v-model="form.options"
+            />
+            <label for="option7 " class="ml-2">Abs</label>
+          </div>
+          <div class="option flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="option8"
+              name="option[]"
+              value="Vitres_electriques"
+              v-model="form.options"
+            />
+            <label for="option8 " class="ml-2">Vitres éléctriques</label>
+          </div>
+          <div class="option flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="option9"
+              name="option[]"
+              value="Airbags"
+              v-model="form.options"
+            />
+            <label for="option9 " class="ml-2">Airbags</label>
+          </div>
+          <div class="option flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="option10"
+              name="option[]"
+              value="Anti_brouillard"
+              v-model="form.options"
+            />
+            <label for="option10 " class="ml-2">Anti brouillard</label>
+          </div>
+        </div>
+
+        <div class="errors" v-if="errors">
+          <p class="text-red-600" v-if="errors.options">
+            {{ errors.options[0] }}
+          </p>
+        </div>
+      </div>
+      <div class="mb-6">
+        <label for="image" class="inline-block text-lg mb-2 required"
+          >Images</label
+        >
         <input
           @change="handleFileChange"
           type="file"
           class="border border-gray-200 rounded p-2 w-full"
           name="image"
+          id="image"
           multiple
         />
         <div class="errors" v-if="errors">
-          <p class="text-red-600" v-if="errors.prix_location">
-            {{ errors.prix_location[0] }}
+          <p class="text-red-600" v-if="errors.image">
+            {{ errors.image[0] }}
           </p>
         </div>
       </div>
@@ -348,7 +466,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
@@ -446,7 +564,23 @@ const annee_fabrication = ref([]);
 for (let i = 1970; i <= new Date().getFullYear(); i++) {
   annee_fabrication.value.push(i);
 }
+// end years
+// Handling Options
+const toggleAllOptions = (e) => {
+  if (e.target.checked) {
+    form.value.options = ["toutes_options"];
+    document
+      .querySelectorAll(".option input:not(#option1)")
+      .forEach((element) => {
+        element.disabled = true;
+      });
+  }
+};
+watchEffect(() => {
+  console.log(form.value.options);
+});
 
+// end option
 // Handling Selecting types
 const typeSelected = () => {
   if (form.value.type_annonce == "vente") {
@@ -469,5 +603,25 @@ const typeSelected = () => {
 .required:after {
   content: " *";
   color: red;
+}
+.options {
+  gap: 3%;
+}
+.option {
+  width: calc(94% / 2);
+}
+@media screen and (max-width: 568px) {
+  .option {
+    width: 100%;
+    margin-bottom: 0.4rem;
+  }
+  .option input {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+  .option label {
+    font-size: 1.2rem;
+    padding-bottom: 3px;
+  }
 }
 </style>
