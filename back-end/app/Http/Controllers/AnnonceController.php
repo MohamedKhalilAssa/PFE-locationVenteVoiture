@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 
 class AnnonceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+    }
     public function occasionStore(Request $request)
     {
         $formElements = $request->validate([
@@ -21,6 +25,7 @@ class AnnonceController extends Controller
             'modele_id' => ['required', 'exists:modeles,id'],
             'couleur_id' => ['required', 'exists:couleurs_voitures,id'],
             'kilometrage' => ['required', 'integer', 'min:1'],
+            'image.*' => 'image|mimes:jpeg,png,pdf|max:2048',
             'annee_fabrication' => ['required', 'date_format:Y'],
             'prix_vente' => [Rule::requiredIf(
                 $request->type_annonce == 'vente'
@@ -30,12 +35,25 @@ class AnnonceController extends Controller
                 'location'), Rule::in('vendu', 'disponible', 'indisponible')],
             'disponibilite_location' => [Rule::requiredIf($request->type_annonce == 'location'), Rule::excludeIf($request->type_annonce == 'vente'), Rule::in('louer', 'disponible', 'indisponible')],
         ]);
-
-        // if ($validator->fails()) {
-        //     return response()->json(['errors' => $validator->errors()], 422);
-        // }
+        // default values
+        $formElements['owner_id'] = auth()->user()->id;
         $formElements['etat'] = 'occasion';
 
-        return response()->json($formElements);
+        // adding images to the form
+        $paths = [];
+        if ($request->file('image')) {
+            foreach ($request->file('image') as $image) {
+                $path = 'http://localhost:8000/storage/' . $image->store('images', 'public');
+                $paths[] = $path;
+            }
+            $formElements['image'] = json_encode($paths);
+        }
+
+
+        Annonce::create($formElements);
+
+        return
+            "Annonce Created Successfully " . auth()->user()->id . "<br>" .
+            response($formElements)->header('Content-Type', 'application/json');
     }
 }

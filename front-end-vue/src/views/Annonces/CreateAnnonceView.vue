@@ -377,7 +377,7 @@ const form = ref({
 });
 
 // Method to upload files to the server{
-const files = ref(null);
+const errors = ref(null);
 
 const handleFileChange = (e) => {
   formData.append("image[]", e.target.files[0]);
@@ -416,9 +416,9 @@ const uploadFiles = async () => {
     // });
   } catch (error) {
     console.error(error);
+    errors.value = error.response.data.errors;
   }
 };
-const errors = ref(null);
 // Fetching Marques
 const { marqueResult, ErrorMarque, loadMarque } = getMarques();
 loadMarque();
