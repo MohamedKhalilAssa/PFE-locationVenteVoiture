@@ -15,15 +15,20 @@ class AnnonceController extends Controller
             'titre' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'ville' => ['required', 'string'],
-            'carburant' => ['required', Rule::enum(Annonce::class)],
-            'type_annonce' => ['required', Rule::enum(Annonce::class)],
-            'modele_id' => ['required', 'exists:modeles,id'],
+            'carburant' => ['required', Rule::in('diesel', 'hybride', 'essence', 'electrique')],
+            'type_annonce' => ['required', Rule::in(['vente', 'location'])],
             'marque_id' => ['required', 'exists:marques,id'],
-            'couleur_id' => ['required', 'exists:couleurs,id'],
-            'prix_vente' => ['required', 'Decimal', 'min:1'],
+            'modele_id' => ['required', 'exists:modeles,id'],
+            'couleur_id' => ['required', 'exists:couleurs_voitures,id'],
             'kilometrage' => ['required', 'integer', 'min:1'],
             'annee_fabrication' => ['required', 'date_format:Y'],
-
+            'prix_vente' => [Rule::requiredIf(
+                $request->type_annonce == 'vente'
+            ), Rule::excludeIf($request->type_annonce == 'location'), 'gt:2'],
+            'prix_location' => [Rule::requiredIf($request->type_annonce == 'location'), Rule::excludeIf($request->type_annonce == 'vente'), 'min:1'],
+            'disponibilite_vente' => [Rule::requiredIf($request->type_annonce == 'vente'), Rule::excludeIf($request->type_annonce ==
+                'location'), Rule::in('vendu', 'disponible', 'indisponible')],
+            'disponibilite_location' => [Rule::requiredIf($request->type_annonce == 'location'), Rule::excludeIf($request->type_annonce == 'vente'), Rule::in('louer', 'disponible', 'indisponible')],
         ]);
 
         // if ($validator->fails()) {
@@ -31,6 +36,6 @@ class AnnonceController extends Controller
         // }
         $formElements['etat'] = 'occasion';
 
-        return response()->json($request->all());
+        return response()->json($formElements);
     }
 }

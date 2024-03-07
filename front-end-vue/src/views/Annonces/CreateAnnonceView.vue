@@ -366,8 +366,8 @@ const form = ref({
   type_annonce: "",
   marque_id: "",
   modele_id: "",
-  kilometrage: 0,
   couleur_id: null,
+  kilometrage: 0,
   annee_fabrication: null,
   options: [],
   prix_vente: null,
@@ -377,7 +377,7 @@ const form = ref({
 });
 
 // Method to upload files to the server{
-  const files = ref(null)
+const files = ref(null);
 
 const handleFileChange = (e) => {
   formData.append("image[]", e.target.files[0]);
@@ -407,7 +407,10 @@ const uploadFiles = async () => {
   try {
     await axios.get("http://localhost:8000/sanctum/csrf-cookie");
     // Send the FormData object to the server using axios
-    await axios.post("http://localhost:8000/api/annonce/occasion/store", formData);
+    await axios.post(
+      "http://localhost:8000/api/annonce/occasion/store",
+      formData
+    );
     // .then((response) => {
     //   router.push({ name: "Listings" });
     // });
@@ -447,13 +450,13 @@ for (let i = 1970; i <= new Date().getFullYear(); i++) {
 // Handling Selecting types
 const typeSelected = () => {
   if (form.value.type_annonce == "vente") {
-    form.value.disponibilite_vente = true;
+    form.value.disponibilite_vente = "disponible";
     form.value.disponibilite_location = null;
     // for price
     form.value.prix_vente = 0;
     form.value.prix_location = null;
   } else if (form.value.type_annonce == "location") {
-    form.value.disponibilite_location = true;
+    form.value.disponibilite_location = "disponible";
     form.value.disponibilite_vente = null;
     // for price
     form.value.prix_location = 0;
