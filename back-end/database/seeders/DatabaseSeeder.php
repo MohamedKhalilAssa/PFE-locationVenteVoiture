@@ -18,6 +18,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory(10)->create();
+        User::create([
+            'nom' => 'Super',
+            'prenom' => 'Admin',
+            'email' => 'admin@localhost',
+            'password' => bcrypt('admin'),
+            'role' => 'admin'
+        ]);
         $this->call(MarqueSeeder::class);
         $this->call(ModeleSeeder::class);
         $this->call(CouleursSeeder::class);

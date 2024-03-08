@@ -1,16 +1,13 @@
 <template>
   <PreLoader />
-  <Navbar />
+  <ClientLayout v-if="$route.path != '/admin/*'" />
   <UserActions />
-  <RouterView />
-  <Footer />
 </template>
 
 <script setup>
-import Navbar from "@/Components/Navbar.vue";
-import Footer from "@/Components/Footer.vue";
 import UserActions from "@/Components/UserActions.vue";
 import PreLoader from "./Components/PreLoader.vue";
+import ClientLayout from "./views/FrontOffice/ClientLayout.vue";
 import { onMounted } from "vue";
 import { useStore } from "vuex";
 import { watch, ref } from "vue";

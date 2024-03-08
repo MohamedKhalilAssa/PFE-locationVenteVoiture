@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import HomeView from "../views/FrontOffice/HomeView.vue";
 import PageNotFound from "../views/PageNotFound.vue";
 import axios from "axios";
 import { useStore } from "vuex";
@@ -13,34 +13,37 @@ const routes = [
   {
     path: "/neuf",
     name: "neuf",
-    component: () => import("../views/Neuf/NeufListingsView.vue"),
+    component: () => import("../views/FrontOffice/Neuf/NeufListingsView.vue"),
   },
   {
     path: "/occasion",
     name: "occasion",
-    component: () => import("../views/Occasion/OccasionListingsView.vue"),
+    component: () =>
+      import("../views/FrontOffice/Occasion/OccasionListingsView.vue"),
   },
   {
     path: "/location",
     name: "location",
-    component: () => import("../views/Location/LocationListingsView.vue"),
+    component: () =>
+      import("../views/FrontOffice/Location/LocationListingsView.vue"),
   },
   {
     path: "/annonce",
     name: "annonce",
-    component: () => import("../views/Annonces/CreateAnnonceView.vue"),
+    component: () =>
+      import("../views/FrontOffice/Annonces/CreateAnnonceView.vue"),
     meta: { requiresAuth: true },
   },
   {
     path: "/register",
     name: "Register",
-    component: () => import("../views/Users/RegisterView.vue"),
+    component: () => import("../views/FrontOffice/Users/RegisterView.vue"),
     meta: { requiresGuest: true },
   },
   {
     path: "/login",
     name: "Login",
-    component: () => import("../views/Users/LoginView.vue"),
+    component: () => import("../views/FrontOffice/Users/LoginView.vue"),
     meta: { requiresGuest: true },
   },
   {
