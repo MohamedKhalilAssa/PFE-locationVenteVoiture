@@ -26,13 +26,22 @@ class AnnonceController extends Controller
             'couleur_id' => ['required', 'exists:couleurs_voitures,id'],
             'kilometrage' => ['required', 'integer', 'min:1'],
             'image.*' => 'image|mimes:jpeg,png,pdf|max:2048',
+            'image' => 'required',
             'annee_fabrication' => ['required', 'date_format:Y'],
-            'prix_vente' => [Rule::requiredIf(
-                $request->type_annonce == 'vente'
-            ), Rule::excludeIf($request->type_annonce == 'location'), 'gt:2'],
+            'prix_vente' => [
+                Rule::requiredIf(
+                    $request->type_annonce == 'vente'
+                ),
+                Rule::excludeIf($request->type_annonce == 'location'),
+                'gt:2'
+            ],
             'prix_location' => [Rule::requiredIf($request->type_annonce == 'location'), Rule::excludeIf($request->type_annonce == 'vente'), 'min:1'],
-            'disponibilite_vente' => [Rule::requiredIf($request->type_annonce == 'vente'), Rule::excludeIf($request->type_annonce ==
-                'location'), Rule::in('vendu', 'disponible', 'indisponible')],
+            'disponibilite_vente' => [
+                Rule::requiredIf($request->type_annonce == 'vente'),
+                Rule::excludeIf($request->type_annonce ==
+                    'location'),
+                Rule::in('vendu', 'disponible', 'indisponible')
+            ],
             'disponibilite_location' => [Rule::requiredIf($request->type_annonce == 'location'), Rule::excludeIf($request->type_annonce == 'vente'), Rule::in('louer', 'disponible', 'indisponible')],
         ]);
         // default values
@@ -40,20 +49,29 @@ class AnnonceController extends Controller
         $formElements['etat'] = 'occasion';
 
         // adding images to the form
-        $paths = [];
         if ($request->file('image')) {
+            $paths = [];
             foreach ($request->file('image') as $image) {
                 $path = 'http://localhost:8000/storage/' . $image->store('images', 'public');
                 $paths[] = $path;
             }
             $formElements['image'] = json_encode($paths);
         }
+        // adding options to the form
+        if ($request->options) {
+            $options = [];
+            foreach ($request->options as $option) {
+                $options[] = $option;
+            }
+            $formElements['options'] = json_encode($options);
+        }
 
 
         Annonce::create($formElements);
 
-        return
-            "Annonce Created Successfully " . auth()->user()->id . "<br>" .
-            response($formElements)->header('Content-Type', 'application/json');
+        // return
+        //     "Annonce Created Successfully " . auth()->user()->id . "<br>" .
+        //     response($formElements)->header('Content-Type', 'application/json');
+        return $request->options;
     }
 }
