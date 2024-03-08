@@ -22,7 +22,7 @@ return new class extends Migration {
             );
             $table->string('titre');
             $table->string('description');
-            $table->string('ville');
+            $table->foreignId('ville')->constrained('villes')->onDelete('cascade');
             $table->enum('type_annonce', ['location', 'vente']);
             $table->enum('statut_annonce', ['onhold', 'approved', 'disabled'])->default('onhold');
             $table->enum('etat', ['neuf', 'occasion']);

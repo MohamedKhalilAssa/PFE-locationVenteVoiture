@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MarqueSeeder::class);
         $this->call(ModeleSeeder::class);
         $this->call(CouleursSeeder::class);
+        $this->call(VilleMaroc::class);
     }
 }

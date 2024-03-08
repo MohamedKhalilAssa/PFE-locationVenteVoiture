@@ -33,4 +33,8 @@ class Annonce extends Model
     {
         return $this->belongsTo(couleursVoiture::class);
     }
+    public function ville()
+    {
+        return $this->belongsTo(Ville::class, 'ville');
+    }
 }

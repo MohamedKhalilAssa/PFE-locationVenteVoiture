@@ -118,8 +118,6 @@ const RegisterHandling = async () => {
         })
 
         let { data } = await axios.get('http://localhost:8000/api/user')
-
-        console.log(data)
         sessionStorage.setItem('Authentication', true)
         sessionStorage.setItem('User', JSON.stringify(data))
         store.commit('setAuthentication')
@@ -129,7 +127,6 @@ const RegisterHandling = async () => {
     } catch (error) {
         button.disabled = false;
         if (error.response.status == 404 || error.response.status == 500) {
-            console.log(error)
             serverError.value = error.message;
         }
         if (error.response) {

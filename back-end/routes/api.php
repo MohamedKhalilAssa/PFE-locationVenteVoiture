@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\VilleController;
 use App\Http\Controllers\MarqueController;
 use App\Http\Controllers\ModeleController;
 use App\Http\Controllers\AnnonceController;
@@ -44,7 +45,11 @@ Route::middleware('XSS')->group(function () {
         Route::get('/', [ColorController::class, 'index'])->name("index");
     })->name("couleur.");
 
-    Route::group(["prefix"=> "annonce"], function () {
+    Route::group(['prefix' => 'ville'], function () {
+        Route::get('/', [VilleController::class, 'index'])->name("index");
+    })->name("ville.");
+
+    Route::group(["prefix" => "annonce"], function () {
         Route::post('/occasion/store', [AnnonceController::class, 'occasionStore'])->name("store");
     })->name("annonce.");
 });

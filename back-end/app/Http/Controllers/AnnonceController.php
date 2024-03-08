@@ -18,7 +18,7 @@ class AnnonceController extends Controller
         $formElements = $request->validate([
             'titre' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
-            'ville' => ['required', 'string'],
+            'ville' => ['required', 'exists:villes,id'],
             'carburant' => ['required', Rule::in('diesel', 'hybride', 'essence', 'electrique')],
             'type_annonce' => ['required', Rule::in(['vente', 'location'])],
             'marque_id' => ['required', 'exists:marques,id'],

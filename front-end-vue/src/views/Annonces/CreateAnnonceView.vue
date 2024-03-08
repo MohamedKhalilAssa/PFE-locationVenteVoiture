@@ -27,11 +27,20 @@
         </div>
       </div>
       <div class="mb-6">
-        <label for="ville" class="inline-block text-lg mb-2 required">Ville</label>
-        <input v-model="form.ville" id="ville" type="text" class="border border-gray-600 rounded p-2 w-full"
-          name="ville" placeholder="Exemple: Casablanca" />
+        <label for="ville" class="inline-block text-lg mb-2 required">La Ville
+        </label>
+        <select v-model="form.ville" id="ville" class="border border-gray-600 rounded p-2 w-full" name="ville">
+          <option selected :value="null">
+            La Ville
+          </option>
+          <option v-for="ville in villeResult" :key="ville.id" :value="ville.id">
+            {{ ville.nom }}
+          </option>
+        </select>
         <div class="errors" v-if="errors">
-          <p class="text-red-600" v-if="errors.ville">{{ errors.ville[0] }}</p>
+          <p class="text-red-600" v-if="errors.ville">
+            {{ errors.ville[0] }}
+          </p>
         </div>
       </div>
 
@@ -99,26 +108,6 @@
           </p>
         </div>
       </div>
-      <!-- <div class="mb-6">
-        <label for="etat" class="inline-block text-lg mb-2 required"
-          >L'etat de la Voiture
-        </label>
-        <select
-          v-model="form.etat"
-          id="etat"
-          class="border border-gray-600 rounded p-2 w-full"
-          name="etat"
-        >
-          <option selected value="">Choisir l'etat de la Voiture</option>
-          <option value="neuf">Neuf</option>
-          <option value="occasion">Occasion</option>
-        </select>
-        <div class="errors" v-if="errors">
-          <p class="text-red-600" v-if="errors.etat">
-            {{ errors.etat[0] }}
-          </p>
-        </div>
-      </div> -->
       <div class="mb-6">
         <label for="carburant" class="inline-block text-lg mb-2 required">Carburant
         </label>
@@ -304,6 +293,7 @@ import { useStore } from "vuex";
 import getMarques from "@/Composables/getMarques";
 import getModeles from "@/Composables/getModeles";
 import getCouleurs from "@/Composables/getCouleurs";
+import getVilles from "@/Composables/getVilles";
 
 const serverError = ref("");
 const router = useRouter();
@@ -351,7 +341,6 @@ const uploadFiles = async () => {
   // storing options in formData
   form.value.options.forEach((value, index) => {
     formData.append("options[]", value);
-    console.log(formData.getAll("options[]"))
   });
 
   axios.defaults.withCredentials = true;
@@ -370,7 +359,6 @@ const uploadFiles = async () => {
       }
     });
   } catch (error) {
-    console.error(error);
     errors.value = error.response.data.errors;
   }
 };
@@ -379,12 +367,10 @@ const uploadFiles = async () => {
 const files = ref([]);
 const handleFileChange = (e) => {
   files.value.push({ id: Date.now().toString(36), file: e.target.files[0] });
-  console.log(files.value)
 };
 const removeFile = (id) => {
   console.log(id)
   files.value = files.value.filter((file) => file.id != id);
-  console.log(files.value)
 }
 // end image
 // Fetching Marques
@@ -409,6 +395,10 @@ const { couleurResult, ErrorCouleur, loadCouleur } = getCouleurs();
 loadCouleur();
 serverError.value += ErrorCouleur.value || "";
 // end fetch
+// fetching villes
+const { villeResult, ErrorVille, loadVille } = getVilles();
+loadVille();
+serverError.value += ErrorVille.value || "";
 // on mounted set years since 1970
 const annee_fabrication = ref([]);
 for (let i = 1970; i <= new Date().getFullYear(); i++) {
@@ -416,9 +406,6 @@ for (let i = 1970; i <= new Date().getFullYear(); i++) {
 }
 // end years
 // Handling Options
-watchEffect(() => {
-  console.log(form.value.options)
-})
 const toggleAllOptions = (e) => {
   if (e.target.checked) {
     form.value.options = ["toutes_options"];
