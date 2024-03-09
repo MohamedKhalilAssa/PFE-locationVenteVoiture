@@ -117,10 +117,17 @@ const LoginHandling = async () => {
     store.commit("setAuthentication");
     store.commit("setUser");
 
-    router.push({
-      name: `${route.query.previous}`,
-      query: { message: "loggedIn" },
-    });
+    if (data.role == "admin") {
+      router.push({
+        name: `DashboardView`,
+        query: { message: "loggedIn" },
+      });
+    } else {
+      router.push({
+        name: `${route.query.previous}`,
+        query: { message: "loggedIn" },
+      });
+    }
   } catch (error) {
     button.disabled = false;
     if (error.response) {

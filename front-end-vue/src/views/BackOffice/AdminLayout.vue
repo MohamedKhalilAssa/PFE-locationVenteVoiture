@@ -1,8 +1,10 @@
 <template>
-  <h1>Dashboard</h1>
+  <Navbar />
+  <RouterView />
 </template>
-<script setup></script>
 
-<style>
+<script setup>
+import Navbar from "@/views/BackOffice/Components/AdminNavbar.vue";
+</script>
 
-</style>
+<style scoped></style>

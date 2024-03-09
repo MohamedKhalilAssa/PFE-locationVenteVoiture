@@ -51,8 +51,9 @@ const routes = [
     children: [
       {
         path: "",
-        name: "AdminHome",
-        import: () => import("../views/BackOffice/AdminLayout.vue"),
+        name: "DashboardView",
+        component: () =>
+          import("../views/BackOffice/AdminViews/DashboardView.vue"),
         meta: { requiresAuth: true, requiresAdmin: true },
       },
       // { path: "users", component: AdminUserList },
