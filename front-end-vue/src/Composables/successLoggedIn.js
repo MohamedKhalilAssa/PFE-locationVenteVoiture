@@ -1,5 +1,4 @@
 import Swal from "sweetalert2";
-import { useStore } from "vuex";
 
 function successLoggedInMessage(message, store) {
   if (

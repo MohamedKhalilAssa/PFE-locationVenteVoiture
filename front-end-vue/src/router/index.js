@@ -47,10 +47,17 @@ const routes = [
     meta: { requiresGuest: true },
   },
   {
-    path: "/admin/home",
-    name: "Dashboard",
-    component: () => import("../views/BackOffice/HomeView.vue"),
-    meta: { requiresAuth: true },
+    path: "/admin",
+    children: [
+      {
+        path: "",
+        name: "AdminHome",
+        import: () => import("../views/BackOffice/AdminLayout.vue"),
+        meta: { requiresAuth: true, requiresAdmin: true },
+      },
+      // { path: "users", component: AdminUserList },
+      // { path: "users/:id", component: AdminUserDetails },
+    ],
   },
   {
     path: "/:catchAll(.*)",
@@ -64,7 +71,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresGuest && sessionStorage.getItem("Authentication")) {
     router.back();
   } else if (
@@ -79,19 +86,27 @@ router.beforeEach((to, from, next) => {
     axios.defaults.withCredentials = true;
     axios.defaults.withXSRFToken = true;
     const store = useStore();
-    axios
-      .get("http://localhost:8000/api/user")
-      .then((response) => {
-        next();
-      })
-      .catch((error) => {
-        sessionStorage.removeItem("Authentication");
-        sessionStorage.removeItem("User");
-        store.commit("setAuthentication");
-        store.commit("setUser");
-        let previous = to.name;
-        next({ name: "Login", query: { previous: previous } });
-      });
+    try {
+      const { data } = await axios.get("http://localhost:8000/api/user");
+
+      console.log(data);
+      if (data) {
+        if (!to.meta.requiresAdmin) {
+          next();
+        } else if (data.role == "admin" && to.meta.requiresAdmin) {
+          next();
+        } else {
+          next({ name: "home", query: { error: "unAuthorized" } });
+        }
+      }
+    } catch (error) {
+      sessionStorage.removeItem("Authentication");
+      sessionStorage.removeItem("User");
+      store.commit("setAuthentication");
+      store.commit("setUser");
+      let previous = to.name;
+      next({ name: "Login", query: { previous: previous } });
+    }
   } else {
     next();
   }

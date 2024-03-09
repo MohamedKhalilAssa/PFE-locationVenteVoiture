@@ -10,10 +10,11 @@ import UserActions from "@/Components/UserActions.vue";
 import PreLoader from "./Components/PreLoader.vue";
 import ClientLayout from "./views/FrontOffice/ClientLayout.vue";
 import AdminLayout from "./views/BackOffice/AdminLayout.vue";
-import { onMounted } from "vue";
+import { onMounted, watchEffect } from "vue";
 import { useStore } from "vuex";
 import { watch, ref } from "vue";
 import successLoggedInMessage from "@/Composables/successLoggedIn";
+import errorMessage from "@/Composables/errorMessage";
 import { useRoute } from "vue-router";
 
 onMounted(() => {
@@ -32,6 +33,11 @@ onMounted(() => {
       }
     }
   );
+  watchEffect(() => {
+    if (route.query.error == "unAuthorized" && !sessionStorage.getItem("unauthorizedMessage")) {
+      errorMessage(route.query.error || null);
+    }
+  })
 });
 </script>
 
@@ -48,4 +54,4 @@ main {
 #app {
   min-height: 100vh;
 }
-</style>
+</style>@/Composables/unauthorizedMessage

@@ -9,6 +9,7 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\MarqueSeeder;
 use Database\Seeders\ModeleSeeder;
 use Database\Seeders\CouleursSeeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,7 +23,7 @@ class DatabaseSeeder extends Seeder
             'nom' => 'Super',
             'prenom' => 'Admin',
             'email' => 'admin@localhost',
-            'password' => bcrypt('admin'),
+            'password' => Hash::make('admin'),
             'role' => 'admin'
         ]);
         $this->call(MarqueSeeder::class);
