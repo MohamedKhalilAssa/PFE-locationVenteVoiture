@@ -1,6 +1,7 @@
 <template>
   <PreLoader />
-  <ClientLayout v-if="$route.path != '/admin/*'" />
+  <ClientLayout v-if="!$route.path.startsWith('/admin')" />
+  <AdminLayout v-if="$route.path.startsWith('/admin')" />
   <UserActions />
 </template>
 
@@ -8,6 +9,7 @@
 import UserActions from "@/Components/UserActions.vue";
 import PreLoader from "./Components/PreLoader.vue";
 import ClientLayout from "./views/FrontOffice/ClientLayout.vue";
+import AdminLayout from "./views/BackOffice/AdminLayout.vue";
 import { onMounted } from "vue";
 import { useStore } from "vuex";
 import { watch, ref } from "vue";

@@ -47,6 +47,12 @@ const routes = [
     meta: { requiresGuest: true },
   },
   {
+    path: "/admin/home",
+    name: "Dashboard",
+    component: () => import("../views/BackOffice/HomeView.vue"),
+    meta: { requiresAuth: true },
+  },
+  {
     path: "/:catchAll(.*)",
     name: "NotFound",
     component: PageNotFound,
