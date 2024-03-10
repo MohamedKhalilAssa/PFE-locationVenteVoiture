@@ -1,15 +1,22 @@
 <template>
   <div
-    class="flex justify-between items-center p-3 md:p-4 md:justify-end bg-slate-50 rounded shadow-lg md:bg-gray-200 duration-100">
+    class="flex justify-between items-center p-3 md:p-4 md:justify-end bg-whiterounded shadow-lg md:shadow-none md:bg-gray-200 duration-100"
+  >
     <SideBar :addClass="show" />
-    <div id="menuToggle" class="animate__animated animate__fadeIn block pt-1 md:hidden" @click="toggleMenu">
+    <div
+      id="menuToggle"
+      class="animate__animated animate__fadeIn block pt-1 md:hidden"
+      @click="toggleMenu"
+    >
       <span></span>
       <span></span>
       <span></span>
     </div>
-    <nav> <router-link to="/profile" v-if="$store.getters.getAuthentication">{{ $store.getters.getUser.nom + " " +
-      $store.getters.getUser.prenom
-        }}</router-link> </nav>
+    <nav>
+      <router-link to="/profile" v-if="$store.getters.getAuthentication">{{
+        $store.getters.getUser.nom + " " + $store.getters.getUser.prenom
+      }}</router-link>
+    </nav>
   </div>
 </template>
 
@@ -79,7 +86,6 @@ const toggleMenu = () => {
 #menuToggle.active span:nth-child(2) {
   transform: rotate(45deg) translate(-8px, -7px);
 }
-
 
 .animate__animated.animate__fadeIn {
   --animate-duration: 4s;

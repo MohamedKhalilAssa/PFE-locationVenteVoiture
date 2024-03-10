@@ -14,7 +14,7 @@
         />
       </div>
     </router-link>
-    <div class="links hidden space-x-4 md:flex">
+    <div class="links hidden space-x-4 lg:flex">
       <router-link class="link hover:font-bold duration-100" to="/"
         >Home</router-link
       >
@@ -27,22 +27,28 @@
       <router-link class="link hover:font-bold duration-100" to="/location"
         >Location</router-link
       >
+      <router-link
+        class="link hover:font-bold duration-100"
+        to="/admin"
+        v-if="computedRole"
+        >Dashboard</router-link
+      >
     </div>
-    <div class="btns hidden md:hidden" :class="{ blockImportant: !isAnnonce }">
+    <div class="btns hidden lg:hidden" :class="{ blockImportant: !isAnnonce }">
       <router-link to="/annonce">
         <button class="btn bg-red-500 text-white px-4 py-3 hover:bg-red-700">
           Ajouter une annonce
         </button>
       </router-link>
     </div>
-    <div id="menuToggle" class="block md:hidden" @click="toggleMenu">
+    <div id="menuToggle" class="block lg:hidden" @click="toggleMenu">
       <span></span>
       <span></span>
       <span></span>
     </div>
   </nav>
   <div
-    class="linksMenu flex flex-col items-center space-y-5 py-6 fixed left-0 top-20 w-full h-screen z-100 bg-white md:hidden"
+    class="linksMenu flex flex-col items-center space-y-5 py-6 fixed left-0 top-20 w-full h-screen z-100 bg-white lg:hidden"
   >
     <router-link
       class="linkMob max-w-min hover:font-bold duration-100"
@@ -68,6 +74,12 @@
       to="/location"
       >Location</router-link
     >
+    <router-link
+      class="linkMob max-w-min hover:font-bold duration-100"
+      to="/admin"
+      v-if="computedRole"
+      >Dashboard</router-link
+    >
     <div class="btns" :class="{ hidden: isAnnonce }">
       <router-link to="/annonce">
         <button class="btn bg-red-500 text-white px-4 py-3 hover:bg-red-700">
@@ -78,9 +90,12 @@
   </div>
 </template>
 <script setup>
-import { ref, watch } from "vue";
+import { computed } from "vue";
 import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 
+const route = useRoute();
+const store = useStore();
 // handle hamburger menu
 const toggleMenu = () => {
   document.getElementById("menuToggle").classList.toggle("active");
@@ -88,16 +103,14 @@ const toggleMenu = () => {
   document.querySelector(".linksMenu").classList.toggle("show");
   document.querySelector("body").classList.toggle("!overflow-hidden");
 };
-
+// computed value for role
+const computedRole = computed(() => {
+  if (store.getters.getUser) return store.getters.getUser.role == "admin";
+  else return false;
+});
 // show button or not
-const route = useRoute();
-const isAnnonce = ref(true);
-watch(route, (to, from) => {
-  if (to.path !== "/annonce") {
-    isAnnonce.value = false;
-  } else {
-    isAnnonce.value = true;
-  }
+const isAnnonce = computed(() => {
+  return route.path == "/annonce" ? true : false;
 });
 </script>
 <style scoped>
@@ -190,7 +203,7 @@ watch(route, (to, from) => {
   left: 0%;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1024px) {
   .blockImportant {
     display: block !important;
   }

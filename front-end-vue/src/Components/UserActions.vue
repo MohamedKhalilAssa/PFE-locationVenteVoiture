@@ -1,6 +1,13 @@
 <template>
-  <aside class="-translate-x-full duration-500 ease-in-out" ref="aside" v-if="!isUserMenu">
-    <div class="userActions flex flex-col justify-around gap-8" v-if="!$store.getters.getAuthentication">
+  <aside
+    class="-translate-x-full duration-500 ease-in-out"
+    ref="aside"
+    v-if="!isUserMenu"
+  >
+    <div
+      class="userActions flex flex-col justify-around gap-8"
+      v-if="!$store.getters.getAuthentication"
+    >
       <router-link :to="{ name: 'Login', query: { previous: route.name } }">
         <Button> Login </Button>
       </router-link>
@@ -13,7 +20,10 @@
         <Button> Logout </Button>
       </form>
     </div>
-    <div class="userIcon absolute -right-9 top-0 cursor-pointer min-w-4 px-2 py-1" @click="showUserActions">
+    <div
+      class="userIcon absolute -right-9 top-0 cursor-pointer min-w-4 px-2 py-1"
+      @click="showUserActions"
+    >
       <i class="fa-solid fa-user text-2xl"></i>
     </div>
   </aside>
@@ -50,7 +60,7 @@ const showUserActions = () => {
         if (!aside.value.classList.contains("-translate-x-full"))
           aside.value.classList.add("-translate-x-full");
       }
-    }, 4500);
+    }, 5500);
   }
 };
 const logout = async () => {
@@ -82,7 +92,6 @@ const logout = async () => {
       iconColor: "red",
       title: "Déconnecté avec succès",
     });
-
   } catch (error) {
     Swal.fire({
       icon: "error",
