@@ -1,28 +1,32 @@
 <template>
-  <div class="flex justify-between items-center p-3 md:p-4 md:justify-end">
-    <SideBar :addClass="show"/>
-    <div
-      id="menuToggle"
-      class="animate__animated animate__fadeIn block pt-1 md:hidden"
-      @click="toggleMenu"
-    >
+  <div
+    class="flex justify-between items-center p-3 md:p-4 md:justify-end bg-slate-50 rounded shadow-lg md:bg-gray-200 duration-100">
+    <SideBar :addClass="show" />
+    <div id="menuToggle" class="animate__animated animate__fadeIn block pt-1 md:hidden" @click="toggleMenu">
       <span></span>
       <span></span>
       <span></span>
     </div>
-    <nav>Hello friend!</nav>
+    <nav> <router-link to="/profile" v-if="$store.getters.getAuthentication">{{ $store.getters.getUser.nom + " " +
+      $store.getters.getUser.prenom
+        }}</router-link> </nav>
   </div>
 </template>
 
 <script setup>
 import SideBar from "@/views/BackOffice/Components/SideBar.vue";
 import "animate.css";
+import { ref } from "vue";
 
-const show = ref(false);
+const show = ref("");
 
 const toggleMenu = () => {
-    document.querySelector("#menuToggle").classList.toggle("active");
-    show.value = !show.value;
+  document.querySelector("#menuToggle").classList.toggle("active");
+  if (show.value == "") {
+    show.value = "!translate-x-0";
+  } else {
+    show.value = "";
+  }
 };
 </script>
 
@@ -76,15 +80,7 @@ const toggleMenu = () => {
   transform: rotate(45deg) translate(-8px, -7px);
 }
 
-/* show the menu */
-.linksMenu {
-  left: 100%;
-  transition: all 0.5s ease-in-out;
-}
 
-.linksMenu.show {
-  left: 0%;
-}
 .animate__animated.animate__fadeIn {
   --animate-duration: 4s;
 }

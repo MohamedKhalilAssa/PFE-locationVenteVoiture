@@ -74,7 +74,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresGuest && sessionStorage.getItem("Authentication")) {
-    router.back();
+    next(from);
   } else if (
     to.meta.requiresAuth &&
     !sessionStorage.getItem("Authentication")

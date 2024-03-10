@@ -1,13 +1,6 @@
 <template>
-  <aside
-    class="-translate-x-full duration-500 ease-in-out"
-    ref="aside"
-    v-if="!isUserMenu"
-  >
-    <div
-      class="userActions flex flex-col justify-around gap-8"
-      v-if="!$store.getters.getAuthentication"
-    >
+  <aside class="-translate-x-full duration-500 ease-in-out" ref="aside" v-if="!isUserMenu">
+    <div class="userActions flex flex-col justify-around gap-8" v-if="!$store.getters.getAuthentication">
       <router-link :to="{ name: 'Login', query: { previous: route.name } }">
         <Button> Login </Button>
       </router-link>
@@ -20,10 +13,7 @@
         <Button> Logout </Button>
       </form>
     </div>
-    <div
-      class="userIcon absolute -right-9 top-0 cursor-pointer min-w-4 px-2 py-1"
-      @click="showUserActions"
-    >
+    <div class="userIcon absolute -right-9 top-0 cursor-pointer min-w-4 px-2 py-1" @click="showUserActions">
       <i class="fa-solid fa-user text-2xl"></i>
     </div>
   </aside>
@@ -69,7 +59,9 @@ const logout = async () => {
   try {
     await axios.get("http://localhost:8000/sanctum/csrf-cookie");
     await axios.post("http://localhost:8000/logout");
-
+    if (route.meta.requiresAuth) {
+      router.push({ name: "home", query: { message: "loggedOut" } });
+    }
     // taking out the user from storage/store
     sessionStorage.removeItem("Authentication");
     sessionStorage.removeItem("User");
@@ -91,9 +83,6 @@ const logout = async () => {
       title: "Déconnecté avec succès",
     });
 
-    if (route.path == "/annonce") {
-      router.push({ name: "home", query: { message: "loggedOut" } });
-    }
   } catch (error) {
     Swal.fire({
       icon: "error",
