@@ -1,11 +1,11 @@
 <template>
   <aside
-    class="-translate-x-full duration-500 ease-in-out min-h-screen min-w-52 overflow-auto w-11/12 sm:w-72 md:translate-x-0"
+    class="-translate-x-full duration-500 ease-in-out min-h-screen min-w-52 overflow-auto w-11/12 shadow-lg sm:w-72 bg-white md:bg-gray-200 md:translate-x-0 md:shadow-none"
     :class="props.addClass"
   >
-    <div class="linksCont flex justify-center items-center">
+    <div class="linksCont flex justify-center items-center h-min">
       <div
-        class="brand h-full w-48 flex max-h-20 items-baseline overflow-hidden ml-6 sm:ml-0"
+        class="brand h-min w-48 flex items-baseline overflow-hidden ml-6 sm:ml-0"
       >
         <img
           loading="lazy"
@@ -16,7 +16,7 @@
       </div>
     </div>
     <div
-      class="links px-6 py-3 pl-12 flex flex-col items-center h-full overflow-auto md:pl-10"
+      class="links px-6 py-3 pb-12 pl-12 flex flex-col items-center h-full overflow-auto md:pl-10"
       style="max-height: calc(100vh - 90px)"
     >
       <router-link
@@ -76,14 +76,14 @@
         <p>Vente</p>
       </router-link>
       <router-link
-        to="/admin/ville"
+        to="/admin/villes"
         class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100"
       >
         <i class="fa-solid fa-city"></i>
         <p>Villes</p>
       </router-link>
       <router-link
-        to="/admin/couleur"
+        to="/admin/couleurs"
         class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100"
       >
         <i class="fa-solid fa-paint-roller"></i>
@@ -106,7 +106,6 @@ aside {
   position: fixed;
   left: 0;
   top: 0;
-  background-color: #fff;
 }
 .router-link-exact-active {
   background-color: rgb(254 202 202);

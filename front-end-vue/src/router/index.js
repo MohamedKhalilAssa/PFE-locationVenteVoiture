@@ -56,7 +56,64 @@ const routes = [
           import("../views/BackOffice/AdminViews/DashboardView.vue"),
         meta: { requiresAuth: true, requiresAdmin: true },
       },
-      // { path: "users", component: AdminUserList },
+      {
+        path: "users",
+        component: () =>
+          import("../views/BackOffice/AdminViews/Users/UserView.vue"),
+        meta: { requiresAuth: true, requiresAdmin: true },
+      },
+      {
+        path: "marques",
+        component: () =>
+          import("../views/BackOffice/AdminViews/Marques/MarquesView.vue"),
+        meta: { requiresAuth: true, requiresAdmin: true },
+      },
+      {
+        path: "modeles",
+        component: () =>
+          import("../views/BackOffice/AdminViews/Modeles/ModelesView.vue"),
+        meta: { requiresAuth: true, requiresAdmin: true },
+      },
+      {
+        path: "couleurs",
+        component: () =>
+          import(
+            "../views/BackOffice/AdminViews/attributsVoitures/CouleurView.vue"
+          ),
+        meta: { requiresAuth: true, requiresAdmin: true },
+      },
+      {
+        path: "villes",
+        component: () =>
+          import(
+            "../views/BackOffice/AdminViews/attributsVoitures/VilleView.vue"
+          ),
+        meta: { requiresAuth: true, requiresAdmin: true },
+      },
+      {
+        path: "location",
+        component: () =>
+          import("../views/BackOffice/AdminViews/Actions/LocationView.vue"),
+        meta: { requiresAuth: true, requiresAdmin: true },
+      },
+      {
+        path: "occasion",
+        component: () =>
+          import("../views/BackOffice/AdminViews/Occasion/OccasionView.vue"),
+        meta: { requiresAuth: true, requiresAdmin: true },
+      },
+      {
+        path: "neuf",
+        component: () =>
+          import("../views/BackOffice/AdminViews/Neuf/NeufView.vue"),
+        meta: { requiresAuth: true, requiresAdmin: true },
+      },
+      {
+        path: "vente",
+        component: () =>
+          import("../views/BackOffice/AdminViews/Actions/VenteView.vue"),
+        meta: { requiresAuth: true, requiresAdmin: true },
+      },
       // { path: "users/:id", component: AdminUserDetails },
     ],
   },

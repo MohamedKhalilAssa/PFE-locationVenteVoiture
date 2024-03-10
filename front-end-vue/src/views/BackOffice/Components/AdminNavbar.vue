@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-between items-center p-3 md:p-4 md:justify-end bg-whiterounded shadow-lg md:shadow-none md:bg-gray-200 duration-100"
+    class="flex justify-between items-center p-3 md:p-4 md:justify-end bg-white rounded shadow-lg md:shadow-none md:bg-gray-200 duration-100"
   >
     <SideBar :addClass="show" />
     <div
