@@ -1,14 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/FrontOffice/HomeView.vue";
-import PageNotFound from "../views/PageNotFound.vue";
-import axios from "axios";
 import { useStore } from "vuex";
+import axios from "axios";
+// subfiles
+import marquesRoutes from "./AdminRoutes/marquesRoutes";
+import authenticationRoutes from "./GlobalRoutes/authenticationRoutes";
 
 const routes = [
   {
     path: "/",
     name: "home",
-    component: HomeView,
+    component: () => import("../views/FrontOffice/HomeView.vue"),
   },
   {
     path: "/neuf",
@@ -34,18 +35,8 @@ const routes = [
       import("../views/FrontOffice/Annonces/CreateAnnonceView.vue"),
     meta: { requiresAuth: true },
   },
-  {
-    path: "/register",
-    name: "Register",
-    component: () => import("../views/FrontOffice/Users/RegisterView.vue"),
-    meta: { requiresGuest: true },
-  },
-  {
-    path: "/login",
-    name: "Login",
-    component: () => import("../views/FrontOffice/Users/LoginView.vue"),
-    meta: { requiresGuest: true },
-  },
+  // Authentication routes
+  ...authenticationRoutes,
   {
     path: "/admin",
     children: [
@@ -62,12 +53,9 @@ const routes = [
           import("../views/BackOffice/AdminViews/Users/UserView.vue"),
         meta: { requiresAuth: true, requiresAdmin: true },
       },
-      {
-        path: "marques",
-        component: () =>
-          import("../views/BackOffice/AdminViews/Marques/MarquesView.vue"),
-        meta: { requiresAuth: true, requiresAdmin: true },
-      },
+      // marques routes
+      ...marquesRoutes,
+
       {
         path: "modeles",
         component: () =>
@@ -120,7 +108,7 @@ const routes = [
   {
     path: "/:catchAll(.*)",
     name: "NotFound",
-    component: PageNotFound,
+    component: () => import("@/views/PageNotFound.vue"),
   },
 ];
 

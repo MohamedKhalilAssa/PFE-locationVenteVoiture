@@ -27,6 +27,14 @@ Route::middleware('XSS')->group(function () {
     Route::group(['prefix' => 'marque'], function () {
         // only name and id here
         Route::get('/', [MarqueController::class, 'index'])->name("index");
+        // for showing with id
+        Route::get('/{id}', [MarqueController::class, 'show'])->where("id", "[0-9]+")->name("show");
+        // for updating
+        Route::post('/{id}', [MarqueController::class, 'update'])->where("id", "[0-9]+")->name("store");
+        // for deleting
+        Route::delete('/{id}',[MarqueController::class,'destroy'])->where("id", "[0-9]+")->name("destroy");
+        // for creating
+        Route::post('/', [MarqueController::class, 'store'])->name("store");
     })->name("marque.");
     // Route::get('/modele',[App\Http\Controllers\ModeleController::class,'index']);
 // Route::get('/vehicule',[App\Http\Controllers\VehiculeController::class,'index']);

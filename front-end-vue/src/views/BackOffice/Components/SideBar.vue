@@ -96,10 +96,6 @@
 import { watchEffect } from "vue";
 
 const props = defineProps(["addClass"]);
-
-watchEffect(() => {
-  console.log(props.addClass);
-});
 </script>
 <style scoped>
 aside {
