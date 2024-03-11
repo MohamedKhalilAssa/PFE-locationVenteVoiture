@@ -16,7 +16,7 @@
       </router-link>
     </div>
     <div class="userActions flex flex-col justify-around gap-8" v-else>
-      <form @submit.prevent="logout">
+      <form @submit.prevent="logout(store, route, router)">
         <Button> Logout </Button>
       </form>
     </div>
@@ -30,12 +30,11 @@
 </template>
 
 <script setup>
-import Swal from "sweetalert2";
-import axios from "axios";
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Button from "./ButtonRed.vue";
 import { useStore } from "vuex";
+import logout from "@/Composables/logout";
 
 const aside = ref(null);
 const isUserMenu = ref(false);
@@ -61,46 +60,6 @@ const showUserActions = () => {
           aside.value.classList.add("-translate-x-full");
       }
     }, 5500);
-  }
-};
-const logout = async () => {
-  axios.defaults.withCredentials = true;
-  axios.defaults.withXSRFToken = true;
-  try {
-    await axios.get("http://localhost:8000/sanctum/csrf-cookie");
-    await axios.post("http://localhost:8000/logout");
-    if (route.meta.requiresAuth) {
-      router.push({ name: "home", query: { message: "loggedOut" } });
-    }
-    // taking out the user from storage/store
-    sessionStorage.removeItem("Authentication");
-    sessionStorage.removeItem("User");
-    sessionStorage.removeItem("authMessage");
-    store.commit("setAuthentication");
-    store.commit("setUser");
-
-    // Show succes message
-    const Toast = Swal.mixin({
-      toast: true,
-      position: "bottom-end",
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-    });
-    Toast.fire({
-      icon: "success",
-      iconColor: "red",
-      title: "Déconnecté avec succès",
-    });
-  } catch (error) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: error.message,
-    });
-    sessionStorage.removeItem("Authentication");
-    sessionStorage.removeItem("User");
-    sessionStorage.removeItem("authMessage");
   }
 };
 </script>

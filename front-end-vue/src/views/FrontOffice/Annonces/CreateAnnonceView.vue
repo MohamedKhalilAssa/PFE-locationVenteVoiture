@@ -380,9 +380,7 @@ serverError.value += ErrorMarque.value || "";
 // end marques
 
 // Fetching Modeles after selecting marque
-const { modelesResult, ErrorModele, loadModele } = getModeles(
-  form.value.marque_id
-);
+const { modelesResult, ErrorModele, loadModele } = getModeles();
 const marqueSelected = () => {
   modelesResult.value = [];
   if (form.value.marque_id) {

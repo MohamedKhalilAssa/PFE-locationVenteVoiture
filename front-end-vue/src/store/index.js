@@ -15,10 +15,10 @@ export default createStore({
   },
   mutations: {
     setAuthentication(state) {
-      state.authentication = sessionStorage.getItem("Authentication") ?? false;
+      state.authentication = localStorage.getItem("Authentication") ?? false;
     },
     setUser(state) {
-      state.user = JSON.parse(sessionStorage.getItem("User")) ?? null;
+      state.user = JSON.parse(localStorage.getItem("User")) ?? null;
     },
   },
   actions: {},

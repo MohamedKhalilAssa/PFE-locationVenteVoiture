@@ -14,6 +14,14 @@ export default [
     meta: { requiresAuth: true, requiresAdmin: true },
   },
   {
+    path: "marques/details/:id",
+    name: "detailsMarque",
+    component: () =>
+      import("@/views/BackOffice/AdminViews/Marques/DetailMarqueView.vue"),
+    meta: { requiresAuth: true, requiresAdmin: true },
+    props: true,
+  },
+  {
     path: "marques/modifier/:id",
     name: "modifierMarque",
     component: () =>

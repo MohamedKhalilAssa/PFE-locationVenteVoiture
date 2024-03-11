@@ -112,8 +112,8 @@ const LoginHandling = async () => {
     let { data } = await axios.get("http://localhost:8000/api/user");
 
     // storing the data
-    sessionStorage.setItem("Authentication", true);
-    sessionStorage.setItem("User", JSON.stringify(data));
+    localStorage.setItem("Authentication", true);
+    localStorage.setItem("User", JSON.stringify(data));
     store.commit("setAuthentication");
     store.commit("setUser");
 

@@ -8,7 +8,7 @@
   </button>
   <div
     class="relative overflow-auto shadow-lg sm:rounded-lg sm:!max-h-full"
-    style="max-height: 80vh"
+    style="max-height: 75vh"
   >
     <table class="w-full text-sm text-center text-gray-500">
       <thead class="text-xs text-gray-700 uppercase bg-gray-100">
@@ -34,7 +34,12 @@
           </th>
           <td class="px-6 py-4">{{ marque.nom }}</td>
           <!-- <td class="px-6 py-4">Laptop</td> -->
-          <td class="px-6 py-4 space-x-4">
+          <td class="flex px-6 py-4 space-x-4">
+            <router-link
+              :to="{ name: 'detailsMarque', params: { id: marque.id } }"
+              class="font-medium text-black hover:underline"
+              >Details</router-link
+            >
             <router-link
               :to="{ name: 'modifierMarque', params: { id: marque.id } }"
               class="font-medium text-blue-600 hover:underline"
