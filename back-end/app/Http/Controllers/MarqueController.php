@@ -11,11 +11,16 @@ class MarqueController extends Controller
     {
         return response(Marque::all(["id", "nom"]))->header('Content-Type', 'application/json');
     }
+    public function indexBack()
+    {
+        return response(Marque::paginate(10))->header('Content-Type', 'application/json');
+    }
     public function show($id)
     {
         return response(Marque::find($id))->header('Content-Type', 'application/json');
     }
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $formElements = $request->validate([
             'nom' => ['required', 'string', 'max:255'],
         ]);
