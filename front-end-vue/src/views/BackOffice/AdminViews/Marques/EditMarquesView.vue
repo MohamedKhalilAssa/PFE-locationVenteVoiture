@@ -47,7 +47,7 @@
 <script setup>
 import { ref, watchEffect } from "vue";
 import axios from "axios";
-import getMarqueById from "@/Composables/getMarqueById";
+import getMarqueById from "@/Composables/Getters/getMarqueById";
 import { useRouter } from "vue-router";
 
 const props = defineProps(["id"]);
@@ -81,3 +81,4 @@ const updateMarque = async () => {
   }
 };
 </script>
+@/Composables/Getters/getMarqueById

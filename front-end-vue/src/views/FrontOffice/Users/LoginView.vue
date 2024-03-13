@@ -5,7 +5,7 @@
     <form
       method="POST"
       action=""
-      @submit.prevent="LoginHandling"
+      @submit.prevent="loginHandler"
       class="bg-white border border-gray-900 shadow-2xl p-3 md:p-10 rounded max-w-lg"
     >
       <header class="text-center">
@@ -48,6 +48,7 @@
 
       <div class="mb-6">
         <button
+          ref="button"
           type="submit"
           class="bg-black text-white rounded py-2 px-4 hover:scale-105 duration-300 disabled:opacity-70 disabled:cursor-progress"
         >
@@ -81,72 +82,24 @@
 
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
+import login from "@/Composables/AuthenticationRequests/login";
 
 const form = ref({
   email: null,
   password: null,
 });
 
-const user = ref(null);
 const errors = ref(null);
 const serverError = ref(null);
 const router = useRouter();
-const route = useRoute();
 const store = useStore();
+const button = ref(null);
+const route = useRoute();
 
-const LoginHandling = async () => {
-  const button = document.querySelector('button[type="submit"]');
-  button.disabled = true;
-  axios.defaults.withCredentials = true;
-  axios.defaults.withXSRFToken = true;
-  try {
-    await axios.get("http://localhost:8000/sanctum/csrf-cookie");
-    await axios.post("http://localhost:8000/login", {
-      email: form.value.email,
-      password: form.value.password,
-    });
-
-    let { data } = await axios.get("http://localhost:8000/api/user");
-
-    // storing the data
-    localStorage.setItem("Authentication", true);
-    localStorage.setItem("User", JSON.stringify(data));
-    store.commit("setAuthentication");
-    store.commit("setUser");
-
-    if (data.role == "admin") {
-      router.push({
-        name: `DashboardView`,
-        query: { message: "loggedIn" },
-      });
-    } else {
-      router.push({
-        name: `${route.query.previous}`,
-        query: { message: "loggedIn" },
-      });
-    }
-  } catch (error) {
-    button.disabled = false;
-    if (error.response) {
-      if (error.response.status == 429) {
-        serverError.value = "Too many requests. Please try again later.";
-        setTimeout(() => {
-          serverError.value = null;
-        }, 5000);
-      }
-      if (error.response.status != 422) {
-        serverError.value = error.message;
-        setTimeout(() => {
-          serverError.value = null;
-        }, 5000);
-      } else {
-        errors.value = error.response.data.errors ?? null;
-      }
-    }
-  }
+const loginHandler = async () => {
+  await login(button.value, form, router, route, store, errors, serverError);
 };
 </script>
 

@@ -34,7 +34,7 @@ import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Button from "./ButtonRed.vue";
 import { useStore } from "vuex";
-import logout from "@/Composables/logout";
+import logout from "@/Composables/AuthenticationRequests/logout";
 
 const aside = ref(null);
 const isUserMenu = ref(false);
@@ -84,3 +84,4 @@ aside {
   display: block !important;
 }
 </style>
+@/Composables/AuthenticationRequests/logout

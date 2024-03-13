@@ -11,9 +11,9 @@ const logout = async (store, route, router) => {
       router.push({ name: "home", query: { message: "loggedOut" } });
     }
     // taking out the user from storage/store
-    Cookies.remove("Authentication");
-    Cookies.remove("User");
-    Cookies.remove("authMessage");
+    localStorage.removeItem("Authentication");
+    localStorage.removeItem("User");
+    localStorage.removeItem("authMessage");
     store.commit("setAuthentication");
     store.commit("setUser");
 
@@ -36,9 +36,11 @@ const logout = async (store, route, router) => {
       title: "Oops...",
       text: error.message,
     });
-    Cookies.remove("Authentication");
-    Cookies.remove("User");
-    Cookies.remove("authMessage");
+    localStorage.removeItem("Authentication");
+    localStorage.removeItem("User");
+    localStorage.removeItem("authMessage");
+    store.commit("setAuthentication");
+    store.commit("setUser");
   }
 };
 export default logout;

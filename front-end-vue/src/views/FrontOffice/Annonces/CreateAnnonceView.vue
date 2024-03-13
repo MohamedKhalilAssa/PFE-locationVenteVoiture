@@ -290,10 +290,10 @@ import { ref, watchEffect } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import getMarques from "@/Composables/getMarques";
-import getModeles from "@/Composables/getModeles";
-import getCouleurs from "@/Composables/getCouleurs";
-import getVilles from "@/Composables/getVilles";
+import getMarques from "@/Composables/Getters/getMarques";
+import getModeles from "@/Composables/Getters/getModeles";
+import getCouleurs from "@/Composables/Getters/getCouleurs";
+import getVilles from "@/Composables/Getters/getVilles";
 
 const serverError = ref("");
 const router = useRouter();
@@ -470,3 +470,4 @@ const typeSelected = () => {
   }
 }
 </style>
+@/Composables/Getters/getCouleurs

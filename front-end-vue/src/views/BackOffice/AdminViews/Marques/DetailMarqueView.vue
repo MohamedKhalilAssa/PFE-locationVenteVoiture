@@ -35,8 +35,8 @@
 </template>
 
 <script setup>
-import getMarqueById from "@/Composables/getMarqueById";
-import getModeles from "@/Composables/getModeles";
+import getMarqueById from "@/Composables/Getters/getMarqueById";
+import getModeles from "@/Composables/Getters/getModeles";
 import { watchEffect } from "vue";
 
 const props = defineProps(["id"]);
@@ -47,3 +47,4 @@ loadMarque(props.id);
 const { modelesResult, ErrorModele, loadModele } = getModeles();
 loadModele(props.id);
 </script>
+@/Composables/Getters/getMarqueById@/Composables/Getters/getModeles

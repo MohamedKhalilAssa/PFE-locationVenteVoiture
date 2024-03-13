@@ -4,7 +4,7 @@ function successLoggedInMessage(message, store) {
   if (
     message &&
     message === "loggedIn" &&
-    !sessionStorage.getItem("authMessage")
+    !localStorage.getItem("authMessage")
   ) {
     if (store.getters.getAuthentication) {
       const Toast = Swal.mixin({
@@ -18,7 +18,7 @@ function successLoggedInMessage(message, store) {
         icon: "success",
         title: "Connecté avec succès",
       });
-      sessionStorage.setItem("authMessage", true);
+      localStorage.setItem("authMessage", true);
     }
   }
 }
