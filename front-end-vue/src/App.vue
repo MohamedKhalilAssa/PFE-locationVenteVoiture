@@ -10,13 +10,13 @@ import UserActions from "@/Components/UserActions.vue";
 import PreLoader from "./Components/PreLoader.vue";
 import ClientLayout from "./views/FrontOffice/ClientLayout.vue";
 import AdminLayout from "./views/BackOffice/AdminLayout.vue";
+import VerifyAuth from "@/Composables/AuthenticationRequests/VerifyAuth";
 import { onMounted, watchEffect } from "vue";
 import { useStore } from "vuex";
-import { watch, ref } from "vue";
+import { watch } from "vue";
 import successLoggedInMessage from "@/Composables/successLoggedIn";
 import errorMessage from "@/Composables/errorMessage";
 import { useRoute } from "vue-router";
-import VerifyAuth from "@/Composables/VerifyAuth";
 
 onMounted(() => {
   // setting authentication and user in the store
@@ -24,7 +24,7 @@ onMounted(() => {
   const store = useStore();
   store.commit("setAuthentication");
   store.commit("setUser");
-  
+
   VerifyAuth(store);
   // handle success message
   watch(
@@ -36,10 +36,13 @@ onMounted(() => {
     }
   );
   watchEffect(() => {
-    if (route.query.error == "unAuthorized" && !sessionStorage.getItem("unauthorizedMessage")) {
+    if (
+      route.query.error == "unAuthorized" &&
+      !sessionStorage.getItem("unauthorizedMessage")
+    ) {
       errorMessage(route.query.error || null);
     }
-  })
+  });
 });
 </script>
 
@@ -56,4 +59,5 @@ main {
 #app {
   min-height: 100vh;
 }
-</style>@/Composables/unauthorizedMessage
+</style>
+@/Composables/unauthorizedMessage@/Composables/AuthenticationRequests/VerifyAuth
