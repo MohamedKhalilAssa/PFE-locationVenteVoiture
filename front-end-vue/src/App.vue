@@ -16,6 +16,7 @@ import { watch, ref } from "vue";
 import successLoggedInMessage from "@/Composables/successLoggedIn";
 import errorMessage from "@/Composables/errorMessage";
 import { useRoute } from "vue-router";
+import VerifyAuth from "@/Composables/VerifyAuth";
 
 onMounted(() => {
   // setting authentication and user in the store
@@ -23,7 +24,8 @@ onMounted(() => {
   const store = useStore();
   store.commit("setAuthentication");
   store.commit("setUser");
-
+  
+  VerifyAuth(store);
   // handle success message
   watch(
     () => route.path,

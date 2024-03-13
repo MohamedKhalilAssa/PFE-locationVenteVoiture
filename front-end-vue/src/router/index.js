@@ -132,7 +132,6 @@ router.beforeEach(async (to, from, next) => {
     try {
       const { data } = await axios.get("http://localhost:8000/api/user");
 
-      console.log(data);
       if (data) {
         if (!to.meta.requiresAdmin) {
           next();
@@ -145,6 +144,7 @@ router.beforeEach(async (to, from, next) => {
     } catch (error) {
       localStorage.removeItem("Authentication");
       localStorage.removeItem("User");
+      localStorage.removeItem("authMessage");
       store.commit("setAuthentication");
       store.commit("setUser");
       let previous = to.name;

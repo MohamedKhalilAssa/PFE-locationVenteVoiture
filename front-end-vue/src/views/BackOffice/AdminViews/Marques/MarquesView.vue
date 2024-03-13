@@ -34,7 +34,7 @@
           </th>
           <td class="px-6 py-4">{{ marque.nom }}</td>
           <!-- <td class="px-6 py-4">Laptop</td> -->
-          <td class="flex px-6 py-4 space-x-4">
+          <td class="flex px-6 py-4 space-x-4 justify-center">
             <router-link
               :to="{ name: 'detailsMarque', params: { id: marque.id } }"
               class="font-medium text-black hover:underline"
