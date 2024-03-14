@@ -2,11 +2,9 @@
   <PreLoader />
   <ClientLayout v-if="!$route.path.startsWith('/admin')" />
   <AdminLayout v-if="$route.path.startsWith('/admin')" />
-  <UserActions />
 </template>
 
 <script setup>
-import UserActions from "@/Components/UserActions.vue";
 import PreLoader from "./Components/PreLoader.vue";
 import ClientLayout from "./views/FrontOffice/ClientLayout.vue";
 import AdminLayout from "./views/BackOffice/AdminLayout.vue";
