@@ -29,6 +29,7 @@
 
       <div class="mb-6">
         <button
+          ref="button"
           type="submit"
           class="bg-black text-white rounded py-2 px-4 hover:scale-105 duration-300 disabled:opacity-70 disabled:cursor-progress"
         >
@@ -48,29 +49,27 @@
 import { ref, watchEffect } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import AddToDB from "@/Composables/CRUDRequests/AddToDB";
 
 const errors = ref(null);
 const router = useRouter();
 const nomMarque = ref("");
-
+const button = ref(null);
+const endpoint = "http://localhost:8000/api/marque";
+const serverError = ref(null);
 
 // post method handling
 const ajouterMarque = async () => {
-  const button = document.querySelector('button[type="submit"]');
-  button.disabled = true;
-  axios.defaults.withCredentials = true;
-  axios.defaults.withXSRFToken = true;
-  try {
-    await axios.get("http://localhost:8000/sanctum/csrf-cookie");
-    // Send the FormData object to the server using axios
-    await axios.post("http://localhost:8000/api/marque", {
-      nom: nomMarque.value,
-    });
-
-    router.push({ name: "marquesView" });
-  } catch (error) {
-    button.disabled = false;
-    errors.value = error.response.data.errors;
-  }
+  const formData = new FormData();
+  formData.append("nom", nomMarque.value);
+  AddToDB(
+    button.value,
+    endpoint,
+    formData,
+    router,
+    "marquesView",
+    errors,
+    serverError
+  );
 };
 </script>

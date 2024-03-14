@@ -39,6 +39,8 @@ const logout = async (store, route, router) => {
     localStorage.removeItem("Authentication");
     localStorage.removeItem("User");
     localStorage.removeItem("authMessage");
+    store.commit("setAuthentication");
+    store.commit("setUser");
   }
 };
 export default logout;

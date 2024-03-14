@@ -29,6 +29,7 @@
 
       <div class="mb-6">
         <button
+          ref="button"
           type="submit"
           class="bg-black text-white rounded py-2 px-4 hover:scale-105 duration-300 disabled:opacity-70 disabled:cursor-progress"
         >
@@ -46,14 +47,17 @@
 </template>
 <script setup>
 import { ref, watchEffect } from "vue";
-import axios from "axios";
-import getMarqueById from "@/Composables/getMarqueById";
+import getMarqueById from "@/Composables/Getters/getMarqueById";
 import { useRouter } from "vue-router";
+import EditToDB from "@/Composables/CRUDRequests/EditToDB";
 
 const props = defineProps(["id"]);
 const errors = ref(null);
 const router = useRouter();
 const nomMarque = ref("");
+const button = ref(null);
+const endpoint = "http://localhost:8000/api/marque/";
+const serverError = ref(null);
 
 // fetching marque by id
 const { marqueResult, ErrorMarque, loadMarque } = getMarqueById();
@@ -63,21 +67,17 @@ loadMarque(props.id).then(() => {
 
 // post method handling
 const updateMarque = async () => {
-  const button = document.querySelector('button[type="submit"]');
-  button.disabled = true;
-  axios.defaults.withCredentials = true;
-  axios.defaults.withXSRFToken = true;
-  try {
-    await axios.get("http://localhost:8000/sanctum/csrf-cookie");
-    // Send the FormData object to the server using axios
-    await axios.post("http://localhost:8000/api/marque/" + props.id, {
-      nom: nomMarque.value,
-    });
-
-    router.push({ name: "marquesView" });
-  } catch (error) {
-    button.disabled = false;
-    errors.value = error.response.data.errors;
-  }
+  const form = new FormData();
+  form.append("nom", nomMarque.value);
+  EditToDB(
+    button.value,
+    endpoint,
+    props.id,
+    form,
+    router,
+    "marquesView",
+    errors,
+    serverError
+  );
 };
 </script>

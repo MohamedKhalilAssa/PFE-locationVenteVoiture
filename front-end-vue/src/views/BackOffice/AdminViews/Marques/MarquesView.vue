@@ -22,12 +22,22 @@
           </th>
           <td class="px-6 py-4">{{ marque.nom }}</td>
           <!-- <td class="px-6 py-4">Laptop</td> -->
-          <td class="flex px-6 py-4 space-x-4">
-            <router-link :to="{ name: 'detailsMarque', params: { id: marque.id } }"
-              class="font-medium text-black hover:underline">Details</router-link>
-            <router-link :to="{ name: 'modifierMarque', params: { id: marque.id } }"
-              class="font-medium text-blue-600 hover:underline">Modifier</router-link>
-            <form method="post" @submit.prevent="deleteMarque(marque.id)" class="inline-block font-medium text-red-600">
+          <td class="flex px-6 py-4 space-x-4 justify-center">
+            <router-link
+              :to="{ name: 'detailsMarque', params: { id: marque.id } }"
+              class="font-medium text-black hover:underline"
+              >Details</router-link
+            >
+            <router-link
+              :to="{ name: 'modifierMarque', params: { id: marque.id } }"
+              class="font-medium text-blue-600 hover:underline"
+              >Modifier</router-link
+            >
+            <form
+              method="post"
+              @submit.prevent="DeleteFromDB(deletingEndpoint , marque.id,loadMarque)"
+              class="inline-block font-medium text-red-600"
+            >
               <button type="submit" class="hover:underline">Supprimer</button>
             </form>
           </td>
@@ -49,9 +59,10 @@
 </template>
 
 <script setup>
-import getMarquesPaginate from "@/Composables/getMarquesPaginate";
-import axios from "axios";
-import Swal from "sweetalert2";
+import getMarquesPaginate from "@/Composables/Getters/getMarquesPaginate";
+import DeleteFromDB from "@/Composables/CRUDRequests/DeleteFromDB";
+
+const deletingEndpoint = "http://localhost:8000/api/marque/";
 
 // fetching marques  
 const { marqueResult, ErrorMarque, loadMarque } = getMarquesPaginate();
@@ -70,39 +81,5 @@ const pagination = (e, page) => {
   }
 }
 // deleting marque
-const deleteMarque = async (id) => {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "You won't be able to revert this!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, delete it!",
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      // Send a delete request to the server
-      axios.defaults.withCredentials = true;
-      axios.defaults.withXSRFToken = true;
-      try {
-        await axios.get("http://localhost:8000/sanctum/csrf-cookie");
-        // Send the FormData object to the server using axios
-        await axios.delete("http://localhost:8000/api/marque/" + id);
 
-        loadMarque();
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success",
-        });
-      } catch (error) {
-        Swal.fire({
-          title: "Error!",
-          text: "Failed to delete the marque.",
-          icon: "error",
-        });
-      }
-    }
-  });
-};
-</script>
+</script>@/Composables/Getters/getMarquesPaginate

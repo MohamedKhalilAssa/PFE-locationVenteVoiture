@@ -13,15 +13,14 @@
       <span></span>
     </div>
     <nav>
-      <router-link to="/profile" v-if="$store.getters.getAuthentication">{{
-        $store.getters.getUser.nom + " " + $store.getters.getUser.prenom
-      }}</router-link>
+      <dropDown />
     </nav>
   </div>
 </template>
 
 <script setup>
 import SideBar from "@/views/BackOffice/Components/SideBar.vue";
+import dropDown from "@/Components/DropDown.vue";
 import "animate.css";
 import { ref } from "vue";
 

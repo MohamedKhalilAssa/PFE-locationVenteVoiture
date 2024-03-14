@@ -290,10 +290,10 @@ import { ref, watchEffect } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import getMarques from "@/Composables/getMarques";
-import getModeles from "@/Composables/getModeles";
-import getCouleurs from "@/Composables/getCouleurs";
-import getVilles from "@/Composables/getVilles";
+import getMarques from "@/Composables/Getters/getMarques";
+import getModeles from "@/Composables/Getters/getModeles";
+import getCouleurs from "@/Composables/Getters/getCouleurs";
+import getVilles from "@/Composables/Getters/getVilles";
 
 const serverError = ref("");
 const router = useRouter();
@@ -369,10 +369,10 @@ const handleFileChange = (e) => {
   files.value.push({ id: Date.now().toString(36), file: e.target.files[0] });
 };
 const removeFile = (id) => {
-  console.log(id)
   files.value = files.value.filter((file) => file.id != id);
 }
 // end image
+
 // Fetching Marques
 const { marqueResult, ErrorMarque, loadMarque } = getMarques();
 loadMarque();
@@ -397,12 +397,14 @@ serverError.value += ErrorCouleur.value || "";
 const { villeResult, ErrorVille, loadVille } = getVilles();
 loadVille();
 serverError.value += ErrorVille.value || "";
+
 // on mounted set years since 1970
 const annee_fabrication = ref([]);
 for (let i = 1970; i <= new Date().getFullYear(); i++) {
   annee_fabrication.value.push(i);
 }
 // end years
+
 // Handling Options
 const toggleAllOptions = (e) => {
   if (e.target.checked) {
@@ -470,3 +472,4 @@ const typeSelected = () => {
   }
 }
 </style>
+@/Composables/Getters/getCouleurs

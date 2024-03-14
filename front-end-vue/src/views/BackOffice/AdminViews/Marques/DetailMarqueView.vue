@@ -16,41 +16,20 @@
             Nom du Modele
           </dt>
           <dd class="mt-1 text-sm text-gray-900 sm:mt-0 min-w-max">
-            <a>
-
+            <!-- :to="{ name: 'ModeleDetail', params: { id: modele.id } } -->
+            <router-link to="/">
               {{ modele.nom }}
-            </a>
+            </router-link>
           </dd>
         </div>
       </dl>
     </div>
-    <!-- <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt class="text-sm font-medium text-gray-500">Email address</dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            johndoe@example.com
-          </dd>
-        </div>
-        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt class="text-sm font-medium text-gray-500">Phone number</dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            (123) 456-7890
-          </dd>
-        </div>
-        <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-          <dt class="text-sm font-medium text-gray-500">Address</dt>
-          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-            123 Main St<br />
-            Anytown, USA 12345
-          </dd>
-        </div> -->
-    <!-- </dl> -->
   </div>
-  <!-- </div> -->
 </template>
 
 <script setup>
-import getMarqueById from "@/Composables/getMarqueById";
-import getModeles from "@/Composables/getModeles";
+import getMarqueById from "@/Composables/Getters/getMarqueById";
+import getModeles from "@/Composables/Getters/getModeles";
 import { watchEffect } from "vue";
 
 const props = defineProps(["id"]);
@@ -60,7 +39,5 @@ loadMarque(props.id);
 // loading the modeles associated with it
 const { modelesResult, ErrorModele, loadModele } = getModeles();
 loadModele(props.id);
-watchEffect(() => {
-  console.log(modelesResult.value, props.id);
-});
 </script>
+@/Composables/Getters/getMarqueById@/Composables/Getters/getModeles
