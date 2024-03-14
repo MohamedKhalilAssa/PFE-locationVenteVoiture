@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="bg-white shadow rounded-lg border overflow-auto max-w-3xl mx-auto"
-    v-if="marqueResult != null"
-  >
+  <div class="bg-white shadow rounded-lg border overflow-auto max-w-3xl mx-auto" v-if="marqueResult != null">
     <div class="px-4 py-5 sm:px-6">
       <h3 class="text-lg leading-6 font-medium text-gray-900">
         Les Modeles de {{ marqueResult.nom }}
@@ -11,21 +8,18 @@
         ci-dessous la liste des Modeles de {{ marqueResult.nom }}
       </p>
     </div>
-    <div
-      class="border-t border-gray-200 px-4 py-5"
-      v-if="modelesResult != null"
-      v-for="modele in modelesResult"
-      :key="modele.id"
-    >
+    <div class="border-t border-gray-200 px-4 py-5" v-if="modelesResult != null" v-for="modele in modelesResult"
+      :key="modele.id">
       <dl class="sm:divide-y sm:divide-gray-200">
         <div class="py-3 sm:py-5 flex items-end gap-8">
           <dt class="text-sm font-medium text-gray-500 min-w-max">
             Nom du Modele
           </dt>
           <dd class="mt-1 text-sm text-gray-900 sm:mt-0 min-w-max">
-            <router-link :to="{ name: 'ModeleDetail', params: { id: modele.id } }">
+            <a>
+
               {{ modele.nom }}
-            </router-link>
+            </a>
           </dd>
         </div>
       </dl>
