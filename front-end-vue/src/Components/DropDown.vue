@@ -1,63 +1,84 @@
 <template>
-  <button
-    id="dropdownInformationButton"
-    data-dropdown-toggle="dropdownInformation"
-    class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center"
-    type="button"
-  >
-    Dropdown header
-    <svg
-      class="w-2.5 h-2.5 ms-3"
-      aria-hidden="true"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 10 6"
-    >
-      <path
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="m1 1 4 4 4-4"
-      />
-    </svg>
-  </button>
-
-  <!-- Dropdown menu -->
-  <div
-    id="dropdownInformation"
-    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
-  >
-    <div class="px-4 py-3 text-sm text-gray-900">
-      <div>
-        {{ $store.getters.getUser.nom + " " + $store.getters.getUser.prenom }}
-      </div>
-      <div class="font-medium truncate">{{ $store.getters.getUser.email }}</div>
-    </div>
-    <ul
-      class="py-2 text-sm text-gray-700"
-      aria-labelledby="dropdownInformationButton"
-    >
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
-      </li>
-      <!-- <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Earnings</a>
-      </li> -->
-    </ul>
-    <div class="py-2">
+  <div class="dropdown" ref="dropdown" @click="toggleMenu">
+    <Button class="dropbtn" addClass="rounded">{{ Fullname }}</Button>
+    <div class="dropdown-content">
+      <router-link to="/profile">Profile</router-link>
+      <hr />
       <form @submit.prevent="logout(store, route, router)">
-        <Button> Logout </Button>
+        <button type="submit" class="w-full text-left">Logout</button>
       </form>
     </div>
   </div>
 </template>
+<style scoped>
+/* Dropdown Button */
+/* .dropbtn {
+  background-color: #04aa6d;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+} */
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a,
+.dropdown-content button {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover,
+.dropdown-content button:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown.active .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown.active .dropbtn {
+  background-color: rgb(127 29 29);
+}
+</style>
 <script setup>
-import { useStore } from 'vuex';
+import Button from "@/Components/ButtonRed.vue";
+import { ref } from "vue";
+import { useStore } from "vuex";
+import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import logout from "@/Composables/AuthenticationRequests/logout";
 
 const store = useStore();
-const router = useRouter();
 const route = useRoute();
+const router = useRouter();
+
+const dropdown = ref(null);
+const Fullname = computed(() => {
+  return store.getters.getFullName;
+});
+const toggleMenu = () => {
+  dropdown.value.classList.toggle("active");
+};
 </script>
