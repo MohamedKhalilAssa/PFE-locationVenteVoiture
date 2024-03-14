@@ -286,7 +286,7 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
@@ -337,7 +337,7 @@ const uploadFiles = async () => {
   // storing images in formData
   files.value.forEach((file) => {
     formData.append("image[]", file.file);
-  })
+  });
   // storing options in formData
   form.value.options.forEach((value, index) => {
     formData.append("options[]", value);
@@ -348,16 +348,15 @@ const uploadFiles = async () => {
   try {
     await axios.get("http://localhost:8000/sanctum/csrf-cookie");
     // Send the FormData object to the server using axios
-    await axios.post(
-      "http://localhost:8000/api/annonce/occasion/store",
-      formData
-    ).then((response) => {
-      if (form.value.type_annonce == "location") {
-        router.push({ name: "location" });
-      } else {
-        router.push({ name: "occasion" });
-      }
-    });
+    await axios
+      .post("http://localhost:8000/api/annonce/occasion/store", formData)
+      .then((response) => {
+        if (form.value.type_annonce == "location") {
+          router.push({ name: "location" });
+        } else {
+          router.push({ name: "occasion" });
+        }
+      });
   } catch (error) {
     errors.value = error.response.data.errors;
   }
@@ -370,7 +369,7 @@ const handleFileChange = (e) => {
 };
 const removeFile = (id) => {
   files.value = files.value.filter((file) => file.id != id);
-}
+};
 // end image
 
 // Fetching Marques
@@ -439,6 +438,7 @@ const typeSelected = () => {
     form.value.prix_vente = null;
   }
 };
+
 </script>
 
 <style scoped>
