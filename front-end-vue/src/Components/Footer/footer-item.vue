@@ -8,4 +8,5 @@
 <script setup>
 
 const props = defineProps(["link"]);
+
 </script>

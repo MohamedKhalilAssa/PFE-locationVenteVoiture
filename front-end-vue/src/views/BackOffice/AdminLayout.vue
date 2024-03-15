@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import Navbar from "@/views/BackOffice/Components/AdminNavbar.vue";
+import Navbar from "@/views/BackOffice/AdminComponents/AdminNavbar.vue";
 </script>
 
 <style scoped></style>
