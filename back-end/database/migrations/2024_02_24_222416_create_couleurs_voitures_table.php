@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('couleurs_voitures', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            $table->string('Hexadecimal');
+            $table->string('nom')->unique();
+            $table->string('Hexadecimal')->nullable()->unique();
             $table->timestamps();
         });
     }
