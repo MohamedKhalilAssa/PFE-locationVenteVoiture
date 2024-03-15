@@ -12,6 +12,10 @@ export default createStore({
     getUser(state) {
       return state.user;
     },
+    getFullName(state) {
+      if (state.user == null) return null;
+      return state.user.nom + " " + state.user.prenom;
+    },
   },
   mutations: {
     setAuthentication(state) {
