@@ -7,8 +7,13 @@ const getPaginate = async (page = 1, endpoint, serverError) => {
   try {
     await axios.get("http://localhost:8000/sanctum/csrf-cookie");
     //   "http://localhost:8000/api/modele/pagination?page=";
-    let { data } = await axios.get(endpoint + page);
-    return data;
+    let result = await axios.get(endpoint + page);
+    console.log(result);
+    if (result.statusText == "OK") {
+      return result.data;
+    } else {
+      return "Error " + result.statusText + "\n" + result.data.message;
+    }
   } catch (error) {
     if (error) {
       serverError = error.response.data.message;
