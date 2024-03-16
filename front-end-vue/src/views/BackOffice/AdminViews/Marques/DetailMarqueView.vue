@@ -5,10 +5,10 @@
   >
     <div class="px-4 py-5 sm:px-6">
       <h3 class="text-lg leading-6 font-medium text-gray-900">
-        Les Modeles de {{ marqueResult.nom }}
+        Les Modeles de {{ nomMarque.nom }}
       </h3>
       <p class="mt-1 max-w-2xl text-sm text-gray-500">
-        ci-dessous la liste des Modeles de {{ marqueResult.nom }}
+        ci-dessous la liste des Modeles de {{ nomMarque.nom }}
       </p>
     </div>
     <div
@@ -35,16 +35,19 @@
 </template>
 
 <script setup>
-import getMarqueById from "@/Composables/Getters/getMarqueById";
+import getById from "@/Composables/Getters/getById";
 import getModeles from "@/Composables/Getters/getModeles";
 import { useRouter } from "vue-router";
 
 const props = defineProps(["id"]);
+const nomMarque = ref("");
 const router = useRouter();
+
 // loading the brand
-const { marqueResult, ErrorMarque, loadMarque } = getMarqueById();
-loadMarque(props.id).then(() => {
-  if (!marqueResult.value) {
+getById(endpoint, props.id, serverError).then((data) => {
+  if (data) {
+    nomMarque.value = data.nom;
+  } else {
     router.push({
       name: "marquesView",
       query: {

@@ -3,24 +3,24 @@
     class="form bg-gray-200 flex justify-center items-center flex-col px-4"
   >
     <form
-      @submit.prevent="updateMarque"
+      @submit.prevent="updateVille"
       class="bg-white border border-gray-900 shadow-2xl p-5 md:p-10 rounded max-w-lg w-full"
     >
       <header class="text-center mb-7">
-        <h2 class="text-2xl font-bold uppercase mb-1">Modifier une marque</h2>
+        <h2 class="text-2xl font-bold uppercase mb-1">Modifier une ville</h2>
       </header>
 
       <div class="mb-6">
         <label for="nom" class="inline-block text-lg mb-2 required"
-          >Nom de la Marque</label
+          >Nom de la ville</label
         >
         <input
-          v-model="nomMarque"
+          v-model="nomModele"
           id="nom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
           name="nom"
-          placeholder="Exemple: Toyota..."
+          placeholder="Exemple: Corolla..."
         />
         <div class="errors" v-if="errors">
           <p class="text-red-600" v-if="errors.nom">{{ errors.nom[0] }}</p>
@@ -33,7 +33,7 @@
           type="submit"
           class="bg-black text-white rounded py-2 px-4 hover:scale-105 duration-300 disabled:opacity-70 disabled:cursor-progress"
         >
-          Modifier la marque
+          Modifier la ville
         </button>
       </div>
     </form>
@@ -47,43 +47,36 @@
 </template>
 <script setup>
 import { ref } from "vue";
-import getById from "@/Composables/Getters/getById";
 import { useRouter } from "vue-router";
+import getById from "@/Composables/Getters/getById";
 import EditToDB from "@/Composables/CRUDRequests/EditToDB";
 
-const props = defineProps(["id"]);
 const errors = ref(null);
 const router = useRouter();
-const nomMarque = ref("");
+const nomModele = ref("");
+const marqueVmodel = ref("");
 const button = ref(null);
-const endpoint = "http://localhost:8000/api/marque/";
+const endpoint = "http://localhost:8000/api/ville/";
 const serverError = ref(null);
 
-// fetching marque by id
-getById(endpoint, props.id, serverError).then((data) => {
-  if (data) {
-    nomMarque.value = data.nom;
-  } else {
-    router.push({
-      name: "marquesView",
-      query: {
-        error: "Marque introuvable",
-      },
-    });
-  }
-});
+// fetching existing modele
+const props = defineProps(["id"]);
 
+getById(endpoint, props.id, serverError).then((data) => {
+  console.log(data);
+});
 // post method handling
-const updateMarque = async () => {
+const updateVille = async () => {
   const form = new FormData();
-  form.append("nom", nomMarque.value);
+  form.append("nom", nomModele.value);
+  form.append("marque_id", marqueVmodel.value);
   EditToDB(
     button.value,
     endpoint,
     props.id,
     form,
     router,
-    "marquesView",
+    "modelesView",
     errors,
     serverError
   );

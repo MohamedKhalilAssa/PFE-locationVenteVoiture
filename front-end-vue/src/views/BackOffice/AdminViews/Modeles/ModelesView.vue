@@ -8,7 +8,7 @@
   </button>
   <Table
     :columns="columns"
-    :getter="getModelesPaginate"
+    getter="http://localhost:8000/api/modele/pagination?page="
     :deleteFrom="deletingEndpoint"
     :actions="actions"
   />
@@ -16,7 +16,6 @@
 
 <script setup>
 import Table from "@/Components/Table.vue";
-import getModelesPaginate from "@/Composables/Getters/getModelesPaginate";
 
 // without actions
 const columns = [

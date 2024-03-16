@@ -4,6 +4,8 @@ import axios from "axios";
 // subfiles
 import marquesRoutes from "./AdminRoutes/marquesRoutes";
 import modelesRoutes from "./AdminRoutes/modelesRoutes";
+import villesRoutes from "./AdminRoutes/villesRoutes";
+import couleursRoutes from "./AdminRoutes/couleursRoutes";
 import authenticationRoutes from "./GlobalRoutes/authenticationRoutes";
 
 const routes = [
@@ -57,23 +59,9 @@ const routes = [
       // marques routes
       ...marquesRoutes,
       ...modelesRoutes,
-
-      {
-        path: "couleurs",
-        component: () =>
-          import(
-            "../views/BackOffice/AdminViews/attributsVoitures/CouleurView.vue"
-          ),
-        meta: { requiresAuth: true, requiresAdmin: true },
-      },
-      {
-        path: "villes",
-        component: () =>
-          import(
-            "../views/BackOffice/AdminViews/attributsVoitures/VilleView.vue"
-          ),
-        meta: { requiresAuth: true, requiresAdmin: true },
-      },
+      ...couleursRoutes,
+      ...villesRoutes,
+     
       {
         path: "location",
         component: () =>

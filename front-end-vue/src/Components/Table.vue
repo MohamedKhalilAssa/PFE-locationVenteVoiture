@@ -80,28 +80,20 @@
 </template>
 <script setup>
 import DeleteFromDB from "@/Composables/CRUDRequests/DeleteFromDB";
+import getPaginate from "@/Composables/Getters/getPaginate";
+import { ref } from "vue";
 
 const props = defineProps(["columns", "actions", "getter", "deleteFrom"]);
-// handling GetterFunction
-const { ...getterElements } = props.getter();
-// extracting loader
-const loaderFromGetter = Object.entries(getterElements).filter(([key, value]) =>
-  key.includes("load")
-);
-let loader = loaderFromGetter[0][1];
-// extracting result
-const resultFromGetter = Object.entries(getterElements).filter(([key, value]) =>
-  key.includes("esult")
-);
-let result = resultFromGetter[0][1];
-// calling the loader
-loader();
+
+const result = ref({});
+getPaginate(1, props.getter).then((data) => {
+  result.value = data;
+});
 
 const pagination = (e, page) => {
   const button = e.target;
   button.classList.add("!cursor-progress");
   if (page !== null) {
-    button.classList.add = "!cursor-progress";
     const number = page.split("page=")[1];
     loader(number).then(() => {
       button.classList.remove("!cursor-progress");

@@ -74,7 +74,7 @@
 <script setup>
 import { ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
-import getModeleById from "@/Composables/Getters/getModeleById";
+import getById from "@/Composables/Getters/getById";
 import getMarques from "@/Composables/Getters/getMarques";
 import EditToDB from "@/Composables/CRUDRequests/EditToDB";
 
@@ -89,12 +89,10 @@ const serverError = ref(null);
 // fetching existing modele
 const props = defineProps(["id"]);
 
-const { modelesResult, ErrorModele, loadModele } = getModeleById();
-loadModele(props.id).then(() => {
-  if (modelesResult) {
-    console.log(modelesResult.value);
-    nomModele.value = modelesResult.value.nom;
-    marqueVmodel.value = modelesResult.value.marque_id;
+getById(endpoint, props.id, serverError).then((data) => {
+  if (data) {
+    nomModele.value = data.nom;
+    marqueVmodel.value = data.marque_id;
   } else {
     router.push({
       name: "modelesView",
