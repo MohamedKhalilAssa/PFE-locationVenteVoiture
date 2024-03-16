@@ -1,14 +1,14 @@
 <template>
   <div
     class="bg-white shadow rounded-lg border overflow-auto max-w-3xl mx-auto"
-    v-if="marqueResult != null"
+    v-if="nomMarque != null"
   >
     <div class="px-4 py-5 sm:px-6">
       <h3 class="text-lg leading-6 font-medium text-gray-900">
-        Les Modeles de {{ nomMarque.nom }}
+        Les Modeles de {{ nomMarque }}
       </h3>
       <p class="mt-1 max-w-2xl text-sm text-gray-500">
-        ci-dessous la liste des Modeles de {{ nomMarque.nom }}
+        ci-dessous la liste des Modeles de {{ nomMarque }}
       </p>
     </div>
     <div
@@ -24,7 +24,7 @@
           </dt>
           <dd class="mt-1 text-sm text-gray-900 sm:mt-0 min-w-max">
             <!-- :to="{ name: 'ModeleDetail', params: { id: modele.id } } -->
-            <router-link to="/">
+            <router-link :to="{ name: 'modelesView' }">
               {{ modele.nom }}
             </router-link>
           </dd>
@@ -36,15 +36,18 @@
 
 <script setup>
 import getById from "@/Composables/Getters/getById";
-import getModeles from "@/Composables/Getters/getModeles";
+import getFromDB from "@/Composables/Getters/getFromDB";
+import Endpoints from "@/assets/JS/Endpoints";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const props = defineProps(["id"]);
 const nomMarque = ref("");
+const modelesResult = ref(null);
 const router = useRouter();
 
 // loading the brand
-getById(endpoint, props.id, serverError).then((data) => {
+getById(Endpoints.getOrUpdateOrDeleteMarque, props.id).then((data) => {
   if (data) {
     nomMarque.value = data.nom;
   } else {
@@ -57,6 +60,10 @@ getById(endpoint, props.id, serverError).then((data) => {
   }
 });
 // loading the modeles associated with it
-const { modelesResult, ErrorModele, loadModele } = getModeles();
-loadModele(props.id);
+
+getFromDB(Endpoints.getModelesByMarque + props.id).then((response) => {
+  if (response) {
+    modelesResult.value = response;
+  }
+});
 </script>

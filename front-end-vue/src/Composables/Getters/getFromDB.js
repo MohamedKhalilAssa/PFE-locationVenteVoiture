@@ -1,12 +1,12 @@
 import axios from "axios";
 import { ref } from "vue";
 
-const getById = async (endpoint, id, serverError) => {
+const getFromDB = async (endpoint) => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
     await axios.get("http://localhost:8000/sanctum/csrf-cookie");
-    let result = await axios.get(endpoint + id);
+    let result = await axios.get(endpoint);
     if (result.statusText == "OK") {
       return result.data;
     } else {
@@ -14,8 +14,8 @@ const getById = async (endpoint, id, serverError) => {
     }
   } catch (error) {
     if (error) {
-      serverError = error.response.data.message;
+      ErrorCouleur.value = error.message;
     }
   }
 };
-export default getById;
+export default getFromDB;

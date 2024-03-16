@@ -75,37 +75,45 @@
 import { ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import getById from "@/Composables/Getters/getById";
-import getMarques from "@/Composables/Getters/getMarques";
 import EditToDB from "@/Composables/CRUDRequests/EditToDB";
+import getFromDB from "@/Composables/Getters/getFromDB";
+import Endpoints from "@/assets/JS/Endpoints";
 
 const errors = ref(null);
 const router = useRouter();
 const nomModele = ref("");
 const marqueVmodel = ref("");
 const button = ref(null);
-const endpoint = "http://localhost:8000/api/modele/";
 const serverError = ref(null);
 
 // fetching existing modele
 const props = defineProps(["id"]);
 
-getById(endpoint, props.id, serverError).then((data) => {
-  if (data) {
-    nomModele.value = data.nom;
-    marqueVmodel.value = data.marque_id;
-  } else {
-    router.push({
-      name: "modelesView",
-      query: {
-        error: "Modele introuvable",
-      },
-    });
+getById(Endpoints.getOrUpdateOrDeleteModele, props.id, serverError).then(
+  (data) => {
+    if (data) {
+      nomModele.value = data.nom;
+      marqueVmodel.value = data.marque_id;
+    } else {
+      router.push({
+        name: "modelesView",
+        query: {
+          error: "Modele introuvable",
+        },
+      });
+    }
   }
-});
+);
 
 // Fetching Marques
-const { marqueResult, ErrorMarque, loadMarque } = getMarques();
-loadMarque();
+const marqueResult = ref([]);
+getFromDB(Endpoints.getAllOrAddMarque).then((response) => {
+  if (response) {
+    marqueResult.value = response;
+  } else {
+    serverError.value += response || "";
+  }
+});
 // end marques
 
 // post method handling
@@ -115,7 +123,7 @@ const updateModele = async () => {
   form.append("marque_id", marqueVmodel.value);
   EditToDB(
     button.value,
-    endpoint,
+    Endpoints.getOrUpdateOrDeleteModele,
     props.id,
     form,
     router,

@@ -1,7 +1,13 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const DeleteFromDB = async (endpoint, id, loadingFunction) => {
+const DeleteFromDB = async (
+  endpoint,
+  id,
+  loadingFunction,
+  getter,
+  resultHolder
+) => {
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -19,8 +25,9 @@ const DeleteFromDB = async (endpoint, id, loadingFunction) => {
         await axios.get("http://localhost:8000/sanctum/csrf-cookie");
         // Send the FormData object to the server using axios
         await axios.delete(endpoint + id);
-
-        loadingFunction();
+        loadingFunction(1, getter).then((data) => {
+          resultHolder.value = data;
+        });
         Swal.fire({
           title: "Deleted!",
           text: "Your file has been deleted.",

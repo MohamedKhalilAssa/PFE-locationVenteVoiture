@@ -12,7 +12,7 @@
 
       <div class="mb-6">
         <label for="nom" class="inline-block text-lg mb-2 required"
-          >Nom de la Marque</label
+          >Nom de la marque</label
         >
         <input
           v-model="nomMarque"
@@ -50,28 +50,30 @@ import { ref } from "vue";
 import getById from "@/Composables/Getters/getById";
 import { useRouter } from "vue-router";
 import EditToDB from "@/Composables/CRUDRequests/EditToDB";
+import Endpoints from "@/assets/JS/Endpoints";
 
 const props = defineProps(["id"]);
 const errors = ref(null);
 const router = useRouter();
 const nomMarque = ref("");
 const button = ref(null);
-const endpoint = "http://localhost:8000/api/marque/";
 const serverError = ref(null);
 
 // fetching marque by id
-getById(endpoint, props.id, serverError).then((data) => {
-  if (data) {
-    nomMarque.value = data.nom;
-  } else {
-    router.push({
-      name: "marquesView",
-      query: {
-        error: "Marque introuvable",
-      },
-    });
+getById(Endpoints.getOrUpdateOrDeleteMarque, props.id, serverError).then(
+  (data) => {
+    if (data) {
+      nomMarque.value = data.nom;
+    } else {
+      router.push({
+        name: "marquesView",
+        query: {
+          error: "Marque introuvable",
+        },
+      });
+    }
   }
-});
+);
 
 // post method handling
 const updateMarque = async () => {
@@ -79,7 +81,7 @@ const updateMarque = async () => {
   form.append("nom", nomMarque.value);
   EditToDB(
     button.value,
-    endpoint,
+    Endpoints.getOrUpdateOrDeleteMarque,
     props.id,
     form,
     router,

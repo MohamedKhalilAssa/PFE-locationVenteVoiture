@@ -49,12 +49,13 @@
 import { ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import AddToDB from "@/Composables/CRUDRequests/AddToDB";
+import Endpoints from "@/assets/JS/Endpoints";
 
 const errors = ref(null);
 const router = useRouter();
 const nomMarque = ref("");
 const button = ref(null);
-const endpoint = "http://localhost:8000/api/marque";
+
 const serverError = ref(null);
 
 // post method handling
@@ -63,7 +64,7 @@ const ajouterMarque = async () => {
   formData.append("nom", nomMarque.value);
   AddToDB(
     button.value,
-    endpoint,
+    Endpoints.getAllOrAddMarque,
     formData,
     router,
     "marquesView",

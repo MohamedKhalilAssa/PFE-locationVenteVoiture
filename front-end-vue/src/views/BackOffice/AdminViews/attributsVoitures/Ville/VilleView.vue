@@ -8,14 +8,15 @@
   </button>
   <Table
     :columns="columns"
-    getter="http://localhost:8000/api/ville/pagination?page="
-    :deleteFrom="deletingEndpoint"
+    :getter="Endpoints.VillePagination"
+    :deleteFrom="Endpoints.getOrUpdateOrDeleteVille"
     :actions="actions"
   />
 </template>
 
 <script setup>
 import Table from "@/Components/Table.vue";
+import Endpoints from "@/assets/JS/Endpoints";
 
 // without actions
 const columns = [
@@ -34,5 +35,4 @@ const actions = [
 ];
 
 // deleting marque
-const deletingEndpoint = "http://localhost:8000/api/ville/";
 </script>

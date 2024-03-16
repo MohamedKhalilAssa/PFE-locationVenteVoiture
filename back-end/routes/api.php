@@ -70,8 +70,11 @@ Route::middleware('XSS')->group(function () {
     Route::group(['prefix' => 'ville', 'as' => 'ville.'], function () {
         Route::get('/', [VilleController::class, 'index'])->name("index");
         // getByID
-        Route::get('/{id}', [VilleController::class, 'show'])->where("id", "[0-9]+")->name("show");
+        Route::get('/{id}', [
+        VilleController::class, 'show'])->where("id", "[0-9]+")->name("show");
 
+    //    update
+        Route::post('/{id}', [VilleController::class, 'update'])->where("id", "[0-9]+")->name("update");
         // all
         Route::get('/pagination', [VilleController::class, 'indexBack'])->name("indexBack");
     });

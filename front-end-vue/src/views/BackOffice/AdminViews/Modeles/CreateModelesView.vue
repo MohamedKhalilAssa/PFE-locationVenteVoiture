@@ -75,20 +75,25 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import AddToDB from "@/Composables/CRUDRequests/AddToDB";
-import getMarques from "@/Composables/Getters/getMarques";
+import getFromDB from "@/Composables/Getters/getFromDB";
+import Endpoints from "@/assets/JS/Endpoints.js";
 
 const errors = ref(null);
 const router = useRouter();
 const nomModele = ref("");
 const marqueVmodel = ref("");
 const button = ref(null);
-const endpoint = "http://localhost:8000/api/modele";
 const serverError = ref(null);
 
 // Fetching Marques
-const { marqueResult, ErrorMarque, loadMarque } = getMarques();
-loadMarque().then(() => {
-  console.log(serverError.value);
+
+const marqueResult = ref([]);
+getFromDB(Endpoints.getAllOrAddMarque).then((response) => {
+  if (response) {
+    marqueResult.value = response;
+  } else {
+    serverError.value += response || "";
+  }
 });
 // end marques
 
@@ -99,7 +104,7 @@ const ajouterModele = async () => {
   formData.append("marque_id", marqueVmodel.value);
   AddToDB(
     button.value,
-    endpoint,
+    Endpoints.getAllOrAddModele,
     formData,
     router,
     "modelesView",

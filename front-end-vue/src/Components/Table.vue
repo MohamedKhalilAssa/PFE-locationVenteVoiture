@@ -49,7 +49,7 @@
               <form
                 v-else
                 method="post"
-                @submit.prevent="DeleteFromDB(deleteFrom, row.id, loader)"
+                @submit.prevent="DeleteHandler(row.id)"
                 class="inline-block font-medium text-red-600"
               >
                 <button type="submit" class="hover:underline">Supprimer</button>
@@ -85,17 +85,22 @@ import { ref } from "vue";
 
 const props = defineProps(["columns", "actions", "getter", "deleteFrom"]);
 
-const result = ref({});
+let result = ref({});
 getPaginate(1, props.getter).then((data) => {
   result.value = data;
 });
+
+const DeleteHandler = (id) => {
+  DeleteFromDB(props.deleteFrom, id, getPaginate, props.getter, result);
+};
 
 const pagination = (e, page) => {
   const button = e.target;
   button.classList.add("!cursor-progress");
   if (page !== null) {
     const number = page.split("page=")[1];
-    loader(number).then(() => {
+    getPaginate(number, props.getter).then((data) => {
+      result.value = data;
       button.classList.remove("!cursor-progress");
     });
   }

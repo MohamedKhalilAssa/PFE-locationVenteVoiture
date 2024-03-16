@@ -19,4 +19,17 @@ class VilleController extends Controller
     {
         return response(Ville::find($id))->header('Content-Type', 'application/json');
     }
+    public function update(Request $request, $id)
+    {
+        $formElements = $request->validate([
+            'nom' => ['required', 'string', 'max:255'],
+        ]);
+        $ville = Ville::find($id);
+        if (!$ville) {
+            back()->with("error", "Ville not found");
+        }
+        $ville->nom = $formElements['nom'];
+        $ville->save();
+        return response($ville)->header('Content-Type', 'application/json');
+    }
 }

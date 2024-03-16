@@ -15,12 +15,12 @@
           >Nom de la ville</label
         >
         <input
-          v-model="nomModele"
+          v-model="nomVille"
           id="nom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
           name="nom"
-          placeholder="Exemple: Corolla..."
+          placeholder="Exemple: Casablanca..."
         />
         <div class="errors" v-if="errors">
           <p class="text-red-600" v-if="errors.nom">{{ errors.nom[0] }}</p>
@@ -50,33 +50,33 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import getById from "@/Composables/Getters/getById";
 import EditToDB from "@/Composables/CRUDRequests/EditToDB";
+import Endpoints from "@/assets/JS/Endpoints";
 
 const errors = ref(null);
 const router = useRouter();
-const nomModele = ref("");
-const marqueVmodel = ref("");
+const nomVille = ref("");
 const button = ref(null);
-const endpoint = "http://localhost:8000/api/ville/";
 const serverError = ref(null);
 
 // fetching existing modele
 const props = defineProps(["id"]);
 
-getById(endpoint, props.id, serverError).then((data) => {
-  console.log(data);
-});
+getById(Endpoints.getOrUpdateOrDeleteVille, props.id, serverError).then(
+  (data) => {
+    nomVille.value = data.nom;
+  }
+);
 // post method handling
 const updateVille = async () => {
   const form = new FormData();
-  form.append("nom", nomModele.value);
-  form.append("marque_id", marqueVmodel.value);
+  form.append("nom", nomVille.value);
   EditToDB(
     button.value,
-    endpoint,
+    Endpoints.getOrUpdateOrDeleteVille,
     props.id,
     form,
     router,
-    "modelesView",
+    "villesView",
     errors,
     serverError
   );
