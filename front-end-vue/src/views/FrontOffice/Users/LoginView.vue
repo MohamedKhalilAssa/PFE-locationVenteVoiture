@@ -103,4 +103,8 @@ const loginHandler = async () => {
 };
 </script>
 
-<style></style>
+<style scoped>
+section {
+  min-height: calc(100vh - 11rem);
+}
+</style>

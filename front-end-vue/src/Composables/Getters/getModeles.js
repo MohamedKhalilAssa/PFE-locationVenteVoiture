@@ -10,7 +10,7 @@ const getModeles = () => {
     try {
       await axios.get("http://localhost:8000/sanctum/csrf-cookie");
       let { data } = await axios.get(
-        "http://localhost:8000/api/modele/" + marque_id
+        "http://localhost:8000/api/modele/marque/" + marque_id
       );
       modelesResult.value = data;
     } catch (error) {

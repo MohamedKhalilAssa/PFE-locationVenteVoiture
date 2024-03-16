@@ -28,12 +28,14 @@ const actions = [
   {
     label: "Details",
     redirectToAction: "detailsMarque",
+    toID: "id",
     addClass: "text-green-600",
   },
   {
     label: "Modifier",
     redirectToAction: "modifierMarque",
     addClass: "text-blue-600",
+    toID: "id",
   },
   { label: "Supprimer" },
 ];

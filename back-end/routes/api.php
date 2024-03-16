@@ -18,6 +18,7 @@ use App\Http\Controllers\AnnonceController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::middleware('XSS')->group(function () {
 
     Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -32,22 +33,33 @@ Route::middleware('XSS')->group(function () {
         // for showing with id
         Route::get('/{id}', [MarqueController::class, 'show'])->where("id", "[0-9]+")->name("show");
         // for updating
-        Route::post('/{id}', [MarqueController::class, 'update'])->where("id", "[0-9]+")->name("store");
-        // for deleting
-        Route::delete('/{id}', [MarqueController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
+        Route::post('/{id}', [MarqueController::class, 'update'])->where("id", "[0-9]+")->name("update");
         // for creating
         Route::post('/', [MarqueController::class, 'store'])->name("store");
+        // for deleting
+        Route::delete('/{id}', [MarqueController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
     });
     // Route::get('/modele',[App\Http\Controllers\ModeleController::class,'index']);
-// Route::get('/vehicule',[App\Http\Controllers\VehiculeController::class,'index']);
-// Route::get('/vehicule/{id}',[App\Http\Controllers\VehiculeController::class,'show']);
-// Route::post('/vehicule',[App\Http\Controllers\VehiculeController::class,'store']);
-// Route::put('/vehicule/{id}',[App\Http\Controllers\VehiculeController::class,'update']);
-// Route::delete('/vehicule/{id}',[App\Http\Controllers\VehiculeController::class,'destroy']);
+    // Route::get('/vehicule',[App\Http\Controllers\VehiculeController::class,'index']);
+    // Route::get('/vehicule/{id}',[App\Http\Controllers\VehiculeController::class,'show']);
+    // Route::post('/vehicule',[App\Http\Controllers\VehiculeController::class,'store']);
+    // Route::put('/vehicule/{id}',[App\Http\Controllers\VehiculeController::class,'update']);
+    // Route::delete('/vehicule/{id}',[App\Http\Controllers\VehiculeController::class,'destroy']);
 
     Route::group(['prefix' => 'modele', 'as' => 'modele.'], function () {
         // only name and id here based on marque
-        Route::get('/{marque_id}', [ModeleController::class, 'show'])->where("marque_id", "[0-9]+")->name("show");
+        Route::get('/marque/{marque_id}', [ModeleController::class, 'showbyMarque'])->where("marque_id", "[0-9]+")->name("showByMarque");
+        //show with id
+        Route::get('/{id}', [ModeleController::class, 'show'])->where("id", "[0-9]+")->name("show");
+
+        // all
+        Route::get('/pagination', [ModeleController::class, 'indexBack'])->name("indexBack");
+        // for deleting
+        Route::delete('/{id}', [ModeleController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
+        // for creating
+        Route::post('/', [ModeleController::class, 'store'])->name("store");
+        // for updating
+        Route::post('/{id}', [ModeleController::class, 'update'])->where("id", "[0-9]+")->name("update");
     });
     // couleur
     Route::group(['prefix' => 'couleur', 'as' => 'couleur.'], function () {

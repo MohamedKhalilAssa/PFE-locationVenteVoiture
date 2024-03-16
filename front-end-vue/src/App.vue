@@ -12,8 +12,8 @@ import VerifyAuth from "@/Composables/AuthenticationRequests/VerifyAuth";
 import { onMounted, watchEffect } from "vue";
 import { useStore } from "vuex";
 import { watch } from "vue";
-import successLoggedInMessage from "@/Composables/successLoggedIn";
-import errorMessage from "@/Composables/errorMessage";
+import successLoggedInMessage from "@/Composables/ErrorSuccessMessages/successLoggedIn";
+import errorMessage from "@/Composables/ErrorSuccessMessages/errorMessage";
 import { useRoute } from "vue-router";
 
 onMounted(() => {
@@ -31,16 +31,10 @@ onMounted(() => {
       if (newPath != "/login" && newPath != "/register") {
         successLoggedInMessage(route.query.message || null, store);
       }
+      errorMessage(route.query.error || null);
+      console.log(newPath, oldPath);
     }
   );
-  watchEffect(() => {
-    if (
-      route.query.error == "unAuthorized" &&
-      !sessionStorage.getItem("unauthorizedMessage")
-    ) {
-      errorMessage(route.query.error || null);
-    }
-  });
 });
 </script>
 
@@ -58,3 +52,4 @@ main {
   min-height: 100vh;
 }
 </style>
+@/Composables/ErrorSuccessMessages/errorMessage@/Composables/ErrorSuccessMessages/successLoggedIn

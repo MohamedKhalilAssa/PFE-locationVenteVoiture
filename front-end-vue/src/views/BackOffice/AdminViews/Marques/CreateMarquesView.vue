@@ -47,7 +47,6 @@
 </template>
 <script setup>
 import { ref, watchEffect } from "vue";
-import axios from "axios";
 import { useRouter } from "vue-router";
 import AddToDB from "@/Composables/CRUDRequests/AddToDB";
 

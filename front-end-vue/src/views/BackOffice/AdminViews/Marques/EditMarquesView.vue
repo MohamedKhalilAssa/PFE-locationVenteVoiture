@@ -46,7 +46,7 @@
   </section>
 </template>
 <script setup>
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
 import getMarqueById from "@/Composables/Getters/getMarqueById";
 import { useRouter } from "vue-router";
 import EditToDB from "@/Composables/CRUDRequests/EditToDB";
@@ -62,7 +62,16 @@ const serverError = ref(null);
 // fetching marque by id
 const { marqueResult, ErrorMarque, loadMarque } = getMarqueById();
 loadMarque(props.id).then(() => {
-  nomMarque.value = marqueResult.value.nom;
+  if (marqueResult.value) {
+    nomMarque.value = marqueResult.value.nom;
+  } else {
+    router.push({
+      name: "marquesView",
+      query: {
+        error: "Marque introuvable",
+      },
+    });
+  }
 });
 
 // post method handling

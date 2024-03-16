@@ -70,8 +70,8 @@ class AnnonceController extends Controller
         Annonce::create($formElements);
 
         // return
-        //     "Annonce Created Successfully " . auth()->user()->id . "<br>" .
-        //     response($formElements)->header('Content-Type', 'application/json');
-        return $request->options;
+        //     "Annonce Created Successfully " . auth()->user()->id . "<br>"
+        return  "Annonce Created Successfully " . auth()->user()->id . "<br>" .
+            response($formElements)->header('Content-Type', 'application/json');
     }
 }

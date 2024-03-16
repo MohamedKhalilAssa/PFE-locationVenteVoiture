@@ -3,6 +3,7 @@ import { useStore } from "vuex";
 import axios from "axios";
 // subfiles
 import marquesRoutes from "./AdminRoutes/marquesRoutes";
+import modelesRoutes from "./AdminRoutes/modelesRoutes";
 import authenticationRoutes from "./GlobalRoutes/authenticationRoutes";
 
 const routes = [
@@ -55,13 +56,8 @@ const routes = [
       },
       // marques routes
       ...marquesRoutes,
+      ...modelesRoutes,
 
-      {
-        path: "modeles",
-        component: () =>
-          import("../views/BackOffice/AdminViews/Modeles/ModelesView.vue"),
-        meta: { requiresAuth: true, requiresAdmin: true },
-      },
       {
         path: "couleurs",
         component: () =>

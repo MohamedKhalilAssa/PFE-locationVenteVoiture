@@ -1,6 +1,15 @@
 import axios from "axios";
 
-const EditToDB = async (button, endpoint, id, formElements,router, redirectTo,errors,serverError) => {
+const EditToDB = async (
+  button,
+  endpoint,
+  id,
+  formElements,
+  router,
+  redirectTo,
+  errors,
+  serverError
+) => {
   button.disabled = true;
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
@@ -11,11 +20,9 @@ const EditToDB = async (button, endpoint, id, formElements,router, redirectTo,er
 
     router.push({ name: redirectTo });
   } catch (error) {
-      button.disabled = false;
-      if (error.response.status == 422)
-          errors.value = error.response.data.errors;
-      else
-          serverError = error.response.data.message;
+    button.disabled = false;
+    if (error.response.status == 422) errors.value = error.response.data.errors;
+    else serverError = error.response.data.message;
   }
 };
 
