@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useStore } from "vuex";
 import axios from "axios";
 // subfiles
+import usersRoutes from "./AdminRoutes/usersRoutes";
 import marquesRoutes from "./AdminRoutes/marquesRoutes";
 import modelesRoutes from "./AdminRoutes/modelesRoutes";
 import villesRoutes from "./AdminRoutes/villesRoutes";
@@ -50,13 +51,8 @@ const routes = [
           import("../views/BackOffice/AdminViews/DashboardView.vue"),
         meta: { requiresAuth: true, requiresAdmin: true },
       },
-      {
-        path: "users",
-        component: () =>
-          import("../views/BackOffice/AdminViews/Users/UserView.vue"),
-        meta: { requiresAuth: true, requiresAdmin: true },
-      },
-      // marques routes
+
+      ...usersRoutes,
       ...marquesRoutes,
       ...modelesRoutes,
       ...couleursRoutes,

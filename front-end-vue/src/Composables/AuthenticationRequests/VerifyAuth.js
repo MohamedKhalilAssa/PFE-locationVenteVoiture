@@ -16,6 +16,9 @@ export default async function VerifyAuth(store) {
       }
       return data;
     } catch (error) {
+      if (error) {
+        store.commit("setError", error);
+      }
       localStorage.removeItem("Authentication");
       localStorage.removeItem("User");
       localStorage.removeItem("authMessage");

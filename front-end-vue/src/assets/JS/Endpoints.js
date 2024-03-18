@@ -1,5 +1,9 @@
 export default {
-  // MArques
+  // Users
+  getAllOrAddUser: "http://localhost:8000/api/users",
+  userPaginate: "http://localhost:8000/api/users/pagination?page=",
+  getOrUpdateOrDeleteUser: "http://localhost:8000/api/users/",
+  // Marques
   getAllOrAddMarque: "http://localhost:8000/api/marque",
   getOrUpdateOrDeleteMarque: "http://localhost:8000/api/marque/",
   MarquePagination: "http://localhost:8000/api/marque/pagination?page=",

@@ -25,7 +25,7 @@ const register = async (button, form, router, store, errors, serverError) => {
   } catch (error) {
     button.disabled = false;
     if (error.response.status == 404 || error.response.status == 500) {
-      serverError.value = error.message;
+      store.commit("setError", error);
     }
     if (error.response) {
       errors.value = error.response.data.errors ?? null;

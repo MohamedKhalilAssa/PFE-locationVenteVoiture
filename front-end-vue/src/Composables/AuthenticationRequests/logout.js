@@ -20,11 +20,9 @@ const logout = async (store, route, router) => {
     store.commit("setAuthentication");
     store.commit("setUser");
   } catch (error) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: error.message,
-    });
+    if (error) {
+      store.commit("setError", error);
+    }
     localStorage.removeItem("Authentication");
     localStorage.removeItem("User");
     localStorage.removeItem("authMessage");

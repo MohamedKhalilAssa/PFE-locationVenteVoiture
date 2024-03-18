@@ -33,9 +33,9 @@
             <router-link
               v-if="column.isLink"
               :to="{ name: column.toName, params: { id: row[column.toID] } }"
-              >{{ row[column.key] }}</router-link
+              >{{ row[column.key] ?? "N/A" }}</router-link
             >
-            <p v-else>{{ row[column.key] }}</p>
+            <p v-else>{{ row[column.key] ?? "N/A" }}</p>
           </td>
           <!-- actions = [{label: , redirectToAction:  ,addClass:"" },{},{},...] -->
           <td class="flex px-6 py-4 space-x-4 justify-center">

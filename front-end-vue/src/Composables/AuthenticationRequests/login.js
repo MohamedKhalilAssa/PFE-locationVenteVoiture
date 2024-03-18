@@ -49,10 +49,7 @@ const login = async (
           serverError.value = null;
         }, 5000);
       } else if (error.response.status != 422) {
-        serverError.value = error.message;
-        setTimeout(() => {
-          serverError.value = null;
-        }, 5000);
+        store.commit("setError", error);
       } else {
         errors.value = error.response.data.errors ?? null;
       }

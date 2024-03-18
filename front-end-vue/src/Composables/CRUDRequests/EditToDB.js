@@ -26,7 +26,9 @@ const EditToDB = async (
   } catch (error) {
     button.disabled = false;
     if (error.response.status == 422) errors.value = error.response.data.errors;
-    else serverError = error.response.data.message;
+    else if (error) {
+      store.commit("setError", error);
+    }
   }
 };
 

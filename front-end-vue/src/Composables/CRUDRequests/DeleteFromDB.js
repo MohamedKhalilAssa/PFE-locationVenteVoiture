@@ -43,7 +43,6 @@ const DeleteFromDB = async (
           }
         });
       } catch (error) {
-        console.log(error);
         if (error) {
           store.commit("setError", error);
         }

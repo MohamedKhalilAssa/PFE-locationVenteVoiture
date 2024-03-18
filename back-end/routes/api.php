@@ -7,6 +7,7 @@ use App\Http\Controllers\VilleController;
 use App\Http\Controllers\MarqueController;
 use App\Http\Controllers\ModeleController;
 use App\Http\Controllers\AnnonceController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,18 @@ Route::middleware('XSS')->group(function () {
         return $request->user();
     });
 
+    Route::group(['prefix' => 'users', 'as' => 'user.'], function () {
+        // only name and id here based on marque
+        //show with id
+        Route::get('/{id}', [UserController::class, 'show'])->where("id", "[0-9]+")->name("show");
+
+        // all with pagination
+        Route::get('/pagination', [UserController::class, 'indexBack'])->name("indexBack");
+        // for deleting
+        Route::delete('/{id}', [UserController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
+        // for updating
+        Route::post('/{id}', [UserController::class, 'update'])->where("id", "[0-9]+")->name("update");
+    });
     Route::group(['prefix' => 'marque', 'as' => 'marque.'], function () {
         // only name and id here
         Route::get('/', [MarqueController::class, 'index'])->name("index");
