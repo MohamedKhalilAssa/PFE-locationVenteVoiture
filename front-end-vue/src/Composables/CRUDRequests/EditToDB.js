@@ -6,6 +6,7 @@ const EditToDB = async (
   id,
   formElements,
   router,
+  store,
   redirectTo,
   errors,
   serverError
@@ -16,7 +17,10 @@ const EditToDB = async (
   try {
     await axios.get("http://localhost:8000/sanctum/csrf-cookie");
     // Send the FormData object to the server using axios
-    await axios.post(endpoint + id, formElements);
+    await axios.post(endpoint + id, formElements).then((response) => {
+      store.commit("setMessage", response.data.message);
+      store.commit("setIconColor", response.data.iconColor);
+    });
 
     router.push({ name: redirectTo });
   } catch (error) {

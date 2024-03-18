@@ -14,10 +14,14 @@ const login = async (
   axios.defaults.withXSRFToken = true;
   try {
     await axios.get("http://localhost:8000/sanctum/csrf-cookie");
-    await axios.post("http://localhost:8000/login", {
-      email: form.value.email,
-      password: form.value.password,
-    });
+    await axios
+      .post("http://localhost:8000/login", {
+        email: form.value.email,
+        password: form.value.password,
+      })
+      .then((response) => {
+        store.commit("setMessage", response.data.message);
+      });
 
     let { data } = await axios.get("http://localhost:8000/api/user");
 
@@ -30,12 +34,10 @@ const login = async (
     if (data.role == "admin") {
       router.push({
         name: `DashboardView`,
-        query: { message: "loggedIn" },
       });
     } else {
       router.push({
         name: `${route.query.previous}`,
-        query: { message: "loggedIn" },
       });
     }
   } catch (error) {

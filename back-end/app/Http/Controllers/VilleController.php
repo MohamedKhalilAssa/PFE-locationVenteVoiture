@@ -29,7 +29,10 @@ class VilleController extends Controller
             back()->with("error", "Ville not found");
         }
         $ville->nom = $formElements['nom'];
-        $ville->save();
-        return response($ville)->header('Content-Type', 'application/json');
+        if ($ville->save()) {
+            return response()->json(['message' => 'Ville modifié avec succès', 'iconColor' => 'blue']);
+        } else {
+            return back()->with("error", "Processus echoué");
+        }
     }
 }

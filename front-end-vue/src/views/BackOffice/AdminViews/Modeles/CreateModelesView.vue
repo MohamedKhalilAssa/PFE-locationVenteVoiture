@@ -77,9 +77,11 @@ import { useRouter } from "vue-router";
 import AddToDB from "@/Composables/CRUDRequests/AddToDB";
 import getFromDB from "@/Composables/Getters/getFromDB";
 import Endpoints from "@/assets/JS/Endpoints.js";
+import { useStore } from "vuex";
 
 const errors = ref(null);
 const router = useRouter();
+const store = useStore();
 const nomModele = ref("");
 const marqueVmodel = ref("");
 const button = ref(null);
@@ -107,6 +109,7 @@ const ajouterModele = async () => {
     Endpoints.getAllOrAddModele,
     formData,
     router,
+    store,
     "modelesView",
     errors,
     serverError

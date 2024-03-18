@@ -78,9 +78,11 @@ import getById from "@/Composables/Getters/getById";
 import EditToDB from "@/Composables/CRUDRequests/EditToDB";
 import getFromDB from "@/Composables/Getters/getFromDB";
 import Endpoints from "@/assets/JS/Endpoints";
+import { useStore } from "vuex";
 
 const errors = ref(null);
 const router = useRouter();
+const store = useStore();
 const nomModele = ref("");
 const marqueVmodel = ref("");
 const button = ref(null);
@@ -127,6 +129,7 @@ const updateModele = async () => {
     props.id,
     form,
     router,
+    store,
     "modelesView",
     errors,
     serverError

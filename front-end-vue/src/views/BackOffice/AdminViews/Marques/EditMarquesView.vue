@@ -51,10 +51,12 @@ import getById from "@/Composables/Getters/getById";
 import { useRouter } from "vue-router";
 import EditToDB from "@/Composables/CRUDRequests/EditToDB";
 import Endpoints from "@/assets/JS/Endpoints";
+import { useStore } from "vuex";
 
 const props = defineProps(["id"]);
 const errors = ref(null);
 const router = useRouter();
+const store = useStore();
 const nomMarque = ref("");
 const button = ref(null);
 const serverError = ref(null);
@@ -85,6 +87,7 @@ const updateMarque = async () => {
     props.id,
     form,
     router,
+    store,
     "marquesView",
     errors,
     serverError

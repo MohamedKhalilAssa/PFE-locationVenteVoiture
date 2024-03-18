@@ -22,27 +22,32 @@ class MarqueController extends Controller
     public function store(Request $request)
     {
         $formElements = $request->validate([
-            'nom' => ['required', 'string', 'max:255'],
+            'nom' => ['required', 'unique:marques,nom', 'string', 'regex:/^\D*$/', 'max:255'],
         ]);
-        $marque = Marque::create([
+        Marque::create([
             'nom' => $formElements['nom'],
         ]);
-        return response($marque)->header('Content-Type', 'application/json');
+        return response()->json(['message' => 'Marque crée avec succès']);
     }
     public function update(Request $request, $id)
     {
         $formElements = $request->validate([
-            'nom' => ['required', 'string', 'max:255'],
+            'nom' => ['required',  'string', 'regex:/^\D*$/', 'max:255'],
         ]);
         $marque = Marque::find($id);
         $marque->nom = $formElements['nom'];
-        $marque->save();
-        return response($marque)->header('Content-Type', 'application/json');
+        if ($marque->save()) {
+            return response()->json(['message' => 'Marque modifié avec succès', 'iconColor' => 'blue']);
+        } else {
+            return back()->with("error", "Processus echoué");
+        }
     }
     public function destroy($id)
     {
         $marque = Marque::find($id);
-        $marque->delete();
-        return response($marque)->header('Content-Type', 'application/json');
+        if ($marque->delete()) {
+            return response()->json(['message' => 'Marque supprimé avec succès', 'iconColor' => 'red']);
+        } else
+            return back()->with("error", "Processus echoué");
     }
 }

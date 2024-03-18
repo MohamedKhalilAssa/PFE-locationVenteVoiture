@@ -6,9 +6,12 @@ const logout = async (store, route, router) => {
   axios.defaults.withXSRFToken = true;
   try {
     await axios.get("http://localhost:8000/sanctum/csrf-cookie");
-    await axios.post("http://localhost:8000/logout");
+    await axios.post("http://localhost:8000/logout").then((response) => {
+      store.commit("setMessage", response.data.message);
+      store.commit("setIconColor", response.data.iconColor);
+    });
     if (route.meta.requiresAuth) {
-      router.push({ name: "home", query: { message: "loggedOut" } });
+      router.push({ name: "home" });
     }
     // taking out the user from storage/store
     localStorage.removeItem("Authentication");
@@ -16,20 +19,6 @@ const logout = async (store, route, router) => {
     localStorage.removeItem("authMessage");
     store.commit("setAuthentication");
     store.commit("setUser");
-
-    // Show succes message
-    const Toast = Swal.mixin({
-      toast: true,
-      position: "bottom-end",
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-    });
-    Toast.fire({
-      icon: "success",
-      iconColor: "red",
-      title: "Déconnecté avec succès",
-    });
   } catch (error) {
     Swal.fire({
       icon: "error",

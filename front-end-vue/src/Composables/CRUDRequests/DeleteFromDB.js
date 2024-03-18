@@ -6,7 +6,8 @@ const DeleteFromDB = async (
   id,
   loadingFunction,
   getter,
-  resultHolder
+  resultHolder,
+  store
 ) => {
   Swal.fire({
     title: "Are you sure?",
@@ -24,14 +25,12 @@ const DeleteFromDB = async (
       try {
         await axios.get("http://localhost:8000/sanctum/csrf-cookie");
         // Send the FormData object to the server using axios
-        await axios.delete(endpoint + id);
+        await axios.delete(endpoint + id).then((response) => {
+          store.commit("setMessage", response.data.message);
+          store.commit("setIconColor", response.data.iconColor);
+        });
         loadingFunction(1, getter).then((data) => {
           resultHolder.value = data;
-        });
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success",
         });
       } catch (error) {
         Swal.fire({

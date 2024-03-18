@@ -9,12 +9,11 @@ import PreLoader from "./Components/PreLoader.vue";
 import ClientLayout from "./views/FrontOffice/ClientLayout.vue";
 import AdminLayout from "./views/BackOffice/AdminLayout.vue";
 import VerifyAuth from "@/Composables/AuthenticationRequests/VerifyAuth";
-import { onMounted, watchEffect } from "vue";
+import { onMounted } from "vue";
 import { useStore } from "vuex";
 import { watch } from "vue";
-import successLoggedInMessage from "@/Composables/ErrorSuccessMessages/successLoggedIn";
-import errorMessage from "@/Composables/ErrorSuccessMessages/errorMessage";
 import { useRoute } from "vue-router";
+import flashCard from "@/Composables/ErrorSuccessMessages/flashCard";
 
 onMounted(() => {
   // setting authentication and user in the store
@@ -24,15 +23,17 @@ onMounted(() => {
   store.commit("setUser");
 
   VerifyAuth(store);
-  // handle success message
   watch(
-    () => route.path,
-    (newPath, oldPath) => {
-      if (newPath != "/login" && newPath != "/register") {
-        successLoggedInMessage(route.query.message || null, store);
+    () => store.getters.getMessage,
+    (newMessage, oldMessage) => {
+      if (newMessage) {
+        console.log(newMessage);
+        let iconColor = store.getters.getIconColor;
+        flashCard(newMessage, iconColor).then((response) => {
+          store.commit("setMessage", null);
+          store.commit("setIconColor", "green");
+        });
       }
-      errorMessage(route.query.error || null);
-      console.log(newPath, oldPath);
     }
   );
 });
@@ -52,4 +53,4 @@ main {
   min-height: 100vh;
 }
 </style>
-@/Composables/ErrorSuccessMessages/errorMessage@/Composables/ErrorSuccessMessages/successLoggedIn
+@/Composables/ErrorSuccessMessages/errorMessage@/Composables/ErrorSuccessMessages/successLoggedIn./Components/flashCard.js

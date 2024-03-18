@@ -50,9 +50,12 @@ import { ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import AddToDB from "@/Composables/CRUDRequests/AddToDB";
 import Endpoints from "@/assets/JS/Endpoints";
+import { useStore } from "vuex";
 
 const errors = ref(null);
 const router = useRouter();
+const store = useStore();
+
 const nomMarque = ref("");
 const button = ref(null);
 
@@ -67,6 +70,7 @@ const ajouterMarque = async () => {
     Endpoints.getAllOrAddMarque,
     formData,
     router,
+    store,
     "marquesView",
     errors,
     serverError

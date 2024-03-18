@@ -23,25 +23,28 @@ class ModeleController extends Controller
     public function destroy($id)
     {
         $modele = Modele::find($id);
-        $modele->delete();
-        return response($modele)->header('Content-Type', 'application/json');
+        if ($modele->delete()) {
+            return response()->json(['message' => 'Marque supprimé avec succès', 'iconColor' => 'red']);
+        } else {
+            return back()->with("error", "Processus echoué");
+        }
     }
     public function store(Request $request)
     {
         $formElements = $request->validate([
-            'nom' => ['required', 'string', 'max:255'],
+            'nom' => ['required', 'unique:modeles,nom', 'string', 'regex:/^[a-zA-Z]{1,}\w*/', 'max:255'],
             'marque_id' => ['required', 'integer', "exists:marques,id"],
         ]);
-        $modele = Modele::create([
+        Modele::create([
             'nom' => $formElements['nom'],
             'marque_id' => $formElements['marque_id'],
         ]);
-        return response($modele)->header('Content-Type', 'application/json');
+        return response()->json(['message' => 'Modele crée avec succès']);
     }
     public function update(Request $request, $id)
     {
         $formElements = $request->validate([
-            'nom' => ['required', 'string', 'max:255'],
+            'nom' => ['required', 'string', 'regex:/^[a-zA-Z]{1,}\w*/', 'max:255'],
             'marque_id' => ['required', 'integer', "exists:marques,id"],
         ]);
         $modele = Modele::find($id);
@@ -50,7 +53,10 @@ class ModeleController extends Controller
         }
         $modele->nom = $formElements['nom'];
         $modele->marque_id = $formElements['marque_id'];
-        $modele->save();
-        return response($modele)->header('Content-Type', 'application/json');
+        if ($modele->save()) {
+            return response()->json(['message' => 'Modele modifié avec succès', 'iconColor' => 'blue']);
+        } else {
+            return back()->with("error", "Processus echoué");
+        }
     }
 }

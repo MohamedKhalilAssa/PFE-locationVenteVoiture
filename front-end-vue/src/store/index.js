@@ -4,6 +4,8 @@ export default createStore({
   state: {
     authentication: false,
     user: null,
+    message: null,
+    iconColor: "green",
   },
   getters: {
     getAuthentication(state) {
@@ -16,6 +18,12 @@ export default createStore({
       if (state.user == null) return null;
       return state.user.nom + " " + state.user.prenom;
     },
+    getMessage(state) {
+      return state.message;
+    },
+    getIconColor(state) {
+      return state.iconColor;
+    },
   },
   mutations: {
     setAuthentication(state) {
@@ -23,6 +31,12 @@ export default createStore({
     },
     setUser(state) {
       state.user = JSON.parse(localStorage.getItem("User")) ?? null;
+    },
+    setMessage(state, message) {
+      state.message = message;
+    },
+    setIconColor(state, iconColor) {
+      state.iconColor = iconColor;
     },
   },
   actions: {},

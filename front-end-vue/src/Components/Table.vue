@@ -1,6 +1,8 @@
 <template>
+  <TableHeader :titre="titre" :addDestination="addName">34</TableHeader>
+
   <div
-    class="relative overflow-auto shadow-lg sm:rounded-lg sm:!max-h-full"
+    class="bg-white relative overflow-auto shadow-lg sm:rounded-lg sm:!max-h-full"
     style="max-height: 75vh"
   >
     <table class="w-full text-sm text-center text-gray-500">
@@ -81,17 +83,27 @@
 <script setup>
 import DeleteFromDB from "@/Composables/CRUDRequests/DeleteFromDB";
 import getPaginate from "@/Composables/Getters/getPaginate";
+import TableHeader from "@/Components/TableHeader.vue";
+
 import { ref } from "vue";
+import { useStore } from "vuex";
 
-const props = defineProps(["columns", "actions", "getter", "deleteFrom"]);
-
+const props = defineProps([
+  "columns",
+  "actions",
+  "getter",
+  "deleteFrom",
+  "titre",
+  "addName",
+]);
+const store = useStore();
 let result = ref({});
 getPaginate(1, props.getter).then((data) => {
   result.value = data;
 });
 
 const DeleteHandler = (id) => {
-  DeleteFromDB(props.deleteFrom, id, getPaginate, props.getter, result);
+  DeleteFromDB(props.deleteFrom, id, getPaginate, props.getter, result, store);
 };
 
 const pagination = (e, page) => {

@@ -54,6 +54,7 @@ import Endpoints from "@/assets/JS/Endpoints";
 
 const errors = ref(null);
 const router = useRouter();
+const store = useStore();
 const nomVille = ref("");
 const button = ref(null);
 const serverError = ref(null);
@@ -76,6 +77,7 @@ const updateVille = async () => {
     props.id,
     form,
     router,
+    store,
     "villesView",
     errors,
     serverError
