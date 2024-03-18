@@ -13,7 +13,7 @@ class MarqueController extends Controller
     }
     public function indexBack()
     {
-        return response(Marque::paginate(10))->header('Content-Type', 'application/json');
+        return response()->json(['PaginateQuery' => Marque::paginate(10), 'total' => Marque::count()]);
     }
     public function show($id)
     {
@@ -35,19 +35,25 @@ class MarqueController extends Controller
             'nom' => ['required',  'string', 'regex:/^\D*$/', 'max:255'],
         ]);
         $marque = Marque::find($id);
+        if (!$marque) {
+            return abort(404, 'Modele not found');
+        }
         $marque->nom = $formElements['nom'];
         if ($marque->save()) {
             return response()->json(['message' => 'Marque modifié avec succès', 'iconColor' => 'blue']);
         } else {
-            return back()->with("error", "Processus echoué");
+            return abort(400, 'la modification a echoué');
         }
     }
     public function destroy($id)
     {
         $marque = Marque::find($id);
+        if (!$marque) {
+            return abort(404, 'Marque not found');
+        }
         if ($marque->delete()) {
             return response()->json(['message' => 'Marque supprimé avec succès', 'iconColor' => 'red']);
         } else
-            return back()->with("error", "Processus echoué");
+            return abort(400, 'la suppression a echoué');
     }
 }

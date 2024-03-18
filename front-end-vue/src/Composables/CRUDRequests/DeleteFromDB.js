@@ -6,7 +6,9 @@ const DeleteFromDB = async (
   id,
   loadingFunction,
   getter,
+  currentPage,
   resultHolder,
+  totalHolder,
   store
 ) => {
   Swal.fire({
@@ -29,15 +31,22 @@ const DeleteFromDB = async (
           store.commit("setMessage", response.data.message);
           store.commit("setIconColor", response.data.iconColor);
         });
-        loadingFunction(1, getter).then((data) => {
-          resultHolder.value = data;
+        loadingFunction(currentPage, getter).then((data) => {
+          if (data.PaginateQuery.data.length == 0) {
+            loadingFunction(currentPage - 1, getter).then((data) => {
+              resultHolder.value = data.PaginateQuery;
+              totalHolder.value = data.total;
+            });
+          } else {
+            resultHolder.value = data.PaginateQuery;
+            totalHolder.value = data.total;
+          }
         });
       } catch (error) {
-        Swal.fire({
-          title: "Error!",
-          text: "Failed to delete the marque.",
-          icon: "error",
-        });
+        console.log(error);
+        if (error) {
+          store.commit("setError", error);
+        }
       }
     }
   });

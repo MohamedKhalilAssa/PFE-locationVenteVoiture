@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <div class="mb-6">
+      <div class="mb-6 flex justify-center items-center">
         <button
           ref="button"
           type="submit"
@@ -51,6 +51,7 @@ import { useRouter } from "vue-router";
 import getById from "@/Composables/Getters/getById";
 import EditToDB from "@/Composables/CRUDRequests/EditToDB";
 import Endpoints from "@/assets/JS/Endpoints";
+import { useStore } from "vuex";
 
 const errors = ref(null);
 const router = useRouter();

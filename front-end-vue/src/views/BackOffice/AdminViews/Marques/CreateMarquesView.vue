@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <div class="mb-6">
+      <div class="mb-6 flex justify-center items-center">
         <button
           ref="button"
           type="submit"

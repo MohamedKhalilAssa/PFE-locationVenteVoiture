@@ -18,15 +18,18 @@ class ModeleController extends Controller
     }
     public function indexBack()
     {
-        return response(Modele::paginate(10))->header('Content-Type', 'application/json');
+        return response()->json(['PaginateQuery' => Modele::paginate(10), 'total' => Modele::count()]);
     }
     public function destroy($id)
     {
         $modele = Modele::find($id);
+        if (!$modele) {
+            return abort(404, 'Modele not found');
+        }
         if ($modele->delete()) {
             return response()->json(['message' => 'Marque supprimé avec succès', 'iconColor' => 'red']);
         } else {
-            return back()->with("error", "Processus echoué");
+            return abort(400, 'la suppresion a echoué');
         }
     }
     public function store(Request $request)
@@ -49,14 +52,14 @@ class ModeleController extends Controller
         ]);
         $modele = Modele::find($id);
         if (!$modele) {
-            return back()->with("error", "Modele not found");
+            return abort(404, 'Modele not found');
         }
         $modele->nom = $formElements['nom'];
         $modele->marque_id = $formElements['marque_id'];
         if ($modele->save()) {
             return response()->json(['message' => 'Modele modifié avec succès', 'iconColor' => 'blue']);
         } else {
-            return back()->with("error", "Processus echoué");
+            return abort(400, 'la modification a echoué');
         }
     }
 }

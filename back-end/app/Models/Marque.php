@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Marque extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+    protected $fillable = [
+        'nom', 'image'
+    ];
 
     public function modeles()
     {

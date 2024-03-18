@@ -1,16 +1,11 @@
 <template>
-  <button
-    class="bg-green-700 text-white rounded py-2 px-4 mx-auto my-6 hover:bg-green-800 duration-75 disabled:opacity-70 disabled:cursor-progress"
-  >
-    <router-link :to="{ name: 'ajouterModele' }">
-      Ajouter un Modele +
-    </router-link>
-  </button>
   <Table
     :columns="columns"
     :getter="Endpoints.ModelePagination"
     :deleteFrom="Endpoints.getOrUpdateOrDeleteModele"
     :actions="actions"
+    titre="Modele"
+    addName="ajouterModele"
   />
 </template>
 

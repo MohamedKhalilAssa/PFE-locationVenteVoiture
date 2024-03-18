@@ -22,6 +22,7 @@ class AuthenticatedSessionController extends Controller
 
         return response()->json([
             'message' => 'Login successful',
+
         ]);
     }
 
@@ -38,6 +39,7 @@ class AuthenticatedSessionController extends Controller
 
         return response()->json([
             'message' => 'Logout successful',
+            'iconColor' => "red"
         ]);
     }
 }

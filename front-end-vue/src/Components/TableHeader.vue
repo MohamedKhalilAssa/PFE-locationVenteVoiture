@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container flex justify-between items-center bg-white p-4 rounded mb-5"
+    class="container flex justify-between items-center bg-white p-4 rounded mb-8 shadow-sm"
   >
     <div class="flex space-x-3 text-2xl">
       <h1>Total {{ titre + "s: " }}</h1>

@@ -61,7 +61,7 @@ const routes = [
       ...modelesRoutes,
       ...couleursRoutes,
       ...villesRoutes,
-     
+
       {
         path: "location",
         component: () =>
@@ -122,7 +122,12 @@ router.beforeEach(async (to, from, next) => {
         } else if (data.role == "admin" && to.meta.requiresAdmin) {
           next();
         } else {
-          next({ name: "home", query: { error: "unAuthorized" } });
+          store.commit(
+            "setError",
+            "Vous n'avez pas les droits pour accéder à cette page"
+          );
+          store.commit("setErrorCode", 403);
+          next({ name: "home" });
         }
       }
     } catch (error) {

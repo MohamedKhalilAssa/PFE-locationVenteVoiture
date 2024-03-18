@@ -5,6 +5,8 @@ export default createStore({
     authentication: false,
     user: null,
     message: null,
+    error: null,
+    errorCode: null,
     iconColor: "green",
   },
   getters: {
@@ -24,6 +26,12 @@ export default createStore({
     getIconColor(state) {
       return state.iconColor;
     },
+    getError(state) {
+      return state.error;
+    },
+    getErrorCode(state) {
+      return state.errorCode;
+    },
   },
   mutations: {
     setAuthentication(state) {
@@ -37,6 +45,12 @@ export default createStore({
     },
     setIconColor(state, iconColor) {
       state.iconColor = iconColor;
+    },
+    setError(state, error) {
+      state.error = error;
+    },
+    setErrorCode(state, errorCode) {
+      state.errorCode = errorCode;
     },
   },
   actions: {},

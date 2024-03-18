@@ -28,7 +28,7 @@ Route::middleware('XSS')->group(function () {
     Route::group(['prefix' => 'marque', 'as' => 'marque.'], function () {
         // only name and id here
         Route::get('/', [MarqueController::class, 'index'])->name("index");
-        // all
+        // all with pagination
         Route::get('/pagination', [MarqueController::class, 'indexBack'])->name("indexBack");
         // for showing with id
         Route::get('/{id}', [MarqueController::class, 'show'])->where("id", "[0-9]+")->name("show");
@@ -52,7 +52,8 @@ Route::middleware('XSS')->group(function () {
         //show with id
         Route::get('/{id}', [ModeleController::class, 'show'])->where("id", "[0-9]+")->name("show");
 
-        // all
+        // all with pagination
+
         Route::get('/pagination', [ModeleController::class, 'indexBack'])->name("indexBack");
         // for deleting
         Route::delete('/{id}', [ModeleController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
@@ -71,11 +72,17 @@ Route::middleware('XSS')->group(function () {
         Route::get('/', [VilleController::class, 'index'])->name("index");
         // getByID
         Route::get('/{id}', [
-        VilleController::class, 'show'])->where("id", "[0-9]+")->name("show");
-
-    //    update
-        Route::post('/{id}', [VilleController::class, 'update'])->where("id", "[0-9]+")->name("update");
-        // all
+            VilleController::class, 'show'
+        ])->where("id", "[0-9]+")->name("show");
+        // for creating
+        Route::post('/', [VilleController::class, 'store'])->name("store");
+        //    update
+        Route::post('/{id}', [
+            VilleController::class, 'update'
+        ])->where("id", "[0-9]+")->name("update");
+        // for deleting
+        Route::delete('/{id}', [VilleController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
+        // all with pagination
         Route::get('/pagination', [VilleController::class, 'indexBack'])->name("indexBack");
     });
 

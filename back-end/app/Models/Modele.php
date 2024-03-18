@@ -10,7 +10,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Modele extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+    protected $fillable = [
+        'nom',
+        'marque_id', 'image'
+    ];
     public function marque()
     {
         return $this->belongsTo(Marque::class);

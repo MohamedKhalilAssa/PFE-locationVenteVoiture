@@ -1,5 +1,7 @@
 <template>
-  <TableHeader :titre="titre" :addDestination="addName">34</TableHeader>
+  <TableHeader :titre="titre" :addDestination="addName">{{
+    total
+  }}</TableHeader>
 
   <div
     class="bg-white relative overflow-auto shadow-lg sm:rounded-lg sm:!max-h-full"
@@ -98,12 +100,23 @@ const props = defineProps([
 ]);
 const store = useStore();
 let result = ref({});
+let total = ref(0);
 getPaginate(1, props.getter).then((data) => {
-  result.value = data;
+  result.value = data.PaginateQuery;
+  total.value = data.total;
 });
 
 const DeleteHandler = (id) => {
-  DeleteFromDB(props.deleteFrom, id, getPaginate, props.getter, result, store);
+  DeleteFromDB(
+    props.deleteFrom,
+    id,
+    getPaginate,
+    props.getter,
+    result.value.current_page,
+    result,
+    total,
+    store
+  );
 };
 
 const pagination = (e, page) => {
@@ -112,7 +125,7 @@ const pagination = (e, page) => {
   if (page !== null) {
     const number = page.split("page=")[1];
     getPaginate(number, props.getter).then((data) => {
-      result.value = data;
+      result.value = data.PaginateQuery;
       button.classList.remove("!cursor-progress");
     });
   }

@@ -14,6 +14,7 @@ import { useStore } from "vuex";
 import { watch } from "vue";
 import { useRoute } from "vue-router";
 import flashCard from "@/Composables/ErrorSuccessMessages/flashCard";
+import errorFlashCard from "./Composables/ErrorSuccessMessages/errorFlashCard";
 
 onMounted(() => {
   // setting authentication and user in the store
@@ -21,18 +22,34 @@ onMounted(() => {
   const store = useStore();
   store.commit("setAuthentication");
   store.commit("setUser");
-
   VerifyAuth(store);
   watch(
     () => store.getters.getMessage,
     (newMessage, oldMessage) => {
       if (newMessage) {
-        console.log(newMessage);
         let iconColor = store.getters.getIconColor;
-        flashCard(newMessage, iconColor).then((response) => {
+        flashCard(newMessage, iconColor).then(() => {
           store.commit("setMessage", null);
           store.commit("setIconColor", "green");
         });
+      }
+    }
+  );
+  watch(
+    () => store.getters.getError,
+    (newError, oldError) => {
+      if (newError) {
+        if (newError.response) {
+          errorFlashCard(newError).then(() => {
+            store.commit("setError", null);
+          });
+        } else {
+          let code = store.getters.getErrorCode;
+          errorFlashCard(newError, code).then(() => {
+            store.commit("setError", null);
+            store.commit("setErrorCode", null);
+          });
+        }
       }
     }
   );
@@ -48,7 +65,9 @@ main {
   background-color: #e5e7eb;
   min-height: calc(100vh - 7rem);
 }
-
+.swal2-container {
+  z-index: 90;
+}
 #app {
   min-height: 100vh;
 }
