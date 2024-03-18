@@ -569,8 +569,6 @@ const villeResult = ref([]);
 getFromDB(Endpoints.getAllOrAddMarque).then((response) => {
   if (response) {
     marqueResult.value = response;
-  } else {
-    serverError.value += response || "";
   }
 });
 // end marques
@@ -583,8 +581,6 @@ const marqueSelected = () => {
       (response) => {
         if (response) {
           modelesResult.value = response;
-        } else {
-          serverError.value += response || "";
         }
       }
     );
@@ -595,8 +591,6 @@ const marqueSelected = () => {
 getFromDB(Endpoints.getAllOrAddCouleurs).then((response) => {
   if (response) {
     marqueResult.value = response;
-  } else {
-    serverError.value += response || "";
   }
 });
 // end fetch
@@ -605,8 +599,6 @@ getFromDB(Endpoints.getAllOrAddCouleurs).then((response) => {
 getFromDB(Endpoints.getAllOrAddVille).then((response) => {
   if (response) {
     marqueResult.value = response;
-  } else {
-    serverError.value += response || "";
   }
 });
 

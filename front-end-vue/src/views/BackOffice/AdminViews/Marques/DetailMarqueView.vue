@@ -39,29 +39,30 @@ import getById from "@/Composables/Getters/getById";
 import getFromDB from "@/Composables/Getters/getFromDB";
 import Endpoints from "@/assets/JS/Endpoints";
 import { ref } from "vue";
+import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
 const props = defineProps(["id"]);
 const nomMarque = ref("");
 const modelesResult = ref(null);
 const router = useRouter();
+const store = useStore();
 
 // loading the brand
-getById(Endpoints.getOrUpdateOrDeleteMarque, props.id).then((data) => {
+getById(Endpoints.getOrUpdateOrDeleteMarque, props.id, store).then((data) => {
   if (data) {
     nomMarque.value = data.nom;
   } else {
+    store.commit("setError", "Utilisateur introuvable");
+    store.commit("setErrorCode", "404");
     router.push({
       name: "marquesView",
-      query: {
-        error: "Marque introuvable",
-      },
     });
   }
 });
 // loading the modeles associated with it
 
-getFromDB(Endpoints.getModelesByMarque + props.id).then((response) => {
+getFromDB(Endpoints.getModelesByMarque + props.id, store).then((response) => {
   if (response) {
     modelesResult.value = response;
   }

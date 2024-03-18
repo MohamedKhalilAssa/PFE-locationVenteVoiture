@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ref } from "vue";
 
-const getFromDB = async (endpoint) => {
+const getFromDB = async (endpoint, store) => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
@@ -14,7 +14,7 @@ const getFromDB = async (endpoint) => {
     }
   } catch (error) {
     if (error) {
-      ErrorCouleur.value = error.message;
+      store.commit("setError", error);
     }
   }
 };

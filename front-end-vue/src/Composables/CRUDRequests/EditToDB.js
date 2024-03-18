@@ -8,8 +8,7 @@ const EditToDB = async (
   router,
   store,
   redirectTo,
-  errors,
-  serverError
+  errors
 ) => {
   button.disabled = true;
   axios.defaults.withCredentials = true;

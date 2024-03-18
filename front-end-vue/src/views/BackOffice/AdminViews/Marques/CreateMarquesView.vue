@@ -59,7 +59,6 @@ const store = useStore();
 const nomMarque = ref("");
 const button = ref(null);
 
-const serverError = ref(null);
 
 // post method handling
 const ajouterMarque = async () => {
@@ -73,7 +72,6 @@ const ajouterMarque = async () => {
     store,
     "marquesView",
     errors,
-    serverError
   );
 };
 </script>

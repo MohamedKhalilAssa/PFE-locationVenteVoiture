@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ref } from "vue";
 
-const getById = async (endpoint, id, serverError) => {
+const getById = async (endpoint, id, store) => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
@@ -14,7 +14,7 @@ const getById = async (endpoint, id, serverError) => {
     }
   } catch (error) {
     if (error) {
-      serverError = error.response.data.message;
+      store.commit("setError", error);
     }
   }
 };

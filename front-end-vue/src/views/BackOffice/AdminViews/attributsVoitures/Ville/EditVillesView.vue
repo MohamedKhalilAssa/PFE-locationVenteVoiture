@@ -37,12 +37,6 @@
         </button>
       </div>
     </form>
-    <div
-      class="errors max-w-lg text-center mx-auto mb-10 mt-10"
-      v-if="serverError"
-    >
-      <p class="text-red-600">{{ serverError }}</p>
-    </div>
   </section>
 </template>
 <script setup>
@@ -58,16 +52,13 @@ const router = useRouter();
 const store = useStore();
 const nomVille = ref("");
 const button = ref(null);
-const serverError = ref(null);
 
 // fetching existing modele
 const props = defineProps(["id"]);
 
-getById(Endpoints.getOrUpdateOrDeleteVille, props.id, serverError).then(
-  (data) => {
-    nomVille.value = data.nom;
-  }
-);
+getById(Endpoints.getOrUpdateOrDeleteVille, props.id, store).then((data) => {
+  nomVille.value = data.nom;
+});
 // post method handling
 const updateVille = async () => {
   const form = new FormData();
@@ -81,7 +72,6 @@ const updateVille = async () => {
     store,
     "villesView",
     errors,
-    serverError
   );
 };
 </script>

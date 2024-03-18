@@ -63,12 +63,6 @@
         </button>
       </div>
     </form>
-    <div
-      class="errors max-w-lg text-center mx-auto mb-10 mt-10"
-      v-if="serverError"
-    >
-      <p class="text-red-600">{{ serverError }}</p>
-    </div>
   </section>
 </template>
 <script setup>
@@ -86,34 +80,28 @@ const store = useStore();
 const nomModele = ref("");
 const marqueVmodel = ref("");
 const button = ref(null);
-const serverError = ref(null);
 
 // fetching existing modele
 const props = defineProps(["id"]);
 
-getById(Endpoints.getOrUpdateOrDeleteModele, props.id, serverError).then(
-  (data) => {
-    if (data) {
-      nomModele.value = data.nom;
-      marqueVmodel.value = data.marque_id;
-    } else {
-      router.push({
-        name: "modelesView",
-        query: {
-          error: "Modele introuvable",
-        },
-      });
-    }
+getById(Endpoints.getOrUpdateOrDeleteModele, props.id, store).then((data) => {
+  if (data) {
+    nomModele.value = data.nom;
+    marqueVmodel.value = data.marque_id;
+  } else {
+    store.commit("setError", "Modeles introuvable");
+    store.commit("setErrorCode", "404");
+    router.push({
+      name: "modelesView",
+    });
   }
-);
+});
 
 // Fetching Marques
 const marqueResult = ref([]);
-getFromDB(Endpoints.getAllOrAddMarque).then((response) => {
+getFromDB(Endpoints.getAllOrAddMarque, store).then((response) => {
   if (response) {
     marqueResult.value = response;
-  } else {
-    serverError.value += response || "";
   }
 });
 // end marques
@@ -131,8 +119,7 @@ const updateModele = async () => {
     router,
     store,
     "modelesView",
-    errors,
-    serverError
+    errors
   );
 };
 </script>

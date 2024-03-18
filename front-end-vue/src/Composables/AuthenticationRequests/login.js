@@ -1,14 +1,6 @@
 import axios from "axios";
 
-const login = async (
-  button,
-  form,
-  router,
-  route,
-  store,
-  errors,
-  serverError
-) => {
+const login = async (button, form, router, route, store, errors) => {
   button.disabled = true;
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
@@ -44,10 +36,7 @@ const login = async (
     button.disabled = false;
     if (error.response) {
       if (error.response.status == 429) {
-        serverError.value = "Too many requests. Please try again later.";
-        setTimeout(() => {
-          serverError.value = null;
-        }, 5000);
+        store.commit("setError", "Too many requests. Please try again later.");
       } else if (error.response.status != 422) {
         store.commit("setError", error);
       } else {

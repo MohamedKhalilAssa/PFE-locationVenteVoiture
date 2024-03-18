@@ -37,12 +37,6 @@
         </button>
       </div>
     </form>
-    <div
-      class="errors max-w-lg text-center mx-auto mb-10 mt-10"
-      v-if="serverError"
-    >
-      <p class="text-red-600">{{ serverError }}</p>
-    </div>
   </section>
 </template>
 <script setup>
@@ -59,23 +53,19 @@ const router = useRouter();
 const store = useStore();
 const nomMarque = ref("");
 const button = ref(null);
-const serverError = ref(null);
 
 // fetching marque by id
-getById(Endpoints.getOrUpdateOrDeleteMarque, props.id, serverError).then(
-  (data) => {
-    if (data) {
-      nomMarque.value = data.nom;
-    } else {
-      router.push({
-        name: "marquesView",
-        query: {
-          error: "Marque introuvable",
-        },
-      });
-    }
+getById(Endpoints.getOrUpdateOrDeleteMarque, props.id, store).then((data) => {
+  if (data) {
+    nomMarque.value = data.nom;
+  } else {
+    store.commit("setError", "Marque introuvable");
+    store.commit("setErrorCode", "404");
+    router.push({
+      name: "marquesView",
+    });
   }
-);
+});
 
 // post method handling
 const updateMarque = async () => {
@@ -90,7 +80,6 @@ const updateMarque = async () => {
     store,
     "marquesView",
     errors,
-    serverError
   );
 };
 </script>

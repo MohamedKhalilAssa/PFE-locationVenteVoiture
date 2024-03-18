@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ref } from "vue";
 
-const getPaginate = async (page = 1, endpoint, serverError) => {
+const getPaginate = async (page = 1, endpoint, store) => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
@@ -15,7 +15,7 @@ const getPaginate = async (page = 1, endpoint, serverError) => {
     }
   } catch (error) {
     if (error) {
-      serverError = error.response.data.message;
+      store.commit("setError", error);
     }
   }
 };

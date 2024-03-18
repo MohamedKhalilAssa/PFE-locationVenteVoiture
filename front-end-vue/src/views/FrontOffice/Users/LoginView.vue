@@ -67,16 +67,7 @@
         </p>
       </div>
     </form>
-    <div
-      class="errors max-w-lg text-center mx-auto mb-10 mt-10"
-      v-if="serverError"
-    >
-      <p
-        class="text-red-600"
-        v-html="serverError"
-        @change="setTimeout(() => (serverError = null), 2000)"
-      ></p>
-    </div>
+
   </section>
 </template>
 
@@ -92,14 +83,13 @@ const form = ref({
 });
 
 const errors = ref(null);
-const serverError = ref(null);
 const router = useRouter();
 const store = useStore();
 const button = ref(null);
 const route = useRoute();
 
 const loginHandler = async () => {
-  await login(button.value, form, router, route, store, errors, serverError);
+  await login(button.value, form, router, route, store, errors);
 };
 </script>
 

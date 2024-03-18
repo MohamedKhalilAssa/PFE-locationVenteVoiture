@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const register = async (button, form, router, store, errors, serverError) => {
+const register = async (button, form, router, store, errors) => {
   button.disabled = true;
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;

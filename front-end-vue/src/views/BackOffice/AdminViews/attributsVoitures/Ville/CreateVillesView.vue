@@ -57,7 +57,6 @@ const router = useRouter();
 const store = useStore();
 const nomVille = ref("");
 const button = ref(null);
-const serverError = ref(null);
 
 // post method handling
 const ajouterVille = async () => {
@@ -71,7 +70,6 @@ const ajouterVille = async () => {
     store,
     "villesView",
     errors,
-    serverError
   );
 };
 </script>

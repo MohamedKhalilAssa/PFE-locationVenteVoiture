@@ -129,12 +129,6 @@
         </p>
       </div>
     </form>
-    <div
-      class="errors max-w-lg text-center mx-auto mb-10 mt-10"
-      v-if="serverError"
-    >
-      <p class="text-red-600">{{ serverError }}</p>
-    </div>
   </section>
 </template>
 
@@ -157,10 +151,9 @@ const errors = ref(null);
 const router = useRouter();
 const store = useStore();
 const button = ref(null);
-const serverError = ref(null);
 
 const RegisterHandling = async () => {
-  register(button.value, form, router, store, errors, serverError);
+  register(button.value, form, router, store, errors);
 };
 </script>
 

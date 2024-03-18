@@ -63,12 +63,6 @@
         </button>
       </div>
     </form>
-    <div
-      class="errors max-w-lg text-center mx-auto mb-10 mt-10"
-      v-if="serverError"
-    >
-      <p class="text-red-600">{{ serverError }}</p>
-    </div>
   </section>
 </template>
 <script setup>
@@ -85,12 +79,11 @@ const store = useStore();
 const nomModele = ref("");
 const marqueVmodel = ref("");
 const button = ref(null);
-const serverError = ref(null);
 
 // Fetching Marques
 
 const marqueResult = ref([]);
-getFromDB(Endpoints.getAllOrAddMarque).then((response) => {
+getFromDB(Endpoints.getAllOrAddMarque,store).then((response) => {
   if (response) {
     marqueResult.value = response;
   } else {
@@ -112,7 +105,6 @@ const ajouterModele = async () => {
     store,
     "modelesView",
     errors,
-    serverError
   );
 };
 </script>
