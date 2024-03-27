@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class VilleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'indexBack', 'show']);
+    }
     public function index()
     {
         return response(Ville::all(["id", "nom"]))->header('Content-Type', 'application/json');

@@ -5,7 +5,6 @@ const getFromDB = async (endpoint, store) => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
-    await axios.get("http://localhost:8000/sanctum/csrf-cookie");
     let result = await axios.get(endpoint);
     if (result.statusText == "OK") {
       return result.data;

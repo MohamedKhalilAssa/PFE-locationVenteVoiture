@@ -23,8 +23,8 @@ class RegisteredUserController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'nom' => ['required', 'string', 'alpha', 'max:255'],
-            'prenom' => ['required', 'string', 'alpha', 'max:255'],
+            'nom' => ['required', 'string', 'regex:/^\D*$/', 'max:255'],
+            'prenom' => ['required', 'string', 'regex:/^\D*$/', 'max:255'],
             'telephone' => ['required', 'min:10', 'max:10', 'unique:users,telephone', 'regex:/^((06)|(05)){1}[\d]{8}$/'],
             'email' => ['required', 'lowercase', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],

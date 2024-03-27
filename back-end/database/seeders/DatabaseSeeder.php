@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             'prenom' => 'Admin',
             'email' => 'admin@localhost',
             'password' => Hash::make('admin'),
-            'role' => 'admin'
+            'role' => 'root'
         ]);
         $this->call(MarqueSeeder::class);
         $this->call(ModeleSeeder::class);

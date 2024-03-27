@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['show']);
+        $this->middleware('admin')->except(['show']);
+    }
     public function indexBack()
     {
         return response()->json(['PaginateQuery' => User::paginate(10), 'total' => User::count()]);
@@ -26,7 +31,7 @@ class UserController extends Controller
                 'required', 'lowercase',
                 'email', 'max:255', 'unique:users,email'
             ],
-            'role' => ['required', 'in:admin,client'],
+            'role' => ['required', 'in:root,admin,client'],
         ]);
 
         if ($validator->fails()) {

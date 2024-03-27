@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class ModeleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'indexBack', 'show']);
+        $this->middleware('admin')->except(['index', 'show']);
+    }
     public function showbyMarque($id)
     {
         return response(Marque::find($id)->modeles()->get(["id", "nom"]))->header('Content-Type', 'application/json');

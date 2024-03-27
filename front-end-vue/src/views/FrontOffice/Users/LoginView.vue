@@ -6,7 +6,7 @@
       method="POST"
       action=""
       @submit.prevent="loginHandler"
-      class="bg-white border border-gray-900 shadow-2xl p-3 md:p-10 rounded max-w-lg"
+      class="bg-white border border-gray-900 shadow-2xl p-4 sm:p-6 md:p-10 rounded max-w-lg"
     >
       <header class="text-center">
         <h2 class="text-2xl font-bold uppercase mb-1">Login</h2>
@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <div class="mb-6">
+      <div class="mb-6 flex justify-center items-center">
         <button
           ref="button"
           type="submit"
@@ -67,7 +67,6 @@
         </p>
       </div>
     </form>
-
   </section>
 </template>
 

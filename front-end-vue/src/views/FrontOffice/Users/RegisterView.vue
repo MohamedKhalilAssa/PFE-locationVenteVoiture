@@ -108,7 +108,7 @@
           name="password_confirmation"
         />
       </div>
-      <div class="mb-6">
+      <div class="mb-6 flex justify-center items-center">
         <button
           type="submit"
           ref="button"

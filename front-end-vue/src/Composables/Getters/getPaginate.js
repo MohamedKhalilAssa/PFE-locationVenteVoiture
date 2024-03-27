@@ -5,7 +5,6 @@ const getPaginate = async (page = 1, endpoint, store) => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
-    await axios.get("http://localhost:8000/sanctum/csrf-cookie");
     let result = await axios.get(endpoint + page);
 
     if (result.statusText == "OK") {

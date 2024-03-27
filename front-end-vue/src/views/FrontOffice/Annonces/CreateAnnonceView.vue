@@ -457,7 +457,7 @@
           </p>
         </div>
       </div>
-      <div class="mb-6">
+      <div class="mb-6 flex justify-center items-center">
         <button
           type="submit"
           class="bg-black text-white rounded py-2 px-4 hover:scale-105 duration-300 disabled:opacity-70 disabled:cursor-progress"

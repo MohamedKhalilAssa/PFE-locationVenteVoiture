@@ -1,11 +1,9 @@
-import Swal from "sweetalert2";
 import axios from "axios";
 
 const logout = async (store, route, router) => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
-    await axios.get("http://localhost:8000/sanctum/csrf-cookie");
     await axios.post("http://localhost:8000/logout").then((response) => {
       store.commit("setMessage", response.data.message);
       store.commit("setIconColor", response.data.iconColor);

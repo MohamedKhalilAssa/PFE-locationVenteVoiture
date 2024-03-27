@@ -5,7 +5,6 @@ const login = async (button, form, router, route, store, errors) => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
-    await axios.get("http://localhost:8000/sanctum/csrf-cookie");
     await axios
       .post("http://localhost:8000/login", {
         email: form.value.email,

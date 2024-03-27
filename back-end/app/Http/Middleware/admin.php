@@ -4,9 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class XSSAttack
+class admin
 {
     /**
      * Handle an incoming request.
@@ -15,15 +16,10 @@ class XSSAttack
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $previous = $request->all();
-        $input = $request->all();
-        array_walk_recursive($input, function (&$input) {
-            $input = strip_tags($input);
-        });
-        if(array_diff($previous, $input)){
-            abort(401, 'XSS attack');
+        if (Auth::user() &&  in_array(Auth::user()->role, ['root', 'admin'])) {
+            return $next($request);
+        } else {
+            return abort(403);
         }
-        $request->merge($input);
-        return $next($request);
     }
 }

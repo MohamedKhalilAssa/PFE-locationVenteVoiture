@@ -13,7 +13,6 @@ const AddToDB = async (
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
-    await axios.get("http://localhost:8000/sanctum/csrf-cookie");
     // Send the FormData object to the server using axios
     await axios.post(endpoint, formElements).then((response) => {
       store.commit("setMessage", response.data.message);

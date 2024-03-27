@@ -1,6 +1,8 @@
 <template>
   <div class="dropdown" ref="dropdown" @click="toggleMenu">
-    <Button class="dropbtn" addClass="rounded">{{ props.title }}</Button>
+    <Button class="dropbtn" addClass="rounded relative -z-10">{{
+      props.title
+    }}</Button>
     <div class="dropdown-content">
       <!-- more customizable and reusable  -->
       <slot></slot>
@@ -11,7 +13,6 @@
 <script setup>
 import Button from "@/Components/ButtonRed.vue";
 import { ref } from "vue";
-
 
 const props = defineProps(["title"]);
 const dropdown = ref(null);

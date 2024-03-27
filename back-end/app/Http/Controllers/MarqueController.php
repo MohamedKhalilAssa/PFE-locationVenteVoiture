@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class MarqueController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'indexBack', 'show']);
+        $this->middleware('admin')->except(['index', 'show']);
+    }
     public function index()
     {
         return response(Marque::all(["id", "nom"]))->header('Content-Type', 'application/json');
