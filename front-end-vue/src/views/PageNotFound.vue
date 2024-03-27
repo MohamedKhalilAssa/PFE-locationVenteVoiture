@@ -1,7 +1,10 @@
 <template>
   <main id="notFoundMain">
-    <img class="w-full h-full min-h-96 object-cover mx-auto md:w-3/4 xl:w-2/3 2xl:w-1/2"
-      src="@/assets/CompiledImages/NotFoundImageNoBG.png" alt="page not found Image" />
+    <img
+      class="w-full h-full min-h-96 object-cover mx-auto md:w-3/4 xl:w-2/3 2xl:w-1/2 select-none"
+      src="@/assets/CompiledImages/NotFoundImageNoBG.png"
+      alt="page not found Image"
+    />
   </main>
 </template>
 <style>
