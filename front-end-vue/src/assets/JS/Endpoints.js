@@ -1,21 +1,23 @@
+const baseURL = "http://localhost:8000"; // to be changed if the backend is hosted somewhere else
+
 export default {
   // Users
-  getAllOrAddUser: "http://localhost:8000/api/users",
-  userPaginate: "http://localhost:8000/api/users/pagination?page=",
-  getOrUpdateOrDeleteUser: "http://localhost:8000/api/users/",
+  getAllOrAddUser: baseURL + "/api/users",
+  userPaginate: baseURL + "/api/users/pagination?page=",
+  getOrUpdateOrDeleteUser: baseURL + "/api/users/",
   // Marques
-  getAllOrAddMarque: "http://localhost:8000/api/marque",
-  getOrUpdateOrDeleteMarque: "http://localhost:8000/api/marque/",
-  MarquePagination: "http://localhost:8000/api/marque/pagination?page=",
+  getAllOrAddMarque: baseURL + "/api/marque",
+  getOrUpdateOrDeleteMarque: baseURL + "/api/marque/",
+  MarquePagination: baseURL + "/api/marque/pagination?page=",
   //   Modeles
-  getAllOrAddModele: "http://localhost:8000/api/modele",
-  getModelesByMarque: "http://localhost:8000/api/modele/marque/",
-  getOrUpdateOrDeleteModele: "http://localhost:8000/api/modele/",
-  ModelePagination: "http://localhost:8000/api/modele/pagination?page=",
+  getAllOrAddModele: baseURL + "/api/modele",
+  getModelesByMarque: baseURL + "/api/modele/marque/",
+  getOrUpdateOrDeleteModele: baseURL + "/api/modele/",
+  ModelePagination: baseURL + "/api/modele/pagination?page=",
   //   couleurs
-  getAllOrAddCouleurs: "http://localhost:8000/api/couleur",
+  getAllOrAddCouleurs: baseURL + "/api/couleur",
   //   villes
-  getAllOrAddVille: "http://localhost:8000/api/ville",
-  getOrUpdateOrDeleteVille: "http://localhost:8000/api/ville/",
-  VillePagination: "http://localhost:8000/api/ville/pagination?page=",
+  getAllOrAddVille: baseURL + "/api/ville",
+  getOrUpdateOrDeleteVille: baseURL + "/api/ville/",
+  VillePagination: baseURL + "/api/ville/pagination?page=",
 };
