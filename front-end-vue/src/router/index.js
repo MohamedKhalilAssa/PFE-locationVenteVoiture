@@ -115,7 +115,7 @@ router.beforeEach(async (to, from, next) => {
       if (data) {
         if (!to.meta.requiresAdmin) {
           next();
-        } else if (data.role == "admin" && to.meta.requiresAdmin) {
+        } else if (data.role == "admin" || data.role == "root" && to.meta.requiresAdmin) {
           next();
         } else {
           store.commit(

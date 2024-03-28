@@ -7,6 +7,14 @@ export default [
     meta: { requiresAuth: true, requiresAdmin: true },
   },
   {
+    path: "users/details/:id",
+    name: "detailsUser",
+    component: () =>
+      import("@/views/BackOffice/AdminViews/Users/DetailUsersView.vue"),
+    meta: { requiresAuth: true, requiresAdmin: true },
+    props: true,
+  },
+  {
     path: "users/ajouter",
     name: "ajouterUser",
     component: () =>

@@ -20,10 +20,16 @@ const columns = [
   { name: "Prenom", key: "prenom" },
   { name: "Email", key: "email" },
   { name: "Telephone", key: "telephone" },
-  { name: "Role", key: "role" },
+  { name: "Role", key: "role", capitalize: true },
 ];
 // action
 const actions = [
+  {
+    label: "Details",
+    redirectToAction: "detailsUser",
+    toID: "id",
+    addClass: "text-green-600",
+  },
   {
     label: "Modifier",
     redirectToAction: "modifierUser",

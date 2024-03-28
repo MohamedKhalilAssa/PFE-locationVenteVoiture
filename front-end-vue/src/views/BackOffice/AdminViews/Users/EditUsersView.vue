@@ -78,34 +78,31 @@
           </p>
         </div>
       </div>
-      <div class="mb-6">
-        <label for="couleur" class="inline-block text-lg mb-2 required"
+      <div class="mb-6" v-if="$store.getters.getUser.role === 'root'">
+        <label for="role" class="inline-block text-lg mb-2 required"
           >Le Role
         </label>
         <select
-          v-model="form.couleur_id"
+          v-model="form.role"
           id="role"
           class="border border-gray-600 rounded p-2 w-full"
           name="role"
         >
-          <option selected :value="null">
-            Choisir la couleur de la voiture
-          </option>
           <option
-            v-for="couleur in couleurResult"
-            :key="couleur.id"
-            :value="couleur.id"
+            v-for="role in ['Admin', 'Client']"
+            :key="role"
+            :value="role.toLowerCase()"
           >
-            {{ couleur.nom }}
+            {{ role }}
           </option>
         </select>
         <div class="errors" v-if="errors">
-          <p class="text-red-600" v-if="errors.couleur_id">
-            {{ errors.couleur_id[0] }}
+          <p class="text-red-600" v-if="errors.role">
+            {{ errors.role[0] }}
           </p>
         </div>
       </div>
-      <div class="mb-6">
+      <div class="mb-6 flex justify-center items-center">
         <button
           type="submit"
           ref="button"
@@ -123,7 +120,6 @@ import { ref, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import getById from "@/Composables/Getters/getById";
 import EditToDB from "@/Composables/CRUDRequests/EditToDB";
-import getFromDB from "@/Composables/Getters/getFromDB";
 import Endpoints from "@/assets/JS/Endpoints";
 import { useStore } from "vuex";
 
@@ -150,6 +146,7 @@ getById(Endpoints.getOrUpdateOrDeleteUser, props.id, store).then((data) => {
     form.value.prenom = data.prenom;
     form.value.email = data.email;
     form.value.telephone = data.telephone;
+    form.value.role = data.role;
   } else {
     store.commit("setError", "Utilisateur introuvable");
     store.commit("setErrorCode", "404");
@@ -159,7 +156,22 @@ getById(Endpoints.getOrUpdateOrDeleteUser, props.id, store).then((data) => {
   }
 });
 const RegisterHandling = async () => {
-  register(button.value, form, router, store, errors);
+  const formData = new FormData();
+  formData.append("nom", form.value.nom);
+  formData.append("prenom", form.value.prenom);
+  formData.append("email", form.value.email);
+  formData.append("telephone", form.value.telephone);
+  formData.append("role", form.value.role);
+  EditToDB(
+    button.value,
+    Endpoints.getOrUpdateOrDeleteUser,
+    props.id,
+    formData,
+    router,
+    store,
+    "usersView",
+    errors
+  );
 };
 </script>
 

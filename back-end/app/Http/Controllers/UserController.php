@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -24,15 +25,22 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'nom' => ['required', 'string', 'alpha', 'max:255'],
-            'prenom' => ['required', 'string', 'alpha', 'max:255'],
-            'telephone' => ['required', 'min:10', 'max:10', 'unique:users,telephone', 'regex:/^((06)|(05)){1}[\d]{8}$/'],
+            'nom' => ['required', 'string', 'regex:/^\D*$/', 'max:255'],
+            'prenom' => ['required', 'string', 'regex:/^\D*$/', 'max:255'],
+            'telephone' => ['required', 'min:10', 'max:10',  'regex:/^((06)|(05)){1}[\d]{8}$/'],
             'email' => [
                 'required', 'lowercase',
-                'email', 'max:255', 'unique:users,email'
+                'email', 'max:255',
             ],
-            'role' => ['required', 'in:root,admin,client'],
         ]);
+        $validator->sometimes(
+            'role',
+            ['required', 'in:admin,client'],
+            function () {
+                // Perform your condition here, for example:
+                return Auth::user()->role === 'root';
+            }
+        );
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -46,7 +54,14 @@ class UserController extends Controller
         $user->prenom = $request->prenom;
         $user->telephone = $request->telephone;
         $user->email = $request->email;
-        $user->role = $request->role;
+        // check if the role has been changed by an authorized person if not return an error
+        if (Auth::user()->role === 'root') {
+            $user->role = $request->role;
+        } else if (Auth::user()->role != 'root' && $request->role != $user->role) {
+            abort(401, 'Vous ne pouvez pas changer le role d\'un utilisateur');
+        }
+        // saving the changes
+
         if ($user->save()) {
             return response()->json(["message" => "Utilisateur modifié avec succès"]);
         } else {
