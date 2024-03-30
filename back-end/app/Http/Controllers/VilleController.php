@@ -17,7 +17,11 @@ class VilleController extends Controller
     }
     public function indexBack()
     {
-        return response()->json(['PaginateQuery' => Ville::paginate(10), 'total' => Ville::count()]);
+        if (request('search')) {
+            return response()->json(['PaginateQuery' => Ville::where('nom', 'like', request('search') . '%')->paginate(10), 'total' => Ville::count()]);
+        } else {
+            return response()->json(['PaginateQuery' => Ville::paginate(10), 'total' => Ville::count()]);
+        }
     }
     public function show($id)
     {

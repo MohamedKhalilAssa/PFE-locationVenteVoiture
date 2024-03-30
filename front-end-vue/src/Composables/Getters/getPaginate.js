@@ -1,11 +1,11 @@
 import axios from "axios";
 import { ref } from "vue";
 
-const getPaginate = async (page = 1, endpoint, store) => {
+const getPaginate = async (page = 1, endpoint, search = "", store) => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
-    let result = await axios.get(endpoint + page);
+    let result = await axios.get(endpoint + page + "&search=" + search);
 
     if (result.statusText == "OK") {
       return result.data;

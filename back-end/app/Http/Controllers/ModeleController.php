@@ -23,7 +23,11 @@ class ModeleController extends Controller
     }
     public function indexBack()
     {
-        return response()->json(['PaginateQuery' => Modele::paginate(10), 'total' => Modele::count()]);
+        if (request('search')) {
+            return response()->json(['PaginateQuery' => Modele::where('nom', 'like', request('search') . '%')->paginate(10), 'total' => Modele::count()]);
+        } else {
+            return response()->json(['PaginateQuery' => Modele::paginate(10), 'total' => Modele::count()]);
+        }
     }
     public function destroy($id)
     {

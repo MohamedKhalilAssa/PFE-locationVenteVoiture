@@ -18,7 +18,11 @@ class MarqueController extends Controller
     }
     public function indexBack()
     {
-        return response()->json(['PaginateQuery' => Marque::paginate(10), 'total' => Marque::count()]);
+        if (request('search')) {
+            return response()->json(['PaginateQuery' => Marque::where('nom', 'like', request('search') . '%')->paginate(10), 'total' => Marque::count()]);
+        } else {
+            return response()->json(['PaginateQuery' => Marque::paginate(10), 'total' => Marque::count()]);
+        }
     }
     public function show($id)
     {
