@@ -14,7 +14,7 @@ const routes = [
   {
     path: "/",
     name: "home",
-    component: () => import("../views/FrontOffice/HomeView.vue"),
+    component: () => import("@/views/FrontOffice/HomeView.vue"),
   },
   {
     path: "/neuf",

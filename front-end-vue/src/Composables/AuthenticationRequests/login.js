@@ -23,7 +23,7 @@ const login = async (button, form, router, route, store, errors) => {
     store.commit("setAuthentication");
     store.commit("setUser");
 
-    if (data.role == "admin") {
+    if (data.role == "admin" || data.role == "root") {
       router.push({
         name: `DashboardView`,
       });
