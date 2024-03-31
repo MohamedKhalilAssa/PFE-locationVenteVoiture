@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             'nom' => 'Super',
             'prenom' => 'Admin',
             'email' => 'admin@localhost',
-            'password' => Hash::make('admin'),
+            'password' => Hash::make('AdminPassword#2324'),
             'role' => 'root'
         ]);
         $this->call(MarqueSeeder::class);
