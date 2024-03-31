@@ -8,6 +8,7 @@ import modelesRoutes from "./AdminRoutes/modelesRoutes";
 import villesRoutes from "./AdminRoutes/villesRoutes";
 import couleursRoutes from "./AdminRoutes/couleursRoutes";
 import authenticationRoutes from "./GlobalRoutes/authenticationRoutes";
+import Endpoints from "@/assets/JS/Endpoints";
 
 const routes = [
   {
@@ -110,12 +111,15 @@ router.beforeEach(async (to, from, next) => {
     axios.defaults.withXSRFToken = true;
     const store = useStore();
     try {
-      const { data } = await axios.get("http://localhost:8000/api/user");
+      const { data } = await axios.get(Endpoints.getAuthenticatedUser);
 
       if (data) {
         if (!to.meta.requiresAdmin) {
           next();
-        } else if (data.role == "admin" || data.role == "root" && to.meta.requiresAdmin) {
+        } else if (
+          data.role == "admin" ||
+          (data.role == "root" && to.meta.requiresAdmin)
+        ) {
           next();
         } else {
           store.commit(

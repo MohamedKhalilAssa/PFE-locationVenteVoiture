@@ -1,7 +1,7 @@
 <script setup>
 import DeleteFromDB from "@/Composables/CRUDRequests/DeleteFromDB";
 import getPaginate from "@/Composables/Getters/getPaginate";
-import TableHeader from "@/Components/TableHeader.vue";
+import TableHeader from "@/Components/TableElements/TableHeader.vue";
 import SearchField from "@/Components/TableElements/SearchField.vue";
 import TablePagination from "@/Components/TableElements/TablePagination.vue";
 import ActionsTable from "@/Components/TableElements/ActionsTable.vue";

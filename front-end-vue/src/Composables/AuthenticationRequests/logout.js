@@ -1,10 +1,11 @@
+import Endpoints from "@/assets/JS/Endpoints";
 import axios from "axios";
 
 const logout = async (store, route, router) => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
-    await axios.post("http://localhost:8000/logout").then((response) => {
+    await axios.post(Endpoints.logout).then((response) => {
       store.commit("setMessage", response.data.message);
       store.commit("setIconColor", response.data.iconColor);
     });

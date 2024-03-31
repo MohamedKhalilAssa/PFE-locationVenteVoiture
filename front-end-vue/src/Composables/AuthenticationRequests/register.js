@@ -1,3 +1,4 @@
+import Endpoints from "@/assets/JS/Endpoints";
 import axios from "axios";
 
 const register = async (button, form, router, store, errors) => {
@@ -6,7 +7,7 @@ const register = async (button, form, router, store, errors) => {
   axios.defaults.withXSRFToken = true;
   try {
     await axios
-      .post("http://localhost:8000/register", {
+      .post(Endpoints.register, {
         nom: form.value.nom,
         prenom: form.value.prenom,
         telephone: form.value.telephone,
@@ -18,7 +19,7 @@ const register = async (button, form, router, store, errors) => {
         store.commit("setMessage", response.data.message);
       });
 
-    let { data } = await axios.get("http://localhost:8000/api/user");
+    let { data } = await axios.get(Endpoints.getAuthenticatedUser);
     localStorage.setItem("Authentication", true);
     localStorage.setItem("User", JSON.stringify(data));
     store.commit("setAuthentication");

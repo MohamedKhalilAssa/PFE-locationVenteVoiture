@@ -1,10 +1,10 @@
 import axios from "axios";
-
+import Endpoints from "@/assets/JS/Endpoints";
 const getCSRFToken = async (store) => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
-    await axios.get("http://localhost:8000/sanctum/csrf-cookie");
+    await axios.get(Endpoints.getCSRFToken);
     if (
       !sessionStorage.getItem("verified") &&
       localStorage.getItem("Authentication")
@@ -12,7 +12,7 @@ const getCSRFToken = async (store) => {
       axios.defaults.withCredentials = true;
       axios.defaults.withXSRFToken = true;
       try {
-        const { data } = await axios.get("http://localhost:8000/api/user");
+        const { data } = await axios.get(Endpoints.getAuthenticatedUser);
 
         if (data) {
           sessionStorage.setItem("verified", true);
