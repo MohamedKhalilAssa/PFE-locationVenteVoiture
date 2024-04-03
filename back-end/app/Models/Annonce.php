@@ -7,11 +7,13 @@ use App\Models\Marque;
 use App\Models\Modele;
 use App\Models\couleursVoiture;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Annonce extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $guarded = [];
 
 

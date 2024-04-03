@@ -5,7 +5,8 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Models\couleursVoiture;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -35,6 +36,7 @@ return new class extends Migration {
             $table->enum('disponibilite_vente', ['vendu', 'disponible', 'indisponible'])->nullable();
             $table->enum('disponibilite_location', ['louer', 'disponible', 'indisponible'])->nullable();
             $table->json('image');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

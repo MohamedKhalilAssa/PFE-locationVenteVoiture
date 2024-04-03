@@ -15,14 +15,14 @@ class XSSAttack
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $previous = $request->all();
+        // $previous = $request->all();
         $input = $request->all();
         array_walk_recursive($input, function (&$input) {
             $input = strip_tags($input);
         });
-        if(array_diff($previous, $input)){
-            abort(401, 'XSS attack');
-        }
+        // if(array_diff($previous, $input)){
+        //     abort(401, 'XSS attack');
+        // }
         $request->merge($input);
         return $next($request);
     }

@@ -26,4 +26,5 @@ export default {
   logout: baseURL + "/logout",
   register: baseURL + "/register",
   getAuthenticatedUser: baseURL + "/api/user",
+  // user__get_all_or_add
 };

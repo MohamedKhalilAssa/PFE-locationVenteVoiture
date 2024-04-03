@@ -545,6 +545,7 @@ const uploadFiles = async () => {
         }
       });
   } catch (error) {
+    console.log(error);
     errors.value = error.response.data.errors;
   }
 };
@@ -590,7 +591,7 @@ const marqueSelected = () => {
 // fetching color
 getFromDB(Endpoints.getAllOrAddCouleurs).then((response) => {
   if (response) {
-    marqueResult.value = response;
+    couleurResult.value = response;
   }
 });
 // end fetch
@@ -598,7 +599,7 @@ getFromDB(Endpoints.getAllOrAddCouleurs).then((response) => {
 // fetching villes
 getFromDB(Endpoints.getAllOrAddVille).then((response) => {
   if (response) {
-    marqueResult.value = response;
+    villeResult.value = response;
   }
 });
 
