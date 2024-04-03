@@ -20,86 +20,9 @@ use App\Http\Controllers\UserController;
 |
 */
 
+
+
 Route::middleware('XSS')->group(function () {
+    includeAllFiles('/routes/API/');
 
-    Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-        return $request->user();
-    });
-
-    Route::group(['prefix' => 'users', 'as' => 'user.'], function () {
-        // only name and id here based on marque
-        //show with id
-        Route::get('/{id}', [UserController::class, 'show'])->where("id", "[0-9]+")->name("show");
-
-        // all with pagination
-        Route::get('/pagination', [UserController::class, 'indexBack'])->name("indexBack");
-        // for deleting
-        Route::delete('/{id}', [UserController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
-        // for updating
-        Route::post('/{id}', [UserController::class, 'update'])->where("id", "[0-9]+")->name("update");
-    });
-    Route::group(['prefix' => 'marque', 'as' => 'marque.'], function () {
-        // only name and id here
-        Route::get('/', [MarqueController::class, 'index'])->name("index");
-        // all with pagination
-        Route::get('/pagination', [MarqueController::class, 'indexBack'])->name("indexBack");
-        // for showing with id
-        Route::get('/{id}', [MarqueController::class, 'show'])->where("id", "[0-9]+")->name("show");
-        // for updating
-        Route::post('/{id}', [MarqueController::class, 'update'])->where("id", "[0-9]+")->name("update");
-        // for creating
-        Route::post('/', [MarqueController::class, 'store'])->name("store");
-        // for deleting
-        Route::delete('/{id}', [MarqueController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
-    });
-    // Route::get('/modele',[App\Http\Controllers\ModeleController::class,'index']);
-    // Route::get('/vehicule',[App\Http\Controllers\VehiculeController::class,'index']);
-    // Route::get('/vehicule/{id}',[App\Http\Controllers\VehiculeController::class,'show']);
-    // Route::post('/vehicule',[App\Http\Controllers\VehiculeController::class,'store']);
-    // Route::put('/vehicule/{id}',[App\Http\Controllers\VehiculeController::class,'update']);
-    // Route::delete('/vehicule/{id}',[App\Http\Controllers\VehiculeController::class,'destroy']);
-
-    Route::group(['prefix' => 'modele', 'as' => 'modele.'], function () {
-        // only name and id here based on marque
-        Route::get('/marque/{marque_id}', [ModeleController::class, 'showbyMarque'])->where("marque_id", "[0-9]+")->name("showByMarque");
-        //show with id
-        Route::get('/{id}', [ModeleController::class, 'show'])->where("id", "[0-9]+")->name("show");
-
-        // all with pagination
-
-        Route::get('/pagination', [ModeleController::class, 'indexBack'])->name("indexBack");
-        // for deleting
-        Route::delete('/{id}', [ModeleController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
-        // for creating
-        Route::post('/', [ModeleController::class, 'store'])->name("store");
-        // for updating
-        Route::post('/{id}', [ModeleController::class, 'update'])->where("id", "[0-9]+")->name("update");
-    });
-    // couleur
-    Route::group(['prefix' => 'couleur', 'as' => 'couleur.'], function () {
-        // only name and id here
-        Route::get('/', [ColorController::class, 'index'])->name("index");
-    });
-
-    Route::group(['prefix' => 'ville', 'as' => 'ville.'], function () {
-        Route::get('/', [VilleController::class, 'index'])->name("index");
-        // getByID
-        Route::get('/{id}', [
-            VilleController::class, 'show'
-        ])->where("id", "[0-9]+")->name("show");
-        // for creating
-        Route::post('/', [VilleController::class, 'store'])->name("store");
-        //    update
-        Route::post('/{id}', [
-            VilleController::class, 'update'
-        ])->where("id", "[0-9]+")->name("update");
-        // for deleting
-        Route::delete('/{id}', [VilleController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
-        // all with pagination
-        Route::get('/pagination', [VilleController::class, 'indexBack'])->name("indexBack");
-    });
-
-    Route::group(["prefix" => "annonce", 'as' => 'annonce'], function () {
-        Route::post('/occasion/store', [AnnonceController::class, 'occasionStore'])->name("store");
-    });
 });
