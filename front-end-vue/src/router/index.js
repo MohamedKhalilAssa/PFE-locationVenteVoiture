@@ -2,12 +2,12 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useStore } from "vuex";
 import axios from "axios";
 // subfiles
-import usersRoutes from "./AdminRoutes/usersRoutes";
-import marquesRoutes from "./AdminRoutes/marquesRoutes";
-import modelesRoutes from "./AdminRoutes/modelesRoutes";
-import villesRoutes from "./AdminRoutes/villesRoutes";
-import couleursRoutes from "./AdminRoutes/couleursRoutes";
-import authenticationRoutes from "./GlobalRoutes/authenticationRoutes";
+import usersRoutes from "@/router/AdminRoutes/usersRoutes";
+import marquesRoutes from "@/router/AdminRoutes/marquesRoutes";
+import modelesRoutes from "@/router/AdminRoutes/modelesRoutes";
+import villesRoutes from "@/router/AdminRoutes/villesRoutes";
+import couleursRoutes from "@/router/AdminRoutes/couleursRoutes";
+import authenticationRoutes from "@/router/GlobalRoutes/authenticationRoutes";
 import Endpoints from "@/assets/JS/Endpoints";
 
 const routes = [
@@ -49,7 +49,7 @@ const routes = [
         path: "",
         name: "DashboardView",
         component: () =>
-          import("../views/BackOffice/AdminViews/DashboardView.vue"),
+          import("@/views/BackOffice/AdminViews/DashboardView.vue"),
         meta: { requiresAuth: true, requiresAdmin: true },
       },
 
@@ -62,25 +62,25 @@ const routes = [
       {
         path: "location",
         component: () =>
-          import("../views/BackOffice/AdminViews/Actions/LocationView.vue"),
+          import("@/views/BackOffice/AdminViews/Actions/LocationView.vue"),
         meta: { requiresAuth: true, requiresAdmin: true },
       },
       {
         path: "occasion",
         component: () =>
-          import("../views/BackOffice/AdminViews/Occasion/OccasionView.vue"),
+          import("@/views/BackOffice/AdminViews/Occasion/OccasionView.vue"),
         meta: { requiresAuth: true, requiresAdmin: true },
       },
       {
         path: "neuf",
         component: () =>
-          import("../views/BackOffice/AdminViews/Neuf/NeufView.vue"),
+          import("@/views/BackOffice/AdminViews/Neuf/NeufView.vue"),
         meta: { requiresAuth: true, requiresAdmin: true },
       },
       {
         path: "vente",
         component: () =>
-          import("../views/BackOffice/AdminViews/Actions/VenteView.vue"),
+          import("@/views/BackOffice/AdminViews/Actions/VenteView.vue"),
         meta: { requiresAuth: true, requiresAdmin: true },
       },
       // { path: "users/:id", component: AdminUserDetails },
@@ -117,9 +117,9 @@ router.beforeEach(async (to, from, next) => {
         if (!to.meta.requiresAdmin) {
           next();
         } else if (
-          (data.role == "admin" ||
-          data.role == "root") && to.meta.requiresAdmin)
-         {
+          (data.role == "admin" || data.role == "root") &&
+          to.meta.requiresAdmin
+        ) {
           next();
         } else {
           store.commit(

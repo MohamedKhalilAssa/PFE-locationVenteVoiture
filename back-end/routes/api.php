@@ -1,13 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ColorController;
-use App\Http\Controllers\VilleController;
-use App\Http\Controllers\MarqueController;
-use App\Http\Controllers\ModeleController;
-use App\Http\Controllers\AnnonceController;
-use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +12,6 @@ use App\Http\Controllers\UserController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-
-
 Route::middleware('XSS')->group(function () {
     includeAllFiles('/routes/API/');
-
 });

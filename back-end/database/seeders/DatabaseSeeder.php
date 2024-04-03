@@ -26,6 +26,13 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('AdminPassword#2324'),
             'role' => 'root'
         ]);
+        User::create([
+            'nom' => 'Test',
+            'prenom' => 'User',
+            'email' => 'test@localhost',
+            'password' => Hash::make('UserPassword#2324'),
+            'role' => 'client'
+        ]);
         $this->call(MarqueSeeder::class);
         $this->call(ModeleSeeder::class);
         $this->call(CouleursSeeder::class);
