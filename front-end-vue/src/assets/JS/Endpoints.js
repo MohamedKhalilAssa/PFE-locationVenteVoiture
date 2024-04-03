@@ -1,4 +1,4 @@
-const baseURL = "http:localhost:8000"; // to be changed if the backend is hosted somewhere else
+const baseURL = "http://localhost:8000"; // to be changed if the backend is hosted somewhere else
 
 export default {
   // Users

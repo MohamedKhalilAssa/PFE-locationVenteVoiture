@@ -1,7 +1,7 @@
 #!/bin/bash
 
-front_end_path="path/to/front-end"
-back_end_path="path/to/front-end"
+front_end_path="/home/mohamedkhalil/web/PFE-locationVenteVoiture/front-end-vue"
+back_end_path="/home/mohamedkhalil/web/PFE-locationVenteVoiture/back-end"
 
 
 gnome-terminal --working-directory="$front_end_path" -- npm run serve

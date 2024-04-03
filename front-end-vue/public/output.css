@@ -1265,10 +1265,6 @@ input:checked + .toggle-bg {
   top: 1rem;
 }
 
-.left-2 {
-  left: 0.5rem;
-}
-
 .isolate {
   isolation: isolate;
 }
@@ -5840,10 +5836,6 @@ input:checked + .toggle-bg {
 
   .md\:h-full {
     height: 100%;
-  }
-
-  .md\:\!max-h-full {
-    max-height: 100% !important;
   }
 
   .md\:w-1\/4 {
