@@ -2,7 +2,7 @@
 
 front_end_path="/home/mohamedkhalil/web/PFE-locationVenteVoiture/front-end-vue"
 back_end_path="/home/mohamedkhalil/web/PFE-locationVenteVoiture/back-end"
-
+caacs
 
 gnome-terminal --working-directory="$front_end_path" -- npm run serve
 
