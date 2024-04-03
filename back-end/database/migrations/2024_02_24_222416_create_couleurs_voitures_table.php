@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('nom')->unique();
             $table->string('Hexadecimal')->nullable()->unique();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

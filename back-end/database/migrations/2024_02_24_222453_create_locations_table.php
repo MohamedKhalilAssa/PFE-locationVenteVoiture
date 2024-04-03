@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->dateTime('date_fin');
             $table->enum('statut_location', ['en_cours', 'termine', 'annule']);
             $table->decimal('prix_total_location', 12, 3);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
