@@ -23,8 +23,10 @@ class ModeleController extends Controller
     }
     public function indexBack()
     {
-        if (request('search')) {
-            return response()->json(['PaginateQuery' => Modele::where('nom', 'like', request('search') . '%')->paginate(10), 'total' => Modele::count()]);
+        $selectedColumn = request('selectedColumn') ?? 'nom';
+        $search         = request('search');
+        if ($search) {
+            return response()->json(['PaginateQuery' => Modele::where($selectedColumn, 'like', $search . '%')->paginate(10), 'total' => Modele::count()]);
         } else {
             return response()->json(['PaginateQuery' => Modele::paginate(10), 'total' => Modele::count()]);
         }
