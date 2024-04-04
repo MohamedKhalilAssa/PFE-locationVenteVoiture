@@ -23,12 +23,29 @@ class ModeleController extends Controller
     }
     public function indexBack()
     {
-        $selectedColumn = request('selectedColumn') ?? 'nom';
+        $sort = request('sort') ?? 'none';
         $search         = request('search');
-        if ($search && trim($search) != '') {
-            return response()->json(['PaginateQuery' => Modele::where($selectedColumn, 'like', $search . '%')->paginate(10), 'total' => Modele::count()]);
+        $sortColumn = request('sortColumn') ?? 'id';
+        if ($search && trim($search) != '' ) {
+            $searchColumn = request('searchColumn') ?? 'nom';
+            $query=Modele::where($searchColumn, 'like', $search . '%');
+            if($sort == 'asc'){
+                $result = $query->orderBy($sortColumn, 'asc')->paginate(10);
+            } else if($sort == 'desc'){
+                $result = $query->orderBy($sortColumn, 'desc')->paginate(10);
+            } else {
+                $result = $query->paginate(10);
+            }
+            return response()->json(['PaginateQuery' =>$result, 'total' => Modele::count()]);
         } else {
-            return response()->json(['PaginateQuery' => Modele::paginate(10), 'total' => Modele::count()]);
+            if($sort == 'asc'){
+                $result = Modele::orderBy($sortColumn, 'asc')->paginate(10);
+            } else if($sort == 'desc'){
+                $result = Modele::orderBy($sortColumn, 'desc')->paginate(10);
+            } else {
+                $result = Modele::paginate(10);
+            }
+            return response()->json(['PaginateQuery' => $result, 'total' => Modele::count()]);
         }
     }
     public function destroy($id)

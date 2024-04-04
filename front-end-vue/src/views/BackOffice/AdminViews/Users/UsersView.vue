@@ -1,12 +1,6 @@
 <template>
-  <Table
-    :columns="columns"
-    :getter="Endpoints.userPaginate"
-    :deleteFrom="Endpoints.getOrUpdateOrDeleteUser"
-    :actions="actions"
-    titre="Utilisateur"
-    addName="ajouterUser"
-  />
+  <Table :columns="columns" :getter="Endpoints.userPaginate" :deleteFrom="Endpoints.getOrUpdateOrDeleteUser"
+    :actions="actions" titre="Utilisateur" addName="ajouterUser" />
 </template>
 
 <script setup>
@@ -15,12 +9,12 @@ import Endpoints from "@/assets/JS/Endpoints";
 
 // without actions
 const columns = [
-  { name: "ID", key: "id" },
-  { name: "Nom", key: "nom" },
-  { name: "Prenom", key: "prenom" },
-  { name: "Email", key: "email" },
+  { name: "ID", key: "id", sortable: true },
+  { name: "Nom", key: "nom", sortable: true },
+  { name: "Prenom", key: "prenom", sortable: true },
+  { name: "Email", key: "email", sortable: true },
   { name: "Telephone", key: "telephone" },
-  { name: "Role", key: "role", capitalize: true },
+  { name: "Role", key: "role", capitalize: true, sortable: true },
 ];
 // action
 const actions = [

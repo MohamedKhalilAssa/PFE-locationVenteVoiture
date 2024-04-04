@@ -1,12 +1,13 @@
 import axios from "axios";
 import { ref } from "vue";
 
-const getPaginate = async (page = 1, endpoint, search = "",selectedColumn=null, store) => {
+const getPaginate = async (page = 1, endpoint, store, sort = '', sortColumn = "", search = "", searchColumn = '', defaultColumn = "") => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
-    let result = await axios.get(endpoint + page + "&search=" + search+ "&selectedColumn=" + selectedColumn);
-
+    searchColumn = searchColumn ? searchColumn : defaultColumn;
+    sortColumn = sortColumn ? sortColumn : 'id';
+    let result = await axios.get(endpoint + page + "&sort=" + sort + "&sortColumn=" + sortColumn + "&search=" + search + "&searchColumn=" + searchColumn + "&defaultColumn=" + defaultColumn);
     if (result.statusText == "OK") {
       return result.data;
     } else {
