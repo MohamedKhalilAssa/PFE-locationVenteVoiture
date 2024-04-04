@@ -1502,6 +1502,10 @@ input:checked + .toggle-bg {
   margin-top: 2rem;
 }
 
+.\!mt-1 {
+  margin-top: 0.25rem !important;
+}
+
 .block {
   display: block;
 }

@@ -47,7 +47,7 @@ const routes = [
     children: [
       {
         path: "",
-        name: "DashboardView",
+        name: "adminHome",
         component: () =>
           import("@/views/BackOffice/AdminViews/DashboardView.vue"),
         meta: { requiresAuth: true, requiresAdmin: true },
@@ -61,24 +61,28 @@ const routes = [
 
       {
         path: "location",
+        name: "locationView",
         component: () =>
           import("@/views/BackOffice/AdminViews/Actions/LocationView.vue"),
         meta: { requiresAuth: true, requiresAdmin: true },
       },
       {
         path: "occasion",
+        name: "occasionView",
         component: () =>
           import("@/views/BackOffice/AdminViews/Occasion/OccasionView.vue"),
         meta: { requiresAuth: true, requiresAdmin: true },
       },
       {
         path: "neuf",
+        name: "neufView",
         component: () =>
           import("@/views/BackOffice/AdminViews/Neuf/NeufView.vue"),
         meta: { requiresAuth: true, requiresAdmin: true },
       },
       {
         path: "vente",
+        name: "venteView",
         component: () =>
           import("@/views/BackOffice/AdminViews/Actions/VenteView.vue"),
         meta: { requiresAuth: true, requiresAdmin: true },

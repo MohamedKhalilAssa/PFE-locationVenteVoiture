@@ -10,6 +10,7 @@
         <h2 class="text-2xl font-bold uppercase mb-1">Ajouter une marque</h2>
       </header>
 
+      <AddImageField></AddImageField>
       <div class="mb-6">
         <label for="nom" class="inline-block text-lg mb-2 required"
           >Nom de la Marque</label
@@ -37,7 +38,6 @@
         </button>
       </div>
     </form>
-   
   </section>
 </template>
 <script setup>
@@ -46,6 +46,7 @@ import { useRouter } from "vue-router";
 import AddToDB from "@/Composables/CRUDRequests/AddToDB";
 import Endpoints from "@/assets/JS/Endpoints";
 import { useStore } from "vuex";
+import AddImageField from "@/Components/addImageField.vue";
 
 const errors = ref(null);
 const router = useRouter();
@@ -53,7 +54,6 @@ const store = useStore();
 
 const nomMarque = ref("");
 const button = ref(null);
-
 
 // post method handling
 const ajouterMarque = async () => {
@@ -66,7 +66,7 @@ const ajouterMarque = async () => {
     router,
     store,
     "marquesView",
-    errors,
+    errors
   );
 };
 </script>

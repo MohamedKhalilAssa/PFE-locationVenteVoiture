@@ -11,35 +11,35 @@
       style="max-height: calc(100vh - 90px)"
     >
       <router-link
-        to="/admin"
+        :to="{ name: 'adminHome' }"
         class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100"
       >
         <i class="fa-solid fa-square-poll-vertical h-min w-min text-2xl"></i>
         <p>Dashboard</p>
       </router-link>
       <router-link
-        to="/admin/users"
+        :to="{ name: 'usersView' }"
         class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100"
       >
         <i class="fa-solid fa-user"></i>
         <p>Utilisateurs</p>
       </router-link>
       <router-link
-        to="/admin/marques"
+        :to="{ name: 'marquesView' }"
         class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100"
       >
         <i class="fa-solid fa-industry"></i>
         <p>Marques</p>
       </router-link>
       <router-link
-        to="/admin/modeles"
+        :to="{ name: 'modelesView' }"
         class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100"
       >
         <i class="fa-solid fa-car"></i>
         <p>Modeles</p>
       </router-link>
       <router-link
-        to="/admin/occasion"
+        :to="{ name: 'occasionView' }"
         class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100"
       >
         <i class="fa-solid fa-car-burst"></i>
@@ -47,6 +47,7 @@
       </router-link>
       <router-link
         to="/admin/neuf"
+        :to="{ name: 'neufView' }"
         class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100"
       >
         <i class="fa-solid fa-car-on"></i>
@@ -54,27 +55,28 @@
       </router-link>
       <router-link
         to="/admin/location"
+        :to="{ name: 'locationView' }"
         class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100"
       >
         <i class="fa-solid fa-stopwatch"></i>
         <p>Locations</p>
       </router-link>
       <router-link
-        to="/admin/vente"
+        :to="{ name: 'venteView' }"
         class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100"
       >
         <i class="fa-solid fa-hand-holding-dollar"></i>
         <p>Vente</p>
       </router-link>
       <router-link
-        to="/admin/villes"
+        :to="{ name: 'villesView' }"
         class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100"
       >
         <i class="fa-solid fa-city"></i>
         <p>Villes</p>
       </router-link>
       <router-link
-        to="/admin/couleurs"
+        :to="{ name: 'couleursView' }"
         class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100"
       >
         <i class="fa-solid fa-paint-roller"></i>
@@ -84,7 +86,6 @@
   </aside>
 </template>
 <script setup>
-import { watchEffect } from "vue";
 import Logo from "@/Components/Logo.vue";
 
 const props = defineProps(["addClass"]);
