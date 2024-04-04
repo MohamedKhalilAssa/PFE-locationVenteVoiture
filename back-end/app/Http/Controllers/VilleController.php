@@ -23,19 +23,15 @@ class VilleController extends Controller
         if ($search && trim($search) != '') {
             $searchColumn = request('searchColumn') ?? 'nom';
             $query = Ville::where($searchColumn, 'like', $search . '%');
-            if ($sort == 'asc') {
-                $result = $query->orderBy($sortColumn, 'asc')->paginate(10);
-            } else if ($sort == 'desc') {
-                $result = $query->orderBy($sortColumn, 'desc')->paginate(10);
+            if ($sort == 'asc' || $sort == 'desc') {
+                $result = $query->orderBy($sortColumn, $sort)->paginate(10);
             } else {
                 $result = $query->paginate(10);
             }
             return response()->json(['PaginateQuery' => $result, 'total' => Ville::count()]);
         } else {
-            if ($sort == 'asc') {
-                $result = Ville::orderBy($sortColumn, 'asc')->paginate(10);
-            } else if ($sort == 'desc') {
-                $result = Ville::orderBy($sortColumn, 'desc')->paginate(10);
+            if ($sort == 'asc' || $sort == 'desc') {
+                $result = Ville::orderBy($sortColumn, $sort)->paginate(10);
             } else {
                 $result = Ville::paginate(10);
             }

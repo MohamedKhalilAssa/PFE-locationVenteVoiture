@@ -103,13 +103,28 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if (to.meta.requiresGuest && localStorage.getItem("Authentication")) {
+  if (
+    to.meta.requiresGuest &&
+    (localStorage.getItem("Authentication") || localStorage.getItem("User"))
+  ) {
     next(from);
-  } else if (to.meta.requiresAuth && !localStorage.getItem("Authentication")) {
+  } else if (
+    to.meta.requiresAuth &&
+    (!localStorage.getItem("Authentication") || !localStorage.getItem("User"))
+  ) {
+    // if not authenticated remove the localStorage
+    localStorage.removeItem("Authentication");
+    localStorage.removeItem("User");
+    store.commit("setAuthentication");
+    store.commit("setUser");
     //initial check for token
     let previous = to.name;
     next({ name: "Login", query: { previous: previous } });
-  } else if (to.meta.requiresAuth && localStorage.getItem("Authentication")) {
+  } else if (
+    to.meta.requiresAuth &&
+    localStorage.getItem("Authentication") &&
+    !sessionStorage.getItem("verified")
+  ) {
     // to check the token authenticity
     axios.defaults.withCredentials = true;
     axios.defaults.withXSRFToken = true;
@@ -137,7 +152,6 @@ router.beforeEach(async (to, from, next) => {
     } catch (error) {
       localStorage.removeItem("Authentication");
       localStorage.removeItem("User");
-      localStorage.removeItem("authMessage");
       store.commit("setAuthentication");
       store.commit("setUser");
       let previous = to.name;

@@ -26,22 +26,18 @@ class ModeleController extends Controller
         $sort = request('sort') ?? 'none';
         $search         = request('search');
         $sortColumn = request('sortColumn') ?? 'id';
-        if ($search && trim($search) != '' ) {
+        if ($search && trim($search) != '') {
             $searchColumn = request('searchColumn') ?? 'nom';
-            $query=Modele::where($searchColumn, 'like', $search . '%');
-            if($sort == 'asc'){
-                $result = $query->orderBy($sortColumn, 'asc')->paginate(10);
-            } else if($sort == 'desc'){
-                $result = $query->orderBy($sortColumn, 'desc')->paginate(10);
+            $query = Modele::where($searchColumn, 'like', $search . '%');
+            if ($sort == 'asc' || $sort == 'desc') {
+                $result = $query->orderBy($sortColumn, $sort)->paginate(10);
             } else {
                 $result = $query->paginate(10);
             }
-            return response()->json(['PaginateQuery' =>$result, 'total' => Modele::count()]);
+            return response()->json(['PaginateQuery' => $result, 'total' => Modele::count()]);
         } else {
-            if($sort == 'asc'){
-                $result = Modele::orderBy($sortColumn, 'asc')->paginate(10);
-            } else if($sort == 'desc'){
-                $result = Modele::orderBy($sortColumn, 'desc')->paginate(10);
+            if ($sort == 'asc' || $sort == 'desc') {
+                $result = Modele::orderBy($sortColumn, $sort)->paginate(10);
             } else {
                 $result = Modele::paginate(10);
             }

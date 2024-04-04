@@ -22,19 +22,15 @@ class UserController extends Controller
         if ($search && trim($search) != '') {
             $searchColumn = request('searchColumn') ?? 'nom';
             $query = User::where($searchColumn, 'like', $search . '%');
-            if ($sort == 'asc') {
-                $result = $query->orderBy($sortColumn, 'asc')->paginate(10);
-            } else if ($sort == 'desc') {
-                $result = $query->orderBy($sortColumn, 'desc')->paginate(10);
+            if ($sort == 'asc' || $sort == 'desc') {
+                $result = $query->orderBy($sortColumn, $sort)->paginate(10);
             } else {
                 $result = $query->paginate(10);
             }
             return response()->json(['PaginateQuery' => $result, 'total' => User::count()]);
         } else {
-            if ($sort == 'asc') {
-                $result = User::orderBy($sortColumn, 'asc')->paginate(10);
-            } else if ($sort == 'desc') {
-                $result = User::orderBy($sortColumn, 'desc')->paginate(10);
+            if ($sort == 'asc' || $sort == 'desc') {
+                $result = User::orderBy($sortColumn, $sort)->paginate(10);
             } else {
                 $result = User::paginate(10);
             }

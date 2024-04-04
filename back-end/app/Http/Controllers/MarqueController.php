@@ -24,24 +24,22 @@ class MarqueController extends Controller
         if ($search && trim($search) != '') {
             $searchColumn = request('searchColumn') ?? 'nom';
             $query = Marque::where($searchColumn, 'like', $search . '%');
-            if ($sort == 'asc') {
-                $result = $query->orderBy($sortColumn, 'asc')->paginate(10);
-            } else if ($sort == 'desc') {
-                $result = $query->orderBy($sortColumn, 'desc')->paginate(10);
+
+          if ($sort == 'asc' || $sort == 'desc') {
+                $result = $query->orderBy($sortColumn, $sort)->paginate(10);
             } else {
                 $result = $query->paginate(10);
             }
             return response()->json(['PaginateQuery' => $result, 'total' => Marque::count()]);
         } else {
-            if ($sort == 'asc') {
-                $result = Marque::orderBy($sortColumn, 'asc')->paginate(10);
-            } else if ($sort == 'desc') {
-                $result = Marque::orderBy($sortColumn, 'desc')->paginate(10);
+            if ($sort == 'asc' || $sort == 'desc') {
+                $result = Marque::orderBy($sortColumn, $sort)->paginate(10);
             } else {
                 $result = Marque::paginate(10);
             }
             return response()->json(['PaginateQuery' => $result, 'total' => Marque::count()]);
         }
+
     }
     public function show($id)
     {

@@ -1,6 +1,12 @@
 <template>
-  <Table :columns="columns" :getter="Endpoints.userPaginate" :deleteFrom="Endpoints.getOrUpdateOrDeleteUser"
-    :actions="actions" titre="Utilisateur" addName="ajouterUser" />
+  <Table
+    :columns="columns"
+    :getter="Endpoints.userPaginate"
+    :deleteFrom="Endpoints.getOrUpdateOrDeleteUser"
+    :actions="actions"
+    titre="Utilisateur"
+    addName="ajouterUser"
+  />
 </template>
 
 <script setup>

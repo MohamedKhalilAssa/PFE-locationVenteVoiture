@@ -16,6 +16,12 @@ const getCSRFToken = async (store) => {
 
         if (data) {
           sessionStorage.setItem("verified", true);
+          // make sure data present:
+          // storing the data
+          localStorage.setItem("Authentication", true);
+          localStorage.setItem("User", JSON.stringify(data));
+          store.commit("setAuthentication");
+          store.commit("setUser");
         }
       } catch (error) {
         if (error) {
