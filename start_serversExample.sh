@@ -1,7 +1,7 @@
 #!/bin/bash
 
-front_end_path="path to front-end"
-back_end_path="path to backend"
+front_end_path="/home/ylamalem/Bureau/docker project/t/PFE-locationVenteVoiture/front-end-vue"
+back_end_path="/home/ylamalem/Bureau/docker project/t/PFE-locationVenteVoiture/back-end"
 caacs
 
 gnome-terminal --working-directory="$front_end_path" -- npm run serve
