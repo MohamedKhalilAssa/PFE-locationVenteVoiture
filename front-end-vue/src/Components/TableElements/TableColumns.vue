@@ -9,7 +9,7 @@
     data-sort="none"
     @click.self="sortingHandle($event, column)"
   >
-    <span>{{ column.name }}</span>
+    <span @click.self="clickOnName($event)">{{ column.name }}</span>
   </th>
   <th scope="col" class="px-6 py-3">Actions</th>
 </template>
@@ -28,8 +28,45 @@ const sortingHandle = (e, column) => {
     } else if (e.target.dataset.sort == "desc") {
       e.target.dataset.sort = "none";
     }
-
+    const th = document.querySelectorAll("th");
+    th.forEach((thE) => {
+      thE.classList.remove("headerSortDown");
+      thE.classList.remove("headerSortUp");
+    });
+    if (e.target.dataset.sort == "asc") {
+      e.target.classList.add("headerSortUp");
+    } else if (e.target.dataset.sort == "desc") {
+      e.target.classList.add("headerSortDown");
+    }
     emit("sort", column.key, e.target.dataset.sort);
   }
 };
+
+const clickOnName = (e) => {
+  e.target.parentElement.click();
+};
 </script>
+<style>
+.headerSortDown:after,
+.headerSortUp:after {
+  content: " ";
+  position: relative;
+  left: 6px;
+  border: 6px solid transparent;
+}
+
+.headerSortDown:after {
+  top: 10px;
+  border-top-color: silver;
+}
+
+.headerSortUp:after {
+  bottom: 15px;
+  border-bottom-color: silver;
+}
+
+.headerSortDown,
+.headerSortUp {
+  padding-right: 4px;
+}
+</style>
