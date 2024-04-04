@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container flex flex-col items-start md:flex-row space-y-6 md:space-y-0 justify-between md:items-center bg-white p-4 rounded mb-8 shadow-sm"
+    class=" min-w-full container flex flex-col items-start md:flex-row space-y-6 md:space-y-0 justify-between md:items-center bg-white p-4 rounded mb-8 shadow-sm"
   >
     <div class="flex space-x-3 text-2xl">
       <h1>Total {{ titre + "s: " }}</h1>
@@ -8,11 +8,11 @@
     </div>
     <router-link :to="{ name: addDestination }">
       <button
-        class="rounded-lg relative min-w-52 overflow-hidden h-10 cursor-pointer flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500"
+        class="rounded-lg relative min-w-56 overflow-hidden h-10 cursor-pointer flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500"
       >
-        <span
+        <p
           class="text-gray-200 w-max font-semibold ml-8 transform group-hover:translate-x-20 transition-all duration-300"
-          >Ajouter {{ titre }}</span
+          >Ajouter {{ titre }}</p
         >
         <span
           class="absolute right-0 h-full w-10 rounded-lg bg-green-500 flex items-center justify-center transform group-hover:translate-x-0 group-hover:w-full transition-all duration-300"

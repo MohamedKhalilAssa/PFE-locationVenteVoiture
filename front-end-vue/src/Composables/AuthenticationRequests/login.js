@@ -25,7 +25,7 @@ const login = async (button, form, router, route, store, errors) => {
 
     if (data.role == "admin" || data.role == "root") {
       router.push({
-        name: `DashboardView`,
+        name: `adminHome`,
       });
     } else {
       router.push({
