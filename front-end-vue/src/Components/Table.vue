@@ -29,8 +29,8 @@ getPaginate(1, props.getter).then((data) => {
 });
 
 // handling the search form
-const handlingSearch = (search) => {
-  getPaginate(1, props.getter, search).then((data) => {
+const handlingSearch = (search,selectedColumn) => {
+  getPaginate(1, props.getter, search,selectedColumn).then((data) => {
     result.value = data.PaginateQuery;
     total.value = data.total;
   });
@@ -65,7 +65,7 @@ const DeleteHandler = (id) => {
     {{ total }}
   </TableHeader>
   <div class="bg-white relative shadow-lg sm:rounded-lg">
-    <SearchField @search="handlingSearch" addClass="py-4"></SearchField>
+    <SearchField :columns="columns" @search="handlingSearch" addClass="py-4"></SearchField>
 
     <div
       class="tableauContainer overflow-auto lg:!max-h-full"

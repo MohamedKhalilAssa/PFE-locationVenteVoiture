@@ -1265,6 +1265,14 @@ input:checked + .toggle-bg {
   top: 1rem;
 }
 
+.right-10 {
+  right: 2.5rem;
+}
+
+.right-60 {
+  right: 15rem;
+}
+
 .isolate {
   isolation: isolate;
 }
