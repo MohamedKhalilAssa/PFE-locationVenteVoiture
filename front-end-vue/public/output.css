@@ -2186,12 +2186,6 @@ input:checked + .toggle-bg {
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
 }
 
-.space-x-8 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(2rem * var(--tw-space-x-reverse));
-  margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)));
-}
-
 .space-y-reverse > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 1;
 }
@@ -3323,14 +3317,6 @@ input:checked + .toggle-bg {
 
 .pt-5 {
   padding-top: 1.25rem;
-}
-
-.pl-5 {
-  padding-left: 1.25rem;
-}
-
-.pr-5 {
-  padding-right: 1.25rem;
 }
 
 .text-left {
@@ -4729,11 +4715,6 @@ input:checked + .toggle-bg {
 
 .group:hover .group-hover\:translate-x-20 {
   --tw-translate-x: 5rem;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.group:hover .group-hover\:translate-x-40 {
-  --tw-translate-x: 10rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 

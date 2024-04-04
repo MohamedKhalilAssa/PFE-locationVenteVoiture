@@ -71,7 +71,6 @@ getPaginate(1, props.getter, store, requestParams.value.sort, requestParams.valu
 
 // handling the search form
 const handlingSearch = (search, searchColumn, defaultColumn) => {
-  console.log(search, searchColumn, defaultColumn);
   requestParams.value.search = search
   requestParams.value.searchColumn = searchColumn
   getPaginate(1, props.getter, store, requestParams.value.sort, requestParams.value.sortColumn, search, searchColumn, defaultColumn).then((data) => {
