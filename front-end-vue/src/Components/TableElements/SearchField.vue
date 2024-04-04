@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative m-2 rounded-lg flex flex-col-reverse justify-between items-center gap-4 sm:flex-row"
+    class="relative m-2 rounded-lg flex flex-col-reverse justify-between gap-4 sm:flex-row"
     :class="addClass"
   >
     <input
