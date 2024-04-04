@@ -17,12 +17,29 @@ class VilleController extends Controller
     }
     public function indexBack()
     {
-        $selectedColumn = request('selectedColumn') ?? 'nom';
+        $sort = request('sort') ?? 'none';
         $search         = request('search');
+        $sortColumn = request('sortColumn') ?? 'id';
         if ($search && trim($search) != '') {
-            return response()->json(['PaginateQuery' => Ville::where($selectedColumn, 'like', $search . '%')->paginate(10), 'total' => Ville::count()]);
+            $searchColumn = request('searchColumn') ?? 'nom';
+            $query = Ville::where($searchColumn, 'like', $search . '%');
+            if ($sort == 'asc') {
+                $result = $query->orderBy($sortColumn, 'asc')->paginate(10);
+            } else if ($sort == 'desc') {
+                $result = $query->orderBy($sortColumn, 'desc')->paginate(10);
+            } else {
+                $result = $query->paginate(10);
+            }
+            return response()->json(['PaginateQuery' => $result, 'total' => Ville::count()]);
         } else {
-            return response()->json(['PaginateQuery' => Ville::paginate(10), 'total' => Ville::count()]);
+            if ($sort == 'asc') {
+                $result = Ville::orderBy($sortColumn, 'asc')->paginate(10);
+            } else if ($sort == 'desc') {
+                $result = Ville::orderBy($sortColumn, 'desc')->paginate(10);
+            } else {
+                $result = Ville::paginate(10);
+            }
+            return response()->json(['PaginateQuery' => $result, 'total' => Ville::count()]);
         }
     }
     public function show($id)

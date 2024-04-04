@@ -16,12 +16,29 @@ class UserController extends Controller
     }
     public function indexBack()
     {
-        $selectedColumn = request('selectedColumn') ?? 'nom';
+        $sort = request('sort') ?? 'none';
         $search         = request('search');
+        $sortColumn = request('sortColumn') ?? 'id';
         if ($search && trim($search) != '') {
-            return response()->json(['PaginateQuery' => User::where($selectedColumn, 'like', $search . '%')->paginate(10), 'total' => User::count()]);
+            $searchColumn = request('searchColumn') ?? 'nom';
+            $query = User::where($searchColumn, 'like', $search . '%');
+            if ($sort == 'asc') {
+                $result = $query->orderBy($sortColumn, 'asc')->paginate(10);
+            } else if ($sort == 'desc') {
+                $result = $query->orderBy($sortColumn, 'desc')->paginate(10);
+            } else {
+                $result = $query->paginate(10);
+            }
+            return response()->json(['PaginateQuery' => $result, 'total' => User::count()]);
         } else {
-            return response()->json(['PaginateQuery' => User::paginate(10), 'total' => User::count()]);
+            if ($sort == 'asc') {
+                $result = User::orderBy($sortColumn, 'asc')->paginate(10);
+            } else if ($sort == 'desc') {
+                $result = User::orderBy($sortColumn, 'desc')->paginate(10);
+            } else {
+                $result = User::paginate(10);
+            }
+            return response()->json(['PaginateQuery' => $result, 'total' => User::count()]);
         }
     }
     public function show($id)

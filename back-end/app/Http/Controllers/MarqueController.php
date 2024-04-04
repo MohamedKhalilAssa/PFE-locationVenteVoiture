@@ -18,12 +18,29 @@ class MarqueController extends Controller
     }
     public function indexBack()
     {
-        $selectedColumn = request('selectedColumn') ?? 'nom';
+        $sort = request('sort') ?? 'none';
         $search         = request('search');
+        $sortColumn = request('sortColumn') ?? 'id';
         if ($search && trim($search) != '') {
-            return response()->json(['PaginateQuery' => Marque::where($selectedColumn, 'like', $search . '%')->paginate(10), 'total' => Marque::count()]);
+            $searchColumn = request('searchColumn') ?? 'nom';
+            $query = Marque::where($searchColumn, 'like', $search . '%');
+            if ($sort == 'asc') {
+                $result = $query->orderBy($sortColumn, 'asc')->paginate(10);
+            } else if ($sort == 'desc') {
+                $result = $query->orderBy($sortColumn, 'desc')->paginate(10);
+            } else {
+                $result = $query->paginate(10);
+            }
+            return response()->json(['PaginateQuery' => $result, 'total' => Marque::count()]);
         } else {
-            return response()->json(['PaginateQuery' => Marque::paginate(10), 'total' => Marque::count()]);
+            if ($sort == 'asc') {
+                $result = Marque::orderBy($sortColumn, 'asc')->paginate(10);
+            } else if ($sort == 'desc') {
+                $result = Marque::orderBy($sortColumn, 'desc')->paginate(10);
+            } else {
+                $result = Marque::paginate(10);
+            }
+            return response()->json(['PaginateQuery' => $result, 'total' => Marque::count()]);
         }
     }
     public function show($id)
