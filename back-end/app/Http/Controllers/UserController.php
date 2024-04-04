@@ -16,8 +16,10 @@ class UserController extends Controller
     }
     public function indexBack()
     {
-        if (request('search')) {
-            return response()->json(['PaginateQuery' => User::where('nom', 'like', request('search') . '%')->orWhere('prenom', 'like', request('search') . '%')->orWhere('email', 'like', request('search') . '%')->orWhere('telephone', 'like', request('search') . '%')->paginate(10), 'total' => User::count()]);
+        $selectedColumn = request('selectedColumn') ?? 'nom';
+        $search         = request('search');
+        if ($search && trim($search) != '') {
+            return response()->json(['PaginateQuery' => User::where($selectedColumn, 'like', $search . '%')->paginate(10), 'total' => User::count()]);
         } else {
             return response()->json(['PaginateQuery' => User::paginate(10), 'total' => User::count()]);
         }

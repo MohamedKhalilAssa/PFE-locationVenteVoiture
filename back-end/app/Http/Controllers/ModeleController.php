@@ -25,7 +25,7 @@ class ModeleController extends Controller
     {
         $selectedColumn = request('selectedColumn') ?? 'nom';
         $search         = request('search');
-        if ($search) {
+        if ($search && trim($search) != '') {
             return response()->json(['PaginateQuery' => Modele::where($selectedColumn, 'like', $search . '%')->paginate(10), 'total' => Modele::count()]);
         } else {
             return response()->json(['PaginateQuery' => Modele::paginate(10), 'total' => Modele::count()]);
