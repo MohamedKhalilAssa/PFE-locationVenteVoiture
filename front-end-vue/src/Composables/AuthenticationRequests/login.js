@@ -1,5 +1,6 @@
 import axios from "axios";
 import Endpoints from "@/assets/JS/Endpoints";
+import addCredentials from "@/Composables/AuthenticationRequests/addCredentials";
 
 const login = async (button, form, router, route, store, errors) => {
   button.disabled = true;
@@ -18,10 +19,8 @@ const login = async (button, form, router, route, store, errors) => {
     let { data } = await axios.get(Endpoints.getAuthenticatedUser);
 
     // storing the data
-    localStorage.setItem("Authentication", true);
-    localStorage.setItem("User", JSON.stringify(data));
-    store.commit("setAuthentication");
-    store.commit("setUser");
+
+    addCredentials(data);
 
     if (data.role == "admin" || data.role == "root") {
       router.push({

@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useStore } from "vuex";
+import store from '@/store'; // Import the Vuex store
 import axios from "axios";
+import Endpoints from "@/assets/JS/Endpoints";
+import removeCredentials from "@/Composables/AuthenticationRequests/removeCredentials";
 // subfiles
 import usersRoutes from "@/router/AdminRoutes/usersRoutes";
 import marquesRoutes from "@/router/AdminRoutes/marquesRoutes";
@@ -8,7 +10,6 @@ import modelesRoutes from "@/router/AdminRoutes/modelesRoutes";
 import villesRoutes from "@/router/AdminRoutes/villesRoutes";
 import couleursRoutes from "@/router/AdminRoutes/couleursRoutes";
 import authenticationRoutes from "@/router/GlobalRoutes/authenticationRoutes";
-import Endpoints from "@/assets/JS/Endpoints";
 
 const routes = [
   {
@@ -112,14 +113,12 @@ router.beforeEach(async (to, from, next) => {
     to.meta.requiresAuth &&
     (!localStorage.getItem("Authentication") || !localStorage.getItem("User"))
   ) {
-    // if not authenticated remove the localStorage
-    localStorage.removeItem("Authentication");
-    localStorage.removeItem("User");
-    store.commit("setAuthentication");
-    store.commit("setUser");
-    //initial check for token
+    // if not authenticated remove the localStorage just in case
+    removeCredentials();
+    // send back
     let previous = to.name;
     next({ name: "Login", query: { previous: previous } });
+    //initial check for token
   } else if (
     to.meta.requiresAuth &&
     localStorage.getItem("Authentication") &&
@@ -128,7 +127,6 @@ router.beforeEach(async (to, from, next) => {
     // to check the token authenticity
     axios.defaults.withCredentials = true;
     axios.defaults.withXSRFToken = true;
-    const store = useStore();
     try {
       const { data } = await axios.get(Endpoints.getAuthenticatedUser);
 
@@ -150,10 +148,7 @@ router.beforeEach(async (to, from, next) => {
         }
       }
     } catch (error) {
-      localStorage.removeItem("Authentication");
-      localStorage.removeItem("User");
-      store.commit("setAuthentication");
-      store.commit("setUser");
+      removeCredentials();
       let previous = to.name;
       next({ name: "Login", query: { previous: previous } });
     }

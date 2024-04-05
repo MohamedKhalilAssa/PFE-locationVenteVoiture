@@ -1,12 +1,12 @@
 import axios from "axios";
 import Endpoints from "@/assets/JS/Endpoints";
+import removeCredentials from "@/Composables/AuthenticationRequests/removeCredentials";
 const getCSRFToken = async (store) => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
     await axios.get(Endpoints.getCSRFToken);
     if (
-      !sessionStorage.getItem("verified") &&
       localStorage.getItem("Authentication")
     ) {
       axios.defaults.withCredentials = true;
@@ -15,11 +15,11 @@ const getCSRFToken = async (store) => {
         const { data } = await axios.get(Endpoints.getAuthenticatedUser);
 
         if (data) {
-          sessionStorage.setItem("verified", true);
           // make sure data present:
           // storing the data
           localStorage.setItem("Authentication", true);
           localStorage.setItem("User", JSON.stringify(data));
+          sessionStorage.setItem("verified", true);
           store.commit("setAuthentication");
           store.commit("setUser");
         }
@@ -27,11 +27,7 @@ const getCSRFToken = async (store) => {
         if (error) {
           store.commit("setError", error);
         }
-        localStorage.removeItem("Authentication");
-        localStorage.removeItem("User");
-        localStorage.removeItem("authMessage");
-        store.commit("setAuthentication");
-        store.commit("setUser");
+        removeCredentials();
         window.location.reload();
       }
     }

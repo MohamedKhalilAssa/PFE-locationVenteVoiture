@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ref } from "vue";
+import removeCredentials from "@/Composables/AuthenticationRequests/removeCredentials";
 
 const getPaginate = async (page = 1, endpoint, store, sort = '', sortColumn = "", search = "", searchColumn = '', defaultColumn = "") => {
   axios.defaults.withCredentials = true;
@@ -15,7 +16,11 @@ const getPaginate = async (page = 1, endpoint, store, sort = '', sortColumn = ""
     }
   } catch (error) {
     if (error) {
-      store.commit("setError", error);
+      // verifying if the error is that of login 
+      if (error.response.status == 401 || error.response.status == 403) {
+        removeCredentials();
+      } else
+        store.commit("setError", error);
     }
   }
 };

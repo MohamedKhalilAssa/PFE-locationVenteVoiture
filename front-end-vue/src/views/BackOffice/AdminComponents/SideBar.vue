@@ -1,6 +1,7 @@
 <template>
-  <aside class="fixed top-0 left-0 -translate-x-3/4 h-full bg-gray-950 w-72 shadow-sm flex flex-col"
-    :class="props.addClass" style="background-color: #333;">
+  <aside
+    class="fixed top-0 left-0 -translate-x-3/4 transition-all duration-300 h-full bg-gray-950 w-72 shadow-sm flex flex-col"
+    :class="props.addClass" style="background-color: #333;" id="sidebar">
     <div class="burgerContainer flex justify-end w-full h-max p-4 pr-5 mb-12">
       <div id="menuToggle" class="block pt-1" @click="toggleMenu">
         <span></span>
@@ -9,71 +10,20 @@
       </div>
     </div>
     <div class="navIcons flex justify-end w-full overflow-auto">
-      <div class="links min-w-full pb-6 flex flex-col justify-start items-end h-full overflow-auto">
+      <div
+        class="links min-w-full pr-1 pb-6 flex flex-col justify-start items-end h-full overflow-y-auto overflow-x-hidden">
         <router-link v-for="link in links" :to="{ name: link.to }"
-          class="adminLink text-gray-300 p-2 w-12 mx-4 my-3 flex justify-center items-center hover:font-bold duration-100">
-          <i class="fa-solid h-min w-min text-2xl" :class="'fa-' + link.icon"></i>
+          class="adminLink w-full text-gray-300 hover:font-bold transition-all duration-300 ease-in-out flex items-baseline translate-x-3/4 ">
+          <i class="fa-solid h-min text-2xl p-2 w-12 mx-4 my-3 flex justify-center items-center hover:scale-110 duration-100"
+            :class="'fa-' + link.icon"></i>
+          <p>{{ link.nom }}</p>
         </router-link>
       </div>
     </div>
   </aside>
-  <!-- <div class="links px-6 pb-6 pl-12 flex flex-col items-center h-full overflow-auto md:pl-10"
-    style="max-height: calc(100vh - 90px)">
-    <router-link :to="{ name: 'adminHome' }"
-      class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100">
-      <i class="fa-solid fa-square-poll-vertical h-min w-min text-2xl"></i>
-      <p>Dashboard</p>
-    </router-link>
-    <router-link :to="{ name: 'usersView' }"
-      class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100">
-      <i class="fa-solid fa-user"></i>
-      <p>Utilisateurs</p>
-    </router-link>
-    <router-link :to="{ name: 'marquesView' }"
-      class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100">
-      <i class="fa-solid fa-industry"></i>
-      <p>Marques</p>
-    </router-link>
-    <router-link :to="{ name: 'modelesView' }"
-      class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100">
-      <i class="fa-solid fa-car"></i>
-      <p>Modeles</p>
-    </router-link>
-    <router-link :to="{ name: 'occasionView' }"
-      class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100">
-      <i class="fa-solid fa-car-burst"></i>
-      <p>Occasions</p>
-    </router-link>
-    <router-link to="/admin/neuf" :to="{ name: 'neufView' }"
-      class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100">
-      <i class="fa-solid fa-car-on"></i>
-      <p>Neufs</p>
-    </router-link>
-    <router-link to="/admin/location" :to="{ name: 'locationView' }"
-      class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100">
-      <i class="fa-solid fa-stopwatch"></i>
-      <p>Locations</p>
-    </router-link>
-    <router-link :to="{ name: 'venteView' }"
-      class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100">
-      <i class="fa-solid fa-hand-holding-dollar"></i>
-      <p>Vente</p>
-    </router-link>
-    <router-link :to="{ name: 'villesView' }"
-      class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100">
-      <i class="fa-solid fa-city"></i>
-      <p>Villes</p>
-    </router-link>
-    <router-link :to="{ name: 'couleursView' }"
-      class="adminLink text-gray-500 p-4 w-full flex items-center space-x-3 hover:font-bold duration-100">
-      <i class="fa-solid fa-paint-roller"></i>
-      <p>Couleurs</p>
-    </router-link> -->
-  <!-- </div> -->
+
 </template>
 <script setup>
-import Logo from "@/Components/Logo.vue";
-
 const props = defineProps(["addClass"]);
 
 const links = [
@@ -90,12 +40,12 @@ const links = [
 ]
 
 
+const toggleMenu = () => {
+  document.querySelector("#menuToggle").classList.toggle("active");
+  document.getElementById("sidebar").classList.toggle("-translate-x-3/4");
+  document.querySelectorAll(".adminLink").forEach((element) => {
+    element.classList.toggle("translate-x-3/4");
+  })
+};
 </script>
-<!-- <style scoped>
-.router-link-exact-active {
-  background-color: rgb(254 202 202);
-  border-left: solid 8px rgb(248 113 113);
-  color: rgb(127 29 29);
-}
-</style> -->
 <style scoped src="@/assets/css/AdminNavbar.css"></style>

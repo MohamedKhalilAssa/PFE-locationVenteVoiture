@@ -1,5 +1,6 @@
 import Endpoints from "@/assets/JS/Endpoints";
 import axios from "axios";
+import removeCredentials from "@/Composables/AuthenticationRequests/removeCredentials";
 
 const logout = async (store, route, router) => {
   axios.defaults.withCredentials = true;
@@ -12,21 +13,12 @@ const logout = async (store, route, router) => {
     if (route.meta.requiresAuth) {
       router.push({ name: "home" });
     }
-    // taking out the user from storage/store
-    localStorage.removeItem("Authentication");
-    localStorage.removeItem("User");
-    localStorage.removeItem("authMessage");
-    store.commit("setAuthentication");
-    store.commit("setUser");
+    removeCredentials();
   } catch (error) {
     if (error) {
       store.commit("setError", error);
     }
-    localStorage.removeItem("Authentication");
-    localStorage.removeItem("User");
-    localStorage.removeItem("authMessage");
-    store.commit("setAuthentication");
-    store.commit("setUser");
+    removeCredentials();
   }
 };
 export default logout;

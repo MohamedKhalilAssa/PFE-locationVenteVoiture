@@ -34,14 +34,4 @@ const store = useStore();
 const route = useRoute();
 const router = useRouter();
 
-const show = ref("");
-
-const toggleMenu = () => {
-  document.querySelector("#menuToggle").classList.toggle("active");
-  if (show.value == "") {
-    show.value = "!translate-x-0";
-  } else {
-    show.value = "";
-  }
-};
 </script>

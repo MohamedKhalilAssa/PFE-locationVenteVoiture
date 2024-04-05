@@ -12,16 +12,13 @@
   height: 4px;
   margin-bottom: 5px;
   position: relative;
-
   background: #eee;
   border-radius: 3px;
-
   z-index: 1;
-
   transform-origin: 4px 0px;
-
   transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
-    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
+    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease,
+    width 0.2s cubic-bezier(0.77, 0.2, 0.05, 1);
 }
 
 #menuToggle span:first-child {
@@ -31,11 +28,17 @@
 #menuToggle span:nth-last-child(2) {
   transform-origin: 0% 100%;
 }
+/* on hover */
 
+#menuToggle:not(.active):hover span:nth-last-child(2) {
+  width: 17px;
+  margin-left: auto;
+  margin-right: auto;
+}
 #menuToggle.active span {
   opacity: 1;
   transform: rotate(-45deg) translate(-3px, -1px);
-  background: #232323;
+  background: red;
 }
 
 #menuToggle.active span:nth-last-child(3) {
@@ -52,7 +55,10 @@
 }
 /* vue Style */
 
-.router-link-exact-active {
+.router-link-exact-active i {
   background-color: rgb(155 28 28);
   border-radius: 0.375rem;
+}
+.router-link-exact-active p {
+  font-weight: bold;
 }

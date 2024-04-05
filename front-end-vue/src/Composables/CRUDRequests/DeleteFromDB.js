@@ -43,7 +43,11 @@ const DeleteFromDB = async (
         });
       } catch (error) {
         if (error) {
-          store.commit("setError", error);
+          // verifying if the error is that of login 
+          if (error.response.status == 401 || error.response.status == 403) {
+            removeCredentials();
+          } else
+            store.commit("setError", error);
         }
       }
     }
