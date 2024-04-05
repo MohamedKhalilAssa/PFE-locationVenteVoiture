@@ -63,4 +63,32 @@
 }
 .router-link-exact-active p {
   font-weight: bold;
+  font-size: 1.1rem;
+}
+@media screen and (max-width: 768px) {
+  #sidebar {
+    transform: translateX(-100%);
+  }
+  #sidebar.active {
+    transform: translateX(0);
+  }
+  #sidebar.active #menuToggle span {
+    opacity: 1;
+    transform: rotate(-45deg) translate(-3px, -1px);
+    background: red;
+  }
+  #menuToggle:not(.active):hover span:nth-last-child(2) {
+    width: 100%;
+  }
+  #menuToggle:not(.active):hover span:nth-last-child(1) {
+    width: 100%;
+  }
+  #sidebar.active #menuToggle span:nth-last-child(3) {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.2, 0.2);
+  }
+
+  #sidebar.active #menuToggle span:nth-child(2) {
+    transform: rotate(45deg) translate(-8px, -7px);
+  }
 }
