@@ -1,7 +1,7 @@
 <template>
   <aside
-    class="fixed top-0 left-0 h-full transition-all duration-300 ease-in-out bg-gray-950 w-72 shadow-sm flex flex-col"
-    :class="{ 'md:!-translate-x-3/4': !sidebarOpen }" style="background-color: #333" id="sidebar">
+    class="fixed top-0 left-0 h-full transition-all duration-300 ease-in-out bg-gray-950 w-72 shadow-sm flex flex-col z-10"
+    :class="{ 'md:!-translate-x-3/4': !sidebarOpen, active: sidebarOpen }" style="background-color: #333" id="sidebar">
     <div class="burgerContainer flex justify-end w-full h-max p-4 pr-5 mb-12">
       <div id="menuToggle" class="block pt-1" :class="{ active: sidebarOpen }" @click="sidebarOpen = !sidebarOpen">
         <span></span>
@@ -24,9 +24,21 @@
   </aside>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
+const props = defineProps(["clickedOnMobile"]);
 const sidebarOpen = ref(false); // Sidebar open
+const emits = defineEmits(['ClosedSideBar'])
+// watching props for mobile
+watch(props, (to, from) => {
+  sidebarOpen.value = props.clickedOnMobile;
+});
+// watching sidebar to close hamburger for mobile
+watch(sidebarOpen, (to, from) => {
+  if (to == false) {
+    emits('ClosedSideBar')
+  }
+})
 
 const links = [
   { nom: "Dashboard", icon: "square-poll-vertical", to: "adminHome" },
@@ -41,4 +53,4 @@ const links = [
   { nom: "Couleurs", icon: "paint-roller", to: "couleursView" },
 ];
 </script>
-<style src="@/assets/css/AdminNavbar.css"></style>
+<style scoped src="@/assets/css/SideBar.css"></style>
