@@ -1,7 +1,7 @@
 <template>
   <aside
     class="fixed top-0 left-0 -translate-x-3/4 transition-all duration-300 h-full bg-gray-950 w-72 shadow-sm flex flex-col"
-    :class="props.addClass" style="background-color: #333;" id="sidebar">
+    style="background-color: #333;" id="sidebar">
     <div class="burgerContainer flex justify-end w-full h-max p-4 pr-5 mb-12">
       <div id="menuToggle" class="block pt-1" @click="toggleMenu">
         <span></span>

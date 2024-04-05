@@ -5,7 +5,7 @@
 
     <Logo imageSrc="/assets/images/LogoPNGCroppedR.png" toName="home" class="justify-self-center" />
 
-    <SideBar :addClass="show" />
+    <SideBar />
 
     <nav>
       <dropDown :title="$store.getters.getFullName">
