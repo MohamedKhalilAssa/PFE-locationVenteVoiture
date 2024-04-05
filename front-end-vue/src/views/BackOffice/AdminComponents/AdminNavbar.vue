@@ -1,9 +1,22 @@
 <template>
   <div
-    class="max-h-24 flex justify-between items-center duration-100 z-50 mb-8 p-3 sticky top-0 md:p-4  bg-white rounded shadow-lg ">
-    <div class="w-28"></div>
-
-    <Logo imageSrc="/assets/images/LogoPNGCroppedR.png" toName="home" class="justify-self-center" />
+    class="max-h-24 flex justify-between items-center duration-100 z-50 mb-8 p-3 sticky top-0 md:p-4 bg-white rounded shadow-lg"
+  >
+    <div
+      id="menuToggle"
+      class="block pt-1 md:hidden"
+      :class="{ active: sidebarOpen }"
+      @click="sidebarOpen = !sidebarOpen"
+    >
+      <span class="!bg-black"></span>
+      <span class="!bg-black"></span>
+      <span class="!bg-black"></span>
+    </div>
+    <Logo
+      imageSrc="/assets/images/LogoPNGCroppedR.png"
+      toName="home"
+      class="justify-self-center"
+    />
 
     <SideBar :addClass="show" />
 
@@ -33,5 +46,4 @@ import logout from "@/Composables/AuthenticationRequests/logout";
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
-
 </script>
