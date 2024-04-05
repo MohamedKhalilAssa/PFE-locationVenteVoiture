@@ -1,7 +1,7 @@
 <template>
   <div
     class="max-h-24 flex justify-between items-center duration-100 z-50 mb-8 p-3 sticky top-0 md:p-4  bg-white rounded shadow-lg ">
-    <div class="offsett"></div>
+    <div class="w-28"></div>
 
     <Logo imageSrc="/assets/images/LogoPNGCroppedR.png" toName="home" class="justify-self-center" />
 

@@ -1,6 +1,6 @@
 <template>
   <Navbar />
-  <main class="p-4 md:ml-14 lg:p-8">
+  <main class="p-4 md:ml-14 md:p-8">
     <RouterView />
   </main>
 </template>
