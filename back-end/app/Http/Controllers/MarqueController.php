@@ -9,6 +9,7 @@ class MarqueController extends Controller
 {
     public function __construct()
     {
+        $this->model = Marque::class;
         $this->middleware('auth:sanctum')->except(['index', 'indexBack', 'show']);
         $this->middleware('admin')->except(['index', 'show']);
     }
@@ -16,31 +17,7 @@ class MarqueController extends Controller
     {
         return response(Marque::all(["id", "nom"]))->header('Content-Type', 'application/json');
     }
-    public function indexBack()
-    {
-        $sort = request('sort') ?? 'none';
-        $search         = request('search');
-        $sortColumn = request('sortColumn') ?? 'id';
-        if ($search && trim($search) != '') {
-            $searchColumn = request('searchColumn') ?? 'nom';
-            $query = Marque::where($searchColumn, 'like', $search . '%');
 
-          if ($sort == 'asc' || $sort == 'desc') {
-                $result = $query->orderBy($sortColumn, $sort)->paginate(10);
-            } else {
-                $result = $query->paginate(10);
-            }
-            return response()->json(['PaginateQuery' => $result, 'total' => Marque::count()]);
-        } else {
-            if ($sort == 'asc' || $sort == 'desc') {
-                $result = Marque::orderBy($sortColumn, $sort)->paginate(10);
-            } else {
-                $result = Marque::paginate(10);
-            }
-            return response()->json(['PaginateQuery' => $result, 'total' => Marque::count()]);
-        }
-
-    }
     public function show($id)
     {
         return response(Marque::find($id))->header('Content-Type', 'application/json');

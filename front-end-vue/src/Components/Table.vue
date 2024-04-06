@@ -62,7 +62,7 @@ const requestParams = ref({
   searchColumn: 'nom'
 });
 
-getPaginate(1, props.getter, store, requestParams.value.sort, requestParams.value.sortColumn, requestParams.value.search, requestParams.value.searchColumn, 'id').then((data) => {
+getPaginate(1, props.getter, requestParams.value.sort, requestParams.value.sortColumn, requestParams.value.search, requestParams.value.searchColumn, 'id').then((data) => {
   if (data) {
     result.value = data.PaginateQuery;
     total.value = data.total;
@@ -73,7 +73,7 @@ getPaginate(1, props.getter, store, requestParams.value.sort, requestParams.valu
 const handlingSearch = (search, searchColumn, defaultColumn) => {
   requestParams.value.search = search
   requestParams.value.searchColumn = searchColumn
-  getPaginate(1, props.getter, store, requestParams.value.sort, requestParams.value.sortColumn, search, searchColumn, defaultColumn).then((data) => {
+  getPaginate(1, props.getter, requestParams.value.sort, requestParams.value.sortColumn, search, searchColumn, defaultColumn).then((data) => {
     if (data) {
       result.value = data.PaginateQuery;
       total.value = data.total;
@@ -86,7 +86,7 @@ const sortingBy = (column, sort) => {
   requestParams.value.sort = sort
   requestParams.value.sortColumn = column
   // we ignore the search params
-  getPaginate(1, props.getter, store, sort, column, requestParams.value.search, requestParams.value.searchColumn, 'id').then((data) => {
+  getPaginate(1, props.getter, sort, column, requestParams.value.search, requestParams.value.searchColumn, 'id').then((data) => {
     if (data) {
       result.value = data.PaginateQuery;
       total.value = data.total;
@@ -95,12 +95,11 @@ const sortingBy = (column, sort) => {
 }
 // pagination 
 const pagination = (e, page) => {
-  console.log(e);
   const button = e.target;
   button.classList.add("!cursor-progress");
   if (page !== null) {
     const number = page.split("page=")[1];
-    getPaginate(number, props.getter, store, requestParams.value.sort, requestParams.value.sortColumn, requestParams.value.search, requestParams.value.searchColumn, 'id').then((data) => {
+    getPaginate(number, props.getter, requestParams.value.sort, requestParams.value.sortColumn, requestParams.value.search, requestParams.value.searchColumn, 'id').then((data) => {
       if (data) {
         result.value = data.PaginateQuery;
         button.classList.remove("!cursor-progress");
@@ -118,7 +117,6 @@ const DeleteHandler = (id) => {
     result.value.current_page,
     result,
     total,
-    store
   );
 };
 </script>

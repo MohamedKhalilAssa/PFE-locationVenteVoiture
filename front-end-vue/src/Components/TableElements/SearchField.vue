@@ -13,7 +13,8 @@
     $emit('search', search, searchColumn || columns[1].key, columns[0].key)
     ">
       <option selected value="">Filter By</option>
-      <option scope="row" v-for="column in columns" :key="column.key" :value="column.key">
+      <option scope="row" v-for="column in columns" :key="column.key" :value="column.key" v-show="!column.isHidden"
+>
         {{ column.name }}
       </option>
     </select>

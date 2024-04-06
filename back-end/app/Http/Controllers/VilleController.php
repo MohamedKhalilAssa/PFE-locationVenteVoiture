@@ -9,35 +9,15 @@ class VilleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except(['index', 'indexBack', 'show']);
+        $this->model = Ville::class;
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+        $this->middleware('admin')->except(['index', 'show']);
     }
     public function index()
     {
         return response(Ville::all(["id", "nom"]))->header('Content-Type', 'application/json');
     }
-    public function indexBack()
-    {
-        $sort = request('sort') ?? 'none';
-        $search         = request('search');
-        $sortColumn = request('sortColumn') ?? 'id';
-        if ($search && trim($search) != '') {
-            $searchColumn = request('searchColumn') ?? 'nom';
-            $query = Ville::where($searchColumn, 'like', $search . '%');
-            if ($sort == 'asc' || $sort == 'desc') {
-                $result = $query->orderBy($sortColumn, $sort)->paginate(10);
-            } else {
-                $result = $query->paginate(10);
-            }
-            return response()->json(['PaginateQuery' => $result, 'total' => Ville::count()]);
-        } else {
-            if ($sort == 'asc' || $sort == 'desc') {
-                $result = Ville::orderBy($sortColumn, $sort)->paginate(10);
-            } else {
-                $result = Ville::paginate(10);
-            }
-            return response()->json(['PaginateQuery' => $result, 'total' => Ville::count()]);
-        }
-    }
+  
     public function show($id)
     {
         return response(Ville::find($id))->header('Content-Type', 'application/json');

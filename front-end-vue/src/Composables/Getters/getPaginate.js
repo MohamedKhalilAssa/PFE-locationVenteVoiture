@@ -1,8 +1,8 @@
 import axios from "axios";
-import { ref } from "vue";
 import removeCredentials from "@/Composables/AuthenticationRequests/removeCredentials";
+import store from "@/store";
 
-const getPaginate = async (page = 1, endpoint, store, sort = '', sortColumn = "", search = "", searchColumn = '', defaultColumn = "") => {
+const getPaginate = async (page = 1, endpoint, sort = '', sortColumn = "", search = "", searchColumn = '', defaultColumn = "") => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {

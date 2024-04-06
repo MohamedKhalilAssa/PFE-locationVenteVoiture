@@ -55,7 +55,7 @@ const nomMarque = ref("");
 const button = ref(null);
 
 // fetching marque by id
-getById(Endpoints.getOrUpdateOrDeleteMarque, props.id, store).then((data) => {
+getById(Endpoints.getOrUpdateOrDeleteMarque, props.id).then((data) => {
   if (data) {
     nomMarque.value = data.nom;
   } else {
@@ -76,8 +76,6 @@ const updateMarque = async () => {
     Endpoints.getOrUpdateOrDeleteMarque,
     props.id,
     form,
-    router,
-    store,
     "marquesView",
     errors,
   );

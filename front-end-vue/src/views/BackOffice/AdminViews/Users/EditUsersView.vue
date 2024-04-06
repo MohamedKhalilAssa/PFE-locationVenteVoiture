@@ -140,7 +140,7 @@ const router = useRouter();
 const store = useStore();
 const button = ref(null);
 
-getById(Endpoints.getOrUpdateOrDeleteUser, props.id, store).then((data) => {
+getById(Endpoints.getOrUpdateOrDeleteUser, props.id).then((data) => {
   if (data) {
     form.value.nom = data.nom;
     form.value.prenom = data.prenom;
@@ -167,8 +167,6 @@ const RegisterHandling = async () => {
     Endpoints.getOrUpdateOrDeleteUser,
     props.id,
     formData,
-    router,
-    store,
     "usersView",
     errors
   );

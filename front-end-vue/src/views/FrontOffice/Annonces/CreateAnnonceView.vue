@@ -533,7 +533,6 @@ const uploadFiles = async () => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
-    await axios.get("http://localhost:8000/sanctum/csrf-cookie");
     // Send the FormData object to the server using axios
     await axios
       .post("http://localhost:8000/api/annonce/occasion/store", formData)

@@ -1,8 +1,10 @@
 import Endpoints from "@/assets/JS/Endpoints";
 import axios from "axios";
 import addCredentials from "@/Composables/AuthenticationRequests/addCredentials";
+import router from "@/router";
+import store from "@/store";
 
-const register = async (button, form, router, store, errors) => {
+const register = async (button, form, errors) => {
   button.disabled = true;
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;

@@ -49,7 +49,7 @@ const router = useRouter();
 const store = useStore();
 
 // loading the brand
-getById(Endpoints.getOrUpdateOrDeleteMarque, props.id, store).then((data) => {
+getById(Endpoints.getOrUpdateOrDeleteMarque, props.id).then((data) => {
   if (data) {
     nomMarque.value = data.nom;
   } else {
@@ -62,7 +62,7 @@ getById(Endpoints.getOrUpdateOrDeleteMarque, props.id, store).then((data) => {
 });
 // loading the modeles associated with it
 
-getFromDB(Endpoints.getModelesByMarque + props.id, store).then((response) => {
+getFromDB(Endpoints.getModelesByMarque + props.id).then((response) => {
   if (response) {
     modelesResult.value = response;
   }

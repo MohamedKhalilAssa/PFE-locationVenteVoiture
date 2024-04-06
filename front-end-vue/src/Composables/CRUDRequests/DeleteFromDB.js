@@ -1,5 +1,6 @@
 import axios from "axios";
 import Swal from "sweetalert2";
+import store from "@/store";
 
 const DeleteFromDB = async (
   endpoint,
@@ -8,8 +9,7 @@ const DeleteFromDB = async (
   getter,
   currentPage,
   resultHolder,
-  totalHolder,
-  store
+  totalHolder
 ) => {
   Swal.fire({
     title: "Are you sure?",

@@ -1,11 +1,11 @@
 import axios from "axios";
+import store from "@/store";
+import router from "@/router";
 
 const AddToDB = async (
   button,
   endpoint,
   formElements,
-  router,
-  store,
   redirectTo,
   errors
 ) => {

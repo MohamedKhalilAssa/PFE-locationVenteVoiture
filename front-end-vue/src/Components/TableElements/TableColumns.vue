@@ -1,5 +1,6 @@
 <template>
-  <!-- columns = [{name: ,key: },{}] -->
+  <!-- const column = [ {name: ... , key: ... , sortable: ..., isHidden: ... , capitalize: ... , isLink: ... , toName: ... ,
+     toID: ...}]  -->
   <th
     scope="col"
     class="px-3 py-3 space-x-2"
@@ -8,6 +9,7 @@
     :key="column.key"
     data-sort="none"
     @click.self="sortingHandle($event, column)"
+    v-show="!column.isHidden"
   >
     <span @click.self="clickOnName($event)">{{ column.name }}</span>
   </th>

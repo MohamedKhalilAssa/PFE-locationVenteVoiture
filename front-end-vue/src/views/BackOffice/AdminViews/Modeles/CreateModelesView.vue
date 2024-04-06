@@ -74,7 +74,6 @@ import Endpoints from "@/assets/JS/Endpoints.js";
 import { useStore } from "vuex";
 
 const errors = ref(null);
-const router = useRouter();
 const store = useStore();
 const nomModele = ref("");
 const marqueVmodel = ref("");
@@ -101,8 +100,6 @@ const ajouterModele = async () => {
     button.value,
     Endpoints.getAllOrAddModele,
     formData,
-    router,
-    store,
     "modelesView",
     errors,
   );

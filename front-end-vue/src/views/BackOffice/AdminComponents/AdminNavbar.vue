@@ -1,21 +1,34 @@
 <template>
   <div
-    class="max-h-24 flex justify-between items-center duration-100 z-50 mb-8 p-3 sticky top-0 md:p-4 bg-white rounded shadow-lg">
+    class="max-h-24 flex justify-between items-center duration-100 z-50 mb-8 p-3 sticky top-0 md:p-4 bg-white rounded shadow-lg"
+  >
     <div class="w-28 hidden md:block"></div>
-    <div id="menuToggle" class="block pt-1 md:hidden" :class="{ active: HamburgerClicked }" @click="openSideBar">
+    <div
+      id="menuToggle"
+      class="block pt-1 md:hidden"
+      :class="{ active: HamburgerClicked }"
+      @click="openSideBar"
+    >
       <span class="!bg-black"></span>
       <span class="!bg-black"></span>
       <span class="!bg-black"></span>
     </div>
-    <Logo imageSrc="/assets/images/LogoPNGCroppedR.png" toName="home" class="justify-self-center hidden md:block" />
+    <Logo
+      imageSrc="/assets/images/LogoPNGCroppedR.png"
+      toName="home"
+      class="justify-self-center hidden md:block"
+    />
 
-    <SideBar :clickedOnMobile="HamburgerClicked" @closedSideBar="ClosedSideBar" />
+    <SideBar
+      :clickedOnMobile="HamburgerClicked"
+      @closedSideBar="ClosedSideBar"
+    />
 
     <nav>
       <dropDown :title="$store.getters.getFullName">
         <router-link to="/profile">Profile</router-link>
         <hr />
-        <form @submit.prevent="logout(store, route, router)">
+        <form @submit.prevent="logout(route)">
           <button type="submit" class="w-full text-left">Logout</button>
         </form>
       </dropDown>
@@ -41,8 +54,8 @@ const HamburgerClicked = ref(false);
 
 const openSideBar = () => {
   HamburgerClicked.value = !HamburgerClicked.value;
-}
+};
 const ClosedSideBar = () => {
   HamburgerClicked.value = false;
-}
+};
 </script>

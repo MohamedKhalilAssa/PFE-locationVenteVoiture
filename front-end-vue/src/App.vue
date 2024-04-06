@@ -21,7 +21,7 @@ onMounted(() => {
   store.commit("setAuthentication");
   store.commit("setUser");
   // setting csrf token and verifying auth at first mounted
-  getCSRFToken(store);
+  getCSRFToken();
   // handling success messages on change in the store
   watch(
     () => store.getters.getMessage,

@@ -16,7 +16,7 @@
       </router-link>
     </div>
     <div class="userActions flex flex-col justify-around gap-8" v-else>
-      <form @submit.prevent="logout(store, route, router)">
+      <form @submit.prevent="logout(route)">
         <Button> Logout </Button>
       </form>
     </div>
@@ -84,4 +84,3 @@ aside {
   display: block !important;
 }
 </style>
-@/Composables/AuthenticationRequests/logout

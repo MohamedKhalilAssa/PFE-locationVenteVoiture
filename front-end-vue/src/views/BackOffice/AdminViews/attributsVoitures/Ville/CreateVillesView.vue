@@ -61,8 +61,6 @@ const ajouterVille = async () => {
     button.value,
     Endpoints.getAllOrAddVille,
     form,
-    router,
-    store,
     "villesView",
     errors,
   );

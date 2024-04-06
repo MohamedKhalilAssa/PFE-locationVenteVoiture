@@ -48,16 +48,22 @@ import Endpoints from "@/assets/JS/Endpoints";
 import { useStore } from "vuex";
 
 const errors = ref(null);
-const router = useRouter();
-const store = useStore();
 const nomVille = ref("");
 const button = ref(null);
 
 // fetching existing modele
 const props = defineProps(["id"]);
 
-getById(Endpoints.getOrUpdateOrDeleteVille, props.id, store).then((data) => {
-  nomVille.value = data.nom;
+getById(Endpoints.getOrUpdateOrDeleteVille, props.id).then((data) => {
+   if (data) {
+    nomVille.value = data.nom;
+  } else {
+    store.commit("setError", "Ville introuvable");
+    store.commit("setErrorCode", "404");
+    router.push({
+      name: "villesView",
+    });
+  }
 });
 // post method handling
 const updateVille = async () => {
@@ -68,8 +74,6 @@ const updateVille = async () => {
     Endpoints.getOrUpdateOrDeleteVille,
     props.id,
     form,
-    router,
-    store,
     "villesView",
     errors,
   );

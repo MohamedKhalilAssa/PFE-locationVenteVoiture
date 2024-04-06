@@ -63,8 +63,6 @@ const ajouterMarque = async () => {
     button.value,
     Endpoints.getAllOrAddMarque,
     formData,
-    router,
-    store,
     "marquesView",
     errors
   );

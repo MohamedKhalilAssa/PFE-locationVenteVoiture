@@ -88,7 +88,7 @@ const button = ref(null);
 const route = useRoute();
 
 const loginHandler = async () => {
-  await login(button.value, form, router, route, store, errors);
+  await login(button.value, form, route, errors);
 };
 </script>
 

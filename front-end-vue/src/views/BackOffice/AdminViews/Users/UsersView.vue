@@ -14,6 +14,7 @@ import Table from "@/Components/Table.vue";
 import Endpoints from "@/assets/JS/Endpoints";
 
 // without actions
+
 const columns = [
   { name: "ID", key: "id", sortable: true },
   { name: "Nom", key: "nom", sortable: true },

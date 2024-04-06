@@ -84,7 +84,7 @@ const button = ref(null);
 // fetching existing modele
 const props = defineProps(["id"]);
 
-getById(Endpoints.getOrUpdateOrDeleteModele, props.id, store).then((data) => {
+getById(Endpoints.getOrUpdateOrDeleteModele, props.id).then((data) => {
   if (data) {
     nomModele.value = data.nom;
     marqueVmodel.value = data.marque_id;
@@ -99,7 +99,7 @@ getById(Endpoints.getOrUpdateOrDeleteModele, props.id, store).then((data) => {
 
 // Fetching Marques
 const marqueResult = ref([]);
-getFromDB(Endpoints.getAllOrAddMarque, store).then((response) => {
+getFromDB(Endpoints.getAllOrAddMarque).then((response) => {
   if (response) {
     marqueResult.value = response;
   }
@@ -116,8 +116,6 @@ const updateModele = async () => {
     Endpoints.getOrUpdateOrDeleteModele,
     props.id,
     form,
-    router,
-    store,
     "modelesView",
     errors
   );

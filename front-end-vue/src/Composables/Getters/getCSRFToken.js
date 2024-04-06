@@ -1,7 +1,9 @@
 import axios from "axios";
 import Endpoints from "@/assets/JS/Endpoints";
 import removeCredentials from "@/Composables/AuthenticationRequests/removeCredentials";
-const getCSRFToken = async (store) => {
+import store from "@/store";
+
+const getCSRFToken = async () => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {

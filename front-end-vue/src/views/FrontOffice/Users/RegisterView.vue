@@ -153,7 +153,7 @@ const store = useStore();
 const button = ref(null);
 
 const RegisterHandling = async () => {
-  register(button.value, form, router, store, errors);
+  register(button.value, form, errors);
 };
 </script>
 

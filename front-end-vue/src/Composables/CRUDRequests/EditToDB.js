@@ -1,12 +1,12 @@
 import axios from "axios";
+import store from "@/store";
+import router from "@/router";
 
 const EditToDB = async (
   button,
   endpoint,
   id,
   formElements,
-  router,
-  store,
   redirectTo,
   errors
 ) => {

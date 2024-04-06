@@ -1,7 +1,7 @@
 import axios from "axios";
-import { ref } from "vue";
+import store from "@/store";
 
-const getFromDB = async (endpoint, store) => {
+const getFromDB = async (endpoint) => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {

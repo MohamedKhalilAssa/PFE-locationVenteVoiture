@@ -11,32 +11,11 @@ class UserController extends Controller
 {
     public function __construct()
     {
+        $this->model = User::class;
         $this->middleware('auth:sanctum')->except(['show']);
         $this->middleware('admin')->except(['show']);
     }
-    public function indexBack()
-    {
-        $sort = request('sort') ?? 'none';
-        $search         = request('search');
-        $sortColumn = request('sortColumn') ?? 'id';
-        if ($search && trim($search) != '') {
-            $searchColumn = request('searchColumn') ?? 'nom';
-            $query = User::where($searchColumn, 'like', $search . '%');
-            if ($sort == 'asc' || $sort == 'desc') {
-                $result = $query->orderBy($sortColumn, $sort)->paginate(10);
-            } else {
-                $result = $query->paginate(10);
-            }
-            return response()->json(['PaginateQuery' => $result, 'total' => User::count()]);
-        } else {
-            if ($sort == 'asc' || $sort == 'desc') {
-                $result = User::orderBy($sortColumn, $sort)->paginate(10);
-            } else {
-                $result = User::paginate(10);
-            }
-            return response()->json(['PaginateQuery' => $result, 'total' => User::count()]);
-        }
-    }
+
     public function show($id)
     {
         return response(User::find($id))->header('Content-Type', 'application/json');
