@@ -1841,6 +1841,10 @@ input:checked + .toggle-bg {
   width: min-content;
 }
 
+.w-28 {
+  width: 7rem;
+}
+
 .min-w-12 {
   min-width: 3rem;
 }
