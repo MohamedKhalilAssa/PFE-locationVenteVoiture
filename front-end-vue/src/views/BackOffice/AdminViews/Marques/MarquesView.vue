@@ -1,8 +1,8 @@
 <template>
   <Table
     :columns="columns"
-    :getter="Endpoints.MarquePagination"
-    :deleteFrom="Endpoints.getOrUpdateOrDeleteMarque"
+    :getter="Endpoints.marque__paginate"
+    :deleteFrom="Endpoints.marque__get_or_update_or_delete"
     :actions="actions"
     titre="Marque"
     addName="ajouterMarque"

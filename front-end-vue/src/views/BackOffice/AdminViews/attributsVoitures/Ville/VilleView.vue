@@ -1,8 +1,8 @@
 <template>
   <Table
     :columns="columns"
-    :getter="Endpoints.VillePagination"
-    :deleteFrom="Endpoints.getOrUpdateOrDeleteVille"
+    :getter="Endpoints.ville__paginate"
+    :deleteFrom="Endpoints.ville__get_or_update_or_delete"
     :actions="actions"
     titre="Ville"
     addName="ajouterVille"

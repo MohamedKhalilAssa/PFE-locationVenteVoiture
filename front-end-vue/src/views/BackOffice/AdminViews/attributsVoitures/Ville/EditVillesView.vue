@@ -54,7 +54,7 @@ const button = ref(null);
 // fetching existing modele
 const props = defineProps(["id"]);
 
-getById(Endpoints.getOrUpdateOrDeleteVille, props.id).then((data) => {
+getById(Endpoints.ville__get_or_update_or_delete, props.id).then((data) => {
    if (data) {
     nomVille.value = data.nom;
   } else {
@@ -71,7 +71,7 @@ const updateVille = async () => {
   form.append("nom", nomVille.value);
   EditToDB(
     button.value,
-    Endpoints.getOrUpdateOrDeleteVille,
+    Endpoints.ville__get_or_update_or_delete,
     props.id,
     form,
     "villesView",

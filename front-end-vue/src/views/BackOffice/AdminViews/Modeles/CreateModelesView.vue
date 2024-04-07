@@ -19,7 +19,6 @@
           id="nom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
-          name="nom"
           placeholder="Exemple: Corolla..."
         />
         <div class="errors" v-if="errors">
@@ -34,7 +33,6 @@
           v-model="marqueVmodel"
           id="marque"
           class="border border-gray-600 rounded p-2 w-full"
-          name="marque_id"
         >
           <option selected value="">Choisir la marque</option>
           <option
@@ -82,7 +80,7 @@ const button = ref(null);
 // Fetching Marques
 
 const marqueResult = ref([]);
-getFromDB(Endpoints.getAllOrAddMarque,store).then((response) => {
+getFromDB(Endpoints.modele__get_all_or_add,store).then((response) => {
   if (response) {
     marqueResult.value = response;
   } else {

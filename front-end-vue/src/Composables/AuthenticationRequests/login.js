@@ -4,13 +4,13 @@ import addCredentials from "@/Composables/AuthenticationRequests/addCredentials"
 import router from "@/router";
 import store from "@/store";
 
-const login = async (button, form,route, errors) => {
+const login = async (button, form, route, errors) => {
   button.disabled = true;
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
     await axios
-      .post(Endpoints.login, {
+      .post(Endpoints.config__login, {
         email: form.value.email,
         password: form.value.password,
       })
@@ -18,10 +18,10 @@ const login = async (button, form,route, errors) => {
         store.commit("setMessage", response.data.message);
       });
 
-    let { data } = await axios.get(Endpoints.getAuthenticatedUser);
+    let { data } = await axios.get(Endpoints.config__get_authenticated_user);
 
     // storing the data
-
+    console.log(data);
     addCredentials(data);
 
     if (data.role == "admin" || data.role == "root") {

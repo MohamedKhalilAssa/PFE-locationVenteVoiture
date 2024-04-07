@@ -23,13 +23,14 @@ const EditToDB = async (
     router.push({ name: redirectTo });
   } catch (error) {
     button.disabled = false;
-    if (error.response.status == 422) errors.value = error.response.data.errors;
-    else if (error) {
-      // verifying if the error is that of login 
+    if (error.response.status == 422) {
+      errors.value = error.response.data.errors;
+      console.log(errors.value);
+    } else if (error) {
+      // verifying if the error is that of login
       if (error.response.status == 401 || error.response.status == 403) {
         removeCredentials();
-      } else
-        store.commit("setError", error);
+      } else store.commit("setError", error);
     }
   }
 };

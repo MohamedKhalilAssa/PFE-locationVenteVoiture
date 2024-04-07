@@ -18,7 +18,6 @@
           id="nom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
-          name="nom"
           placeholder="Exemple: Doe"
         />
         <div class="errors" v-if="errors">
@@ -34,7 +33,6 @@
           id="prenom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
-          name="prenom"
           placeholder="Exemple: John"
         />
         <div class="errors" v-if="errors">
@@ -52,7 +50,6 @@
           id="email"
           type="email"
           class="border border-gray-600 rounded p-2 w-full"
-          name="email"
           placeholder="Exemple: exemple@exemple.com"
         />
         <div class="errors" v-if="errors">
@@ -69,7 +66,6 @@
           id="Telephone"
           type="test"
           class="border border-gray-600 rounded p-2 w-full"
-          name="Telephone"
           placeholder="Exemple: 06 XX XX XX XX"
         />
         <div class="errors" v-if="errors">
@@ -86,7 +82,6 @@
           v-model="form.role"
           id="role"
           class="border border-gray-600 rounded p-2 w-full"
-          name="role"
         >
           <option
             v-for="role in ['Admin', 'Client']"
@@ -140,7 +135,7 @@ const router = useRouter();
 const store = useStore();
 const button = ref(null);
 
-getById(Endpoints.getOrUpdateOrDeleteUser, props.id).then((data) => {
+getById(Endpoints.user__get_or_update_or_delete, props.id).then((data) => {
   if (data) {
     form.value.nom = data.nom;
     form.value.prenom = data.prenom;
@@ -164,7 +159,7 @@ const RegisterHandling = async () => {
   formData.append("role", form.value.role);
   EditToDB(
     button.value,
-    Endpoints.getOrUpdateOrDeleteUser,
+    Endpoints.user__get_or_update_or_delete,
     props.id,
     formData,
     "usersView",

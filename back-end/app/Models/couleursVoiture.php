@@ -13,6 +13,7 @@ class couleursVoiture extends Model
 
     protected $fillable = [
         'nom',
+        'Hexadecimal',
     ];
 
     public function voitures()

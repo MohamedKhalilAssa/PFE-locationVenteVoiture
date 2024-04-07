@@ -19,7 +19,6 @@
           id="nom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
-          name="nom"
           placeholder="Exemple: Toyota..."
         />
         <div class="errors" v-if="errors">
@@ -55,7 +54,7 @@ const nomMarque = ref("");
 const button = ref(null);
 
 // fetching marque by id
-getById(Endpoints.getOrUpdateOrDeleteMarque, props.id).then((data) => {
+getById(Endpoints.marque__get_or_update_or_delete, props.id).then((data) => {
   if (data) {
     nomMarque.value = data.nom;
   } else {
@@ -73,7 +72,7 @@ const updateMarque = async () => {
   form.append("nom", nomMarque.value);
   EditToDB(
     button.value,
-    Endpoints.getOrUpdateOrDeleteMarque,
+    Endpoints.marque__get_or_update_or_delete,
     props.id,
     form,
     "marquesView",

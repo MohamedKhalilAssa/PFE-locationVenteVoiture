@@ -1,8 +1,8 @@
 <template>
   <Table
     :columns="columns"
-    :getter="Endpoints.userPaginate"
-    :deleteFrom="Endpoints.getOrUpdateOrDeleteUser"
+    :getter="Endpoints.user__paginate"
+    :deleteFrom="Endpoints.user__get_or_update_or_delete"
     :actions="actions"
     titre="Utilisateur"
     addName="ajouterUser"

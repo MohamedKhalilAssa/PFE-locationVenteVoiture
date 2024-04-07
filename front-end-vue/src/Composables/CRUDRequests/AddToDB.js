@@ -2,13 +2,7 @@ import axios from "axios";
 import store from "@/store";
 import router from "@/router";
 
-const AddToDB = async (
-  button,
-  endpoint,
-  formElements,
-  redirectTo,
-  errors
-) => {
+const AddToDB = async (button, endpoint, formElements, redirectTo, errors) => {
   button.disabled = true;
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
@@ -21,13 +15,13 @@ const AddToDB = async (
     router.push({ name: redirectTo });
   } catch (error) {
     button.disabled = false;
-    if (error.response.status == 422) errors.value = error.response.data.errors;
-    else if (error) {
-      // verifying if the error is that of login 
+    if (error.response.status == 422) {
+      errors.value = error.response.data.errors;
+    } else if (error) {
+      // verifying if the error is that of login
       if (error.response.status == 401 || error.response.status == 403) {
         removeCredentials();
-      } else
-        store.commit("setError", error);
+      } else store.commit("setError", error);
     }
   }
 };

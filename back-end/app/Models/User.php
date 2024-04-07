@@ -40,7 +40,18 @@ class User extends Authenticatable
         'remember_token',
 
     ];
-
+    /**
+     * Boot the model.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($user) {
+            if (empty($user->role)) {
+                $user->role = 'client';
+            }
+        });
+    }
     /**
      * The attributes that should be cast.
      *

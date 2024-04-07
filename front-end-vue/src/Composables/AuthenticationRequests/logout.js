@@ -8,7 +8,7 @@ const logout = async (route) => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
-    await axios.post(Endpoints.logout).then((response) => {
+    await axios.post(Endpoints.config__logout).then((response) => {
       store.commit("setMessage", response.data.message);
       store.commit("setIconColor", response.data.iconColor);
     });

@@ -18,7 +18,6 @@
           id="nom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
-          name="nom"
           placeholder="Exemple: Doe"
         />
         <div class="errors" v-if="errors">
@@ -34,7 +33,6 @@
           id="prenom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
-          name="prenom"
           placeholder="Exemple: John"
         />
         <div class="errors" v-if="errors">
@@ -52,7 +50,6 @@
           id="email"
           type="email"
           class="border border-gray-600 rounded p-2 w-full"
-          name="email"
           placeholder="Exemple: exemple@exemple.com"
         />
         <div class="errors" v-if="errors">
@@ -69,7 +66,6 @@
           id="Telephone"
           type="test"
           class="border border-gray-600 rounded p-2 w-full"
-          name="Telephone"
           placeholder="Exemple: 06 XX XX XX XX"
         />
         <div class="errors" v-if="errors">
@@ -86,7 +82,6 @@
           v-model="form.role"
           id="role"
           class="border border-gray-600 rounded p-2 w-full"
-          name="role"
         >
           <option selected value="">Choisir le role de l'utilisateur</option>
           <option
@@ -129,7 +124,6 @@
           id="password2"
           type="password"
           class="border border-gray-600 rounded p-2 w-full"
-          name="password_confirmation"
         />
       </div>
       <div class="mb-6 flex justify-center items-center">
@@ -138,7 +132,7 @@
           ref="button"
           class="bg-black text-white rounded py-2 px-4 hover:scale-105 duration-300 disabled:opacity-70 disabled:cursor-progress"
         >
-          Modifier l'utilisateur
+          Ajouter l'utilisateur
         </button>
       </div>
     </form>
@@ -182,7 +176,7 @@ const RegisterHandling = async () => {
 
   AddToDB(
     button.value,
-    Endpoints.getAllOrAddUser,
+    Endpoints.user__get_all_or_add,
     formData,
     "usersView",
     errors

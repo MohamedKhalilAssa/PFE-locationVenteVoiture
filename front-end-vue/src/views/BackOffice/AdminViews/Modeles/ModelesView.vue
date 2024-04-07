@@ -1,5 +1,5 @@
 <template>
-  <Table :columns="columns" :getter="Endpoints.ModelePagination" :deleteFrom="Endpoints.getOrUpdateOrDeleteModele"
+  <Table :columns="columns" :getter="Endpoints.modele__paginate" :deleteFrom="Endpoints.modele__get_or_update_or_delete"
     :actions="actions" titre="Modele" addName="ajouterModele" />
 </template>
 

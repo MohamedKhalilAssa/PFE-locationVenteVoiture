@@ -10,7 +10,7 @@ const register = async (button, form, errors) => {
   axios.defaults.withXSRFToken = true;
   try {
     await axios
-      .post(Endpoints.register, {
+      .post(Endpoints.config__register, {
         nom: form.value.nom,
         prenom: form.value.prenom,
         telephone: form.value.telephone,
@@ -22,7 +22,7 @@ const register = async (button, form, errors) => {
         store.commit("setMessage", response.data.message);
       });
 
-    let { data } = await axios.get(Endpoints.getAuthenticatedUser);
+    let { data } = await axios.get(Endpoints.config__get_authenticated_user);
     addCredentials(data)
 
     router.push({ name: "home", query: { message: "loggedIn" } });

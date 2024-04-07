@@ -49,11 +49,11 @@ const router = useRouter();
 const store = useStore();
 
 // loading the brand
-getById(Endpoints.getOrUpdateOrDeleteMarque, props.id).then((data) => {
+getById(Endpoints.marque__get_or_update_or_delete, props.id).then((data) => {
   if (data) {
     nomMarque.value = data.nom;
   } else {
-    store.commit("setError", "Utilisateur introuvable");
+    store.commit("setError", "Marque introuvable");
     store.commit("setErrorCode", "404");
     router.push({
       name: "marquesView",
@@ -62,9 +62,15 @@ getById(Endpoints.getOrUpdateOrDeleteMarque, props.id).then((data) => {
 });
 // loading the modeles associated with it
 
-getFromDB(Endpoints.getModelesByMarque + props.id).then((response) => {
+getFromDB(Endpoints.modele__get_by_marque + props.id).then((response) => {
   if (response) {
     modelesResult.value = response;
+  } else {
+    store.commit("setError", "Marque introuvable");
+    store.commit("setErrorCode", "404");
+    router.push({
+      name: "marquesView",
+    });
   }
 });
 </script>

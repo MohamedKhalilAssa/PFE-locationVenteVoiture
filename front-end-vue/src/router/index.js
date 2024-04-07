@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import store from '@/store'; // Import the Vuex store
+import store from "@/store"; // Import the Vuex store
 import axios from "axios";
 import Endpoints from "@/assets/JS/Endpoints";
 import removeCredentials from "@/Composables/AuthenticationRequests/removeCredentials";
@@ -128,7 +128,9 @@ router.beforeEach(async (to, from, next) => {
     axios.defaults.withCredentials = true;
     axios.defaults.withXSRFToken = true;
     try {
-      const { data } = await axios.get(Endpoints.getAuthenticatedUser);
+      const { data } = await axios.get(
+        Endpoints.config__get_authenticated_user
+      );
 
       if (data) {
         if (!to.meta.requiresAdmin) {

@@ -530,25 +530,24 @@ const uploadFiles = async () => {
     formData.append("options[]", value);
   });
 
-  axios.defaults.withCredentials = true;
-  axios.defaults.withXSRFToken = true;
-  try {
-    // Send the FormData object to the server using axios
-    await axios
-      .post("http://localhost:8000/api/annonce/occasion/store", formData)
-      .then((response) => {
-        if (form.value.type_annonce == "location") {
-          router.push({ name: "location" });
-        } else {
-          router.push({ name: "occasion" });
-        }
-      });
-  } catch (error) {
-    console.log(error);
-    errors.value = error.response.data.errors;
+  if (form.value.type_annonce == "location") {
+    AddToDB(
+      button.value,
+      Endpoints.annonce__create_occasion,
+      formData,
+      "location",
+      errors
+    );
+  } else if (form.value.type_annonce == "occasion") {
+    AddToDB(
+      button.value,
+      Endpoints.annonce__create_occasion,
+      formData,
+      "occasion",
+      errors
+    );
   }
 };
-
 // handling images
 const files = ref([]);
 const handleFileChange = (e) => {
@@ -566,7 +565,7 @@ const couleurResult = ref([]);
 const villeResult = ref([]);
 
 // Fetching Marques
-getFromDB(Endpoints.getAllOrAddMarque).then((response) => {
+getFromDB(Endpoints.marque__get_all_or_add).then((response) => {
   if (response) {
     marqueResult.value = response;
   }
@@ -577,7 +576,7 @@ getFromDB(Endpoints.getAllOrAddMarque).then((response) => {
 const marqueSelected = () => {
   modelesResult.value = [];
   if (form.value.marque_id) {
-    getFromDB(Endpoints.getModelesByMarque + form.value.marque_id).then(
+    getFromDB(Endpoints.modele__get_by_marque + form.value.marque_id).then(
       (response) => {
         if (response) {
           modelesResult.value = response;
@@ -588,7 +587,7 @@ const marqueSelected = () => {
 };
 // end Fetching Modeles
 // fetching color
-getFromDB(Endpoints.getAllOrAddCouleurs).then((response) => {
+getFromDB(Endpoints.couleur__get_all_or_add).then((response) => {
   if (response) {
     couleurResult.value = response;
   }
@@ -596,7 +595,7 @@ getFromDB(Endpoints.getAllOrAddCouleurs).then((response) => {
 // end fetch
 
 // fetching villes
-getFromDB(Endpoints.getAllOrAddVille).then((response) => {
+getFromDB(Endpoints.ville__get_all_or_add).then((response) => {
   if (response) {
     villeResult.value = response;
   }

@@ -101,7 +101,7 @@ class ParentController extends BaseController
             return response()->json(['errors' => $validator->errors()], 422);
         }
         // treatment to do before create like modifier data
-        $data_to_save = $this->beforeSaveForStore($validator->validated());
+        $data_to_save = $this->beforeSaveForStore($validator);
         // create model
         $new_model = $this->model::create($data_to_save);
         // treatment to do after create like uploading a file
@@ -123,7 +123,13 @@ class ParentController extends BaseController
             return abort(404, 'Not found');
         }
         // return $validator->validated();
-        $data = $this->beforeSaveForUpdate($validator->validated(), $current_model);
+        $data = $this->beforeSaveForUpdate($validator, $current_model);
+        // forme d'erreur subControllers:  ['error'=>['err1' =>[ '...'], 'err2' => [ .. ]]]
+        // pour verifier si il y a une erreur custom
+        if (isset($data["error"])) {
+            return response()->json(['errors' => $data['error']], 422);
+        }
+
         if ($current_model->update($data)) {
             $this->afterSaveForUpdate($current_model);
             return response()->json(['message' => "$this->model_name modifié avec succès", 'iconColor' => 'blue']);
@@ -162,9 +168,9 @@ class ParentController extends BaseController
     public function afterValidateForStore($validator)
     {
     }
-    public function beforeSaveForStore($data)
+    public function beforeSaveForStore($validator)
     {
-        return $data;
+        return $validator->validated();
     }
     public function afterSaveForStore($model)
     {
@@ -176,9 +182,9 @@ class ParentController extends BaseController
     public function afterValidateForUpdate($validator)
     {
     }
-    public function beforeSaveForUpdate($data, $current_model)
+    public function beforeSaveForUpdate($validator, $current_model)
     {
-        return $data;
+        return $validator->validated();
     }
     public function afterSaveForUpdate($model)
     {

@@ -33,30 +33,31 @@ class UserController extends ParentController
             'telephone' => ['required', 'min:10', 'max:10', 'unique:users,telephone', 'regex:/^((06)|(05)){1}[\d]{8}$/'],
             'email' => ['required', 'lowercase', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => ['in:admin,client'],
         ];
     }
-    public function afterValidateForStore($validator)
+    public function beforeSaveForStore($validator)
     {
-        $validator->sometimes(
-            'role',
-            ['required', 'in:admin,client'],
-            function () {
-                return Auth::user()->role === 'root';
+        $data = $validator->validated();
+        $validator->after(function ($validator, $data) {
+            // check if the role has been changed by an authorized person if not return an error
+            if (Auth::user()->role != 'root' && in_array($data['role'], ['admin', 'client'])) {
+                $validator->errors()->add(
+                    'role',
+                    'Seul le root peut donner un role aux utilisateurs'
+                );
+                return response()->json(['errors' => $validator->errors()], 422);
+            } else if ($data['role'] == "root") {
+                $validator->errors()->add(
+                    'role',
+                    'le role de root ne peut pas etre affecter'
+                );
+                return response()->json(['errors' => $validator->errors()], 422);
             }
-        );
+        });
+        return $data;
     }
-    public function beforeSaveForStore($data)
-    {
 
-        // check if the role has been changed by an authorized person if not return an error
-        if (Auth::user()->role != 'root' && $data['role'] != "") {
-            return abort(401, 'Vous ne pouvez pas ajouter le role d\'un utilisateur');
-        } else if ($data['role'] == "root") {
-            return abort(401, 'Vous ne pouvez pas affecter le role root');
-        } else {
-            return $data;
-        }
-    }
     // updating
     public function beforeValidateForUpdate()
     {
@@ -72,26 +73,26 @@ class UserController extends ParentController
             ],
         ];
     }
-    public function afterValidateForUpdate($validator)
+    public function beforeSaveForUpdate($validator, $current_model)
     {
-        $validator->sometimes(
-            'role',
-            ['required', 'in:admin,client'],
-            function () {
-                return Auth::user()->role === 'root';
+        $data = $validator->validated();
+        $validator->after(function ($validator, $data, $current_model) {
+            // check if the role has been changed by an authorized person if not return an error
+            if (Auth::user()->role != 'root' && $data->role != $current_model->role) {
+                $validator->errors()->add(
+                    'role',
+                    'Seul le root peut changer le role d\'un utilisateur'
+                );
+                return response()->json(['errors' => $validator->errors()], 422);
+            } else if ($current_model->role == "root" && $data->role != "root") {
+                $validator->errors()->add(
+                    'role',
+                    'le role de root ne peut pas etre affecter'
+                );
+                return response()->json(['errors' => $validator->errors()], 422);
             }
-        );
-    }
-    public function beforeSaveForUpdate($data, $current_model)
-    {
-        // check if the role has been changed by an authorized person if not return an error
-        if (Auth::user()->role != 'root' && $data->role != $current_model->role) {
-            return abort(401, 'Vous ne pouvez pas changer le role d\'un utilisateur');
-        } else if ($current_model->role == "root" && $data->role != "root") {
-            return abort(401, 'Vous ne pouvez pas changer le role d\'un utilisateur root');
-        } else {
-            return $data;
-        }
+        });
+        return $data;
     }
     // Overriding the index method to return nothing
     public function index()

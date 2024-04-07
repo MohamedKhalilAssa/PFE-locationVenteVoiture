@@ -19,7 +19,6 @@
           id="nom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
-          name="nom"
           placeholder="Exemple: Casablanca..."
         />
         <div class="errors" v-if="errors">
@@ -59,7 +58,7 @@ const ajouterVille = async () => {
   form.append("nom", nomVille.value);
   AddToDB(
     button.value,
-    Endpoints.getAllOrAddVille,
+    Endpoints.ville__get_all_or_add,
     form,
     "villesView",
     errors,

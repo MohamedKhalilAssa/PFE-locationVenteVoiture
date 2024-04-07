@@ -7,14 +7,16 @@ const getCSRFToken = async () => {
   axios.defaults.withCredentials = true;
   axios.defaults.withXSRFToken = true;
   try {
-    await axios.get(Endpoints.getCSRFToken);
+    await axios.get(Endpoints.config__get_csrf_token);
     if (
       localStorage.getItem("Authentication")
     ) {
       axios.defaults.withCredentials = true;
       axios.defaults.withXSRFToken = true;
       try {
-        const { data } = await axios.get(Endpoints.getAuthenticatedUser);
+        const { data } = await axios.get(
+          Endpoints.config__get_authenticated_user
+        );
 
         if (data) {
           // make sure data present:

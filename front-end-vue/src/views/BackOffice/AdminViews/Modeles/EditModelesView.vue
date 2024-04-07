@@ -19,7 +19,6 @@
           id="nom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
-          name="nom"
           placeholder="Exemple: Corolla..."
         />
         <div class="errors" v-if="errors">
@@ -34,7 +33,6 @@
           v-model="marqueVmodel"
           id="marque"
           class="border border-gray-600 rounded p-2 w-full"
-          name="marque_id"
         >
           <option
             v-for="marque in marqueResult"
@@ -84,7 +82,7 @@ const button = ref(null);
 // fetching existing modele
 const props = defineProps(["id"]);
 
-getById(Endpoints.getOrUpdateOrDeleteModele, props.id).then((data) => {
+getById(Endpoints.modele__get_or_update_or_delete, props.id).then((data) => {
   if (data) {
     nomModele.value = data.nom;
     marqueVmodel.value = data.marque_id;
@@ -99,7 +97,7 @@ getById(Endpoints.getOrUpdateOrDeleteModele, props.id).then((data) => {
 
 // Fetching Marques
 const marqueResult = ref([]);
-getFromDB(Endpoints.getAllOrAddMarque).then((response) => {
+getFromDB(Endpoints.modele__get_or_update_or_delete).then((response) => {
   if (response) {
     marqueResult.value = response;
   }
