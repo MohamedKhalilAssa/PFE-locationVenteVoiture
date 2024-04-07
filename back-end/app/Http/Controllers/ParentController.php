@@ -102,6 +102,11 @@ class ParentController extends BaseController
         }
         // treatment to do before create like modifier data
         $data_to_save = $this->beforeSaveForStore($validator);
+        // forme d'erreur subControllers:  ['error'=>['err1' =>[ '...'], 'err2' => [ .. ]]]
+        // pour verifier si il y a une erreur custom
+        if (isset($data_to_save["error"])) {
+            return response()->json(['errors' => $data_to_save['error']], 422);
+        }
         // create model
         $new_model = $this->model::create($data_to_save);
         // treatment to do after create like uploading a file
@@ -122,7 +127,6 @@ class ParentController extends BaseController
         if (!$current_model) {
             return abort(404, 'Not found');
         }
-        // return $validator->validated();
         $data = $this->beforeSaveForUpdate($validator, $current_model);
         // forme d'erreur subControllers:  ['error'=>['err1' =>[ '...'], 'err2' => [ .. ]]]
         // pour verifier si il y a une erreur custom
@@ -165,7 +169,7 @@ class ParentController extends BaseController
     public function beforeValidateForStore()
     {
     }
-    public function afterValidateForStore($validator)
+    public function afterValidateForStore(&$validator)
     {
     }
     public function beforeSaveForStore($validator)

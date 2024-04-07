@@ -35,7 +35,7 @@ class ColorController extends ParentController
     public function beforeSaveForUpdate($validator, $current_model)
     {
         $data = $validator->validated();
-        $found = couleursVoiture::where('nom', $data['nom'])->first() ?? false;
+        $found = $this->model::where('nom', $data['nom'])->first() ?? false;
         if ($found != false && $data['nom'] != $current_model->nom) {
             return  ['error'=>['nom' => ['la couleur existe deja']]];
         } else {

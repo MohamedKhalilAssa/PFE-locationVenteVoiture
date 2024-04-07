@@ -36,26 +36,19 @@ class UserController extends ParentController
             'role' => ['in:admin,client'],
         ];
     }
+
     public function beforeSaveForStore($validator)
     {
         $data = $validator->validated();
-        $validator->after(function ($validator, $data) {
-            // check if the role has been changed by an authorized person if not return an error
-            if (Auth::user()->role != 'root' && in_array($data['role'], ['admin', 'client'])) {
-                $validator->errors()->add(
-                    'role',
-                    'Seul le root peut donner un role aux utilisateurs'
-                );
-                return response()->json(['errors' => $validator->errors()], 422);
-            } else if ($data['role'] == "root") {
-                $validator->errors()->add(
-                    'role',
-                    'le role de root ne peut pas etre affecter'
-                );
-                return response()->json(['errors' => $validator->errors()], 422);
-            }
-        });
-        return $data;
+        // check if the role has been assigned by root otherwise assign default value
+        if (Auth::user()->role != 'root') {
+            $data['role'] = 'client';
+            return $data;
+        } else if ($data['role'] == "root") {
+            return  ['error' => ['role' => ['le role de root ne peut pas etre affecter']]];
+        } else {
+            return $data;
+        }
     }
 
     // updating
@@ -76,23 +69,13 @@ class UserController extends ParentController
     public function beforeSaveForUpdate($validator, $current_model)
     {
         $data = $validator->validated();
-        $validator->after(function ($validator, $data, $current_model) {
-            // check if the role has been changed by an authorized person if not return an error
-            if (Auth::user()->role != 'root' && $data->role != $current_model->role) {
-                $validator->errors()->add(
-                    'role',
-                    'Seul le root peut changer le role d\'un utilisateur'
-                );
-                return response()->json(['errors' => $validator->errors()], 422);
-            } else if ($current_model->role == "root" && $data->role != "root") {
-                $validator->errors()->add(
-                    'role',
-                    'le role de root ne peut pas etre affecter'
-                );
-                return response()->json(['errors' => $validator->errors()], 422);
-            }
-        });
-        return $data;
+        if (Auth::user()->role != 'root' && $data->role != $current_model->role) {
+            return  ['error' => ['role' => ['Seul le root peut changer le role d\'un utilisateur']]];
+        } else if ($current_model->role == "root" && $data->role != "root") {
+            return  ['error' => ['role' => ['le role de root ne peut pas etre affecter']]];
+        } else {
+            return $data;
+        }
     }
     // Overriding the index method to return nothing
     public function index()
