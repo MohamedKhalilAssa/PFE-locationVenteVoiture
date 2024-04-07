@@ -18,5 +18,9 @@ Route::group(['prefix' => 'users', 'as' => 'user.'], function () {
     // for deleting
     Route::delete('/{id}', [UserController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
     // for updating
-    Route::post('/{id}', [UserController::class, 'update'])->where("id", "[0-9]+")->name("update");
+    Route::post('/{id}', [
+        UserController::class, 'update'
+    ])->where("id", "[0-9]+")->name("update");
+    // for creating
+    Route::post('/', [UserController::class, 'store'])->name("store");
 });

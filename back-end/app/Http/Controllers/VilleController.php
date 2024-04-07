@@ -10,6 +10,7 @@ class VilleController extends ParentController
     public function __construct()
     {
         $this->model = Ville::class;
+        $this->model_name = 'Ville';
         $this->middleware('auth:sanctum')->except(['index', 'show']);
         $this->middleware('admin')->except(['index', 'show']);
     }

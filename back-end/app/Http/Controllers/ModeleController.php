@@ -11,6 +11,7 @@ class ModeleController extends ParentController
     public function __construct()
     {
         $this->model = Modele::class;
+        $this->model_name = 'Modele';
         $this->middleware('auth:sanctum')->except(['index', 'indexBack', 'show']);
         $this->middleware('admin')->except(['index', 'show']);
     }

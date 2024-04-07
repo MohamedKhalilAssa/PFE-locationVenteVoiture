@@ -4,7 +4,7 @@
   >
     <form
       @submit.prevent="ajouterMarque"
-      class="bg-white border border-gray-900 shadow-2xl p-5 md:p-10 rounded max-w-lg w-full"
+      class="bg-white border border-gray-900 shadow-2xl p-5 md:p-10 rounded max-w-xl w-full"
     >
       <header class="text-center mb-7">
         <h2 class="text-2xl font-bold uppercase mb-1">Ajouter une marque</h2>

@@ -16,6 +16,8 @@ class ParentController extends BaseController
     protected $model;
     // to be overriden by the model for validation
     protected $rules;
+    // for displaying message
+    protected $model_name;
     // to be overriden by the model for relations select
     public function selectRelations(): array
     {
@@ -104,7 +106,7 @@ class ParentController extends BaseController
         $new_model = $this->model::create($data_to_save);
         // treatment to do after create like uploading a file
         $this->afterSaveForStore($new_model);
-        return response()->json(['message' => 'Crée avec succès']);
+        return response()->json(['message' => "$this->model_name Crée avec succès"]);
     }
     // ! 3. Updating
     public function update(Request $request, $id)
@@ -124,7 +126,7 @@ class ParentController extends BaseController
         $data = $this->beforeSaveForUpdate($validator->validated(), $current_model);
         if ($current_model->update($data)) {
             $this->afterSaveForUpdate($current_model);
-            return response()->json(['message' => 'Element modifié avec succès', 'iconColor' => 'blue']);
+            return response()->json(['message' => "$this->model_name modifié avec succès", 'iconColor' => 'blue']);
         } else {
             return abort(400, 'la modification a echoué');
         }
@@ -139,7 +141,7 @@ class ParentController extends BaseController
         $current_model = $this->beforeDestroy($current_model);
         if ($current_model->delete()) {
             $this->afterDestroy();
-            return response()->json(['message' => 'Element Supprimé avec succès', 'iconColor' => 'red']);
+            return response()->json(['message' => "$this->model_name Supprimé avec succès", 'iconColor' => 'red']);
         } else {
             return abort(400, 'La suppresion a echoué');
         }
