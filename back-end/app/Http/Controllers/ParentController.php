@@ -215,25 +215,27 @@ class ParentController extends BaseController
             }
         }
     }
-    function searchData($search, $searchColumn, $sort = 'none', $sortColumn, $model)
+    function searchData($search, $searchColumn, $sort, $sortColumn, $model)
     {
         /*
          * Test if the selected column is from a relation
          * the column will be in this format relation.column
          */
-        if (strpos($searchColumn, '.') && count($this->selectRelations()) > 0) {
-            [$search_relation, $search_column] = explode('.', $searchColumn);
+        if ($search != null) {
+            if (strpos($searchColumn, '.') && count($this->selectRelations()) > 0) {
+                [$search_relation, $search_column] = explode('.', $searchColumn);
 
-            if (count($this->selectRelations()) == 0 || !isset($this->selectRelations()[$search_relation]) || !in_array($search_column, $this->selectRelations()[$search_relation]))
-                abort(400, 'Invalid search column');
-            $model = $model->whereHas($search_relation, function ($query) use ($search_column, $search) {
-                $query->where($search_column, 'like', '%' . $search . '%');
-            });
-            $this->sortData($sort, $sortColumn, $model);
-        } else {
-            // if the selected column is a simple column
-            $model = $model->where($searchColumn, 'like', '%' . $search . '%');
-            $this->sortData($sort, $sortColumn, $model);
+                if (count($this->selectRelations()) == 0 || !isset($this->selectRelations()[$search_relation]) || !in_array($search_column, $this->selectRelations()[$search_relation]))
+                    abort(400, 'Invalid search column');
+                $model = $model->whereHas($search_relation, function ($query) use ($search_column, $search) {
+                    $query->where($search_column, 'like', '%' . $search . '%');
+                });
+                $this->sortData($sort, $sortColumn, $model);
+            } else {
+                // if the selected column is a simple column
+                $model = $model->where($searchColumn, 'like', '%' . $search . '%');
+                $this->sortData($sort, $sortColumn, $model);
+            }
         }
     }
 }
