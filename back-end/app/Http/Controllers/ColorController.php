@@ -10,8 +10,4 @@ use Symfony\Component\HttpFoundation\JsonResponse as HttpFoundationJsonResponse;
 class ColorController extends Controller
 {
 
-    public function index()
-    {
-        return response(couleursVoiture::all(["id", "nom"]))->header('Content-Type', 'application/json');
-    }
 }

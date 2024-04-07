@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends Controller
+class UserController extends ParentController
 {
     public function __construct()
     {
@@ -15,66 +15,49 @@ class UserController extends Controller
         $this->middleware('auth:sanctum')->except(['show']);
         $this->middleware('admin')->except(['show']);
     }
-
-    public function show($id)
+    public function beforePaginate($model)
     {
-        return response(User::find($id))->header('Content-Type', 'application/json');
+        return $model->where('role', '!=', 'root');
     }
-    public function update(Request $request, $id)
+    public function beforeValidateForUpdate()
     {
-        $validator = Validator::make($request->all(), [
+        $this->rules = [
             'nom' => ['required', 'string', 'regex:/^\D*$/', 'max:255'],
             'prenom' => ['required', 'string', 'regex:/^\D*$/', 'max:255'],
-            'telephone' => ['required', 'min:10', 'max:10',  'regex:/^((06)|(05)){1}[\d]{8}$/'],
+            'telephone' => ['required', 'min:10', 'max:10', 'regex:/^((06)|(05)){1}[\d]{8}$/'],
             'email' => [
-                'required', 'lowercase',
-                'email', 'max:255',
+                'required',
+                'lowercase',
+                'email',
+                'max:255',
             ],
-        ]);
+        ];
+    }
+    public function afterValidateForUpdate($validator)
+    {
         $validator->sometimes(
             'role',
             ['required', 'in:admin,client'],
             function () {
-                // Perform your condition here, for example:
                 return Auth::user()->role === 'root';
             }
         );
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $user = User::find($id);
-        if (!$user) {
-            return abort(404, 'Utilisateur not found');
-        }
-        $user->nom = $request->nom;
-        $user->prenom = $request->prenom;
-        $user->telephone = $request->telephone;
-        $user->email = $request->email;
-        // check if the role has been changed by an authorized person if not return an error
-        if (Auth::user()->role === 'root') {
-            $user->role = $request->role;
-        } else if (Auth::user()->role != 'root' && $request->role != $user->role) {
-            abort(401, 'Vous ne pouvez pas changer le role d\'un utilisateur');
-        }
-        // saving the changes
-
-        if ($user->save()) {
-            return response()->json(["message" => "Utilisateur modifié avec succès"]);
-        } else {
-            return abort(400, 'la modification a echoué');
-        }
     }
-    public function destroy($id)
+    public function beforeSaveForUpdate($data, $current_model)
     {
-        $user = User::find($id);
-        if (!$user) {
-            return abort(404, 'Utilisateur not found');
+        // check if the role has been changed by an authorized person if not return an error
+        if (Auth::user()->role != 'root' && $data->role != $current_model->role) {
+            return abort(401, 'Vous ne pouvez pas changer le role d\'un utilisateur');
+        } else if ($current_model->role == "root" && $data->role != "root") {
+            return abort(401, 'Vous ne pouvez pas changer le role d\'un utilisateur root');
+        } else {
+            return $data;
         }
-        if ($user->delete()) {
-            return response()->json(['message' => 'Utilisateur supprimé avec succès', 'iconColor' => 'red']);
-        } else
-            return abort(400, 'la suppression a echoué');
     }
+    // Overriding the index method to return nothing
+    public function index()
+    {
+        return;
+    }
+
 }

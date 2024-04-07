@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ville;
 use Illuminate\Http\Request;
 
-class VilleController extends Controller
+class VilleController extends ParentController
 {
     public function __construct()
     {
@@ -13,50 +13,19 @@ class VilleController extends Controller
         $this->middleware('auth:sanctum')->except(['index', 'show']);
         $this->middleware('admin')->except(['index', 'show']);
     }
-    public function index()
+
+    // Overriding
+    public function beforeValidateForStore()
     {
-        return response(Ville::all(["id", "nom"]))->header('Content-Type', 'application/json');
-    }
-  
-    public function show($id)
-    {
-        return response(Ville::find($id))->header('Content-Type', 'application/json');
-    }
-    public function update(Request $request, $id)
-    {
-        $formElements = $request->validate([
-            'nom' => ['required', 'string', 'regex:/^\D*$/', 'max:255'],
-        ]);
-        $ville = Ville::find($id);
-        if (!$ville) {
-            return abort(404, 'Ville not found');
-        }
-        $ville->nom = $formElements['nom'];
-        if ($ville->save()) {
-            return response()->json(['message' => 'Ville modifié avec succès', 'iconColor' => 'blue']);
-        } else {
-            return abort(400, 'la modification a echoué');
-        }
-    }
-    public function store(Request $request)
-    {
-        $formElements = $request->validate([
+        $this->rules = [
             'nom' => ['required', 'unique:villes,nom', 'regex:/^\D*$/', 'string', 'max:255'],
-        ]);
-        Ville::create([
-            'nom' => $formElements['nom'],
-        ]);
-        return response()->json(['message' => 'Ville crée avec succès']);
+        ];
     }
-    public function destroy($id)
+    public function beforeValidateForUpdate()
     {
-        $ville = Ville::find($id);
-        if (!$ville) {
-            return abort(404, 'Ville not found');
-        }
-        if ($ville->delete()) {
-            return response()->json(['message' => 'Ville supprimé avec succès', 'iconColor' => 'red']);
-        } else
-            return abort(400, 'la suppression a echoué');
+        $this->rules = [
+            'nom' => ['required', 'string', 'regex:/^\D*$/', 'max:255'],
+        ];
     }
+
 }

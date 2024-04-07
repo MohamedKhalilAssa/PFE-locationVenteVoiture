@@ -1,12 +1,6 @@
 <template>
-  <Table
-    :columns="columns"
-    :getter="Endpoints.ModelePagination"
-    :deleteFrom="Endpoints.getOrUpdateOrDeleteModele"
-    :actions="actions"
-    titre="Modele"
-    addName="ajouterModele"
-  />
+  <Table :columns="columns" :getter="Endpoints.ModelePagination" :deleteFrom="Endpoints.getOrUpdateOrDeleteModele"
+    :actions="actions" titre="Modele" addName="ajouterModele" />
 </template>
 
 <script setup>
@@ -17,6 +11,14 @@ import Endpoints from "@/assets/JS/Endpoints";
 const columns = [
   { name: "ID", key: "id", sortable: true },
   { name: "Nom du Modele", key: "nom", sortable: true },
+  {
+    name: "marque.nom",
+    key: "marque.nom",
+    sortable: true,
+    toName: "detailsMarque",
+    toID: "marque_id",
+    isLink: true,
+  },
   // {
   //   name: "ID Marque",
   //   key: "marque_id",
@@ -25,13 +27,6 @@ const columns = [
   //   toID: "marque_id",
   //   sortable: true,
   // },
-  {
-    name: "marque.nom",
-    key: "marque.nom",
-    sortable: true,
-    toName: "detailsMarque",
-    toID: "marque.id",
-    isLink: true,  },
 ];
 // action
 const actions = [
