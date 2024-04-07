@@ -12,7 +12,7 @@ const columns = [
   { name: "ID", key: "id", sortable: true },
   { name: "Nom du Modele", key: "nom", sortable: true },
   {
-    name: "marque.nom",
+    name: "Nom de la Marque",
     key: "marque.nom",
     sortable: true,
     toName: "detailsMarque",
