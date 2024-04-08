@@ -18,6 +18,14 @@ export default [
     meta: { requiresAuth: true, requiresAdmin: true },
   },
   {
+    path: "couleurs/details/:id",
+    name: "detailsCouleur",
+    component: () =>
+      import("@/views/BackOffice/AdminViews/attributsVoitures/Couleur/DetailCouleursView.vue"),
+    meta: { requiresAuth: true, requiresAdmin: true },
+    props: true,
+  },
+  {
     path: "couleurs/modifier/:id",
     name: "modifierCouleur",
     component: () =>

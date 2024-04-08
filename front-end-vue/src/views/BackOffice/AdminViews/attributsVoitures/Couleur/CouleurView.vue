@@ -1,12 +1,7 @@
 <template>
-  <Table
-    :columns="columns"
-    :getter="Endpoints.couleur__paginate"
-    :deleteFrom="Endpoints.couleur__get_or_update_or_delete"
-    :actions="actions"
-    titre="Couleur"
-    addName="ajouterCouleur"
-  />
+  <Table :columns="columns" :getter="Endpoints.couleur__paginate"
+    :deleteFrom="Endpoints.couleur__get_or_update_or_delete" :actions="actions" titre="Couleur"
+    addName="ajouterCouleur" />
 </template>
 
 <script setup>
@@ -21,6 +16,12 @@ const columns = [
 ];
 // action
 const actions = [
+  {
+    label: "Details",
+    redirectToAction: "detailsCouleur",
+    toID: "id",
+    addClass: "text-green-600",
+  },
   {
     label: "Modifier",
     redirectToAction: "modifierCouleur",
