@@ -34,7 +34,7 @@ class ParentController extends BaseController
      */
 
     //  ! 1. Reading
-    public function indexBack()
+    public function indexBack(Request $request)
     {
         $relations = [];
         /*

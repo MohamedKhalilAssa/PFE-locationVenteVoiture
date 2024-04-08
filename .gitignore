@@ -1,3 +1,4 @@
 start_servers.sh
 start_servers.ps1
 /.idea/*
+front-end-vue/src/assets/JS/Endpoints.js
