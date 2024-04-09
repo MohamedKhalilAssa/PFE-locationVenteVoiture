@@ -12,8 +12,8 @@ class ModeleController extends ParentController
     {
         $this->model = Modele::class;
         $this->model_name = 'Modele';
-        $this->middleware('auth:sanctum')->except(['index', 'indexBack', 'show']);
-        $this->middleware('admin')->except(['index', 'show']);
+        $this->middleware('auth:sanctum')->except(['index', 'show','showbyMarque']);
+        $this->middleware('admin')->except(['index', 'show', 'showbyMarque']);
     }
     // for indexBack
     public function selectRelations(): array
