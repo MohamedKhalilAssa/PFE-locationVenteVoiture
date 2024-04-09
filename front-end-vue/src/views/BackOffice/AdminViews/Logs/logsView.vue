@@ -1,11 +1,5 @@
 <template>
-  <Table
-    :columns="columns"
-    :getter="Endpoints.analytics__get_paginate"
-    titre="Logs"
-    :actions="actions"
-    addName="ajouterMarque"
-  />
+  <Table :columns="columns" :getter="Endpoints.analytics__get_paginate" titre="Log" :actions="actions" />
 </template>
 
 <script setup>

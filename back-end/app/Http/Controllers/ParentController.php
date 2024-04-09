@@ -63,7 +63,8 @@ class ParentController extends BaseController
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key] = nestedToNormal($value);
             }
-            return response()->json(['PaginateQuery' => $data, 'total' => $count]);
+            $additionalData = $this->beforeReturn($this->model);
+            return response()->json(['PaginateQuery' => $data, 'total' => $count, $additionalData]);
         } else {
             // else if there is no search
             $this->sortData($sort, $sortColumn, $this->model);
@@ -73,7 +74,8 @@ class ParentController extends BaseController
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key] = nestedToNormal($value);
             }
-            return response()->json(['PaginateQuery' => $data, 'total' => $count]);
+            $additionalData = $this->beforeReturn($this->model);
+            return response()->json(['PaginateQuery' => $data, 'total' => $count, ...$additionalData]);
         }
     }
     public function show($id)
@@ -161,6 +163,11 @@ class ParentController extends BaseController
     // Specifying the columns to be returned from all (optional)
     public function indexReturnedColumns()
     {
+        return [];
+    }
+    public function beforeReturn($model)
+    {
+        // return : ['key' => value ...]
         return [];
     }
     public function beforePaginate($model)

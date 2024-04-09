@@ -16,9 +16,9 @@ class AnalyticsController extends ParentController
         $this->middleware('auth:sanctum');
         $this->middleware('admin');
     }
-    public function getTotalVisitors()
+    public function getTotalVisitors(Request $request)
     {
-        return Analytics::distinct('ip_address')->count();
+        return response()->json(['fetched' => $this->model::distinct('ip_address')->count(), 'title' => 'Total Visiteurs']);
     }
     // overwriting parent function since logs should not be deleted
     public function destroy($id)

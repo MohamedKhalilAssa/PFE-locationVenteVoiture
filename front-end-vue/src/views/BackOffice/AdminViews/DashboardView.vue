@@ -1,8 +1,11 @@
 <template>
-  <div>Dashboard View</div>
-  <chartComponent></chartComponent>
+  <div class="modalsContainer flex flex-wrap justify-center gap-4 sm:justify-between">
+    <MiniModal :endpoint="Endpoints.analytics__get_visitors" icon="fa-eye"></MiniModal>
+  </div>
+  <chartComponent v-if="false"></chartComponent>
 </template>
 <script setup>
-import chartComponent from "@/Components/Chart.vue"
-
+import chartComponent from "@/views/BackOffice/AdminComponents/Chart.vue";
+import MiniModal from "@/views/BackOffice/AdminComponents/DashboardElements/MiniModal.vue";
+import Endpoints from "@/assets/JS/Endpoints";
 </script>

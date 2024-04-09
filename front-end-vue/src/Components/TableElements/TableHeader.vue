@@ -7,7 +7,7 @@
         <slot></slot>
       </span>
     </div>
-    <router-link :to="{ name: addDestination }">
+    <router-link v-if="addDestination" :to="{ name: addDestination }">
       <button
         class="rounded-lg relative min-w-56 overflow-hidden h-10 cursor-pointer flex items-center border border-green-500 bg-green-500 group hover:bg-green-500 active:bg-green-500 active:border-green-500">
         <p
