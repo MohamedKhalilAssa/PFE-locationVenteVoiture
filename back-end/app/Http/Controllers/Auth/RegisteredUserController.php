@@ -46,6 +46,8 @@ class RegisteredUserController extends Controller
 
 
         Auth::login($user);
+        User::find(Auth::user()->id)->update(['last_activity' => now(), 'status' => 'Online']);
+
 
         return response()->json(["message" => "User created successfully."], 201);
     }

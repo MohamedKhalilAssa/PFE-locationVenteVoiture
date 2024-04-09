@@ -50,6 +50,23 @@
                         {{ UserFetched.role }}
                     </dd>
                 </div>
+                <div class="py-3 sm:py-5 flex items-end gap-8">
+                    <dt class="text-sm font-medium text-gray-500 min-w-max w-24">
+                        Status
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 min-w-max uppercase">
+                        {{ UserFetched.status }}
+                    </dd>
+                </div>
+                <div class="py-3 sm:py-5 flex items-end gap-8">
+                    <dt class="text-sm font-medium text-gray-500 min-w-max w-24">
+                        Last Seen
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 min-w-max ">
+                        {{ new Date(UserFetched.last_activity).getFullYear() == 1970 ? "Never" : new
+        Date(UserFetched.last_activity) }}
+                    </dd>
+                </div>
                 <div class="py-3 sm:py-5 flex items-end gap-6">
                     <dt class="text-sm font-medium text-gray-500 min-w-max w-24">
                         Date de creation

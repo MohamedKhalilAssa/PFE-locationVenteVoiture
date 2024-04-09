@@ -1,12 +1,6 @@
 <template>
-  <Table
-    :columns="columns"
-    :getter="Endpoints.user__paginate"
-    :deleteFrom="Endpoints.user__get_or_update_or_delete"
-    :actions="actions"
-    titre="Utilisateur"
-    addName="ajouterUser"
-  />
+  <Table :columns="columns" :getter="Endpoints.user__paginate" :deleteFrom="Endpoints.user__get_or_update_or_delete"
+    :actions="actions" titre="Utilisateur" addName="ajouterUser" />
 </template>
 
 <script setup>
@@ -20,8 +14,9 @@ const columns = [
   { name: "Nom", key: "nom", sortable: true },
   { name: "Prenom", key: "prenom", sortable: true },
   { name: "Email", key: "email", sortable: true },
-  { name: "Telephone", key: "telephone" },
+  // { name: "Telephone", key: "telephone" },
   { name: "Role", key: "role", capitalize: true, sortable: true },
+  { name: "Status", key: "status", capitalize: true, sortable: true },
   { name: "actions" },
 ];
 // action

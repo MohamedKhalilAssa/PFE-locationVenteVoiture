@@ -1,6 +1,7 @@
 <template>
-  <div class="modalsContainer flex flex-wrap justify-center gap-4 sm:justify-between">
+  <div class="modalsContainer flex flex-wrap justify-center gap-4 sm:justify-around">
     <MiniModal :endpoint="Endpoints.analytics__get_visitors" icon="fa-eye text-red-800 bg-red-300"></MiniModal>
+    <MiniModal :endpoint="Endpoints.user__get_total" icon="fa-users text-blue-800 bg-blue-300"></MiniModal>
   </div>
   <chartComponent v-if="false"></chartComponent>
 </template>

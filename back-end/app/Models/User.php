@@ -28,6 +28,8 @@ class User extends Authenticatable
         'email',
         'role',
         'password',
+        'status',
+        'last_activity',
     ];
 
     /**
@@ -47,7 +49,7 @@ class User extends Authenticatable
     {
         parent::boot();
         static::creating(function ($user) {
-            if (empty($user->role)) {
+            if (empty ($user->role)) {
                 $user->role = 'client';
             }
         });

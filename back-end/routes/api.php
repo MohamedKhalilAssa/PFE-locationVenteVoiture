@@ -14,8 +14,6 @@ use App\Http\Controllers\ModeleController;
 |
 */
 
-Route::middleware('XSS')->group(function () {
-    includeAllFiles('/routes/API/');
-});
+includeAllFiles('/routes/API/');
 
 Route::get('test', [ModeleController::class, 'indexBack']);

@@ -63,7 +63,7 @@ class ParentController extends BaseController
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key] = nestedToNormal($value);
             }
-            $additionalData = $this->beforeReturn($this->model);
+            $additionalData = $this->beforeIndexBackReturn($this->model);
             return response()->json(['PaginateQuery' => $data, 'total' => $count, $additionalData]);
         } else {
             // else if there is no search
@@ -74,12 +74,14 @@ class ParentController extends BaseController
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key] = nestedToNormal($value);
             }
-            $additionalData = $this->beforeReturn($this->model);
+            $additionalData = $this->beforeIndexBackReturn($this->model);
             return response()->json(['PaginateQuery' => $data, 'total' => $count, ...$additionalData]);
         }
     }
     public function show($id)
     {
+
+        $this->beforeFetching($this->model);
         return response($this->model::find($id))->header('Content-Type', 'application/json');
     }
     public function index()
@@ -158,14 +160,17 @@ class ParentController extends BaseController
             return abort(400, 'La suppresion a echoué');
         }
     }
-
+    public function getTotal()
+    {
+        return response()->json(['fetched' => $this->model::count(), 'title' => 'Total ' . $this->model_name]);
+    }
     // functions that can be overriden to customize the CRUD operations
     // Specifying the columns to be returned from all (optional)
     public function indexReturnedColumns()
     {
         return [];
     }
-    public function beforeReturn($model)
+    public function beforeIndexBackReturn($model)
     {
         // return : ['key' => value ...]
         return [];
@@ -173,6 +178,10 @@ class ParentController extends BaseController
     public function beforePaginate($model)
     {
     }
+    public function beforeFetching($model)
+    {
+    }
+    // Storing and updating
     public function beforeValidateForStore()
     {
     }

@@ -22,7 +22,11 @@ class UserController extends ParentController
     {
         return $model->where('role', '!=', 'root');
     }
+    public function beforeFetching($model)
+    {
+        return $model->where('role', '!=', 'root');
 
+    }
     // creating
 
     public function beforeValidateForStore()
@@ -45,7 +49,7 @@ class UserController extends ParentController
             $data['role'] = 'client';
             return $data;
         } else if ($data['role'] == "root") {
-            return  ['error' => ['role' => ['le role de root ne peut pas etre affecter']]];
+            return ['error' => ['role' => ['le role de root ne peut pas etre affecter']]];
         } else {
             return $data;
         }
@@ -70,9 +74,9 @@ class UserController extends ParentController
     {
         $data = $validator->validated();
         if (Auth::user()->role != 'root' && $data->role != $current_model->role) {
-            return  ['error' => ['role' => ['Seul le root peut changer le role d\'un utilisateur']]];
+            return ['error' => ['role' => ['Seul le root peut changer le role d\'un utilisateur']]];
         } else if ($current_model->role == "root" && $data->role != "root") {
-            return  ['error' => ['role' => ['le role de root ne peut pas etre affecter']]];
+            return ['error' => ['role' => ['le role de root ne peut pas etre affecter']]];
         } else {
             return $data;
         }

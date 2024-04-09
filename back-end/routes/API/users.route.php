@@ -19,8 +19,10 @@ Route::group(['prefix' => 'users', 'as' => 'user.'], function () {
     Route::delete('/{id}', [UserController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
     // for updating
     Route::post('/{id}', [
-        UserController::class, 'update'
+        UserController::class,
+        'update'
     ])->where("id", "[0-9]+")->name("update");
     // for creating
     Route::post('/', [UserController::class, 'store'])->name("store");
+    Route::get('/total', [UserController::class, 'getTotal'])->name("total");
 });
