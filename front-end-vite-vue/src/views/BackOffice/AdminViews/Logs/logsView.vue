@@ -1,5 +1,10 @@
 <template>
-  <Table :columns="columns" :getter="Endpoints.analytics__get_paginate" titre="Log" :actions="actions" />
+  <Table
+    :columns="columns"
+    :getter="Endpoints.analytics__get_paginate"
+    titre="Log"
+    :actions="actions"
+  />
 </template>
 
 <script setup>
@@ -8,6 +13,7 @@ import Endpoints from "@/assets/JS/Endpoints";
 
 // without actions
 const columns = [
+  { name: "ID", key: "id", sortable: true },
   { name: "IP Address", key: "ip_address", sortable: true },
   {
     name: "User",
