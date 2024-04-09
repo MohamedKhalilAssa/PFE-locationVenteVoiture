@@ -1,6 +1,12 @@
 <template>
-  <Table :columns="columns" :getter="Endpoints.modele__paginate" :deleteFrom="Endpoints.modele__get_or_update_or_delete"
-    :actions="actions" titre="Modele" addName="ajouterModele" />
+  <Table
+    :columns="columns"
+    :getter="Endpoints.modele__paginate"
+    :deleteFrom="Endpoints.modele__get_or_update_or_delete"
+    :actions="actions"
+    titre="Modele"
+    addName="ajouterModele"
+  />
 </template>
 
 <script setup>
@@ -19,6 +25,7 @@ const columns = [
     toID: "marque_id",
     isLink: true,
   },
+  { name: "actions" },
   // {
   //   name: "ID Marque",
   //   key: "marque_id",

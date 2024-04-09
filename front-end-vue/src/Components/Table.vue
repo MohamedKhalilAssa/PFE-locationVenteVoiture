@@ -15,8 +15,7 @@
         </thead>
         <tbody>
           <tr class="bg-white border-b" v-for="row in result.data" :key="row.id">
-            <TableContent :columns="columns" :row="row"></TableContent>
-            <ActionsTable :actions="actions" :row="row" @delete="DeleteHandler"></ActionsTable>
+            <TableContent :columns="columns" :row="row" :actions="actions" @delete="DeleteHandler"></TableContent>
           </tr>
         </tbody>
       </table>
@@ -37,7 +36,6 @@ import getPaginate from "@/Composables/Getters/getPaginate";
 import TableHeader from "@/Components/TableElements/TableHeader.vue";
 import SearchField from "@/Components/TableElements/SearchField.vue";
 import TablePagination from "@/Components/TableElements/TablePagination.vue";
-import ActionsTable from "@/Components/TableElements/ActionsTable.vue";
 import TableContent from "@/Components/TableElements/TableContent.vue";
 import TableColumns from "@/Components/TableElements/TableColumns.vue";
 

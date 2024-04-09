@@ -6,7 +6,7 @@ use App\Http\Controllers\UserController;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
-});
+})->name("user.authenticated");
 
 Route::group(['prefix' => 'users', 'as' => 'user.'], function () {
     // only name and id here based on marque

@@ -97,7 +97,7 @@ getById(Endpoints.modele__get_or_update_or_delete, props.id).then((data) => {
 
 // Fetching Marques
 const marqueResult = ref([]);
-getFromDB(Endpoints.modele__get_or_update_or_delete).then((response) => {
+getFromDB(Endpoints.marque__get_all_or_add).then((response) => {
   if (response) {
     marqueResult.value = response;
   }
@@ -111,7 +111,7 @@ const updateModele = async () => {
   form.append("marque_id", marqueVmodel.value);
   EditToDB(
     button.value,
-    Endpoints.getOrUpdateOrDeleteModele,
+    Endpoints.modele__get_or_update_or_delete,
     props.id,
     form,
     "modelesView",

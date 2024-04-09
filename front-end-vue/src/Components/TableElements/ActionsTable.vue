@@ -15,7 +15,7 @@
       <form
         v-else
         method="post"
-        @submit.prevent="$emit('delete', row.id)"
+        @submit.prevent="$emit('delete')"
         class="inline-block font-medium text-red-600"
       >
         <button type="submit" class="hover:underline">Supprimer</button>

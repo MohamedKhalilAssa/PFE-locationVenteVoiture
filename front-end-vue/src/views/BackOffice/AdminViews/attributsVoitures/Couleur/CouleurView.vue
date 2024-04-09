@@ -1,7 +1,12 @@
 <template>
-  <Table :columns="columns" :getter="Endpoints.couleur__paginate"
-    :deleteFrom="Endpoints.couleur__get_or_update_or_delete" :actions="actions" titre="Couleur"
-    addName="ajouterCouleur" />
+  <Table
+    :columns="columns"
+    :getter="Endpoints.couleur__paginate"
+    :deleteFrom="Endpoints.couleur__get_or_update_or_delete"
+    :actions="actions"
+    titre="Couleur"
+    addName="ajouterCouleur"
+  />
 </template>
 
 <script setup>
@@ -13,6 +18,7 @@ const columns = [
   { name: "ID", key: "id", sortable: true },
   { name: "la Couleur", key: "nom", sortable: true },
   { name: "HEX", key: "Hexadecimal", sortable: true, capitalize: true },
+  { name: "actions" },
 ];
 // action
 const actions = [

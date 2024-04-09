@@ -17,6 +17,7 @@ import Endpoints from "@/assets/JS/Endpoints";
 const columns = [
   { name: "ID", key: "id", sortable: true },
   { name: "Nom de la ville", key: "nom", sortable: true },
+  {name:'actions'},
 ];
 // action
 const actions = [

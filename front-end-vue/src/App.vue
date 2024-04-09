@@ -14,9 +14,11 @@ import errorFlashCard from "./Composables/ErrorSuccessMessages/errorFlashCard";
 import { onMounted } from "vue";
 import { useStore } from "vuex";
 import { watch } from "vue";
+import { useRoute } from "vue-router";
 
 onMounted(() => {
   // setting authentication and user in the store
+  const route = useRoute();
   const store = useStore();
   store.commit("setAuthentication");
   store.commit("setUser");

@@ -11,9 +11,9 @@
     @click.self="sortingHandle($event, column)"
     v-show="!column.isHidden"
   >
-    <span @click.self="clickOnName($event)">{{ column.name }}</span>
+    <span v-if="column.name == 'actions'">Actions</span>
+    <span v-else @click.self="clickOnName($event)">{{ column.name }}</span>
   </th>
-  <th scope="col" class="px-6 py-3">Actions</th>
 </template>
 <script setup>
 import { ref } from "vue";

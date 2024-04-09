@@ -76,15 +76,20 @@ const store = useStore();
 const nomModele = ref("");
 const marqueVmodel = ref("");
 const button = ref(null);
+const router = useRouter();
 
 // Fetching Marques
 
 const marqueResult = ref([]);
-getFromDB(Endpoints.modele__get_all_or_add,store).then((response) => {
+getFromDB(Endpoints.marque__get_all_or_add, store).then((response) => {
   if (response) {
     marqueResult.value = response;
   } else {
-    serverError.value += response || "";
+    store.commit("setError", "Modele introuvable");
+    store.commit("setErrorCode", "404");
+    router.push({
+      name: "modelesView",
+    });
   }
 });
 // end marques
@@ -96,10 +101,10 @@ const ajouterModele = async () => {
   formData.append("marque_id", marqueVmodel.value);
   AddToDB(
     button.value,
-    Endpoints.getAllOrAddModele,
+    Endpoints.modele__get_all_or_add,
     formData,
     "modelesView",
-    errors,
+    errors
   );
 };
 </script>

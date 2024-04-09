@@ -22,6 +22,7 @@ const columns = [
   { name: "Email", key: "email", sortable: true },
   { name: "Telephone", key: "telephone" },
   { name: "Role", key: "role", capitalize: true, sortable: true },
+  { name: "actions" },
 ];
 // action
 const actions = [
