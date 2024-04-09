@@ -1,4 +1,5 @@
 #script to automate the start of the servers for windows
+ipAddress = "ip address"
 
 Set-Location "path to front" 
 
@@ -15,4 +16,4 @@ Start-Process npm -ArgumentList "run watch"
 Set-Location "Path to back"
 
 # Launch backend server
-Start-Process php -ArgumentList "artisan serve" 
+Start-Process php -ArgumentList "artisan serve --host = $ipAddress" 

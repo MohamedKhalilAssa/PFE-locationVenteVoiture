@@ -1,7 +1,6 @@
 <template>
     <div class="modal bg-white w-96 sm:w-80 h-44 p-4 rounded-lg shadow-lg flex gap-8 items-center">
-        <i class="fa-solid text-red-800 text-5xl w-28 h-24 flex items-center justify-center bg-red-300 p-5 rounded-lg"
-            :class="icon"></i>
+        <i class="fa-solid  text-5xl w-28 h-24 flex items-center justify-center p-5 rounded-lg" :class="icon"></i>
         <div class="text space-y-2">
             <p class="text-4xl">{{ data.fetched }}</p>
             <p>{{ data.title }}</p>

@@ -1,6 +1,6 @@
 <template>
   <div class="modalsContainer flex flex-wrap justify-center gap-4 sm:justify-between">
-    <MiniModal :endpoint="Endpoints.analytics__get_visitors" icon="fa-eye"></MiniModal>
+    <MiniModal :endpoint="Endpoints.analytics__get_visitors" icon="fa-eye text-red-800 bg-red-300"></MiniModal>
   </div>
   <chartComponent v-if="false"></chartComponent>
 </template>
