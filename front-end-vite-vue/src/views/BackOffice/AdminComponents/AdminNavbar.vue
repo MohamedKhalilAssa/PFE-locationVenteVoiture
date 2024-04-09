@@ -40,7 +40,6 @@
 import SideBar from "@/views/BackOffice/AdminComponents/SideBar.vue";
 import Logo from "@/Components/Logo.vue";
 import dropDown from "@/Components/DropDown.vue";
-import "animate.css";
 import { ref } from "vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";

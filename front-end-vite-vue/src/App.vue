@@ -1,9 +1,3 @@
-<template>
-  <PreLoader />
-  <ClientLayout v-if="!$route.path.startsWith('/admin')" />
-  <AdminLayout v-if="$route.path.startsWith('/admin')" />
-</template>
-
 <script setup>
 import PreLoader from "@/Components/PreLoader.vue";
 import ClientLayout from "@/views/FrontOffice/ClientLayout.vue";
@@ -58,6 +52,11 @@ onMounted(() => {
   );
 });
 </script>
+<template>
+  <PreLoader />
+  <ClientLayout v-if="!$route.path.startsWith('/admin')" />
+  <AdminLayout v-if="$route.path.startsWith('/admin')" />
+</template>
 
 <style>
 body {
@@ -68,9 +67,11 @@ main {
   background-color: #e5e7eb;
   min-height: calc(100vh - 7rem);
 }
+
 .swal2-container {
   z-index: 90;
 }
+
 #app {
   min-height: 100vh;
 }

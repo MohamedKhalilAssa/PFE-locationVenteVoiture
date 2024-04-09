@@ -4,7 +4,7 @@ ipAddress = "ip address"
 Set-Location "path to front" 
 
 # Launch server
-Start-Process npm -ArgumentList "run serve" 
+Start-Process npm -ArgumentList "run dev" 
 Start-Sleep -Seconds 5
 
 # Change directory to frontend folder 

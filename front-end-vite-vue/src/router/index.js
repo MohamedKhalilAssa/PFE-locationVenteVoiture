@@ -7,62 +7,60 @@ import removeCredentials from "@/Composables/AuthenticationRequests/removeCreden
 import AdminRoutes from "@/router/AdminRoutes/index";
 import authenticationRoutes from "@/router/GlobalRoutes/authenticationRoutes";
 
-const routes = [
-  {
-    path: "/",
-    name: "home",
-    component: () => import("@/views/FrontOffice/HomeView.vue"),
-  },
-  {
-    path: "/neuf",
-    name: "neuf",
-    component: () => import("../views/FrontOffice/Neuf/NeufListingsView.vue"),
-  },
-  {
-    path: "/occasion",
-    name: "occasion",
-    component: () =>
-      import("../views/FrontOffice/Occasion/OccasionListingsView.vue"),
-  },
-  {
-    path: "/location",
-    name: "location",
-    component: () =>
-      import("../views/FrontOffice/Location/LocationListingsView.vue"),
-  },
-  {
-    path: "/annonce",
-    name: "annonce",
-    component: () =>
-      import("../views/FrontOffice/Annonces/CreateAnnonceView.vue"),
-    meta: { requiresAuth: true },
-  },
-  // Authentication routes
-  ...authenticationRoutes,
-  {
-    path: "/admin",
-    children: [
-      {
-        path: "",
-        name: "adminHome",
-        component: () =>
-          import("@/views/BackOffice/AdminViews/DashboardView.vue"),
-        meta: { requiresAuth: true, requiresAdmin: true },
-      },
-      ...AdminRoutes,
-      // { path: "users/:id", component: AdminUserDetails },
-    ],
-  },
-  {
-    path: "/:catchAll(.*)",
-    name: "NotFound",
-    component: () => import("@/views/PageNotFound.vue"),
-  },
-];
-
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes,
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: "/",
+      name: "home",
+      component: () => import("@/views/FrontOffice/HomeView.vue"),
+    },
+    {
+      path: "/neuf",
+      name: "neuf",
+      component: () => import("../views/FrontOffice/Neuf/NeufListingsView.vue"),
+    },
+    {
+      path: "/occasion",
+      name: "occasion",
+      component: () =>
+        import("../views/FrontOffice/Occasion/OccasionListingsView.vue"),
+    },
+    {
+      path: "/location",
+      name: "location",
+      component: () =>
+        import("../views/FrontOffice/Location/LocationListingsView.vue"),
+    },
+    {
+      path: "/annonce",
+      name: "annonce",
+      component: () =>
+        import("../views/FrontOffice/Annonces/CreateAnnonceView.vue"),
+      meta: { requiresAuth: true },
+    },
+    // Authentication routes
+    ...authenticationRoutes,
+    {
+      path: "/admin",
+      children: [
+        {
+          path: "",
+          name: "adminHome",
+          component: () =>
+            import("@/views/BackOffice/AdminViews/DashboardView.vue"),
+          meta: { requiresAuth: true, requiresAdmin: true },
+        },
+        ...AdminRoutes,
+        // { path: "users/:id", component: AdminUserDetails },
+      ],
+    },
+    {
+      path: "/:catchAll(.*)",
+      name: "NotFound",
+      component: () => import("@/views/PageNotFound.vue"),
+    },
+  ]
 });
 
 router.beforeEach(async (to, from, next) => {

@@ -4,7 +4,7 @@ front_end_path="/home/ylamalem/Bureau/docker project/t/PFE-locationVenteVoiture/
 back_end_path="/home/ylamalem/Bureau/docker project/t/PFE-locationVenteVoiture/back-end"
 server_ip="IP"
 
-gnome-terminal --working-directory="$front_end_path" -- npm run serve
+gnome-terminal --working-directory="$front_end_path" -- npm run dev
 
 gnome-terminal --tab --working-directory="$front_end_path" -- npm run watch
 
