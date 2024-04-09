@@ -2,29 +2,37 @@
   <nav
     class="bg-white border border-gray-200 px-2 py-2 rounded shadow-lg flex justify-between items-center w-full h-20 sticky top-0 z-40 lg:px-8"
   >
-    <Logo imageSrc="/assets/images/LogoPNGCroppedR.png" toName="home" />
+    <Logo imageSrc="/assets/images/LogoPNGCroppedR.png" toName="homeView" />
     <div class="links hidden space-x-4 lg:flex">
-      <router-link class="link hover:font-bold duration-100" to="/"
+      <router-link
+        class="link hover:font-bold duration-100"
+        :to="{ name: 'homeView' }"
         >Home</router-link
       >
-      <router-link class="link hover:font-bold duration-100" to="/neuf"
+      <router-link
+        class="link hover:font-bold duration-100"
+        :to="{ name: 'neufFrontView' }"
         >Neuf</router-link
       >
-      <router-link class="link hover:font-bold duration-100" to="/occasion"
+      <router-link
+        class="link hover:font-bold duration-100"
+        :to="{ name: 'occasionFrontView' }"
         >Occasion</router-link
       >
-      <router-link class="link hover:font-bold duration-100" to="/location"
+      <router-link
+        class="link hover:font-bold duration-100"
+        :to="{ name: 'locationFrontView' }"
         >Location</router-link
       >
       <router-link
         class="link hover:font-bold duration-100"
-        to="/admin"
+        :to="{ name: 'adminHome' }"
         v-if="computedRole"
         >Dashboard</router-link
       >
     </div>
     <div class="btns hidden lg:hidden" :class="{ blockImportant: !isAnnonce }">
-      <router-link to="/annonce">
+      <router-link :to="{ name: 'ajouterAnnonceFront' }">
         <button class="btn bg-red-500 text-white px-4 py-3 hover:bg-red-700">
           Ajouter une annonce
         </button>
@@ -42,35 +50,35 @@
     <router-link
       class="linkMob max-w-min hover:font-bold duration-100"
       @click="toggleMenu"
-      to="/"
+      :to="{ name: 'homeView' }"
       >Home</router-link
     >
     <router-link
       class="linkMob max-w-min hover:font-bold duration-100"
       @click="toggleMenu"
-      to="/neuf"
+      :to="{ name: 'neufFrontView' }"
       >Neuf</router-link
     >
     <router-link
       class="linkMob max-w-min hover:font-bold duration-100"
       @click="toggleMenu"
-      to="/occasion"
+      :to="{ name: 'occasionFrontView' }"
       >Occasion</router-link
     >
     <router-link
       class="linkMob max-w-min hover:font-bold duration-100"
       @click="toggleMenu"
-      to="/location"
+      :to="{ name: 'locationFrontView' }"
       >Location</router-link
     >
     <router-link
       class="linkMob max-w-min hover:font-bold duration-100"
-      to="/admin"
+      :to="{ name: 'adminHome' }"
       v-if="computedRole"
       >Dashboard</router-link
     >
     <div class="btns" :class="{ hidden: isAnnonce }">
-      <router-link to="/annonce">
+      <router-link :to="{ name: 'ajouterAnnonceFront' }">
         <button class="btn bg-red-500 text-white px-4 py-3 hover:bg-red-700">
           Ajouter une annonce
         </button>

@@ -18,17 +18,25 @@ class UserController extends ParentController
         $this->middleware('auth:sanctum')->except(['show']);
         $this->middleware('admin')->except(['show']);
     }
-    public function beforePaginate($model)
+    public function beforeGetting($model)
     {
         return $model->where('role', '!=', 'root');
     }
-    public function beforeFetching($model)
+    public function beforeReturnForShow($data)
     {
-        return $model->where('role', '!=', 'root');
+        if ($data->role == 'root') {
+            abort(403, 'Le compte  root ne peut pas etre affiche');
+        }
 
+        return $data;
+    }
+    // getters
+    public function getOnlineAdmins()
+    {
+        $adminOnline = User::where('status', 'Online')->where('role', 'admin')->get();
+        return response()->json(['fetched' => count($adminOnline) > 0 ? $adminOnline : 0, 'title' => 'Admins en ligne']);
     }
     // creating
-
     public function beforeValidateForStore()
     {
         $this->rules = [

@@ -25,7 +25,7 @@ const register = async (button, form, errors) => {
     let { data } = await axios.get(Endpoints.config__get_authenticated_user);
     addCredentials(data)
 
-    router.push({ name: "home", query: { message: "loggedIn" } });
+    router.push({ name: "homeView", query: { message: "loggedIn" } });
   } catch (error) {
     button.disabled = false;
     if (error.response) {

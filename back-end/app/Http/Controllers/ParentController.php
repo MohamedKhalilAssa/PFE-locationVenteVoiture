@@ -58,7 +58,7 @@ class ParentController extends BaseController
             $searchColumn = request('searchColumn') ?? 'nom';
             $this->searchData($search, $searchColumn, $sort, $sortColumn, $this->model);
             $count = $this->model->count();
-            $this->beforePaginate($this->model);
+            $this->beforeGetting($this->model);
             $data = $this->model->paginate(10)->toArray();
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key] = nestedToNormal($value);
@@ -69,7 +69,7 @@ class ParentController extends BaseController
             // else if there is no search
             $this->sortData($sort, $sortColumn, $this->model);
             $count = $this->model->count();
-            $this->beforePaginate($this->model);
+            $this->beforeGetting($this->model);
             $data = $this->model->paginate(10)->toArray();
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key] = nestedToNormal($value);
@@ -80,9 +80,9 @@ class ParentController extends BaseController
     }
     public function show($id)
     {
-
-        $this->beforeFetching($this->model);
-        return response($this->model::find($id))->header('Content-Type', 'application/json');
+        $data =  $this->model::find($id);
+        $this->beforeReturnForShow($data);
+        return response($data)->header('Content-Type', 'application/json');
     }
     public function index()
     {
@@ -175,11 +175,13 @@ class ParentController extends BaseController
         // return : ['key' => value ...]
         return [];
     }
-    public function beforePaginate($model)
+    public function beforeGetting($model)
     {
+        return $model;
     }
-    public function beforeFetching($model)
+    public function beforeReturnForShow($data)
     {
+        return $data;
     }
     // Storing and updating
     public function beforeValidateForStore()

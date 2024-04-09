@@ -65,13 +65,7 @@ class AnnonceController extends Controller
             }
             $formElements['options'] = json_encode($options);
         }
-
-
         Annonce::create($formElements);
-
-        // return
-        //     "Annonce Created Successfully " . auth()->user()->id . "<br>"
-        return  "Annonce Created Successfully " . auth()->user()->id . "<br>" .
-            response($formElements)->header('Content-Type', 'application/json');
+        return response()->json(['message' => "Annonce Crée avec succès"]);
     }
 }

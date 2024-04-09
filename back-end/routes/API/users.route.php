@@ -24,5 +24,7 @@ Route::group(['prefix' => 'users', 'as' => 'user.'], function () {
     ])->where("id", "[0-9]+")->name("update");
     // for creating
     Route::post('/', [UserController::class, 'store'])->name("store");
+    // getters
     Route::get('/total', [UserController::class, 'getTotal'])->name("total");
+    Route::get('/admin/online', [UserController::class, 'getOnlineAdmins'])->name("admin.online");
 });

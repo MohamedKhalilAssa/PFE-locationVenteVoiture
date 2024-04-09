@@ -13,7 +13,7 @@ const logout = async (route) => {
       store.commit("setIconColor", response.data.iconColor);
     });
     if (route.meta.requiresAuth) {
-      router.push({ name: "home" });
+      router.push({ name: "homeView" });
     }
     removeCredentials();
   } catch (error) {

@@ -12,31 +12,37 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "home",
+      name: "homeView",
       component: () => import("@/views/FrontOffice/HomeView.vue"),
     },
     {
+      path: "/profile",
+      name: "profileView",
+      component: () => import("@/views/FrontOffice/Profile/ProfileView.vue"),
+      meta: { requiresAuth: true },
+    },
+    {
       path: "/neuf",
-      name: "neuf",
+      name: "neufFrontView",
       component: () => import("../views/FrontOffice/Neuf/NeufListingsView.vue"),
     },
     {
       path: "/occasion",
-      name: "occasion",
+      name: "occasionFrontView",
       component: () =>
-        import("../views/FrontOffice/Occasion/OccasionListingsView.vue"),
+        import("@/views/FrontOffice/Occasion/OccasionListingsView.vue"),
     },
     {
       path: "/location",
-      name: "location",
+      name: "locationFrontView",
       component: () =>
-        import("../views/FrontOffice/Location/LocationListingsView.vue"),
+        import("@/views/FrontOffice/Location/LocationListingsView.vue"),
     },
     {
       path: "/annonce",
-      name: "annonce",
+      name: "ajouterAnnonceFront",
       component: () =>
-        import("../views/FrontOffice/Annonces/CreateAnnonceView.vue"),
+        import("@/views/FrontOffice/Annonces/CreateAnnonceView.vue"),
       meta: { requiresAuth: true },
     },
     // Authentication routes
@@ -60,7 +66,7 @@ const router = createRouter({
       name: "NotFound",
       component: () => import("@/views/PageNotFound.vue"),
     },
-  ]
+  ],
 });
 
 router.beforeEach(async (to, from, next) => {
@@ -106,7 +112,7 @@ router.beforeEach(async (to, from, next) => {
             "Vous n'avez pas les droits pour accéder à cette page"
           );
           store.commit("setErrorCode", 403);
-          next({ name: "home" });
+          next({ name: "homeView" });
         }
       }
     } catch (error) {

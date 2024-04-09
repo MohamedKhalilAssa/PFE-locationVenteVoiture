@@ -15,7 +15,7 @@
     </div>
     <Logo
       imageSrc="/assets/images/LogoPNGCroppedR.png"
-      toName="home"
+      toName="homeView"
       class="justify-self-center hidden md:block"
     />
 
@@ -26,7 +26,7 @@
 
     <nav>
       <dropDown :title="$store.getters.getFullName">
-        <router-link to="/profile">Profile</router-link>
+        <router-link :to="{ name: 'profileView' }">Profile</router-link>
         <hr />
         <form @submit.prevent="logout(route)">
           <button type="submit" class="w-full text-left">Logout</button>

@@ -21,7 +21,6 @@ const login = async (button, form, route, errors) => {
     let { data } = await axios.get(Endpoints.config__get_authenticated_user);
 
     // storing the data
-    console.log(data);
     addCredentials(data);
 
     if (data.role == "admin" || data.role == "root") {

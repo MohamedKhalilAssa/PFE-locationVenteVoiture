@@ -5,6 +5,8 @@ export default {
   user__get_all_or_add: baseURL + "/api/users",
   user__paginate: baseURL + "/api/users/pagination?page=",
   user__get_or_update_or_delete: baseURL + "/api/users/",
+  user__get_total: baseURL + "/api/users/total",
+  user__get_online_admin: baseURL + "/api/users/admin/online",
   // Marques
   marque__get_all_or_add: baseURL + "/api/marque",
   marque__get_or_update_or_delete: baseURL + "/api/marque/",

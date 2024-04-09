@@ -459,6 +459,7 @@
       </div>
       <div class="mb-6 flex justify-center items-center">
         <button
+          ref="submitButton"
           type="submit"
           class="bg-black text-white rounded py-2 px-4 hover:scale-105 duration-300 disabled:opacity-70 disabled:cursor-progress"
         >
@@ -466,23 +467,16 @@
         </button>
       </div>
     </form>
-    <div
-      class="errors max-w-lg text-center mx-auto mb-10 mt-10"
-      v-if="serverError"
-    >
-      <p class="text-red-600">{{ serverError }}</p>
-    </div>
   </section>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
 import { useRouter } from "vue-router";
 import Endpoints from "@/assets/JS/Endpoints";
 import getFromDB from "@/Composables/Getters/getFromDB";
+import AddToDB from "@/Composables/CRUDRequests/AddToDB";
 
-const serverError = ref("");
 const router = useRouter();
 const form = ref({
   titre: null,
@@ -503,7 +497,9 @@ const form = ref({
 });
 
 const errors = ref(null);
+const submitButton = ref(null);
 const uploadFiles = async () => {
+  console.log(form.value.type_annonce);
   let formData = new FormData();
   formData.append("titre", form.value.titre);
   formData.append("description", form.value.description);
@@ -530,23 +526,19 @@ const uploadFiles = async () => {
     formData.append("options[]", value);
   });
 
-  if (form.value.type_annonce == "location") {
-    AddToDB(
-      button.value,
-      Endpoints.annonce__create_occasion,
-      formData,
-      "location",
-      errors
-    );
-  } else if (form.value.type_annonce == "occasion") {
-    AddToDB(
-      button.value,
-      Endpoints.annonce__create_occasion,
-      formData,
-      "occasion",
-      errors
-    );
-  }
+  let redirectTo =
+    form.value.type_annonce == "location"
+      ? "locationFrontView"
+      : form.value.type_annonce == "vente"
+      ? "occasionFrontView"
+      : "homeView";
+  AddToDB(
+    submitButton.value,
+    Endpoints.annonce__create_occasion,
+    formData,
+    redirectTo,
+    errors
+  );
 };
 // handling images
 const files = ref([]);

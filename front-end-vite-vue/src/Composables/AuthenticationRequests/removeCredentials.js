@@ -8,7 +8,7 @@ const removeCredentials = () => {
     sessionStorage.removeItem("verified");
     store.commit("setAuthentication");
     store.commit("setUser");
-    getCSRFToken(store);
+    getCSRFToken();
 };
 
 export default removeCredentials;
