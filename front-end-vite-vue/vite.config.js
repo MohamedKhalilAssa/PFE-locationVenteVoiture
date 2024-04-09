@@ -1,19 +1,17 @@
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath, URL } from "node:url";
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    host: '192.168.1.9'
+    host: "192.168.1.3",
   },
-  plugins: [
-    vue(),
-  ],
+  plugins: [vue()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  }
-})
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
+});
