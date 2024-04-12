@@ -36,7 +36,7 @@ class MarqueController extends ParentController
         if ($image) {
             $path = $image->store('images/marques', 'public');
             $validatedData = $validator->validated();
-            $validatedData['image'] = url("/storage/" . $path);
+            $validatedData['image'] = $path;
             $validator->setData($validatedData);
 
             return $validator->validated();

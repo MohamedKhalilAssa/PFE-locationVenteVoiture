@@ -18,7 +18,7 @@
       >
       <img
         v-else-if="column.isImage && row[column.key]"
-        :src="row[column.key]"
+        :src="Endpoints.getStorage + row[column.key]"
         class="rounded-full w-11 h-11"
       />
       <p v-else :class="{ uppercase: column.capitalize }">
@@ -36,6 +36,7 @@
 </template>
 <script setup>
 import ActionsTable from "@/Components/TableElements/ActionsTable.vue";
+import Endpoints from "@/assets/JS/Endpoints";
 
 const props = defineProps(["columns", "row", "actions"]);
 const emits = defineEmits(["delete"]);
