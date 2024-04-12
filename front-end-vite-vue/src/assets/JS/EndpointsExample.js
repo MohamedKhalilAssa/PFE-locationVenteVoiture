@@ -37,5 +37,5 @@ export default {
   analytics__get_or_update_or_delete: baseURL + "/api/analytics/",
   analytics__get_paginate: baseURL + "/api/analytics/pagination?page=",
   // general getters
-  getStorage: baseURL + "/storage/",
+  getStoragePath: baseURL + "/storage/",
 };

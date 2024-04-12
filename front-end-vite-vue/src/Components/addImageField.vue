@@ -22,7 +22,7 @@
         v-else
         alt="image of the uploaded file"
         ref="theImage"
-        :src="imageLink || Endpoints.getStorage + imageLinkFromParent"
+        :src="imageLink || Endpoints.getStoragePath + imageLinkFromParent"
         class="w-full h-full object-cover"
       />
     </label>

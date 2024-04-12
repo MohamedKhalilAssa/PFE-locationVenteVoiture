@@ -18,7 +18,7 @@
       >
       <img
         v-else-if="column.isImage && row[column.key]"
-        :src="Endpoints.getStorage + row[column.key]"
+        :src="Endpoints.getStoragePath + row[column.key]"
         class="rounded-full w-11 h-11"
       />
       <p v-else :class="{ uppercase: column.capitalize }">
