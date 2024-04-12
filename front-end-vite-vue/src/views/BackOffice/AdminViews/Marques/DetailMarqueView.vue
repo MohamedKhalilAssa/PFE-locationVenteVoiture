@@ -19,7 +19,7 @@
         <img
           :src="Endpoints.getStoragePath + marqueResult.image"
           alt="logo"
-          class="h-16 w-16 m-4"
+          class="h-16 w-16"
         />
       </dd>
     </div>

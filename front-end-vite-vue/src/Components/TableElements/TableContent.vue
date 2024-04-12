@@ -16,11 +16,12 @@
         :class="{ uppercase: column.capitalize }"
         >{{ row[column.key] ?? "N/A" }}</router-link
       >
-      <img
-        v-else-if="column.isImage && row[column.key]"
-        :src="Endpoints.getStoragePath + row[column.key]"
-        class="rounded-full w-11 h-11"
-      />
+      <div class="w-11 h-11" v-else-if="column.isImage && row[column.key]">
+        <img
+          :src="Endpoints.getStoragePath + row[column.key]"
+          class="w-full h-full object-cover"
+        />
+      </div>
       <p v-else :class="{ uppercase: column.capitalize }">
         {{ row[column.key] ?? "N/A" }}
       </p>
