@@ -22,7 +22,7 @@
         v-else
         alt="image of the uploaded file"
         ref="theImage"
-        :src="imageLink || imageLinkFromParent"
+        :src="imageLink || Endpoints.getStorage + imageLinkFromParent"
         class="w-full h-full object-cover"
       />
     </label>
@@ -40,6 +40,7 @@
 
 <script setup>
 import { ref } from "vue";
+import Endpoints from "@/assets/JS/Endpoints";
 
 let imageInput = ref(null);
 let imageLink = ref(null);

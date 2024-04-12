@@ -52,7 +52,7 @@ class AnnonceController extends Controller
         if ($request->file('image')) {
             $paths = [];
             foreach ($request->file('image') as $image) {
-                $path = 'http://localhost:8000/storage/' . $image->store('images', 'public');
+                $path =  $image->store('images/annonces', 'public');
                 $paths[] = $path;
             }
             $formElements['image'] = json_encode($paths);

@@ -42,11 +42,28 @@ class MarqueController extends ParentController
             return $validator->validated();
         }
     }
-
+    // updating
     public function beforeValidateForUpdate()
     {
         $this->rules = [
             'nom' => ['required', 'string', 'regex:/^\D*$/', 'max:255'],
+            'image' => ['required', 'image', 'mimes:jpeg,png', 'max:2048']
         ];
+    }
+    public function beforeSaveForUpdate($validator, $current_model)
+    {
+        $image = $validator->validated()['image'] ?? null;
+        // adding image to the form
+        if ($image) {
+            if (strpos($current_model->image, "/assets") != 0)
+                Storage::delete('public/' . $current_model->image);
+
+            $path = $image->store('images/marques', 'public');
+            $validatedData = $validator->validated();
+            $validatedData['image'] = $path;
+            $validator->setData($validatedData);
+
+            return $validator->validated();
+        }
     }
 }

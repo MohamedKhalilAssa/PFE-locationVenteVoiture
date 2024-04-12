@@ -81,6 +81,7 @@ getById(Endpoints.marque__get_or_update_or_delete, props.id).then((data) => {
 const updateMarque = async () => {
   const form = new FormData();
   form.append("nom", nomMarque.value);
+  form.append("image", imageMarque.value);
   EditToDB(
     button.value,
     Endpoints.marque__get_or_update_or_delete,
