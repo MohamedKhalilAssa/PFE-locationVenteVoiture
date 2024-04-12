@@ -499,7 +499,6 @@ const form = ref({
 const errors = ref(null);
 const submitButton = ref(null);
 const uploadFiles = async () => {
-  console.log(form.value.type_annonce);
   let formData = new FormData();
   formData.append("titre", form.value.titre);
   formData.append("description", form.value.description);

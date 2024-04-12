@@ -10,7 +10,10 @@
         <h2 class="text-2xl font-bold uppercase mb-1">Ajouter une marque</h2>
       </header>
 
-      <AddImageField></AddImageField>
+      <AddImageField
+        @imageChanged="imageChanged"
+        :errors="errors"
+      ></AddImageField>
       <div class="mb-6">
         <label for="nom" class="inline-block text-lg mb-2 required"
           >Nom de la Marque</label
@@ -52,12 +55,18 @@ const router = useRouter();
 const store = useStore();
 
 const nomMarque = ref("");
+const imageMarque = ref(null);
 const button = ref(null);
+
+const imageChanged = (image) => {
+  imageMarque.value = image;
+};
 
 // post method handling
 const ajouterMarque = async () => {
   const formData = new FormData();
   formData.append("nom", nomMarque.value);
+  formData.append("image", imageMarque.value);
   AddToDB(
     button.value,
     Endpoints.marque__get_all_or_add,

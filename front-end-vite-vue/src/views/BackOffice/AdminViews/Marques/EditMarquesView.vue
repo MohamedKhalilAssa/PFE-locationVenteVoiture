@@ -9,7 +9,11 @@
       <header class="text-center mb-7">
         <h2 class="text-2xl font-bold uppercase mb-1">Modifier une marque</h2>
       </header>
-
+      <AddImageField
+        @imageChanged="imageChanged"
+        :imageLinkFromParent="imageMarque"
+        :errors="errors"
+      ></AddImageField>
       <div class="mb-6">
         <label for="nom" class="inline-block text-lg mb-2 required"
           >Nom de la marque</label
@@ -45,18 +49,25 @@ import { useRouter } from "vue-router";
 import EditToDB from "@/Composables/CRUDRequests/EditToDB";
 import Endpoints from "@/assets/JS/Endpoints";
 import { useStore } from "vuex";
+import AddImageField from "@/Components/addImageField.vue";
 
 const props = defineProps(["id"]);
 const errors = ref(null);
 const router = useRouter();
 const store = useStore();
 const nomMarque = ref("");
+const imageMarque = ref(null);
 const button = ref(null);
+
+const imageChanged = (image) => {
+  imageMarque.value = image;
+};
 
 // fetching marque by id
 getById(Endpoints.marque__get_or_update_or_delete, props.id).then((data) => {
   if (data) {
     nomMarque.value = data.nom;
+    imageMarque.value = data.image;
   } else {
     store.commit("setError", "Marque introuvable");
     store.commit("setErrorCode", "404");
@@ -76,7 +87,7 @@ const updateMarque = async () => {
     props.id,
     form,
     "marquesView",
-    errors,
+    errors
   );
 };
 </script>

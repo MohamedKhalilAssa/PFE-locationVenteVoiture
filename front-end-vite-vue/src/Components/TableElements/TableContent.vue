@@ -1,18 +1,26 @@
 <template>
   <td
     scope="row"
-    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+    class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
     v-for="column in columns"
     :key="column.key"
     v-show="!column.isHidden"
   >
-    <div class="content" v-if="column.name != 'actions'">
+    <div
+      class="content flex justify-center items-center"
+      v-if="column.name != 'actions'"
+    >
       <router-link
         v-if="column.isLink && row[column.toID] && column.toName"
         :to="{ name: column.toName, params: { id: row[column.toID] } }"
         :class="{ uppercase: column.capitalize }"
         >{{ row[column.key] ?? "N/A" }}</router-link
       >
+      <img
+        v-else-if="column.isImage && row[column.key]"
+        :src="row[column.key]"
+        class="rounded-full w-11 h-11"
+      />
       <p v-else :class="{ uppercase: column.capitalize }">
         {{ row[column.key] ?? "N/A" }}
       </p>
