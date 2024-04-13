@@ -11,6 +11,7 @@ class ColorController extends ParentController
 {
     public function __construct()
     {
+        parent::__construct();
         $this->model = couleursVoiture::class;
         $this->model_name = 'Couleur';
         $this->middleware('auth:sanctum')->except(['index', 'show']);
@@ -32,12 +33,12 @@ class ColorController extends ParentController
             'Hexadecimal' => 'required|hex_color|max:255',
         ];
     }
-    public function beforeSaveForUpdate($validator, $current_model)
+    public function beforeSaveForUpdate($current_model)
     {
-        $data = $validator->validated();
+        $data = $this->request->all();
         $found = $this->model::where('nom', $data['nom'])->first() ?? false;
         if ($found != false && $data['nom'] != $current_model->nom) {
-            return  ['error'=>['nom' => ['la couleur existe deja']]];
+            return  ['error' => ['nom' => ['la couleur existe deja']]];
         } else {
             return $data;
         }

@@ -13,6 +13,7 @@ class UserController extends ParentController
 {
     public function __construct()
     {
+        parent::__construct();
         $this->model = User::class;
         $this->model_name = 'Utilisateur';
         $this->middleware('auth:sanctum')->except(['show']);
@@ -49,9 +50,9 @@ class UserController extends ParentController
         ];
     }
 
-    public function beforeSaveForStore($validator)
+    public function beforeSaveForStore()
     {
-        $data = $validator->validated();
+        $data = $this->request->all();
         // check if the role has been assigned by root otherwise assign default value
         if (Auth::user()->role != 'root') {
             $data['role'] = 'client';
@@ -78,12 +79,12 @@ class UserController extends ParentController
             ],
         ];
     }
-    public function beforeSaveForUpdate($validator, $current_model)
+    public function beforeSaveForUpdate($current_model)
     {
-        $data = $validator->validated();
-        if (Auth::user()->role != 'root' && $data->role != $current_model->role) {
+        $data = $this->request->all();
+        if (Auth::user()->role != 'root' && $data['role'] != $current_model->role) {
             return ['error' => ['role' => ['Seul le root peut changer le role d\'un utilisateur']]];
-        } else if ($current_model->role == "root" && $data->role != "root") {
+        } else if ($current_model->role == "root" && $data['role'] != "root") {
             return ['error' => ['role' => ['le role de root ne peut pas etre affecter']]];
         } else {
             return $data;

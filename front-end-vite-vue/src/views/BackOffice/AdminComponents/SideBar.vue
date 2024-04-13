@@ -30,6 +30,7 @@
           <i
             class="fa-solid h-min text-2xl p-2 w-12 mx-4 my-3 flex justify-center items-center hover:scale-110 duration-100"
             :class="'fa-' + link.icon"
+            :title="link.nom"
           ></i>
           <p class="duration-0">{{ link.nom }}</p>
         </router-link>

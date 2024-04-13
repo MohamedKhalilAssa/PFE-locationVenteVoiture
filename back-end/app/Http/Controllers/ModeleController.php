@@ -10,6 +10,7 @@ class ModeleController extends ParentController
 {
     public function __construct()
     {
+        parent::__construct();
         $this->model = Modele::class;
         $this->model_name = 'Modele';
         $this->middleware('auth:sanctum')->except(['index', 'show','showbyMarque']);

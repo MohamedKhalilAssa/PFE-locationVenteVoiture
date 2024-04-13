@@ -10,6 +10,7 @@ class MarqueController extends ParentController
 {
     public function __construct()
     {
+        parent::__construct();
         $this->model = Marque::class;
         $this->model_name = 'Marque';
         $this->middleware('auth:sanctum')->except(['index', 'indexBack', 'show']);
@@ -29,17 +30,13 @@ class MarqueController extends ParentController
             'image' => ['required', 'image', 'mimes:jpeg,png', 'max:2048']
         ];
     }
-    public function beforeSaveForStore($validator)
+    public function afterSaveForStore($model)
     {
-        $image = $validator->validated()['image'] ?? null;
+        $image = $this->request->file('image') ?? null;
         // adding image to the form
         if ($image) {
             $path = $image->store('images/marques', 'public');
-            $validatedData = $validator->validated();
-            $validatedData['image'] = $path;
-            $validator->setData($validatedData);
-
-            return $validator->validated();
+            $model->update(['image' => $path]);
         }
     }
     // updating
@@ -50,20 +47,15 @@ class MarqueController extends ParentController
             'image' => ['required', 'image', 'mimes:jpeg,png', 'max:2048']
         ];
     }
-    public function beforeSaveForUpdate($validator, $current_model)
+    public function beforeSaveForUpdate($current_model)
     {
-        $image = $validator->validated()['image'] ?? null;
+        $image = $this->request->file['image'] ?? null;
         // adding image to the form
         if ($image) {
             if (strpos($current_model->image, "/assets") != 0)
                 Storage::delete('public/' . $current_model->image);
-
             $path = $image->store('images/marques', 'public');
-            $validatedData = $validator->validated();
-            $validatedData['image'] = $path;
-            $validator->setData($validatedData);
-
-            return $validator->validated();
+            $current_model->update(['image' => $path]);
         }
     }
 }

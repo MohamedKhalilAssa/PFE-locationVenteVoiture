@@ -9,10 +9,11 @@ class VenteController extends ParentController
 {
     public function __construct()
     {
+        parent::__construct();
         $this->model = Vente::class;
         $this->model_name = 'Vente';
         $this->middleware('auth:sanctum');
         $this->middleware('admin');
     }
-    
+
 }

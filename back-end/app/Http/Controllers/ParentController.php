@@ -23,6 +23,11 @@ class ParentController extends BaseController
     {
         return [];
     }
+    protected $request;
+    public function __construct()
+    {
+        $this->request = request();
+    }
 
     /**
      * CRUD OPERATIONS
@@ -34,7 +39,7 @@ class ParentController extends BaseController
      */
 
     //  ! 1. Reading
-    public function indexBack(Request $request)
+    public function indexBack()
     {
         $relations = [];
         /*
@@ -105,7 +110,7 @@ class ParentController extends BaseController
             return response()->json(['errors' => $validator->errors()], 422);
         }
         // treatment to do before create like modifier data
-        $data_to_save = $this->beforeSaveForStore($validator);
+        $data_to_save = $this->beforeSaveForStore();
         // forme d'erreur subControllers:  ['error'=>['err1' =>[ '...'], 'err2' => [ .. ]]]
         // pour verifier si il y a une erreur custom
         if (isset($data_to_save["error"])) {
@@ -131,7 +136,7 @@ class ParentController extends BaseController
         if (!$current_model) {
             return abort(404, 'Not found');
         }
-        $data = $this->beforeSaveForUpdate($validator, $current_model);
+        $data = $this->beforeSaveForUpdate($current_model);
         // forme d'erreur subControllers:  ['error'=>['err1' =>[ '...'], 'err2' => [ .. ]]]
         // pour verifier si il y a une erreur custom
         if (isset($data["error"])) {
@@ -190,9 +195,9 @@ class ParentController extends BaseController
     public function afterValidateForStore(&$validator)
     {
     }
-    public function beforeSaveForStore($validator)
+    public function beforeSaveForStore()
     {
-        return $validator->validated();
+        return $this->request->all();
     }
     public function afterSaveForStore($model)
     {
@@ -204,9 +209,9 @@ class ParentController extends BaseController
     public function afterValidateForUpdate($validator)
     {
     }
-    public function beforeSaveForUpdate($validator, $current_model)
+    public function beforeSaveForUpdate($current_model)
     {
-        return $validator->validated();
+        return $this->request->all();
     }
     public function afterSaveForUpdate($model)
     {
