@@ -1,5 +1,5 @@
 <template>
-  <main class="py-10 pl-12 flex flex-wrap justify-center gap-7">
+  <main class="py-10 px-12 flex flex-wrap justify-center gap-7">
     <DisplayCard v-for="i in 10" :key="i" :data="card"></DisplayCard>
   </main>
 </template>
