@@ -1,5 +1,5 @@
 <template>
-  <router-link>
+  <router-link to="/">
     <div class="w-full max-h-sm max-w-96 rounded-lg">
       <div class="imgContainer w-full h-72 rounded-lg">
         <img
@@ -15,12 +15,12 @@
           {{ data.nom }}
         </h3>
         <p>{{ data.marque + "," + data.model }}</p>
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between space-x-3 flex-wrap">
           <div class="location space-x-3">
             <i class="fa-solid fa-location-dot"></i>
             <span class="text-lg text-gray-700">{{ data.ville }}</span>
           </div>
-          <span class="text-3xl font-bold text-gray-900"
+          <span class="text-2xl font-bold text-gray-900"
             >{{ data.prix_vente }} Dhs</span
           >
         </div>
