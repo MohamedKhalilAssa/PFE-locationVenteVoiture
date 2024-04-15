@@ -1,16 +1,29 @@
 <template>
-  <section id="hero" class="w-full relative" style="min-height: calc(100vh - 5rem)">
-    <div class="image absolute top-0 left-0 w-full h-full object-cover bg-bottom bg-no-repeat bg-fixed"
-      :style="{ backgroundImage: `url(${image})`, zIndex: '2' }"></div>
-    <div class="background absolute top-0 left-0 w-full h-full bg-black opacity-70 z-10"></div>
+  <section
+    id="hero"
+    class="w-full relative"
+    style="min-height: calc(100vh - 5rem)"
+  >
     <div
-      class="wrapper flex flex-col justify-center items-center gap-24 absolute top-0 left-0 w-full h-full z-20 lg:flex-row lg:justify-around">
+      class="image absolute top-0 left-0 w-full h-full object-cover bg-bottom bg-no-repeat bg-fixed"
+      :style="{ backgroundImage: `url(${image})`, zIndex: '2' }"
+    ></div>
+    <div
+      class="background absolute top-0 left-0 w-full h-full bg-black opacity-70 z-10"
+    ></div>
+    <div
+      class="wrapper flex flex-col justify-center items-center gap-24 absolute top-0 left-0 w-full h-full z-20 lg:flex-row lg:justify-around"
+    >
       <div class="text-wrapper flex flex-col justify-end gap-2">
-        <h1 class="text-white text-3xl font-mono font-bold text-center lg:text-left md:text-5xl lg:text-6xl">
+        <h1
+          class="text-white text-3xl font-mono font-bold text-center lg:text-left md:text-5xl lg:text-6xl"
+        >
           Besoin d'une voiture ?
         </h1>
         <br />
-        <h3 class="text-white text-xl font-mono text-center lg:text-left md:text-3xl lg:text-4xl">
+        <h3
+          class="text-white text-xl font-mono text-center lg:text-left md:text-3xl lg:text-4xl"
+        >
           Vous êtes au bon endroit !
         </h3>
       </div>
