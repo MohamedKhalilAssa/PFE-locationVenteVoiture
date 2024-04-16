@@ -5,7 +5,12 @@
     style="background-color: #333"
     id="sidebar"
   >
-    <div class="burgerContainer flex justify-end w-full h-max p-4 pr-5 mb-4">
+    <div
+      class="burgerContainer flex justify-between md:justify-end w-full h-max p-4 pr-5 mb-4"
+    >
+      <router-link class="md:hidden" :to="{ name: 'homeView' }">
+        <i class="fa-solid fa-home text-3xl text-white"></i>
+      </router-link>
       <div
         id="menuToggle"
         class="block pt-1"
