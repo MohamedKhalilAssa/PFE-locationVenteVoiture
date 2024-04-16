@@ -16,6 +16,7 @@ class ParentController extends BaseController
     protected $model;
     // to be overriden by the model for validation
     protected $rules;
+    protected $conditions = [];
     // for displaying message
     protected $model_name;
     // to be overriden by the model for relations select
@@ -41,18 +42,8 @@ class ParentController extends BaseController
     //  ! 1. Reading
     public function indexBack()
     {
-        $relations = [];
-        /*
-         * Get relations of the model that will be returned
-         * and add the relations columns to select
-         */
-        $selectRelations = $this->selectRelations();
-        foreach ($selectRelations as $rel => $columns) {
-            $relations[$rel] = function ($query) use ($columns) {
-                $query->select($columns);
-            };
-        }
-        $this->model = $this->model::with($relations);
+        $this->assignRelation($this->selectRelations());
+
         //Get selected column and the search from the request
         $sort = request('sort') ?? 'none';
         $search = request('search');
@@ -85,16 +76,24 @@ class ParentController extends BaseController
     }
     public function show($id)
     {
-        $data =  $this->model::find($id);
+        $this->assignRelation($this->selectRelations());
+        $data =  $this->model->find($id);
         $this->beforeReturnForShow($data);
         return response($data)->header('Content-Type', 'application/json');
     }
     public function index()
     {
+        $this->assignRelation($this->selectRelations());
+
+        // customizing depending on the function
+        foreach ($this->conditions as $condition) {
+            $this->model->where($condition['column'], $condition['operator'], $condition['value']);
+        }
+        
         if (count($this->indexReturnedColumns()) > 0) {
-            return response($this->model::all($this->indexReturnedColumns()))->header('Content-Type', 'application/json');
+            return response($this->model->get($this->indexReturnedColumns()))->header('Content-Type', 'application/json');
         } else {
-            return response($this->model::all())->header('Content-Type', 'application/json');
+            return response($this->model->get())->header('Content-Type', 'application/json');
         }
     }
     // ! 2. Creating
@@ -272,5 +271,19 @@ class ParentController extends BaseController
                 $this->sortData($sort, $sortColumn, $model);
             }
         }
+    }
+    function assignRelation($selectRelations)
+    {
+        $relations = [];
+        /*
+         * Get relations of the model that will be returned
+         * and add the relations columns to select
+         */
+        foreach ($selectRelations as $rel => $columns) {
+            $relations[$rel] = function ($query) use ($columns) {
+                $query->select($columns);
+            };
+        }
+        $this->model = $this->model::with($relations);
     }
 }

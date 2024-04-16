@@ -12,6 +12,6 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        return $request->expectsJson() ? null : "http://localhost:8080/login";
+        return $request->expectsJson() ? null : env('FRONTEND_URL') . '/login';
     }
 }

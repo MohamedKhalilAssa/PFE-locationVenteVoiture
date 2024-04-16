@@ -24,8 +24,8 @@ export default {
   ville__get_all_or_add: baseURL + "/api/ville",
   ville__get_or_update_or_delete: baseURL + "/api/ville/",
   ville__paginate: baseURL + "/api/ville/pagination?page=",
-  // Annonces
-  annonce__create_occasion: baseURL + "/api/annonce/occasion/store",
+  // occasion
+  occasion__get_all_or_add: baseURL + "/api/annonce/occasion",
   // Config Endpoints
   config__get_csrf_token: baseURL + "/sanctum/csrf-cookie",
   config__login: baseURL + "/login",

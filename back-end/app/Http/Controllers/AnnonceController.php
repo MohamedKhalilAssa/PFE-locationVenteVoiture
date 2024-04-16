@@ -7,11 +7,41 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
-class AnnonceController extends Controller
+class AnnonceController extends ParentController
 {
     public function __construct()
     {
+        parent::__construct();
+        $this->model = Annonce::class;
         $this->middleware('auth:sanctum')->except(['index', 'show']);
+        $this->middleware('admin')->except(['index', 'show']);
+    }
+    public function selectRelations(): array
+    {
+        return [
+            'marque' => [
+                'id',
+                'nom',
+                'image'
+            ],
+            'modele' => [
+                'id',
+                'nom'
+            ],
+            'couleur' => [
+                'id',
+                'nom'
+            ],
+            'ville' => [
+                'id',
+                'nom'
+            ],
+            'owner' => [
+                'id',
+                'nom',
+                'prenom'
+            ]
+        ];
     }
     public function occasionStore(Request $request)
     {
@@ -67,5 +97,16 @@ class AnnonceController extends Controller
         }
         Annonce::create($formElements);
         return response()->json(['message' => "Annonce Crée avec succès"]);
+    }
+    public function indexOccasion()
+    {
+        $this->conditions = [
+            [
+                'column' => 'etat',
+                'operator' => 'like',
+                'value' => 'occasion'
+            ]
+        ];
+        return  $this->index();
     }
 }
