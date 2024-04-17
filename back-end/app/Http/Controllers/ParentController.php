@@ -67,7 +67,7 @@ class ParentController extends BaseController
             $this->sortData($sort, $sortColumn, $this->model);
             $count = $this->model->count();
             $this->beforeGetting($this->model);
-            $data = $this->model->paginate(2)->toArray();
+            $data = $this->model->paginate(10)->toArray();
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key] = nestedToNormal($value);
             }
