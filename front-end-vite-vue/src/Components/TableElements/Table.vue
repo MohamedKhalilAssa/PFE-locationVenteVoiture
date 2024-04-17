@@ -74,7 +74,6 @@ const props = defineProps([
   "titre",
   "addName",
 ]);
-const store = useStore();
 let result = ref({});
 let total = ref(0);
 const requestParams = ref({
