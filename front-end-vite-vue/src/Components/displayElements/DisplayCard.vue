@@ -36,12 +36,12 @@
         <p class="space-x-3">
           <i class="fa-solid text-center fa-car w-5"></i
           ><span class="text-lg text-gray-700">{{
-            data.marque.nom + ", " + data.modele.nom
+            data["marque.nom"] + ", " + data["modele.nom"]
           }}</span>
         </p>
         <p class="location space-x-3">
           <i class="fa-solid fa-location-dot text-center text-lg w-5"></i>
-          <span class="text-lg text-gray-700">{{ data.ville.nom }}</span>
+          <span class="text-lg text-gray-700">{{ data["ville.nom"] }}</span>
         </p>
         <p class="location space-x-3">
           <i class="fa-solid fa-money-bill text-center text-lg w-5"></i>
@@ -57,7 +57,7 @@
 import Endpoints from "@/assets/JS/Endpoints";
 import { computed, ref } from "vue";
 const props = defineProps(["data"]);
-const images = computed(() => JSON.parse(props.data.image));
+const images = computed(() => JSON.parse(props.data["image"]));
 const curr_image = ref(0);
 
 const nextImage = () => {

@@ -6,7 +6,7 @@ use App\Http\Controllers\MarqueController;
  // only name and id here
  Route::get('/', [MarqueController::class, 'index'])->name("index");
  // all with pagination
- Route::get('/pagination', [MarqueController::class, 'indexBack'])->name("indexBack");
+ Route::get('/pagination', [MarqueController::class, 'indexPaginate'])->name("indexPaginate");
  // for showing with id
  Route::get('/{id}', [MarqueController::class, 'show'])->where("id", "[0-9]+")->name("show");
  // for updating

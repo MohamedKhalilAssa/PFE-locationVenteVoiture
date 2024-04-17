@@ -14,7 +14,7 @@ Route::group(['prefix' => 'users', 'as' => 'user.'], function () {
     Route::get('/{id}', [UserController::class, 'show'])->where("id", "[0-9]+")->name("show");
 
     // all with pagination
-    Route::get('/pagination', [UserController::class, 'indexBack'])->name("indexBack");
+    Route::get('/pagination', [UserController::class, 'indexPaginate'])->name("indexPaginate");
     // for deleting
     Route::delete('/{id}', [UserController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
     // for updating

@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import Table from "@/Components/Table.vue";
+import Table from "@/Components/TableElements/Table.vue";
 import Endpoints from "@/assets/JS/Endpoints";
 
 // without actions

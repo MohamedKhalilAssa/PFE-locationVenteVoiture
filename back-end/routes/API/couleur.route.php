@@ -19,5 +19,5 @@ Route::group(['prefix' => 'couleur', 'as' => 'couleur.'], function () {
     // for deleting
     Route::delete('/{id}', [ColorController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
     // all with pagination
-    Route::get('/pagination', [ColorController::class, 'indexBack'])->name("indexBack");
+    Route::get('/pagination', [ColorController::class, 'indexPaginate'])->name("indexPaginate");
 });

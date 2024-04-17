@@ -82,8 +82,6 @@ const form = ref({
 });
 
 const errors = ref(null);
-const router = useRouter();
-const store = useStore();
 const button = ref(null);
 const route = useRoute();
 

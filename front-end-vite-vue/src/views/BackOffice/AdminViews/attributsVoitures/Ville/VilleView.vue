@@ -10,14 +10,14 @@
 </template>
 
 <script setup>
-import Table from "@/Components/Table.vue";
+import Table from "@/Components/TableElements/Table.vue";
 import Endpoints from "@/assets/JS/Endpoints";
 
 // without actions
 const columns = [
   { name: "ID", key: "id", sortable: true },
   { name: "Nom de la ville", key: "nom", sortable: true },
-  {name:'actions'},
+  { name: "actions" },
 ];
 // action
 const actions = [

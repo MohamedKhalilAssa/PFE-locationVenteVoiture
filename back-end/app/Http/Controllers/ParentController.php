@@ -33,16 +33,17 @@ class ParentController extends BaseController
     /**
      * CRUD OPERATIONS
      *
-     * 1. Reading (indexBack, Show...)
+     * 1. Reading (indexPaginate, Show...)
      * 2. Creating (Store)
      * 3. Updating  (Update)
      * 4. Deleting   (Destroy)
      */
 
     //  ! 1. Reading
-    public function indexBack()
+    public function indexPaginate()
     {
         $this->assignRelation($this->selectRelations());
+        $this->assignConditions();
 
         //Get selected column and the search from the request
         $sort = request('sort') ?? 'none';
@@ -66,7 +67,7 @@ class ParentController extends BaseController
             $this->sortData($sort, $sortColumn, $this->model);
             $count = $this->model->count();
             $this->beforeGetting($this->model);
-            $data = $this->model->paginate(10)->toArray();
+            $data = $this->model->paginate(2)->toArray();
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key] = nestedToNormal($value);
             }
@@ -85,11 +86,7 @@ class ParentController extends BaseController
     {
         $this->assignRelation($this->selectRelations());
 
-        // customizing depending on the function
-        foreach ($this->conditions as $condition) {
-            $this->model->where($condition['column'], $condition['operator'], $condition['value']);
-        }
-        
+        $this->assignConditions();
         if (count($this->indexReturnedColumns()) > 0) {
             return response($this->model->get($this->indexReturnedColumns()))->header('Content-Type', 'application/json');
         } else {
@@ -285,5 +282,12 @@ class ParentController extends BaseController
             };
         }
         $this->model = $this->model::with($relations);
+    }
+    public function assignConditions()
+    {
+        // customizing depending on the function
+        foreach ($this->conditions as $condition) {
+            $this->model->where($condition['column'], $condition['operator'], $condition['value']);
+        }
     }
 }

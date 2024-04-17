@@ -27,9 +27,13 @@ const login = async (button, form, route, errors) => {
       router.push({
         name: `adminHome`,
       });
-    } else {
+    } else if (route.query.previous) {
       router.push({
         name: `${route.query.previous}`,
+      });
+    } else {
+      router.push({
+        name: `homeView`,
       });
     }
   } catch (error) {

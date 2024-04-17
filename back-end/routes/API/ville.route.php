@@ -18,5 +18,5 @@ Route::group(['prefix' => 'ville', 'as' => 'ville.'], function () {
     // for deleting
     Route::delete('/{id}', [VilleController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
     // all with pagination
-    Route::get('/pagination', [VilleController::class, 'indexBack'])->name("indexBack");
+    Route::get('/pagination', [VilleController::class, 'indexPaginate'])->name("indexPaginate");
 });

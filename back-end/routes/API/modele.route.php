@@ -11,7 +11,7 @@ Route::group(['prefix' => 'modele', 'as' => 'modele.'], function () {
 
     // all with pagination
 
-    Route::get('/pagination', [ModeleController::class, 'indexBack'])->name("indexBack");
+    Route::get('/pagination', [ModeleController::class, 'indexPaginate'])->name("indexPaginate");
     // for deleting
     Route::delete('/{id}', [ModeleController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
     // for creating
