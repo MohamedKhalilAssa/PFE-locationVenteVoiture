@@ -13,8 +13,8 @@ class AnnonceController extends ParentController
     {
         parent::__construct();
         $this->model = Annonce::class;
-        $this->middleware('auth:sanctum')->except(['indexOccasion', 'show']);
-        $this->middleware('admin')->except(['indexOccasion', 'show']);
+        $this->middleware('auth:sanctum')->except(['indexNeuf', 'indexOccasion', 'show', 'indexLocation']);
+        $this->middleware('admin')->except(['indexNeuf', 'indexOccasion', 'show', 'indexLocation']);
     }
     public function selectRelations(): array
     {
@@ -105,6 +105,33 @@ class AnnonceController extends ParentController
                 'column' => 'etat',
                 'operator' => 'like',
                 'value' => 'occasion'
+            ],
+            [
+                'column' => 'type_annonce',
+                'operator' => 'like',
+                'value' => 'vente'
+            ]
+        ];
+        return  $this->indexPaginate();
+    }
+    public function indexLocation()
+    {
+        $this->conditions = [
+            [
+                'column' => 'type_annonce',
+                'operator' => 'like',
+                'value' => 'location'
+            ]
+        ];
+        return  $this->indexPaginate();
+    }
+    public function indexNeuf()
+    {
+        $this->conditions = [
+            [
+                'column' => 'etat',
+                'operator' => 'like',
+                'value' => 'neuf'
             ],
             [
                 'column' => 'type_annonce',

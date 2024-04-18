@@ -48,7 +48,7 @@
       :requestParams="requestParams"
       :getter="getter"
       @updateResult="updateResult"
-      v-if="result.data && result.data.length > 0"
+      v-if="result.data && result.last_page > 1"
       addClass="py-4"
     ></TablePagination>
   </div>
@@ -100,7 +100,7 @@ getPaginate(
 // pagination
 const updateResult = (data) => {
   result.value = data;
-}
+};
 // handling the search form
 const handlingSearch = (search, searchColumn, defaultColumn) => {
   requestParams.value.search = search;

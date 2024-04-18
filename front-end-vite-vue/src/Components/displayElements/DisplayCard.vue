@@ -33,7 +33,7 @@
         >
           {{ data.titre }}
         </h3>
-        <p class="space-x-3">
+        <p class="space-x-3 text-ellipsis overflow-hidden whitespace-nowrap">
           <i class="fa-solid text-center fa-car w-5"></i
           ><span class="text-lg text-gray-700">{{
             data["marque.nom"] + ", " + data["modele.nom"]

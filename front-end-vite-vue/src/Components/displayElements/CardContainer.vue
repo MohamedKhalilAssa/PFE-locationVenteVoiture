@@ -13,7 +13,7 @@
         :requestParams="requestParams"
         :getter="getter"
         @updateResult="updateResult"
-        v-if="result.data && result.data.length > 0"
+        v-if="result.data && result.last_page > 1"
       ></Pagination>
     </div>
   </main>

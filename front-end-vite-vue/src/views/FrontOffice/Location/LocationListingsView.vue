@@ -1,11 +1,7 @@
-<template >
-    <main>
-        
-    </main>
+<template>
+  <CardContainer :getter="Endpoints.location__paginate"></CardContainer>
 </template>
 <script setup>
-
+import CardContainer from "@/Components/displayElements/CardContainer.vue";
+import Endpoints from "@/assets/JS/Endpoints";
 </script>
-<style >
-    
-</style>
