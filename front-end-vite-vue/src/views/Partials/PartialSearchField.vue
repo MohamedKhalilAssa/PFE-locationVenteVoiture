@@ -1,46 +1,118 @@
 <template>
   <div
-    class="filter p-4 bg-white w-11/12 min-h-80 max-h-max absolute z-10 -bottom-3/4 sm:-bottom-1/2 rounded-lg"
+    class="filter p-4 pt-20 bg-white w-11/12 min-h-80 max-h-max absolute z-10 -bottom-full sm:-bottom-1/2 rounded-lg flex items-center"
   >
-    <div
-      class="selects max-w-2xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
+    <p
+      class="absolute top-4 left-1/2 -translate-x-1/2 uppercase font-mono font-bold text-2xl sm:text-4xl w-max"
+      style="color: #333"
     >
-      <div class="inputContainer flex flex-col gap-2 max-w-56">
+      {{ title }}
+    </p>
+    <div
+      class="selects max-w-2xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pb-4 w-full sm:w-auto"
+    >
+      <div class="inputContainer flex flex-col gap-2 sm:max-w-56">
         <label for="annee" class="text-gray-600">Choisir Annee</label>
         <select
-          name="annee_fabrication"
           id="annee"
-          class="border border-gray-600 rounded p-2 w-full text-gray-600"
+          class="border border-gray-600 rounded p-2 w-full text-gray-500"
+          v-model="form.annee_fabrication"
         >
-          <option selected :value="null" class="text-gray-600">
-            --Choisir Annee--
-          </option>
+          <option selected value="" class="text-gray-600">--Choisir--</option>
           <option v-for="year in Results.annee_fabrication" :key="year">
             {{ year }}
           </option>
         </select>
       </div>
-      <div class="inputContainer flex flex-col gap-2 max-w-56">
+      <div class="inputContainer flex flex-col gap-2 sm:max-w-56">
         <label for="marque" class="text-gray-600">Choisir Marque</label>
         <select
-          name="marque_id"
           id="marque"
-          class="border border-gray-600 rounded p-2 w-full text-gray-600"
+          class="border border-gray-600 rounded p-2 w-full text-gray-500"
           v-model="form.marque_id"
+          @change="marqueSelected"
         >
-          <option selected value="" class="text-gray-600">
-            --Choisir La Marque--
-          </option>
+          <option selected value="" class="text-gray-600">--Choisir--</option>
           <option
             v-for="marque in Results.marqueResult"
-            :key="marque"
+            :key="marque.id"
             :value="marque.id"
           >
             {{ marque.nom }}
           </option>
         </select>
       </div>
-      
+      <div class="inputContainer flex flex-col gap-2 sm:max-w-56">
+        <label for="marque" class="text-gray-600">Choisir Modele</label>
+        <select
+          id="modele"
+          class="border border-gray-600 rounded p-2 w-full text-gray-500 disabled:cursor-not-allowed"
+          v-model="form.modele_id"
+          :disabled="!form.marque_id"
+        >
+          <option selected value="" class="text-gray-600">--Choisir--</option>
+          <option
+            v-for="modele in Results.modelesResult"
+            :key="modele.id"
+            :value="modele.id"
+          >
+            {{ modele.nom }}
+          </option>
+        </select>
+      </div>
+      <div class="inputContainer flex flex-col gap-2 sm:max-w-56">
+        <label for="ville" class="text-gray-600">Choisir Ville</label>
+        <select
+          id="ville"
+          class="border border-gray-600 rounded p-2 w-full text-gray-500"
+          v-model="form.ville_id"
+        >
+          <option selected value="" class="text-gray-600">--Choisir--</option>
+          <option
+            v-for="ville in Results.villeResult"
+            :key="ville.id"
+            :value="ville.id"
+          >
+            {{ ville.nom }}
+          </option>
+        </select>
+      </div>
+      <div class="inputContainer flex flex-col gap-2 sm:max-w-56">
+        <label for="carburant" class="text-gray-600">Choisir Carburant</label>
+        <select
+          id="carburant"
+          class="border border-gray-600 rounded p-2 w-full text-gray-500"
+          v-model="form.carburant"
+        >
+          <option selected value="" class="text-gray-600">--Choisir--</option>
+          <option
+            v-for="carburant in Results.carburantResult"
+            :key="carburant"
+            :value="carburant"
+          >
+            {{ carburant }}
+          </option>
+        </select>
+      </div>
+      <div class="inputContainer flex flex-col gap-2 sm:max-w-56">
+        <label for="kilometrage" class="text-gray-600"
+          >Choisir Kilometrage</label
+        >
+        <select
+          id="kilometrage"
+          class="border border-gray-600 rounded p-2 w-full text-gray-500"
+          v-model="form.kilometrage"
+        >
+          <option selected value="" class="text-gray-600">--Choisir--</option>
+          <option
+            v-for="kilometrage in Results.kilometrageResult"
+            :key="kilometrage.value"
+            :value="kilometrage.value"
+          >
+            {{ kilometrage.label }}
+          </option>
+        </select>
+      </div>
     </div>
   </div>
 </template>
@@ -49,13 +121,45 @@ import getFromDB from "@/Composables/Getters/getFromDB";
 import Endpoints from "@/assets/JS/Endpoints";
 import { ref } from "vue";
 
+const props = defineProps(["title"]);
+
 // fetching begins here
 const Results = ref({
   annee_fabrication: [],
   marqueResult: [],
   modelesResult: [],
-  couleurResult: [],
   villeResult: [],
+  carburantResult: ["diesel", "essence", "hybride", "electrique"],
+  kilometrageResult: [
+    {
+      label: "<= 10 000",
+      value: 10000,
+    },
+    {
+      label: "<= 20 000",
+      value: 20000,
+    },
+    {
+      label: "<= 30 000",
+      value: 30000,
+    },
+    {
+      label: "<= 40 000",
+      value: 40000,
+    },
+    {
+      label: "<= 50 000",
+      value: 50000,
+    },
+    {
+      label: "<= 100 000",
+      value: 100000,
+    },
+    {
+      label: "<= 250 000",
+      value: 250000,
+    },
+  ],
 });
 
 const form = ref({
@@ -64,6 +168,8 @@ const form = ref({
   modele_id: "",
   couleur_id: "",
   ville_id: "",
+  carburant: "",
+  kilometrage: "",
 });
 
 // Fetching Marques
@@ -73,6 +179,27 @@ getFromDB(Endpoints.marque__get_all_or_add).then((response) => {
   }
 });
 // end marques
+// // Fetching Modeles after selecting marque
+const marqueSelected = () => {
+  Results.value.modelesResult = [];
+  if (form.value.marque_id) {
+    getFromDB(Endpoints.modele__get_by_marque + form.value.marque_id).then(
+      (response) => {
+        if (response) {
+          Results.value.modelesResult = response;
+        }
+      }
+    );
+  }
+};
+// // end Fetching Modeles
+
+// fetching villes
+getFromDB(Endpoints.ville__get_all_or_add).then((response) => {
+  if (response) {
+    Results.value.villeResult = response;
+  }
+});
 
 // on mounted set years since 1970
 for (let i = 1970; i <= new Date().getFullYear(); i++) {

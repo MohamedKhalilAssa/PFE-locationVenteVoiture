@@ -1,5 +1,8 @@
 <template>
-  <CardContainer :getter="Endpoints.location__paginate"></CardContainer>
+  <CardContainer
+    :getter="Endpoints.location__paginate"
+    title="Voitures de Locations"
+  ></CardContainer>
 </template>
 <script setup>
 import CardContainer from "@/Components/displayElements/CardContainer.vue";

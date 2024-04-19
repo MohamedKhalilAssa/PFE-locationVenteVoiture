@@ -650,6 +650,18 @@ video {
   bottom: -75%;
 }
 
+.top-4 {
+  top: 1rem;
+}
+
+.left-1\/2 {
+  left: 50%;
+}
+
+.-bottom-full {
+  bottom: -100%;
+}
+
 .-z-10 {
   z-index: -10;
 }
@@ -765,6 +777,10 @@ video {
 
 .mb-96 {
   margin-bottom: 24rem;
+}
+
+.mb-auto {
+  margin-bottom: auto;
 }
 
 .block {
@@ -1039,6 +1055,21 @@ video {
 
 .translate-y-1\/2 {
   --tw-translate-y: 50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.translate-x-1 {
+  --tw-translate-x: 0.25rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.translate-x-1\/2 {
+  --tw-translate-x: 50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.-translate-x-1\/2 {
+  --tw-translate-x: -50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -1448,6 +1479,10 @@ video {
   padding: 0.25rem;
 }
 
+.p-8 {
+  padding: 2rem;
+}
+
 .px-12 {
   padding-left: 3rem;
   padding-right: 3rem;
@@ -1527,6 +1562,26 @@ video {
 
 .pt-1 {
   padding-top: 0.25rem;
+}
+
+.pb-4 {
+  padding-bottom: 1rem;
+}
+
+.pt-12 {
+  padding-top: 3rem;
+}
+
+.pt-16 {
+  padding-top: 4rem;
+}
+
+.pt-2 {
+  padding-top: 0.5rem;
+}
+
+.pt-20 {
+  padding-top: 5rem;
 }
 
 .text-left {
@@ -1888,12 +1943,20 @@ video {
     margin-bottom: 20rem;
   }
 
+  .sm\:\!mb-80 {
+    margin-bottom: 20rem !important;
+  }
+
   .sm\:\!max-h-full {
     max-height: 100% !important;
   }
 
   .sm\:w-80 {
     width: 20rem;
+  }
+
+  .sm\:w-auto {
+    width: auto;
   }
 
   .sm\:max-w-72 {
@@ -1903,6 +1966,10 @@ video {
   .sm\:max-w-max {
     max-width: -moz-max-content;
     max-width: max-content;
+  }
+
+  .sm\:max-w-56 {
+    max-width: 14rem;
   }
 
   .sm\:grid-cols-2 {
@@ -1954,6 +2021,11 @@ video {
   .sm\:text-5xl {
     font-size: 3rem;
     line-height: 1;
+  }
+
+  .sm\:text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
   }
 
   @media (min-width: 768px) {

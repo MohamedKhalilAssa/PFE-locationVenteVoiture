@@ -1,5 +1,5 @@
 <template>
-  <PartialSection></PartialSection>
+  <PartialSection :title="title"></PartialSection>
   <main class="py-10 px-12 flex flex-col justify-between items-center">
     <div class="content flex flex-wrap justify-center gap-7">
       <DisplayCard
@@ -26,7 +26,7 @@ import getPaginate from "@/Composables/Getters/getPaginate";
 import PartialSection from "@/views/Partials/PartialSection.vue";
 import { ref } from "vue";
 
-const props = defineProps(["getter"]);
+const props = defineProps(["getter", "title"]);
 
 const result = ref([]);
 
