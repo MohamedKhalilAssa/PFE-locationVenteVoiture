@@ -46,7 +46,7 @@
         <p class="location space-x-3">
           <i class="fa-solid fa-money-bill text-center text-lg w-5"></i>
           <span class="text-xl text-gray-700"
-            >{{ data.prix_vente ?? 0 }} MAD</span
+            >{{ parseInt(data.prix_vente) ?? 0 }} MAD</span
           >
         </p>
       </div>

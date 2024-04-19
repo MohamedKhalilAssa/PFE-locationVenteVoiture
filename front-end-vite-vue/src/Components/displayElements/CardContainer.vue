@@ -1,4 +1,5 @@
 <template>
+  <PartialSearch></PartialSearch>
   <main class="py-10 px-12 flex flex-col justify-between items-center">
     <div class="content flex flex-wrap justify-center gap-7">
       <DisplayCard
@@ -22,6 +23,7 @@
 import DisplayCard from "@/Components/displayElements/DisplayCard.vue";
 import Pagination from "@/Components/Pagination.vue";
 import getPaginate from "@/Composables/Getters/getPaginate";
+import PartialSearch from "@/views/Partials/PartialSearch.vue";
 import { ref } from "vue";
 
 const props = defineProps(["getter"]);
