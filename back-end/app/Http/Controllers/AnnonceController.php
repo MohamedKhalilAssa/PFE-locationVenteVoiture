@@ -13,8 +13,7 @@ class AnnonceController extends ParentController
     {
         parent::__construct();
         $this->model = Annonce::class;
-        $this->middleware('auth:sanctum')->except(['indexNeuf', 'indexOccasion', 'show', 'indexLocation']);
-        $this->middleware('admin')->except(['indexNeuf', 'indexOccasion', 'show', 'indexLocation']);
+        $this->model_name = 'Annonce';
     }
     public function selectRelations(): array
     {
@@ -140,5 +139,10 @@ class AnnonceController extends ParentController
             ]
         ];
         return  $this->indexPaginate();
+    }
+    // getters
+    public function getAnneeFabrication()
+    {
+        return $this->model::select('annee_fabrication as annees')->distinct()->get();
     }
 }

@@ -19,8 +19,11 @@
           v-model="form.annee_fabrication"
         >
           <option selected value="" class="text-gray-600">--Choisir--</option>
-          <option v-for="year in Results.annee_fabrication" :key="year">
-            {{ year }}
+          <option
+            v-for="result in Results.annee_fabrication"
+            :key="result.annees"
+          >
+            {{ result.annees }}
           </option>
         </select>
       </div>
@@ -201,9 +204,10 @@ getFromDB(Endpoints.ville__get_all_or_add).then((response) => {
   }
 });
 
-// on mounted set years since 1970
-for (let i = 1970; i <= new Date().getFullYear(); i++) {
-  Results.value.annee_fabrication.push(i);
-}
-// end years
+// fetching annee
+getFromDB(Endpoints.annonce__get_annee_fabrication).then((response) => {
+  if (response) {
+    Results.value.annee_fabrication = response;
+  }
+});
 </script>
