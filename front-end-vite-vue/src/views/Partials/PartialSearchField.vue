@@ -117,9 +117,13 @@
         </select>
       </div>
     </div>
+    <div class="inputContainer flex flex-col gap-2 sm:max-w-56">
+      <rangeSlider maximum="40000"></rangeSlider>
+    </div>
   </div>
 </template>
 <script setup>
+import rangeSlider from "@/Components/RangeSlider.vue";
 import getFromDB from "@/Composables/Getters/getFromDB";
 import Endpoints from "@/assets/JS/Endpoints";
 import { ref } from "vue";
@@ -210,4 +214,7 @@ getFromDB(Endpoints.annonce__get_annee_fabrication).then((response) => {
     Results.value.annee_fabrication = response;
   }
 });
+
+const sliderMin = ref(50);
+const sliderMax = ref(80);
 </script>
