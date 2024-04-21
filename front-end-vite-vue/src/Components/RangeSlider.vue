@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" v-if="maximum">
     <div class="price-input">
       <div class="field">
         <span>Min</span>
@@ -47,10 +47,11 @@
       />
     </div>
   </div>
+  <div class="wrapper" v-else>Loading ...</div>
 </template>
 
 <script setup>
-import { ref, watch, watchEffect } from "vue";
+import { ref, watch } from "vue";
 
 const props = defineProps(["maximum"]);
 const emits = defineEmits(["updateRange"]);
@@ -58,7 +59,7 @@ const emits = defineEmits(["updateRange"]);
 const leftPosition = ref("0%");
 const rightPosition = ref("0%");
 const minPrice = ref(0);
-const maxPrice = ref(100);
+const maxPrice = ref(10);
 const priceGap = ref(20);
 
 const rangeMax = ref(null);
