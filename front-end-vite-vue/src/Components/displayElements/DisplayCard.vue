@@ -46,8 +46,12 @@
         <p class="location space-x-3">
           <i class="fa-solid fa-money-bill text-center text-lg w-5"></i>
           <span class="text-xl text-gray-700"
-            >{{ parseInt(data.prix_vente) ?? 0 }} MAD</span
-          >
+            >{{
+              data["type_annonce"] == "location"
+                ? parseInt(data["prix_location"]) + " MAD / Jour"
+                : parseInt(data["prix_vente"]) + " MAD" ?? "N/A"
+            }}
+          </span>
         </p>
       </div>
     </router-link>
