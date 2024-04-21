@@ -145,4 +145,16 @@ class AnnonceController extends ParentController
     {
         return $this->model::select('annee_fabrication as annees')->distinct()->get();
     }
+    public function getMaxPriceLocation()
+    {
+        return ['max_price' => $this->model::max('prix_location')];
+    }
+    public function getMaxPriceVenteOccasion()
+    {
+        return ['max_price' => $this->model::where('etat', 'occasion')->max('prix_vente')];
+    }
+    public function getMaxPriceVenteNeuf()
+    {
+        return ['max_price' => $this->model::where('etat', 'neuf')->min('prix_vente')];
+    }
 }

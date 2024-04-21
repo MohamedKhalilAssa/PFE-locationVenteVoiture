@@ -12,6 +12,8 @@ Route::group(["prefix" => "annonce", 'as' => 'annonce.'], function () {
     // neuf
     Route::get('/neuf/pagination', [AnnonceController::class, 'indexNeuf'])->name("indexPaginateNeuf");
     // getters
-
     Route::get('/annees', [AnnonceController::class, 'getAnneeFabrication'])->name("getAnneeFabrication");
+    Route::get('/location/maxPrice', [AnnonceController::class, 'getMaxPriceLocation'])->name("getMaxPriceLocation");
+    Route::get('/occasion/maxPrice', [AnnonceController::class, 'getMaxPriceVenteOccasion'])->name("getMaxPriceVenteOccasion");
+    Route::get('/neuf/maxPrice', [AnnonceController::class, 'getMaxPriceVenteNeuf'])->name("getMaxPriceVenteNeuf");
 });

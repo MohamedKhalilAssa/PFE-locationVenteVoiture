@@ -2,6 +2,7 @@
   <CardContainer
     :getter="Endpoints.occasion__paginate"
     title="Voitures d'occasions"
+    type="occasion"
   ></CardContainer>
 </template>
 <script setup>

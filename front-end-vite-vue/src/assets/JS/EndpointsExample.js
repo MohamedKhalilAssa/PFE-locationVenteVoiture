@@ -1,4 +1,4 @@
-const baseURL = "http://192.168.1.3:8000"; // to be changed if the backend is hosted somewhere else
+const baseURL = "URL"; // to be changed if the backend is hosted somewhere else
 
 export default {
   // Users
@@ -28,10 +28,13 @@ export default {
   annonce__get_annee_fabrication: baseURL + "/api/annonce/annees",
   // occasion
   occasion__get_all_or_add: baseURL + "/api/annonce/occasion",
+  occasion__get_max_price: baseURL + "/api/annonce/occasion/maxPrice",
   occasion__paginate: baseURL + "/api/annonce/occasion/pagination?page=",
   // location
+  location__get_max_price: baseURL + "/api/annonce/location/maxPrice",
   location__paginate: baseURL + "/api/annonce/location/pagination?page=",
   // neuf
+  neuf__get_max_price: baseURL + "/api/annonce/neuf/maxPrice",
   neuf__paginate: baseURL + "/api/annonce/neuf/pagination?page=",
   // Config Endpoints
   config__get_csrf_token: baseURL + "/sanctum/csrf-cookie",

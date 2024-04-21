@@ -2,6 +2,7 @@
   <CardContainer
     :getter="Endpoints.location__paginate"
     title="Voitures de Locations"
+    type="location"
   ></CardContainer>
 </template>
 <script setup>

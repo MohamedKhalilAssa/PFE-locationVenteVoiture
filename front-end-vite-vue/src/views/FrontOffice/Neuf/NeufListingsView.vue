@@ -2,6 +2,7 @@
   <CardContainer
     :getter="Endpoints.neuf__paginate"
     title="Voitures Neufs"
+    type="neuf"
   ></CardContainer>
 </template>
 <script setup>

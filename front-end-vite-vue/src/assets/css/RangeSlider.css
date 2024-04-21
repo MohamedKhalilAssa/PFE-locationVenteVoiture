@@ -98,3 +98,18 @@ input[type="range"]::-moz-range-thumb {
   -moz-appearance: none;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
 }
+
+/* Adjustments for smaller screens */
+@media screen and (max-width: 400px) {
+  .wrapper {
+    width: 100%;
+    padding: 0;
+    margin-bottom: 1rem;
+  }
+  .price-input .separator {
+    display: none;
+  }
+  .price-input {
+    gap: 10px;
+  }
+}

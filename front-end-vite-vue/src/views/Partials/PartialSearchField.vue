@@ -1,6 +1,6 @@
 <template>
   <div
-    class="filter p-4 pt-20 bg-white w-11/12 min-h-80 max-h-max absolute z-10 -bottom-full sm:-bottom-1/2 rounded-lg flex items-center"
+    class="filter p-4 pt-20 bg-white w-full sm:w-11/12 min-h-80 max-h-max absolute z-10 rounded-lg flex items-center justify-center md:justify-around flex-wrap"
   >
     <p
       class="absolute top-4 left-1/2 -translate-x-1/2 uppercase font-mono font-bold text-2xl sm:text-4xl w-max"
@@ -117,8 +117,14 @@
         </select>
       </div>
     </div>
-    <div class="inputContainer flex flex-col gap-2 sm:max-w-56">
-      <rangeSlider maximum="40000"></rangeSlider>
+    <div class="inputContainer flex flex-col justify-center items-center gap-2">
+      <rangeSlider
+        @update-range="UpdateRangeVars"
+        :maximum="parseFloat(Results.max_price)"
+      ></rangeSlider>
+      <button class="bg-red-500 hover:bg-red-800 text-white rounded py-2 px-4">
+        Rechercher
+      </button>
     </div>
   </div>
 </template>
@@ -128,7 +134,7 @@ import getFromDB from "@/Composables/Getters/getFromDB";
 import Endpoints from "@/assets/JS/Endpoints";
 import { ref } from "vue";
 
-const props = defineProps(["title"]);
+const props = defineProps(["title", "type"]);
 
 // fetching begins here
 const Results = ref({
@@ -167,17 +173,26 @@ const Results = ref({
       value: 250000,
     },
   ],
+  max_price: 0,
 });
 
 const form = ref({
   annee_fabrication: "",
   marque_id: "",
   modele_id: "",
-  couleur_id: "",
   ville_id: "",
   carburant: "",
   kilometrage: "",
+  min_price: 0,
+  max_price: 40000,
 });
+
+const UpdateRangeVars = (min, max) => {
+  form.value.min_price = min;
+  form.value.max_price = max;
+  console.log(min, max);
+  console.log(form.value);
+};
 
 // Fetching Marques
 getFromDB(Endpoints.marque__get_all_or_add).then((response) => {
@@ -214,7 +229,45 @@ getFromDB(Endpoints.annonce__get_annee_fabrication).then((response) => {
     Results.value.annee_fabrication = response;
   }
 });
-
-const sliderMin = ref(50);
-const sliderMax = ref(80);
+// fetch max price
+if (props.type === "neuf") {
+  getFromDB(Endpoints.neuf__get_max_price).then((response) => {
+    if (response) {
+      console.log(response.max_price);
+      Results.value.max_price = response.max_price;
+    }
+  });
+} else if (props.type === "occasion") {
+  getFromDB(Endpoints.occasion__get_max_price).then((response) => {
+    if (response) {
+      Results.value.max_price = response.max_price;
+    }
+  });
+} else if (props.type === "location") {
+  getFromDB(Endpoints.location__get_max_price).then((response) => {
+    if (response) {
+      Results.value.max_price = response.max_price;
+    }
+  });
+}
 </script>
+<style scoped>
+.filter {
+  bottom: -145%;
+}
+@media screen and (min-width: 640px) {
+  .filter {
+    bottom: -90%;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .filter {
+    bottom: -70%;
+  }
+}
+@media screen and (min-width: 1128px) {
+  .filter {
+    bottom: -50%;
+  }
+}
+</style>

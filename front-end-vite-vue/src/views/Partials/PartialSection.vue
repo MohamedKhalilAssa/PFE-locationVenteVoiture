@@ -1,7 +1,7 @@
 <template>
   <div
-    class="relative partialContainer w-full flex justify-center items-center sm:!mb-80"
-    style="height: 33rem; margin-bottom: 33rem"
+    class="relative partialContainer w-full flex justify-center items-center sm:!mb-96"
+    style="height: 33rem; margin-bottom: 48rem"
   >
     <div
       class="backgroundImage z-0 absolute top-0 left-0 w-full h-full bg-auto bg-fixed bg-no-repeat bg-left-bottom"
@@ -13,13 +13,13 @@
         <span class="text-red-700">Choisissez</span> La Voiture de vos rêves
       </p>
     </div>
-    <PartialSearchField :title="title" />
+    <PartialSearchField :title="title" :type="type" />
   </div>
 </template>
 <script setup>
 import PartialSearchField from "@/views/Partials/PartialSearchField.vue";
 
-const props = defineProps(["title"]);
+const props = defineProps(["title", "type"]);
 </script>
 <style scoped>
 .backgroundImage {

@@ -35,51 +35,64 @@
         :max="maximum"
         v-model="minPrice"
         @input="handling"
-        step="100"
       />
       <input
         type="range"
         class="range-max"
+        ref="rangeMax"
         min="0"
         :max="maximum"
         v-model="maxPrice"
         @input="handling"
-        step="100"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch, watchEffect } from "vue";
 
-const props = defineProps(["maximum", "priceGap"]);
+const props = defineProps(["maximum"]);
+const emits = defineEmits(["updateRange"]);
 
 const leftPosition = ref("0%");
 const rightPosition = ref("0%");
 const minPrice = ref(0);
-const maxPrice = ref(props.maximum);
-const priceGap = props.priceGap ?? 2000;
+const maxPrice = ref(100);
+const priceGap = ref(20);
 
-function handling(e) {
+const rangeMax = ref(null);
+
+watch(
+  () => props.maximum,
+  (newMax, oldMax) => {
+    if (newMax > 0) {
+      maxPrice.value = newMax;
+    }
+  }
+);
+
+function handling() {
   updateRange();
   updateInput();
 }
 
-function updateRange(e) {
-  console.log("min", minPrice.value, "max", maxPrice.value);
-  if (maxPrice.value - minPrice.value < priceGap) {
+function updateRange() {
+  emits("updateRange", minPrice.value, maxPrice.value);
+  if (maxPrice.value - minPrice.value < priceGap.value) {
     if (minPrice.value > 0) {
-      minPrice.value = maxPrice.value - priceGap;
+      minPrice.value = maxPrice.value - priceGap.value;
+    } else if (minPrice.value < 0) {
+      minPrice.value = 0;
     } else {
-      maxPrice.value = minPrice.value + priceGap;
+      maxPrice.value = minPrice.value + priceGap.value;
     }
   }
 }
 
 function updateInput() {
   if (
-    maxPrice.value - minPrice.value >= priceGap &&
+    maxPrice.value - minPrice.value >= priceGap.value &&
     maxPrice.value <= props.maximum
   ) {
     // Calculate the percentage for positioning the range slider
@@ -92,9 +105,4 @@ function updateInput() {
   }
 }
 </script>
-
-<style scoped>
-/* Your CSS styles here */
-</style>
-
 <style scoped src="@/assets/css/RangeSlider.css"></style>
