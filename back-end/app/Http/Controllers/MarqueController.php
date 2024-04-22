@@ -22,6 +22,10 @@ class MarqueController extends ParentController
     {
         return ['id', 'nom', 'image'];
     }
+    public function beforeGetting()
+    {
+        $this->model->orderBy('nom');
+    }
     // Overriding the before methods to specify rules
     public function beforeValidateForStore()
     {

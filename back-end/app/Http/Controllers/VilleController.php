@@ -16,6 +16,10 @@ class VilleController extends ParentController
         $this->middleware('admin')->except(['index', 'show']);
     }
 
+    public function beforeGetting()
+    {
+        $this->model->orderBy('nom');
+    }
     // Overriding
     public function beforeValidateForStore()
     {
@@ -29,5 +33,4 @@ class VilleController extends ParentController
             'nom' => ['required', 'string', 'regex:/^\D*$/', 'max:255'],
         ];
     }
-
 }

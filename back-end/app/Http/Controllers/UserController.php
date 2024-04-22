@@ -19,9 +19,9 @@ class UserController extends ParentController
         $this->middleware('auth:sanctum')->except(['show']);
         $this->middleware('admin')->except(['show']);
     }
-    public function beforeGetting($model)
+    public function beforeGetting()
     {
-        return $model->where('role', '!=', 'root');
+        $this->model->where('role', '!=', 'root');
     }
     public function beforeReturnForShow($data)
     {

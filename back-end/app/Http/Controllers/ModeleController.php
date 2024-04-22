@@ -13,7 +13,7 @@ class ModeleController extends ParentController
         parent::__construct();
         $this->model = Modele::class;
         $this->model_name = 'Modele';
-        $this->middleware('auth:sanctum')->except(['index', 'show','showbyMarque']);
+        $this->middleware('auth:sanctum')->except(['index', 'show', 'showbyMarque']);
         $this->middleware('admin')->except(['index', 'show', 'showbyMarque']);
     }
     // for indexBack
@@ -44,7 +44,6 @@ class ModeleController extends ParentController
     }
     public function showbyMarque($id)
     {
-        return response(Marque::find($id)->modeles()->get(["id", "nom"]))->header('Content-Type', 'application/json');
+        return response(Marque::find($id)->modeles()->orderBy('nom')->get(["id", "nom"]))->header('Content-Type', 'application/json');
     }
-
 }

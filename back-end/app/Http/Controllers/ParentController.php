@@ -54,7 +54,7 @@ class ParentController extends BaseController
         if ($search && trim($search) != '') {
             $searchColumn = request('searchColumn') ?? 'nom';
             $this->searchData($search, $searchColumn, $sort, $sortColumn, $this->model);
-            $this->beforeGetting($this->model);
+            $this->beforeGetting();
             $data = $this->model->paginate(10)->toArray();
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key] = nestedToNormal($value);
@@ -64,7 +64,7 @@ class ParentController extends BaseController
         } else {
             // else if there is no search
             $this->sortData($sort, $sortColumn, $this->model);
-            $this->beforeGetting($this->model);
+            $this->beforeGetting();
             $data = $this->model->paginate(10)->toArray();
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key] = nestedToNormal($value);
@@ -83,7 +83,7 @@ class ParentController extends BaseController
     public function index()
     {
         $this->assignRelation($this->selectRelations());
-
+        $this->beforeGetting();
         $this->assignConditions();
         if (count($this->indexReturnedColumns()) > 0) {
             return response($this->model->get($this->indexReturnedColumns()))->header('Content-Type', 'application/json');
@@ -174,9 +174,8 @@ class ParentController extends BaseController
         // return : ['key' => value ...]
         return [];
     }
-    public function beforeGetting($model)
+    public function beforeGetting()
     {
-        return $model;
     }
     public function beforeReturnForShow($data)
     {
