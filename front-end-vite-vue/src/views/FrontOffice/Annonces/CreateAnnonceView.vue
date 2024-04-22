@@ -51,10 +51,9 @@
           >La Ville
         </label>
         <select
-          v-model="form.ville"
+          v-model="form.ville_id"
           id="ville"
           class="border border-gray-600 rounded p-2 w-full"
-          name="ville"
         >
           <option selected :value="null">La Ville</option>
           <option
@@ -66,8 +65,8 @@
           </option>
         </select>
         <div class="errors" v-if="errors">
-          <p class="text-red-600" v-if="errors.ville">
-            {{ errors.ville[0] }}
+          <p class="text-red-600" v-if="errors.ville_id">
+            {{ errors.ville_id[0] }}
           </p>
         </div>
       </div>
@@ -481,7 +480,7 @@ const router = useRouter();
 const form = ref({
   titre: null,
   description: null,
-  ville: null,
+  ville_id: null,
   carburant: "",
   type_annonce: "",
   marque_id: "",
@@ -502,7 +501,7 @@ const uploadFiles = async () => {
   let formData = new FormData();
   formData.append("titre", form.value.titre);
   formData.append("description", form.value.description);
-  formData.append("ville", form.value.ville);
+  formData.append("ville_id", form.value.ville_id);
   formData.append("carburant", form.value.carburant);
   formData.append("type_annonce", form.value.type_annonce);
   formData.append("marque_id", form.value.marque_id);

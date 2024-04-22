@@ -122,7 +122,10 @@
         @update-range="UpdateRangeVars"
         :maximum="parseFloat(Results.max_price)"
       ></rangeSlider>
-      <button class="bg-red-500 hover:bg-red-800 text-white rounded py-2 px-4">
+      <button
+        @click="filterDisplay"
+        class="bg-red-500 hover:bg-red-800 text-white rounded py-2 px-4"
+      >
         Rechercher
       </button>
     </div>
@@ -136,7 +139,41 @@ import { ref } from "vue";
 
 const props = defineProps(["title", "type"]);
 
-// fetching begins here
+const form = ref({
+  annee_fabrication: "",
+  marque_id: "",
+  modele_id: "",
+  ville_id: "",
+  carburant: "",
+  kilometrage: "",
+  min_price: 0,
+  max_price: 40000,
+});
+
+const filterDisplay = () => {
+  console.log(form.value);
+  let formData = new FormData();
+  formData.append("ville_id", form.value.ville_id);
+  formData.append("carburant", form.value.carburant);
+  formData.append("type_annonce", form.value.type_annonce);
+  formData.append("marque_id", form.value.marque_id);
+  formData.append("modele_id", form.value.modele_id);
+  formData.append("etat", form.value.etat);
+  formData.append("kilometrage", form.value.kilometrage);
+  formData.append("couleur_id", form.value.couleur_id);
+  formData.append("annee_fabrication", form.value.annee_fabrication);
+  formData.append("prix_vente", form.value.prix_vente);
+  formData.append("prix_location", form.value.prix_location);
+  formData.append("disponibilite_vente", form.value.disponibilite_vente);
+  formData.append("disponibilite_location", form.value.disponibilite_location);
+
+};
+
+/**
+ *
+ * Fetching begins here for data in select fields
+ *
+ */
 const Results = ref({
   annee_fabrication: [],
   marqueResult: [],
@@ -175,23 +212,9 @@ const Results = ref({
   ],
   max_price: 0,
 });
-
-const form = ref({
-  annee_fabrication: "",
-  marque_id: "",
-  modele_id: "",
-  ville_id: "",
-  carburant: "",
-  kilometrage: "",
-  min_price: 0,
-  max_price: 40000,
-});
-
 const UpdateRangeVars = (min, max) => {
   form.value.min_price = min;
   form.value.max_price = max;
-  console.log(min, max);
-  console.log(form.value);
 };
 
 // Fetching Marques
@@ -235,18 +258,21 @@ if (props.type === "neuf") {
     if (response) {
       console.log(response.max_price);
       Results.value.max_price = response.max_price;
+      form.value.max_price = response.max_price;
     }
   });
 } else if (props.type === "occasion") {
   getFromDB(Endpoints.occasion__get_max_price).then((response) => {
     if (response) {
       Results.value.max_price = response.max_price;
+      form.value.max_price = response.max_price;
     }
   });
 } else if (props.type === "location") {
   getFromDB(Endpoints.location__get_max_price).then((response) => {
     if (response) {
       Results.value.max_price = response.max_price;
+      form.value.max_price = response.max_price;
     }
   });
 }

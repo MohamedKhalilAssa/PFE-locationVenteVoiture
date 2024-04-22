@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Annonce;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Database\Seeders\MarqueSeeder;
@@ -37,5 +38,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ModeleSeeder::class);
         $this->call(CouleursSeeder::class);
         $this->call(VilleMaroc::class);
+        Annonce::factory(10)->create();
     }
 }

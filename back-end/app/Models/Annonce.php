@@ -37,6 +37,6 @@ class Annonce extends Model
     }
     public function ville()
     {
-        return $this->belongsTo(Ville::class, 'ville');
+        return $this->belongsTo(Ville::class, 'ville_id');
     }
 }
