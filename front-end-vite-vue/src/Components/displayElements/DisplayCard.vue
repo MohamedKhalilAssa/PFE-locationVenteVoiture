@@ -36,7 +36,11 @@
         <p class="space-x-3 text-ellipsis overflow-hidden whitespace-nowrap">
           <i class="fa-solid text-center fa-car w-5"></i
           ><span class="text-lg text-gray-700">{{
-            data["marque.nom"] + ", " + data["modele.nom"]
+            data["marque.nom"] +
+            ", " +
+            data["modele.nom"] +
+            " - " +
+            data["annee_fabrication"]
           }}</span>
         </p>
         <p class="location space-x-3">
@@ -66,7 +70,6 @@ const curr_image = ref(0);
 
 const nextImage = () => {
   curr_image.value = (curr_image.value + 1) % images.value.length;
-  console.log(curr_image.value);
 };
 const prevImage = () => {
   if (curr_image.value == 0) curr_image.value = images.value.length - 1;

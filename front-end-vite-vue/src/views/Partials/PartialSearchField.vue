@@ -104,7 +104,7 @@
         <select
           id="kilometrage"
           class="border border-gray-600 rounded p-2 w-full text-gray-500"
-          v-model="form.kilometrage"
+          v-model="form.maxKilometrage"
         >
           <option selected value="" class="text-gray-600">--Choisir--</option>
           <option
@@ -134,10 +134,12 @@
 <script setup>
 import rangeSlider from "@/Components/RangeSlider.vue";
 import getFromDB from "@/Composables/Getters/getFromDB";
+import getPaginate from "@/Composables/Getters/getPaginate";
 import Endpoints from "@/assets/JS/Endpoints";
 import { ref } from "vue";
 
-const props = defineProps(["title", "type"]);
+const props = defineProps(["title", "type", "getter"]);
+const emits = defineEmits(["updatePage"]);
 
 const form = ref({
   annee_fabrication: "",
@@ -145,28 +147,17 @@ const form = ref({
   modele_id: "",
   ville_id: "",
   carburant: "",
-  kilometrage: "",
+  maxKilometrage: "",
   min_price: 0,
   max_price: 40000,
 });
 
 const filterDisplay = () => {
-  console.log(form.value);
-  let formData = new FormData();
-  formData.append("ville_id", form.value.ville_id);
-  formData.append("carburant", form.value.carburant);
-  formData.append("type_annonce", form.value.type_annonce);
-  formData.append("marque_id", form.value.marque_id);
-  formData.append("modele_id", form.value.modele_id);
-  formData.append("etat", form.value.etat);
-  formData.append("kilometrage", form.value.kilometrage);
-  formData.append("couleur_id", form.value.couleur_id);
-  formData.append("annee_fabrication", form.value.annee_fabrication);
-  formData.append("prix_vente", form.value.prix_vente);
-  formData.append("prix_location", form.value.prix_location);
-  formData.append("disponibilite_vente", form.value.disponibilite_vente);
-  formData.append("disponibilite_location", form.value.disponibilite_location);
-
+  getPaginate(1, props.getter, {}, form.value).then((data) => {
+    if (data) {
+      emits("updatePage", data.PaginateQuery);
+    }
+  });
 };
 
 /**

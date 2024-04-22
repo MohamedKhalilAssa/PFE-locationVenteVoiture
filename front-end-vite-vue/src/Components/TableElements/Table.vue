@@ -81,20 +81,13 @@ const requestParams = ref({
   sortColumn: "id",
   search: "",
   searchColumn: "nom",
+  defaultColumn: "id",
 });
 
-getPaginate(
-  1,
-  props.getter,
-  requestParams.value.sort,
-  requestParams.value.sortColumn,
-  requestParams.value.search,
-  requestParams.value.searchColumn,
-  "id"
-).then((data) => {
+getPaginate(1, props.getter, requestParams.value).then((data) => {
   if (data) {
     result.value = data.PaginateQuery;
-    total.value = data.total;
+    total.value = result.value.total;
   }
 });
 // pagination
@@ -105,15 +98,8 @@ const updateResult = (data) => {
 const handlingSearch = (search, searchColumn, defaultColumn) => {
   requestParams.value.search = search;
   requestParams.value.searchColumn = searchColumn;
-  getPaginate(
-    1,
-    props.getter,
-    requestParams.value.sort,
-    requestParams.value.sortColumn,
-    search,
-    searchColumn,
-    defaultColumn
-  ).then((data) => {
+  requestParams.value.defaultColumn = defaultColumn;
+  getPaginate(1, props.getter, requestParams.value).then((data) => {
     if (data) {
       result.value = data.PaginateQuery;
       total.value = data.total;
@@ -126,15 +112,7 @@ const sortingBy = (column, sort) => {
   requestParams.value.sort = sort;
   requestParams.value.sortColumn = column;
   // we ignore the search params
-  getPaginate(
-    1,
-    props.getter,
-    sort,
-    column,
-    requestParams.value.search,
-    requestParams.value.searchColumn,
-    "id"
-  ).then((data) => {
+  getPaginate(1, props.getter, requestParams.value).then((data) => {
     if (data) {
       result.value = data.PaginateQuery;
       total.value = data.total;

@@ -1,5 +1,10 @@
 <template>
-  <PartialSection :title="title" :type="type"></PartialSection>
+  <PartialSection
+    @updatePage="updateResult"
+    :title="title"
+    :type="type"
+    :getter="getter"
+  ></PartialSection>
   <main
     class="py-10 pt-28 px-12 flex flex-col justify-between items-center lg:pt-0"
   >
@@ -39,15 +44,7 @@ const requestParams = ref({
   searchColumn: "nom",
 });
 
-getPaginate(
-  1,
-  props.getter,
-  requestParams.value.sort,
-  requestParams.value.sortColumn,
-  requestParams.value.search,
-  requestParams.value.searchColumn,
-  "id"
-).then((data) => {
+getPaginate(1, props.getter, requestParams.value, "").then((data) => {
   if (data) {
     result.value = data.PaginateQuery;
   }
@@ -55,6 +52,7 @@ getPaginate(
 
 // for pagination
 const updateResult = (data) => {
+  console.log(data);
   result.value = data;
 };
 </script>

@@ -54,25 +54,23 @@ class ParentController extends BaseController
         if ($search && trim($search) != '') {
             $searchColumn = request('searchColumn') ?? 'nom';
             $this->searchData($search, $searchColumn, $sort, $sortColumn, $this->model);
-            $count = $this->model->count();
             $this->beforeGetting($this->model);
             $data = $this->model->paginate(10)->toArray();
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key] = nestedToNormal($value);
             }
             $additionalData = $this->beforeIndexBackReturn($this->model);
-            return response()->json(['PaginateQuery' => $data, 'total' => $count, $additionalData]);
+            return response()->json(['PaginateQuery' => $data,  ...$additionalData]);
         } else {
             // else if there is no search
             $this->sortData($sort, $sortColumn, $this->model);
-            $count = $this->model->count();
             $this->beforeGetting($this->model);
             $data = $this->model->paginate(10)->toArray();
             foreach ($data['data'] as $key => $value) {
                 $data['data'][$key] = nestedToNormal($value);
             }
             $additionalData = $this->beforeIndexBackReturn($this->model);
-            return response()->json(['PaginateQuery' => $data, 'total' => $count, ...$additionalData]);
+            return response()->json(['PaginateQuery' => $data, ...$additionalData]);
         }
     }
     public function show($id)

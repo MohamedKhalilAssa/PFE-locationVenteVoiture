@@ -111,6 +111,9 @@ class AnnonceController extends ParentController
                 'value' => 'vente'
             ]
         ];
+
+        $this->filteringDisplay();
+
         return  $this->indexPaginate();
     }
     public function indexLocation()
@@ -122,6 +125,9 @@ class AnnonceController extends ParentController
                 'value' => 'location'
             ]
         ];
+
+        $this->filteringDisplay("location");
+
         return  $this->indexPaginate();
     }
     public function indexNeuf()
@@ -138,12 +144,15 @@ class AnnonceController extends ParentController
                 'value' => 'vente'
             ]
         ];
+
+        $this->filteringDisplay();
+
         return  $this->indexPaginate();
     }
     // getters
     public function getAnneeFabrication()
     {
-        return $this->model::select('annee_fabrication as annees')->distinct()->get();
+        return $this->model::select('annee_fabrication as annees')->distinct()->orderBy('annee_fabrication', 'desc')->get();
     }
     public function getMaxPriceLocation()
     {
@@ -155,6 +164,71 @@ class AnnonceController extends ParentController
     }
     public function getMaxPriceVenteNeuf()
     {
-        return ['max_price' => $this->model::where('etat', 'neuf')->min('prix_vente')];
+        return ['max_price' => $this->model::where('etat', 'neuf')->max('prix_vente')];
+    }
+    // local helpers
+    public function filteringDisplay($type = "vente")
+    {
+        // array of filters
+        $filters = [
+            'ville_id' => !empty($this->request->ville_id) ? $this->request->ville_id : null,
+            'carburant' => !empty($this->request->carburant) ? $this->request->carburant : null,
+            'marque_id' => !empty($this->request->marque_id) ? $this->request->marque_id : null,
+            'modele_id' => !empty($this->request->modele_id) ? $this->request->modele_id : null,
+            'annee_fabrication' => !empty($this->request->annee_fabrication) ? $this->request->annee_fabrication : null,
+        ];
+        // needs special treatment
+        $specialFilters = [
+            'maxKilometrage' => !empty($this->request->maxKilometrage) ? $this->request->maxKilometrage : null,
+            'min_price' => !empty($this->request->min_price) ? $this->request->min_price : null,
+            'max_price' => !empty($this->request->max_price) ? $this->request->max_price : null,
+        ];
+
+        foreach ($filters as $key => $value) {
+            if ($value) {
+                $this->conditions[] = [
+                    'column' => $key,
+                    'operator' => 'like',
+                    'value' => $value
+                ];
+            }
+        }
+        if ($specialFilters["maxKilometrage"]) {
+            $this->conditions[] = [
+                'column' => 'kilometrage',
+                'operator' => '<=',
+                'value' => $specialFilters['maxKilometrage']
+            ];
+        }
+        if ($specialFilters["min_price"]) {
+            if ($type == "vente") {
+                $this->conditions[] = [
+                    'column' => 'prix_vente',
+                    'operator' => '>=',
+                    'value' => $specialFilters['min_price']
+                ];
+            } elseif ($type == "location") {
+                $this->conditions[] = [
+                    'column' => 'prix_location',
+                    'operator' => '>=',
+                    'value' => $specialFilters['min_price']
+                ];
+            }
+        }
+        if ($specialFilters["max_price"]) {
+            if ($type == "vente") {
+                $this->conditions[] = [
+                    'column' => 'prix_vente',
+                    'operator' => '<=',
+                    'value' => $specialFilters['max_price']
+                ];
+            } elseif ($type == "location") {
+                $this->conditions[] = [
+                    'column' => 'prix_location',
+                    'operator' => '<=',
+                    'value' => $specialFilters['max_price']
+                ];
+            }
+        }
     }
 }

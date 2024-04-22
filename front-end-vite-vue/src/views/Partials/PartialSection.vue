@@ -13,13 +13,23 @@
         <span class="text-red-700">Choisissez</span> La Voiture de vos rêves
       </p>
     </div>
-    <PartialSearchField :title="title" :type="type" />
+    <PartialSearchField
+      @updatePage="updatePage"
+      :title="title"
+      :type="type"
+      :getter="getter"
+    />
   </div>
 </template>
 <script setup>
 import PartialSearchField from "@/views/Partials/PartialSearchField.vue";
 
-const props = defineProps(["title", "type"]);
+const props = defineProps(["title", "type", "getter"]);
+const emit = defineEmits(["updatePage"]);
+
+const updatePage = (data) => {
+  emit("updatePage", data);
+};
 </script>
 <style scoped>
 .backgroundImage {
