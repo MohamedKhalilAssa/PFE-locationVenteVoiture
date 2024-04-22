@@ -15,15 +15,22 @@
       >
         <select
           class="h-10 rounded-sm p-2 z-0 border border-black w-full sm:max-w-max"
-          v-model="requestParams.sort"
           @change="sort"
         >
           <option selected value="none">Sort By</option>
           <option
             scope="row"
             v-for="state in [
-              { key: 'asc', name: 'Par prix croissant' },
-              { key: 'desc', name: 'Par prix décroissant' },
+              { key: 'asc-' + price, name: 'Par prix croissant' },
+              { key: 'desc-' + price, name: 'Par prix décroissant' },
+              {
+                key: 'asc-annee_fabrication',
+                name: 'Par date croissante',
+              },
+              {
+                key: 'desc-annee_fabrication',
+                name: 'Par date décroissante',
+              },
             ]"
             :key="state.key"
             :value="state.key"
@@ -55,15 +62,18 @@ import DisplayCard from "@/Components/displayElements/DisplayCard.vue";
 import Pagination from "@/Components/Pagination.vue";
 import getPaginate from "@/Composables/Getters/getPaginate";
 import PartialSection from "@/views/Partials/PartialSection.vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 const props = defineProps(["getter", "title", "type"]);
 const contentDiv = ref(null);
 const result = ref([]);
+const price = computed(() => {
+  return props.type == "location" ? "prix_location" : "prix_vente";
+});
 
 const requestParams = ref({
   sort: "none",
-  sortColumn: props.type == "location" ? "prix_location" : "prix_vente",
+  sortColumn: "",
   search: "",
   searchColumn: "",
 });
@@ -74,15 +84,17 @@ getPaginate(1, props.getter, requestParams.value, "").then((data) => {
     result.value = data.PaginateQuery;
   }
 });
-
-const sort = () => {
+// sorting
+const sort = (e) => {
+  [requestParams.value.sort, requestParams.value.sortColumn] =
+    e.target.value.split("-");
+  console.log(requestParams.value);
   getPaginate(1, props.getter, requestParams.value).then((data) => {
     if (data) {
       result.value = data.PaginateQuery;
     }
   });
 };
-
 // for pagination
 const updateResult = (data) => {
   result.value = data;
