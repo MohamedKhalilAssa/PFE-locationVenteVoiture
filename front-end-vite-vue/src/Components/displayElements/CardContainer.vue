@@ -6,6 +6,7 @@
     :getter="getter"
   ></PartialSection>
   <main
+    ref="contentDiv"
     class="py-10 pt-28 px-12 flex flex-col justify-between items-center lg:pt-0"
   >
     <div class="content flex flex-wrap justify-center gap-7">
@@ -35,7 +36,7 @@ import PartialSection from "@/views/Partials/PartialSection.vue";
 import { ref } from "vue";
 
 const props = defineProps(["getter", "title", "type"]);
-
+const contentDiv = ref(null);
 const result = ref([]);
 
 const requestParams = ref({
@@ -55,6 +56,11 @@ getPaginate(1, props.getter, requestParams.value, "").then((data) => {
 // for pagination
 const updateResult = (data) => {
   result.value = data;
+  contentDiv.value.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+    inline: "nearest",
+  });
 };
 const updatePage = (data, filter) => {
   result.value = data;

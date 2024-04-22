@@ -45,7 +45,6 @@ const getPaginate = async (
             `${encodeURIComponent(key)}=${encodeURIComponent(filters[key])}`
         )
         .join("&") ?? "";
-    console.log(filtersQuery);
     let result = await axios.get(
       endpoint + page + "&" + sortSearch + "&" + filtersQuery
     );

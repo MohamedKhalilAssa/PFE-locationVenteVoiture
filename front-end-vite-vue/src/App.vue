@@ -3,6 +3,7 @@ import PreLoader from "@/Components/PreLoader.vue";
 import ClientLayout from "@/views/FrontOffice/ClientLayout.vue";
 import AdminLayout from "@/views/BackOffice/AdminLayout.vue";
 import getCSRFToken from "@/Composables/Getters/getCSRFToken";
+import scrollToTop from "@/Components/backToTop.vue";
 import flashCard from "@/Composables/ErrorSuccessMessages/flashCard";
 import errorFlashCard from "./Composables/ErrorSuccessMessages/errorFlashCard";
 import { onMounted } from "vue";
@@ -56,6 +57,7 @@ onMounted(() => {
   <PreLoader />
   <ClientLayout v-if="!$route.path.startsWith('/admin')" />
   <AdminLayout v-if="$route.path.startsWith('/admin')" />
+  <scrollToTop />
 </template>
 
 <style>
