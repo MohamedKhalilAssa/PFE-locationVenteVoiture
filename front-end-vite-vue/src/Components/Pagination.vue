@@ -20,7 +20,13 @@
 <script setup>
 import getPaginate from "@/Composables/Getters/getPaginate";
 
-const props = defineProps(["result", "addClass", "requestParams", "getter"]);
+const props = defineProps([
+  "result",
+  "addClass",
+  "requestParams",
+  "currentFilters",
+  "getter",
+]);
 const emits = defineEmits(["updateResult"]);
 
 // pagination
@@ -32,11 +38,8 @@ const pagination = (e, page) => {
     getPaginate(
       number,
       props.getter,
-      props.requestParams.sort,
-      props.requestParams.sortColumn,
-      props.requestParams.search,
-      props.requestParams.searchColumn,
-      "id"
+      props.requestParams,
+      props.currentFilters
     ).then((data) => {
       if (data) {
         emits("updateResult", data.PaginateQuery);

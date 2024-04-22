@@ -27,8 +27,8 @@ import PartialSearchField from "@/views/Partials/PartialSearchField.vue";
 const props = defineProps(["title", "type", "getter"]);
 const emit = defineEmits(["updatePage"]);
 
-const updatePage = (data) => {
-  emit("updatePage", data);
+const updatePage = (data, filter) => {
+  emit("updatePage", data, filter);
 };
 </script>
 <style scoped>

@@ -38,6 +38,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ModeleSeeder::class);
         $this->call(CouleursSeeder::class);
         $this->call(VilleMaroc::class);
-        Annonce::factory(10)->create();
+        Annonce::factory(60)->create();
     }
 }

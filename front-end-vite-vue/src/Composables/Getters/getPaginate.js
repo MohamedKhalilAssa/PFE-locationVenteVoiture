@@ -29,20 +29,22 @@ const getPaginate = async (
       : "id";
 
     // turning params object into query string
-    const sortSearch = Object.keys(searchSortParams)
-      .map(
-        (key) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(
-            searchSortParams[key]
-          )}`
-      )
-      .join("&");
-    const filtersQuery = Object.keys(filters)
-      .map(
-        (key) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(filters[key])}`
-      )
-      .join("&");
+    const sortSearch =
+      Object.keys(searchSortParams)
+        .map(
+          (key) =>
+            `${encodeURIComponent(key)}=${encodeURIComponent(
+              searchSortParams[key]
+            )}`
+        )
+        .join("&") ?? "";
+    const filtersQuery =
+      Object.keys(filters)
+        .map(
+          (key) =>
+            `${encodeURIComponent(key)}=${encodeURIComponent(filters[key])}`
+        )
+        .join("&") ?? "";
     console.log(filtersQuery);
     let result = await axios.get(
       endpoint + page + "&" + sortSearch + "&" + filtersQuery

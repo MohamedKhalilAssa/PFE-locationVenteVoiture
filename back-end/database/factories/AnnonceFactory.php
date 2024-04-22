@@ -18,7 +18,6 @@ class AnnonceFactory extends Factory
     {
         $annonces = [
             'owner_id' => fake()->numberBetween(1, 10),
-            'modele_id' => fake()->numberBetween(1, 45),
             'marque_id' => fake()->numberBetween(1, 15),
             'couleur_id' => fake()->numberBetween(1, 20),
             'titre' => fake()->sentence(3),
@@ -32,6 +31,7 @@ class AnnonceFactory extends Factory
             'options' => json_encode(['option1', 'option2']),
             'image' => json_encode(['assets/annonces/1.png', 'assets/annonces/2.jpeg']),
         ];
+        $annonces['modele_id'] = fake()->numberBetween($annonces['marque_id'] * 3 - 2, $annonces['marque_id'] * 3);
         if ($annonces['type_annonce'] == 'vente') {
             $annonces['prix_vente'] = fake()->numberBetween(1000, 100000);
             $annonces['prix_location'] = null;

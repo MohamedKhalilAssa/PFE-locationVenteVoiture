@@ -1,6 +1,6 @@
 <template>
   <PartialSection
-    @updatePage="updateResult"
+    @updatePage="updatePage"
     :title="title"
     :type="type"
     :getter="getter"
@@ -20,6 +20,7 @@
         :result="result"
         :requestParams="requestParams"
         :getter="getter"
+        :currentFilters="currentFilters"
         @updateResult="updateResult"
         v-if="result.data && result.last_page > 1"
       ></Pagination>
@@ -43,6 +44,7 @@ const requestParams = ref({
   search: "",
   searchColumn: "nom",
 });
+const currentFilters = ref({});
 
 getPaginate(1, props.getter, requestParams.value, "").then((data) => {
   if (data) {
@@ -52,8 +54,11 @@ getPaginate(1, props.getter, requestParams.value, "").then((data) => {
 
 // for pagination
 const updateResult = (data) => {
-  console.log(data);
   result.value = data;
+};
+const updatePage = (data, filter) => {
+  result.value = data;
+  currentFilters.value = filter;
 };
 </script>
 <style></style>

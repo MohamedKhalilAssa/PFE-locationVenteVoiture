@@ -1,7 +1,7 @@
 <template>
   <div
     class="w-80 max-h-max bg-white shadow-lg rounded-lg p-3"
-    style="max-height: 470px"
+    style="max-height: 485px"
   >
     <div class="imgContainer relative w-full h-72 rounded-lg">
       <router-link to="/neuf">
@@ -46,6 +46,10 @@
         <p class="location space-x-3">
           <i class="fa-solid fa-location-dot text-center text-lg w-5"></i>
           <span class="text-lg text-gray-700">{{ data["ville.nom"] }}</span>
+        </p>
+        <p class="carburant space-x-3">
+          <i class="fa-solid fa-gas-pump text-center text-lg w-5"></i>
+          <span class="text-lg text-gray-700">{{ data["carburant"] }}</span>
         </p>
         <p class="location space-x-3">
           <i class="fa-solid fa-money-bill text-center text-lg w-5"></i>

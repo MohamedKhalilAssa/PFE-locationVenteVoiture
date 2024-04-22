@@ -14,15 +14,16 @@ class ModeleSeeder extends Seeder
      */
     public function run(): void
     {
-        Marque::all()->each(function ($marque) {
+        $marques = Marque::all();
+        foreach ($marques as $marque) {
 
             // Create Modeles for the current Marque
             for ($i = 1; $i <= 3; $i++) { // Creating 3 models for each Marque
                 Modele::create([
                     'nom' => $marque['nom'] . ' Model ' . $i,
-                    'marque_id' => $marque->id,
+                    'marque_id' => $marque['id'],
                 ]);
             }
-        });
+        }
     }
 }

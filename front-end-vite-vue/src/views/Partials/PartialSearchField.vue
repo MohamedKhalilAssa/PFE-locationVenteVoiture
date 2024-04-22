@@ -155,7 +155,7 @@ const form = ref({
 const filterDisplay = () => {
   getPaginate(1, props.getter, {}, form.value).then((data) => {
     if (data) {
-      emits("updatePage", data.PaginateQuery);
+      emits("updatePage", data.PaginateQuery, form.value);
     }
   });
 };
