@@ -138,7 +138,7 @@ class ParentController extends BaseController
         }
 
         if ($current_model->update($data)) {
-            $this->afterSaveForUpdate($current_model);
+             $this->afterSaveForUpdate($current_model);
             return response()->json(['message' => "$this->model_name modifié avec succès", 'iconColor' => 'blue']);
         } else {
             return abort(400, 'la modification a echoué');
@@ -193,7 +193,7 @@ class ParentController extends BaseController
     {
         return $this->request->all();
     }
-    public function afterSaveForStore($model)
+    public function afterSaveForStore($new_model)
     {
     }
 
@@ -207,7 +207,7 @@ class ParentController extends BaseController
     {
         return $this->request->all();
     }
-    public function afterSaveForUpdate($model)
+    public function afterSaveForUpdate($current_model)
     {
     }
     public function beforeDestroy($current_model)

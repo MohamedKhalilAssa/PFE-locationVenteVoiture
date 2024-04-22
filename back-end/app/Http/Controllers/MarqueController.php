@@ -30,13 +30,13 @@ class MarqueController extends ParentController
             'image' => ['required', 'image', 'mimes:jpeg,png', 'max:2048']
         ];
     }
-    public function afterSaveForStore($model)
+    public function afterSaveForStore($new_model)
     {
         $image = $this->request->file('image') ?? null;
         // adding image to the form
         if ($image) {
             $path = $image->store('images/marques', 'public');
-            $model->update(['image' => $path]);
+            $new_model->update(['image' => $path]);
         }
     }
     // updating
@@ -47,9 +47,9 @@ class MarqueController extends ParentController
             'image' => ['required', 'image', 'mimes:jpeg,png', 'max:2048']
         ];
     }
-    public function beforeSaveForUpdate($current_model)
+    public function afterSaveForUpdate($current_model)
     {
-        $image = $this->request->file['image'] ?? null;
+        $image = $this->request->file('image') ?? null;
         // adding image to the form
         if ($image) {
             if (strpos($current_model->image, "/assets") != 0)
