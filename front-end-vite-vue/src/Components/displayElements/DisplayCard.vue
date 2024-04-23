@@ -30,11 +30,11 @@
           <span class="text-lg text-gray-700">{{ data["ville.nom"] }}</span>
         </p>
         <p class="carburant space-x-3">
-          <i class="fa-solid fa-gas-pump text-center text-lg w-5"></i>
+          <i class="fa-solid fa-gas-pump text-right text-lg w-5"></i>
           <span class="text-lg text-gray-700">{{ data["carburant"] }}</span>
         </p>
         <p class="location space-x-3">
-          <i class="fa-solid fa-money-bill text-center text-lg w-5"></i>
+          <i class="fa-solid fa-money-bill text-end text-lg w-5"></i>
           <span class="text-xl text-gray-700"
             >{{
               data["type_annonce"] == "location"
