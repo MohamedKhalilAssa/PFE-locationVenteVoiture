@@ -30,6 +30,7 @@ class AnnonceFactory extends Factory
             'annee_fabrication' => fake()->year(),
             'options' => json_encode(['option1', 'option2']),
             'image' => json_encode(['assets/annonces/1.png', 'assets/annonces/2.jpeg']),
+            'statut_annonce' => fake()->randomElement(['approved', 'onhold']),
         ];
         $annonces['modele_id'] = fake()->numberBetween($annonces['marque_id'] * 3 - 2, $annonces['marque_id'] * 3);
         if ($annonces['type_annonce'] == 'vente') {

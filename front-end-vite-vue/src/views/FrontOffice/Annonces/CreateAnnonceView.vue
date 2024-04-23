@@ -665,4 +665,3 @@ const typeSelected = () => {
   }
 }
 </style>
-@/Composables/Getters/getCouleurs

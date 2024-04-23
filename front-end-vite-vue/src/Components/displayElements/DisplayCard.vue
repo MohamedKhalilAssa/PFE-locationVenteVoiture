@@ -4,7 +4,9 @@
     style="max-height: 485px"
   >
     <div class="imgContainer relative w-full h-72 rounded-lg">
-      <router-link to="/neuf">
+      <router-link
+        :to="{ name: 'detailsAnnonceFront', params: { id: data.id } }"
+      >
         <img
           :src="Endpoints.getStoragePath + images[curr_image]"
           alt="image"
@@ -26,7 +28,7 @@
         <i class="fa-solid text-xl fa-arrow-left"></i>
       </div>
     </div>
-    <router-link to="/neuf">
+    <router-link :to="{ name: 'detailsAnnonceFront', params: { id: data.id } }">
       <div class="content py-4 space-y-1">
         <h3
           class="text-xl font-semibold tracking-tight text-gray-900 text-ellipsis overflow-hidden whitespace-nowrap"

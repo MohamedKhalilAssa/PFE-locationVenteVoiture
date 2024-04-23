@@ -26,8 +26,9 @@ export default {
   ville__paginate: baseURL + "/api/ville/pagination?page=",
   // annonce
   annonce__get_annee_fabrication: baseURL + "/api/annonce/annees",
+  annonce__get_by_id: baseURL + "/api/annonce/",
   // occasion
-  occasion__get_all_or_add: baseURL + "/api/annonce/occasion",
+  occasion__add: baseURL + "/api/annonce/occasion",
   occasion__get_max_price: baseURL + "/api/annonce/occasion/maxPrice",
   occasion__paginate: baseURL + "/api/annonce/occasion/pagination?page=",
   // location

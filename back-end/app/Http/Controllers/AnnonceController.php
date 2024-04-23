@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Annonce;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AnnonceController extends ParentController
@@ -97,6 +98,14 @@ class AnnonceController extends ParentController
         Annonce::create($formElements);
         return response()->json(['message' => "Annonce Crée avec succès"]);
     }
+    // show
+    public function beforeReturnForShow($data)
+    {
+        if (strpos($this->request->url(), 'admin') === false && $data->statut_annonce != 'approved') {
+            return null;
+        } else
+            return $data;
+    }
     public function indexOccasion()
     {
         $this->conditions = [
@@ -144,7 +153,6 @@ class AnnonceController extends ParentController
                 'value' => 'vente'
             ]
         ];
-
         $this->filteringDisplay();
 
         return  $this->indexPaginate();
@@ -169,65 +177,72 @@ class AnnonceController extends ParentController
     // local helpers
     public function filteringDisplay($type = "vente")
     {
-        // array of filters
-        $filters = [
-            'ville_id' => !empty($this->request->ville_id) ? $this->request->ville_id : null,
-            'carburant' => !empty($this->request->carburant) ? $this->request->carburant : null,
-            'marque_id' => !empty($this->request->marque_id) ? $this->request->marque_id : null,
-            'modele_id' => !empty($this->request->modele_id) ? $this->request->modele_id : null,
-            'annee_fabrication' => !empty($this->request->annee_fabrication) ? $this->request->annee_fabrication : null,
-        ];
-        // needs special treatment
-        $specialFilters = [
-            'maxKilometrage' => !empty($this->request->maxKilometrage) ? $this->request->maxKilometrage : null,
-            'min_price' => !empty($this->request->min_price) ? $this->request->min_price : null,
-            'max_price' => !empty($this->request->max_price) ? $this->request->max_price : null,
-        ];
-
-        foreach ($filters as $key => $value) {
-            if ($value) {
-                $this->conditions[] = [
-                    'column' => $key,
-                    'operator' => 'like',
-                    'value' => $value
-                ];
-            }
-        }
-        if ($specialFilters["maxKilometrage"]) {
+        if (strpos($this->request->url(), 'admin') === false) {
             $this->conditions[] = [
-                'column' => 'kilometrage',
-                'operator' => '<=',
-                'value' => $specialFilters['maxKilometrage']
+                'column' => 'statut_annonce',
+                'operator' => 'like',
+                'value' => 'approved'
             ];
-        }
-        if ($specialFilters["min_price"]) {
-            if ($type == "vente") {
+            // array of filters
+            $filters = [
+                'ville_id' => !empty($this->request->ville_id) ? $this->request->ville_id : null,
+                'carburant' => !empty($this->request->carburant) ? $this->request->carburant : null,
+                'marque_id' => !empty($this->request->marque_id) ? $this->request->marque_id : null,
+                'modele_id' => !empty($this->request->modele_id) ? $this->request->modele_id : null,
+                'annee_fabrication' => !empty($this->request->annee_fabrication) ? $this->request->annee_fabrication : null,
+            ];
+            // needs special treatment
+            $specialFilters = [
+                'maxKilometrage' => !empty($this->request->maxKilometrage) ? $this->request->maxKilometrage : null,
+                'min_price' => !empty($this->request->min_price) ? $this->request->min_price : null,
+                'max_price' => !empty($this->request->max_price) ? $this->request->max_price : null,
+            ];
+
+            foreach ($filters as $key => $value) {
+                if ($value) {
+                    $this->conditions[] = [
+                        'column' => $key,
+                        'operator' => 'like',
+                        'value' => $value
+                    ];
+                }
+            }
+            if ($specialFilters["maxKilometrage"]) {
                 $this->conditions[] = [
-                    'column' => 'prix_vente',
-                    'operator' => '>=',
-                    'value' => $specialFilters['min_price']
-                ];
-            } elseif ($type == "location") {
-                $this->conditions[] = [
-                    'column' => 'prix_location',
-                    'operator' => '>=',
-                    'value' => $specialFilters['min_price']
+                    'column' => 'kilometrage',
+                    'operator' => '<=',
+                    'value' => $specialFilters['maxKilometrage']
                 ];
             }
-        }
-        if ($specialFilters["max_price"]) {
-            if ($type == "vente") {
-                $this->conditions[] = [
-                    'column' => 'prix_vente',
-                    'operator' => '<=',
-                    'value' => $specialFilters['max_price']
-                ];
-            } elseif ($type == "location") {
-                $this->conditions[] = [
-                    'column' => 'prix_location',
-                    'operator' => '<=',
-                    'value' => $specialFilters['max_price']
-                ];
+            if ($specialFilters["min_price"]) {
+                if ($type == "vente") {
+                    $this->conditions[] = [
+                        'column' => 'prix_vente',
+                        'operator' => '>=',
+                        'value' => $specialFilters['min_price']
+                    ];
+                } elseif ($type == "location") {
+                    $this->conditions[] = [
+                        'column' => 'prix_location',
+                        'operator' => '>=',
+                        'value' => $specialFilters['min_price']
+                    ];
+                }
+            }
+            if ($specialFilters["max_price"]) {
+                if ($type == "vente") {
+                    $this->conditions[] = [
+                        'column' => 'prix_vente',
+                        'operator' => '<=',
+                        'value' => $specialFilters['max_price']
+                    ];
+                } elseif ($type == "location") {
+                    $this->conditions[] = [
+                        'column' => 'prix_location',
+                        'operator' => '<=',
+                        'value' => $specialFilters['max_price']
+                    ];
+                }
             }
         }
     }

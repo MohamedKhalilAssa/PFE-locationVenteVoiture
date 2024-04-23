@@ -77,7 +77,7 @@ class ParentController extends BaseController
     {
         $this->assignRelation($this->selectRelations());
         $data =  $this->model->find($id);
-        $this->beforeReturnForShow($data);
+        $data = $this->beforeReturnForShow($data);
         return response($data)->header('Content-Type', 'application/json');
     }
     public function index()

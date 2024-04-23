@@ -5,47 +5,14 @@ import Endpoints from "@/assets/JS/Endpoints";
 import removeCredentials from "@/Composables/AuthenticationRequests/removeCredentials";
 // subfiles
 import AdminRoutes from "@/router/AdminRoutes/index";
+import FrontRoutes from "@/router/FrontRoutes/index";
 import authenticationRoutes from "@/router/GlobalRoutes/authenticationRoutes";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: "/",
-      name: "homeView",
-      component: () => import("@/views/FrontOffice/HomeView.vue"),
-    },
-    {
-      path: "/profile",
-      name: "profileView",
-      component: () => import("@/views/FrontOffice/Profile/ProfileView.vue"),
-      meta: { requiresAuth: true },
-    },
-    {
-      path: "/neuf",
-      name: "neufFrontView",
-      component: () => import("../views/FrontOffice/Neuf/NeufListingsView.vue"),
-    },
-    {
-      path: "/occasion",
-      name: "occasionFrontView",
-      component: () =>
-        import("@/views/FrontOffice/Occasion/OccasionListingsView.vue"),
-    },
-    {
-      path: "/location",
-      name: "locationFrontView",
-      component: () =>
-        import("@/views/FrontOffice/Location/LocationListingsView.vue"),
-    },
-    {
-      path: "/annonce",
-      name: "ajouterAnnonceFront",
-      component: () =>
-        import("@/views/FrontOffice/Annonces/CreateAnnonceView.vue"),
-      meta: { requiresAuth: true },
-    },
     // Authentication routes
+    ...FrontRoutes,
     ...authenticationRoutes,
     {
       path: "/admin",
