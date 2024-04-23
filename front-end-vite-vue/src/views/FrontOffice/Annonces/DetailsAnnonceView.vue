@@ -1,7 +1,12 @@
-<template></template>
+<template>
+  <main>
+    <imageSlider :data="results" addClass="w-full h-72"></imageSlider>
+  </main>
+</template>
 <script setup>
 import getById from "@/Composables/Getters/getById";
 import Endpoints from "@/assets/JS/Endpoints";
+import imageSlider from "@/Components/imageSlider.vue";
 import store from "@/store";
 import router from "@/router";
 import { ref } from "vue";

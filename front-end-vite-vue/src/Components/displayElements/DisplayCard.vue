@@ -3,31 +3,11 @@
     class="w-80 max-h-max bg-white shadow-lg rounded-lg p-3"
     style="max-height: 485px"
   >
-    <div class="imgContainer relative w-full h-72 rounded-lg">
-      <router-link
-        :to="{ name: 'detailsAnnonceFront', params: { id: data.id } }"
-      >
-        <img
-          :src="Endpoints.getStoragePath + images[curr_image]"
-          alt="image"
-          class="w-full h-full object-cover rounded-lg"
-        />
-      </router-link>
-      <div
-        class="absolute cursor-pointer right-2 top-1/2 translate-y-1/2 w-8 h-8 flex justify-center items-center swipe-right bg-white rounded-full"
-        @click="nextImage"
-        v-if="images.length > 1 && curr_image < images.length - 1"
-      >
-        <i class="fa-solid text-xl fa-arrow-right"></i>
-      </div>
-      <div
-        class="absolute cursor-pointer left-2 top-1/2 translate-y-1/2 w-8 h-8 flex justify-center items-center swipe-right bg-white rounded-full"
-        @click="prevImage"
-        v-if="images.length > 1 && curr_image > 0"
-      >
-        <i class="fa-solid text-xl fa-arrow-left"></i>
-      </div>
-    </div>
+    <imageSlider
+      :data="data"
+      :isLink="true"
+      addClass="w-full h-72"
+    ></imageSlider>
     <router-link :to="{ name: 'detailsAnnonceFront', params: { id: data.id } }">
       <div class="content py-4 space-y-1">
         <h3
@@ -69,6 +49,7 @@
 </template>
 <script setup>
 import Endpoints from "@/assets/JS/Endpoints";
+import imageSlider from "@/Components/imageSlider.vue";
 import { computed, ref } from "vue";
 const props = defineProps(["data"]);
 const images = computed(() => JSON.parse(props.data["image"]));
