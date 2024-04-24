@@ -39,7 +39,9 @@ class AnnonceController extends ParentController
             'owner' => [
                 'id',
                 'nom',
-                'prenom'
+                'prenom',
+                'email',
+                'telephone'
             ]
         ];
     }

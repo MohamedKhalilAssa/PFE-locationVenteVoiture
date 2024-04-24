@@ -72,7 +72,7 @@ aside {
   padding: 1rem;
   z-index: 51;
   left: 0;
-  top: 30vh;
+  top: 20vh;
   background: #fff;
 }
 

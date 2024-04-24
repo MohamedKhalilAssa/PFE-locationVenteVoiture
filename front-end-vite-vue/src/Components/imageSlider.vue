@@ -3,6 +3,7 @@
     <router-link
       v-if="isLink"
       :to="{ name: 'detailsAnnonceFront', params: { id: data.id } }"
+      @click="emitImage"
     >
       <img
         :src="Endpoints.getStoragePath + images[curr_image]"
@@ -15,6 +16,7 @@
       :src="Endpoints.getStoragePath + images[curr_image]"
       alt="image"
       class="w-full h-full object-cover rounded-lg"
+      @click="emitImage"
     />
     <div
       class="absolute cursor-pointer right-2 top-1/2 translate-y-1/2 w-8 h-8 flex justify-center items-center swipe-right bg-white rounded-full"
@@ -39,6 +41,8 @@ const props = defineProps(["data", "isLink", "addClass"]);
 const images = computed(() => JSON.parse(props.data["image"]));
 const curr_image = ref(0);
 
+const emits = defineEmits(["clicked"]);
+const emitImage = () => emits("clicked", images.value, curr_image.value);
 const nextImage = () => {
   curr_image.value = (curr_image.value + 1) % images.value.length;
 };
