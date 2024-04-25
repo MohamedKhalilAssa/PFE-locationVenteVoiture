@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <div class="mb-6">
+      <div class="mb-2">
         <label for="password" class="inline-block text-lg mb-2 required"
           >Password</label
         >
@@ -45,6 +45,12 @@
           </p>
         </div>
       </div>
+
+      <router-link
+        class="mb-3 inline-block text-blue-700"
+        :to="{ name: 'ForgotPassword' }"
+        >Mot de passe oublie?</router-link
+      >
 
       <div class="mb-6 flex justify-center items-center">
         <button
@@ -73,7 +79,6 @@
 <script setup>
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useStore } from "vuex";
 import login from "@/Composables/AuthenticationRequests/login";
 
 const form = ref({

@@ -16,24 +16,44 @@
       </router-link>
     </div>
     <div class="userActions flex flex-col justify-around gap-8" v-else>
+      <router-link :to="{ name: 'Profile' }"
+        ><Button class="flex justify-center items-center gap-2">
+          <i class="fa-solid fa-user"></i> Profile
+        </Button>
+      </router-link>
+      <router-link
+        :to="{
+          name: 'manageAnnoncesView',
+        }"
+        ><Button class="flex justify-center items-center gap-2">
+          <i class="fa-solid fa-cog text-sm"></i>
+          <p class="text-sm w-max">Manage annonces</p></Button
+        >
+      </router-link>
       <form @submit.prevent="logout(route)">
-        <Button> Logout </Button>
+        <Button class="flex justify-center items-center gap-2"
+          ><p>Logout</p>
+          <i class="fa-solid fa-sign-out"></i>
+        </Button>
       </form>
     </div>
     <div
       class="userIcon absolute -right-9 top-0 cursor-pointer min-w-4 px-2 py-1"
       @click="showUserActions"
     >
-      <i class="fa-solid fa-user text-2xl"></i>
+      <i
+        v-if="!$store.getters.getAuthentication"
+        class="fa-solid fa-user text-2xl"
+      ></i>
+      <i v-else class="fa-solid fa-lock text-2xl"></i>
     </div>
   </aside>
 </template>
 
 <script setup>
 import { ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import Button from "./ButtonRed.vue";
-import { useStore } from "vuex";
 import logout from "@/Composables/AuthenticationRequests/logout";
 
 const aside = ref(null);
@@ -41,8 +61,6 @@ const isUserMenu = ref(false);
 
 // using vue elements
 const route = useRoute();
-const router = useRouter();
-const store = useStore();
 
 watch(route, (to, from) => {
   if (to.path !== "/register" && to.path !== "/login") {
