@@ -28,7 +28,7 @@ class AnnonceFactory extends Factory
             'carburant' => fake()->randomElement(['diesel', 'hybride', 'essence', 'electrique']),
             'kilometrage' => fake()->numberBetween(1, 10000),
             'annee_fabrication' => fake()->year(),
-            'options' => json_encode(['option1', 'option2']),
+            'options' => json_encode(['option1', 'option2','option3','option4','option5','option6','option7','option8','option9','option10']),
             'image' => json_encode(['assets/annonces/1.png', 'assets/annonces/2.jpeg']),
             'statut_annonce' => fake()->randomElement(['approved', 'onhold']),
         ];

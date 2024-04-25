@@ -476,7 +476,6 @@ import Endpoints from "@/assets/JS/Endpoints";
 import getFromDB from "@/Composables/Getters/getFromDB";
 import AddToDB from "@/Composables/CRUDRequests/AddToDB";
 
-const router = useRouter();
 const form = ref({
   titre: null,
   description: null,
@@ -634,7 +633,7 @@ const typeSelected = () => {
 };
 </script>
 
-<style scoped>
+<style>
 .required:after {
   content: " *";
   color: red;
