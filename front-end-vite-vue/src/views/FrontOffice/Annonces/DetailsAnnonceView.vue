@@ -155,7 +155,7 @@
     v-if="images"
     :images="images"
     :index="index"
-    @closed="images = null"
+    @closed="closedImage"
   ></ImageDisplay>
 </template>
 <style>
@@ -179,7 +179,14 @@ import imageSlider from "@/Components/imageSlider.vue";
 import ImageDisplay from "@/Components/ImageDisplay.vue";
 import store from "@/store";
 import router from "@/router";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+
+onMounted(() => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+});
 
 const props = defineProps(["id"]);
 const results = ref(null);
@@ -188,6 +195,11 @@ const index = ref();
 const getImage = (image, i) => {
   images.value = image;
   index.value = i;
+  document.body.classList.add("!overflow-hidden");
+};
+const closedImage = () => {
+  images.value = null;
+  document.body.classList.remove("!overflow-hidden");
 };
 // loading the brand
 getById(Endpoints.annonce__get_by_id, props.id).then((data) => {

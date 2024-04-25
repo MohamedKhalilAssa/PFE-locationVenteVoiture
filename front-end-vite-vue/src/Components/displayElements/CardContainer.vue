@@ -88,7 +88,6 @@ getPaginate(1, props.getter, requestParams.value, "").then((data) => {
 const sort = (e) => {
   [requestParams.value.sort, requestParams.value.sortColumn] =
     e.target.value.split("-");
-  console.log(requestParams.value);
   getPaginate(1, props.getter, requestParams.value).then((data) => {
     if (data) {
       result.value = data.PaginateQuery;

@@ -6,7 +6,7 @@
     <div
       class="background bg-black opacity-70 absolute top-0 left-0 w-full h-full"
       style="z-index: -1"
-      @click.self="emitClosed"
+      @click="emitClosed"
     ></div>
     <div class="image w-3/4 h-3/4">
       <img
@@ -16,20 +16,20 @@
       />
     </div>
     <div
-      class="close absolute cursor-pointer top-2 right-6 w-8 h-8 flex justify-center items-center swipe-right bg-white rounded-full"
+      class="close absolute cursor-pointer top-2 right-2 sm:right-6 w-8 h-8 flex justify-center items-center swipe-right bg-white rounded-full"
       @click="emitClosed"
     >
       <i class="fa-solid text-xl fa-xmark"></i>
     </div>
     <div
-      class="absolute cursor-pointer right-6 top-1/2 translate-y-1/2 w-12 h-12 flex justify-center items-center swipe-right bg-white rounded-full"
+      class="absolute cursor-pointer right-2 sm:right-6 top-1/2 translate-y-1/2 w-8 h-8 sm:w-12 sm:h-12 flex justify-center items-center swipe-right bg-white rounded-full"
       @click="nextImage"
       v-if="images.length > 1 && curr_image < images.length - 1"
     >
       <i class="fa-solid text-xl fa-arrow-right"></i>
     </div>
     <div
-      class="absolute cursor-pointer left-6 top-1/2 translate-y-1/2 w-12 h-12 flex justify-center items-center swipe-right bg-white rounded-full"
+      class="absolute cursor-pointer left-2 sm:left-6 top-1/2 translate-y-1/2 w-8 h-8 sm:w-12 sm:h-12 flex justify-center items-center swipe-right bg-white rounded-full"
       @click="prevImage"
       v-if="images.length > 1 && curr_image > 0"
     >
