@@ -42,6 +42,16 @@ class ModeleController extends ParentController
             'marque_id' => ['required', 'integer', "exists:marques,id"],
         ];
     }
+    public function beforeSaveForUpdate($current_model)
+    {
+        $data = $this->request->all();
+        $found = $this->model::where('nom', $data['nom'])->first() ?? false;
+        if ($found != false && $data['nom'] != $current_model->nom) {
+            return  ['error' => ['nom' => [$this->model_name . ' existe deja']]];
+        } else {
+            return $data;
+        }
+    }
     public function showbyMarque($id)
     {
         return response(Marque::find($id)->modeles()->orderBy('nom')->get(["id", "nom"]))->header('Content-Type', 'application/json');

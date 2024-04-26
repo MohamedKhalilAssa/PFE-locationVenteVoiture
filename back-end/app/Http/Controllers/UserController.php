@@ -82,10 +82,20 @@ class UserController extends ParentController
     public function beforeSaveForUpdate($current_model)
     {
         $data = $this->request->all();
+        $found = $this->model::where('email', $data['email'])->first() ?? $this->model::where('telephone', $data['telephone'])->first() ?? false;
+
+        // checks if the role has been changed by the right person as well as if the email you changed is already set or not (phone too )
         if (Auth::user()->role != 'root' && $data['role'] != $current_model->role) {
             return ['error' => ['role' => ['Seul le root peut changer le role d\'un utilisateur']]];
         } else if ($current_model->role == "root" && $data['role'] != "root") {
             return ['error' => ['role' => ['le role de root ne peut pas etre affecter']]];
+        } else if ($found != false) {
+            if ($data['telephone'] != $current_model->telephone) {
+                return  ['error' => ['telephone' => ['le numero de telephone existe deja']]];
+            }
+            if ($data['email'] != $current_model->email) {
+                return  ['error' => ['email' => ['l\'email existe deja']]];
+            }
         } else {
             return $data;
         }

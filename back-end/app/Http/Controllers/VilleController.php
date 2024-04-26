@@ -33,4 +33,14 @@ class VilleController extends ParentController
             'nom' => ['required', 'string', 'regex:/^\D*$/', 'max:255'],
         ];
     }
+    public function beforeSaveForUpdate($current_model)
+    {
+        $data = $this->request->all();
+        $found = $this->model::where('nom', $data['nom'])->first() ?? false;
+        if ($found != false && $data['nom'] != $current_model->nom) {
+            return  ['error' => ['nom' => [$this->model_name . ' existe deja']]];
+        } else {
+            return $data;
+        }
+    }
 }

@@ -26,7 +26,7 @@
 
     <nav>
       <dropDown :title="$store.getters.getFullName">
-        <router-link :to="{ name: 'profileView' }">Profile</router-link>
+        <router-link :to="{ name: 'Profile' }">Profile</router-link>
         <hr />
         <form @submit.prevent="logout(route)">
           <button type="submit" class="w-full text-left">Logout</button>

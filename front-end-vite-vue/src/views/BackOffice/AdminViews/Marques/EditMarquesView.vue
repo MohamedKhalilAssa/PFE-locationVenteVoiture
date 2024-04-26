@@ -66,6 +66,7 @@ const imageChanged = (image) => {
 // fetching marque by id
 getById(Endpoints.marque__get_or_update_or_delete, props.id).then((data) => {
   if (data) {
+    console.log(data)
     nomMarque.value = data.nom;
     imageMarque.value = data.image;
   } else {

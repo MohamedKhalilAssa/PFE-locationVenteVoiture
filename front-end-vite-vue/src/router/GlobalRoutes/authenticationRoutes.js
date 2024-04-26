@@ -29,6 +29,5 @@ export default [
     name: "Profile",
     component: () => import("@/views/FrontOffice/Users/ProfileView.vue"),
     meta: { requiresAuth: true },
-    props: true,
   },
 ];

@@ -31,7 +31,7 @@ class MarqueController extends ParentController
     {
         $this->rules = [
             'nom' => ['required', 'unique:marques,nom', 'string', 'regex:/^\D*$/', 'max:255'],
-            'image' => ['required', 'image', 'mimes:jpeg,png', 'max:2048']
+            'image' => ['required', 'image', 'mimes:jpeg,svg,png', 'max:2048']
         ];
     }
     public function afterSaveForStore($new_model)
@@ -48,8 +48,22 @@ class MarqueController extends ParentController
     {
         $this->rules = [
             'nom' => ['required', 'string', 'regex:/^\D*$/', 'max:255'],
-            'image' => ['required', 'image', 'mimes:jpeg,png', 'max:2048']
         ];
+        if ($this->request->hasFile('image')) {
+            $this->rules['image'] = ['required', 'file', 'mimes:svg,jpeg,png', 'max:2048'];
+        } else {
+            $this->rules['image'] = ['nullable', 'string', 'max:255'];
+        }
+    }
+    public function beforeSaveForUpdate($current_model)
+    {
+        $data = $this->request->all();
+        $found = $this->model::where('nom', $data['nom'])->first() ?? false;
+        if ($found != false && $data['nom'] != $current_model->nom) {
+            return  ['error' => ['nom' => [$this->model_name . ' existe deja']]];
+        } else {
+            return $data;
+        }
     }
     public function afterSaveForUpdate($current_model)
     {
