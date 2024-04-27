@@ -35,8 +35,8 @@ class UserController extends ParentController
     // getters
     public function getOnlineAdmins()
     {
-        $adminOnline = User::where('status', 'Online')->where('role', 'admin')->get();
-        return response()->json(['fetched' => count($adminOnline) > 0 ? $adminOnline : 0, 'title' => 'Admins en ligne']);
+        $adminOnline = User::where('status', 'Online')->whereIn('role', ['admin', 'root'])->get();
+        return response()->json(['fetched' => count($adminOnline) > 0 ? count($adminOnline) : 0, 'title' => 'Admins en ligne']);
     }
     // creating
     public function beforeValidateForStore()
@@ -101,12 +101,12 @@ class UserController extends ParentController
             }
         } else if ($foundByEmail != false) {
             if ($current_model->email && $data['email'] != $current_model->email) {
-                return  ['error' => ['email' => ['l\'email existe deja']]];
+                return ['error' => ['email' => ['l\'email existe deja']]];
             }
             return $data;
         } else if ($foundByPhone != false) {
             if ($current_model->telephone && $data['telephone'] != $current_model->telephone) {
-                return  ['error' => ['telephone' => ['le numero de telephone existe deja']]];
+                return ['error' => ['telephone' => ['le numero de telephone existe deja']]];
             }
             return $data;
         } else {

@@ -23,15 +23,22 @@ class DatabaseSeeder extends Seeder
         User::create([
             'nom' => 'Super',
             'prenom' => 'Admin',
-            'email' => 'admin@localhost',
-            'password' => Hash::make('AdminPassword#2324'),
+            'email' => 'root@localhost',
+            'password' => Hash::make('test'),
             'role' => 'root'
+        ]);
+        User::create([
+            'nom' => 'Admin',
+            'prenom' => 'User',
+            'email' => 'admin@localhost',
+            'password' => Hash::make('test'),
+            'role' => 'admin'
         ]);
         User::create([
             'nom' => 'Test',
             'prenom' => 'User',
             'email' => 'test@localhost',
-            'password' => Hash::make('UserPassword#2324'),
+            'password' => Hash::make('test'),
             'role' => 'client'
         ]);
         $this->call(MarqueSeeder::class);

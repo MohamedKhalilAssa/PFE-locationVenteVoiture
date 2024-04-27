@@ -63,6 +63,7 @@ class AnnonceController extends ParentController
                 'image.*' => 'image|mimes:jpeg,png,pdf|max:2048',
                 'image' => 'required',
                 'annee_fabrication' => ['required', 'date_format:Y'],
+                'etat' => ['required', Rule::in('neuf', 'occasion')],
                 'prix_vente' => [
                     Rule::requiredIf(
                         $this->request->type_annonce == 'vente'
@@ -92,8 +93,9 @@ class AnnonceController extends ParentController
             }
             $data['options'] = json_encode($options);
         }
-        if (strpos($this->request->url(), 'occasion') !== false) {
-            $data['etat'] = 'occasion';
+        if ($data['etat'] != 'occasion' && Auth::user()->role == 'client') {
+            return ['error' => ['etat' => ['Seules les responsable peuvent changer l\'etat d\'une annonce']]];
+        } else if ($data['etat'] == 'occasion') {
             if ($this->request->type_annonce == 'vente') {
                 $data['prix_location'] = null;
                 $data["disponibilite_location"] = null;
@@ -101,6 +103,8 @@ class AnnonceController extends ParentController
                 $data['prix_vente'] = null;
                 $data["disponibilite_vente"] = null;
             }
+        } else if ($data['etat'] == 'neuf') {
+
         }
         unset($data['image']);
         return $data;
@@ -112,7 +116,7 @@ class AnnonceController extends ParentController
         if ($image) {
             $paths = [];
             foreach ($this->request->file('image') as $image) {
-                $path =  $image->store('images/annonces', 'public');
+                $path = $image->store('images/annonces', 'public');
                 $paths[] = $path;
             }
             $new_model->update(['image' => json_encode($paths)]);
@@ -143,7 +147,7 @@ class AnnonceController extends ParentController
 
         $this->filteringDisplay();
 
-        return  $this->indexPaginate();
+        return $this->indexPaginate();
     }
     public function indexLocation()
     {
@@ -157,7 +161,7 @@ class AnnonceController extends ParentController
 
         $this->filteringDisplay("location");
 
-        return  $this->indexPaginate();
+        return $this->indexPaginate();
     }
     public function indexNeuf()
     {
@@ -175,7 +179,7 @@ class AnnonceController extends ParentController
         ];
         $this->filteringDisplay();
 
-        return  $this->indexPaginate();
+        return $this->indexPaginate();
     }
     // getters
     public function getAnneeFabrication()

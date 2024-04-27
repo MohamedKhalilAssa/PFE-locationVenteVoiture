@@ -3,17 +3,10 @@
     {{ total }}
   </TableHeader>
   <div class="bg-white relative shadow-lg sm:rounded-lg">
-    <SearchField
-      :columns="columns"
-      @search="handlingSearch"
-      addClass="py-4"
-    ></SearchField>
+    <SearchField :columns="columns" @search="handlingSearch" addClass="py-4"></SearchField>
 
-    <div
-      class="tableauContainer overflow-auto lg:!max-h-full"
-      v-if="result.data && result.data.length > 0"
-      style="max-height: 65vh"
-    >
+    <div class="tableauContainer overflow-auto lg:!max-h-full" v-if="result.data && result.data.length > 0"
+      style="max-height: 65vh">
       <table class="w-full text-sm text-center text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-100">
           <tr>
@@ -21,36 +14,19 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            class="bg-white border-b"
-            v-for="row in result.data"
-            :key="row.id"
-          >
-            <TableContent
-              :columns="columns"
-              :row="row"
-              :actions="actions"
-              @delete="DeleteHandler"
-            ></TableContent>
+          <tr class="bg-white border-b" v-for="row in result.data" :key="row.id">
+            <TableContent :columns="columns" :row="row" :actions="actions" @delete="DeleteHandler"></TableContent>
           </tr>
         </tbody>
       </table>
     </div>
     <div
       class="bg-white relative overflow-auto shadow-lg sm:rounded-lg sm:!max-h-full p-12 flex justify-center items-center"
-      style="max-height: 75vh"
-      v-else
-    >
+      style="max-height: 75vh" v-else>
       <p class="font-serif text-3xl">Aucune information a afficher</p>
     </div>
-    <TablePagination
-      :result="result"
-      :requestParams="requestParams"
-      :getter="getter"
-      @updateResult="updateResult"
-      v-if="result.data && result.last_page > 1"
-      addClass="py-4"
-    ></TablePagination>
+    <TablePagination :result="result" :requestParams="requestParams" :getter="getter" @updateResult="updateResult"
+      v-if="result.data && result.last_page > 1" addClass="py-4"></TablePagination>
   </div>
 </template>
 
@@ -62,9 +38,7 @@ import SearchField from "@/Components/TableElements/SearchField.vue";
 import TablePagination from "@/Components/Pagination.vue";
 import TableContent from "@/Components/TableElements/TableContent.vue";
 import TableColumns from "@/Components/TableElements/TableColumns.vue";
-
 import { ref } from "vue";
-import { useStore } from "vuex";
 
 const props = defineProps([
   "columns",
@@ -102,7 +76,7 @@ const handlingSearch = (search, searchColumn, defaultColumn) => {
   getPaginate(1, props.getter, requestParams.value).then((data) => {
     if (data) {
       result.value = data.PaginateQuery;
-      total.value = data.total;
+      total.value = result.value.total;
     }
   });
 };
@@ -115,7 +89,7 @@ const sortingBy = (column, sort) => {
   getPaginate(1, props.getter, requestParams.value).then((data) => {
     if (data) {
       result.value = data.PaginateQuery;
-      total.value = data.total;
+      total.value = result.value.total;
     }
   });
 };
