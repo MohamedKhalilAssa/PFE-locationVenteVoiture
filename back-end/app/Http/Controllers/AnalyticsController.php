@@ -26,11 +26,11 @@ class AnalyticsController extends ParentController
     {
         return;
     }
-    public function update(Request $request, $id)
+    public function update($id)
     {
         return;
     }
-    public function store(Request $request)
+    public function store()
     {
         return;
     }

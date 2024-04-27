@@ -92,11 +92,11 @@ class ParentController extends BaseController
         }
     }
     // ! 2. Creating
-    public function store(Request $request)
+    public function store()
     {
         // treatment to do before validate
         $this->beforeValidateForStore();
-        $validator = Validator::make($request->all(), $this->rules);
+        $validator = Validator::make($this->request->all(), $this->rules);
         // treatment to do after validate
         $this->afterValidateForStore($validator);
         // verifying for errors
@@ -117,10 +117,10 @@ class ParentController extends BaseController
         return response()->json(['message' => "$this->model_name Crée avec succès"]);
     }
     // ! 3. Updating
-    public function update(Request $request, $id)
+    public function update($id)
     {
         $this->beforeValidateForUpdate();
-        $validator = Validator::make($request->all(), $this->rules);
+        $validator = Validator::make($this->request->all(), $this->rules);
         $this->afterValidateForUpdate($validator);
         // verifying for errors
         if ($validator->fails()) {
@@ -138,7 +138,7 @@ class ParentController extends BaseController
         }
 
         if ($current_model->update($data)) {
-             $this->afterSaveForUpdate($current_model);
+            $this->afterSaveForUpdate($current_model);
             return response()->json(['message' => "$this->model_name modifié avec succès", 'iconColor' => 'blue']);
         } else {
             return abort(400, 'la modification a echoué');

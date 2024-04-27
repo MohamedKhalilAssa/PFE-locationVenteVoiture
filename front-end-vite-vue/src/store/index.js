@@ -1,3 +1,6 @@
+import getById from "@/Composables/Getters/getById";
+import getFromDB from "@/Composables/Getters/getFromDB";
+import Endpoints from "@/assets/JS/Endpoints";
 import { createStore } from "vuex";
 
 export default createStore({
@@ -53,6 +56,12 @@ export default createStore({
       state.errorCode = errorCode;
     },
   },
-  actions: {},
+  actions: {
+    fetchAuthenticatedUser(state, context) {
+      getFromDB(Endpoints.config__get_authenticated_user).then((data) => {
+        if (data) state.user = data;
+      });
+    },
+  },
   modules: {},
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
@@ -17,7 +18,7 @@ class UserController extends ParentController
         $this->model = User::class;
         $this->model_name = 'Utilisateur';
         $this->middleware('auth:sanctum')->except(['show']);
-        $this->middleware('admin')->except(['show']);
+        $this->middleware('admin')->except(['show', 'changePassword', 'update']);
     }
     public function beforeGetting()
     {
@@ -77,28 +78,53 @@ class UserController extends ParentController
                 'email',
                 'max:255',
             ],
+            'password' => ['exclude'],
         ];
     }
     public function beforeSaveForUpdate($current_model)
     {
         $data = $this->request->all();
-        $found = $this->model::where('email', $data['email'])->first() ?? $this->model::where('telephone', $data['telephone'])->first() ?? false;
+        $foundByEmail = $this->model::where('email', $data['email'])->first() ?? false;
+        $foundByPhone =
+            $this->model::where('telephone', $data['telephone'])->first() ?? false;
 
         // checks if the role has been changed by the right person as well as if the email you changed is already set or not (phone too )
-        if (Auth::user()->role != 'root' && $data['role'] != $current_model->role) {
-            return ['error' => ['role' => ['Seul le root peut changer le role d\'un utilisateur']]];
-        } else if ($current_model->role == "root" && $data['role'] != "root") {
-            return ['error' => ['role' => ['le role de root ne peut pas etre affecter']]];
-        } else if ($found != false) {
-            if ($data['telephone'] != $current_model->telephone) {
-                return  ['error' => ['telephone' => ['le numero de telephone existe deja']]];
+        if (Auth::user()->id != $current_model->id && !in_array(Auth::user()->role, ['admin', 'root'])) {
+            return ['error' => ['email' => ['Seul ton compte est modifiable']]];
+        } else if ($this->request->has('role')) {
+            if (Auth::user()->role != 'root' && $data['role'] != $current_model->role) {
+                return ['error' => ['role' => ['Seul le root peut changer le role d\'un utilisateur']]];
+            } else if ($current_model->role == "root" && $data['role'] != "root") {
+                return ['error' => ['role' => ['le role de root ne peut pas etre affecter']]];
+            } else {
+                return $data;
             }
-            if ($data['email'] != $current_model->email) {
+        } else if ($foundByEmail != false) {
+            if ($current_model->email && $data['email'] != $current_model->email) {
                 return  ['error' => ['email' => ['l\'email existe deja']]];
             }
+            return $data;
+        } else if ($foundByPhone != false) {
+            if ($current_model->telephone && $data['telephone'] != $current_model->telephone) {
+                return  ['error' => ['telephone' => ['le numero de telephone existe deja']]];
+            }
+            return $data;
         } else {
             return $data;
         }
+    }
+    public function changePassword()
+    {
+        $password = $this->request->validate([
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+        $user = $this->model::find(Auth::user()->id);
+
+        if ($user->update(['password' => Hash::make($password["password"])])) {
+            return response()->json(['message' => 'Mot de passe modifié avec succès']);
+        }
+
+        return abort(400, 'la modification a echoué');
     }
     // Overriding the index method to return nothing
     public function index()

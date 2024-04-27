@@ -107,5 +107,4 @@ getById(Endpoints.user__get_or_update_or_delete, props.id).then((data) => {
     });
   }
 });
-// loading the modeles associated with it
 </script>

@@ -4,7 +4,7 @@
   >
     <form
       method="POST"
-      @submit.prevent="RegisterHandling"
+      @submit.prevent="editUserHandling"
       class="bg-white border border-gray-900 shadow-2xl p-3 md:p-10 rounded max-w-lg"
     >
       <header class="text-center mb-8">
@@ -150,7 +150,7 @@ getById(Endpoints.user__get_or_update_or_delete, props.id).then((data) => {
     });
   }
 });
-const RegisterHandling = async () => {
+const editUserHandling = async () => {
   const formData = new FormData();
   formData.append("nom", form.value.nom);
   formData.append("prenom", form.value.prenom);

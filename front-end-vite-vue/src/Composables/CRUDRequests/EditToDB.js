@@ -20,7 +20,7 @@ const EditToDB = async (
       store.commit("setIconColor", response.data.iconColor);
     });
 
-    router.push({ name: redirectTo });
+    if (redirectTo != "") router.push({ name: redirectTo });
   } catch (error) {
     button.disabled = false;
     if (error.response.status == 422) {

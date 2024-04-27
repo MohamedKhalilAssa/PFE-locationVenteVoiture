@@ -22,6 +22,9 @@ Route::group(['prefix' => 'users', 'as' => 'user.'], function () {
         UserController::class,
         'update'
     ])->where("id", "[0-9]+")->name("update");
+    Route::post('/change-password', [
+        UserController::class, 'changePassword'
+    ])->name("changePassword");
     // for creating
     Route::post('/', [UserController::class, 'store'])->name("store");
     // getters
