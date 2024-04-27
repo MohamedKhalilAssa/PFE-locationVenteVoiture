@@ -14,7 +14,27 @@ class Annonce extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $guarded = [];
+    protected $fillable = [
+        'marque_id',
+        'modele_id',
+        'couleur_id',
+        'ville_id',
+        'owner_id',
+        'type_annonce',
+        'statut_annonce',
+        'etat',
+        'carburant',
+        'kilometrage',
+        'annee_fabrication',
+        'options',
+        'prix_vente',
+        'prix_location',
+        'disponibilite_vente',
+        'disponibilite_location',
+        'image',
+        'description',
+        'titre',
+    ];
 
 
     public function owner()

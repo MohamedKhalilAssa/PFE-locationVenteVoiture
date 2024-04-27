@@ -83,26 +83,27 @@ class AnnonceController extends ParentController
 
     public function beforeSaveForStore()
     {
-        $this->request['owner_id'] = auth()->user()->id;
+        $data = $this->request->all();
+        $data['owner_id'] = auth()->user()->id;
         if ($this->request->options) {
             $options = [];
             foreach ($this->request->options as $option) {
                 $options[] = $option;
             }
-            $this->request['options'] = json_encode($options);
+            $data['options'] = json_encode($options);
         }
         if (strpos($this->request->url(), 'occasion') !== false) {
-            $this->request['etat'] = 'occasion';
+            $data['etat'] = 'occasion';
             if ($this->request->type_annonce == 'vente') {
-                $this->request['prix_location'] = null;
-                $this->request["disponibilite_location"] = null;
+                $data['prix_location'] = null;
+                $data["disponibilite_location"] = null;
             } else if ($this->request->type_annonce == 'location') {
-                $this->request['prix_vente'] = null;
-                $this->request["disponibilite_vente"] = null;
+                $data['prix_vente'] = null;
+                $data["disponibilite_vente"] = null;
             }
         }
-
-        return $this->request->all();
+        unset($data['image']);
+        return $data;
     }
     public function afterSaveForStore($new_model)
     {
