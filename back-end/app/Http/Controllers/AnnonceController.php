@@ -132,19 +132,23 @@ class AnnonceController extends ParentController
     }
     public function indexOccasion()
     {
-        $this->conditions = [
-            [
-                'column' => 'etat',
-                'operator' => 'like',
-                'value' => 'occasion'
-            ],
-            [
-                'column' => 'type_annonce',
-                'operator' => 'like',
-                'value' => 'vente'
-            ]
-        ];
-
+        $fromBack = $this->request->source ?? false;
+        if (!$fromBack) {
+            $this->conditions = [
+                [
+                    'column' => 'etat',
+                    'operator' => 'like',
+                    'value' => 'occasion'
+                ],
+                [
+                    'column' => 'type_annonce',
+                    'operator' => 'like',
+                    'value' => 'vente'
+                ]
+            ];
+        } else if ($fromBack && !in_array(Auth::user()->role, ['admin', 'root'])) {
+            abort(400, 'Unauthorized action');
+        }
         $this->filteringDisplay();
 
         return $this->indexPaginate();
@@ -201,7 +205,8 @@ class AnnonceController extends ParentController
     // local helpers
     public function filteringDisplay($type = "vente")
     {
-        if (strpos($this->request->url(), 'admin') === false) {
+        $fromBack = $this->request->source ?? false;
+        if (!$fromBack) {
             $this->conditions[] = [
                 'column' => 'statut_annonce',
                 'operator' => 'like',

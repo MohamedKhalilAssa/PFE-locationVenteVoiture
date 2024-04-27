@@ -42,8 +42,8 @@ class ParentController extends BaseController
     //  ! 1. Reading
     public function indexPaginate()
     {
-        $this->assignRelation($this->selectRelations());
         $this->assignConditions();
+        $this->assignRelation($this->selectRelations());
 
         //Get selected column and the search from the request
         $sort = request('sort') ?? 'none';
