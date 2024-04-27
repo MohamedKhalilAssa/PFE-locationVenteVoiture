@@ -531,7 +531,7 @@ const uploadFiles = async () => {
       : "homeView";
   AddToDB(
     submitButton.value,
-    Endpoints.occasion__get_all_or_add,
+    Endpoints.occasion__add,
     formData,
     redirectTo,
     errors

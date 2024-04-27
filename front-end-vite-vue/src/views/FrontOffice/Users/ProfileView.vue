@@ -216,9 +216,10 @@ const editProfileHandling = async () => {
     formData,
     "",
     errors
-  ).then(() => {
+  ).then((response) => {
+    console.log(response);
     buttonData.value.disabled = false;
-    fetching();
+    if (response) fetching();
   });
 };
 

@@ -19,8 +19,9 @@ const EditToDB = async (
       store.commit("setMessage", response.data.message);
       store.commit("setIconColor", response.data.iconColor);
     });
-
+    errors.value = null;
     if (redirectTo != "") router.push({ name: redirectTo });
+    return true;
   } catch (error) {
     button.disabled = false;
     if (error.response.status == 422) {
@@ -32,6 +33,7 @@ const EditToDB = async (
         removeCredentials();
       } else store.commit("setError", error);
     }
+    return false;
   }
 };
 

@@ -8,6 +8,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
+use function Pest\Laravel\json;
+
 class AnnonceController extends ParentController
 {
     public function __construct()
@@ -45,60 +47,75 @@ class AnnonceController extends ParentController
             ]
         ];
     }
-    public function occasionStore(Request $request)
+    public function beforeValidateForStore()
     {
-        $formElements = $request->validate([
-            'titre' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
-            'ville_id' => ['required', 'exists:villes,id'],
-            'carburant' => ['required', Rule::in('diesel', 'hybride', 'essence', 'electrique')],
-            'type_annonce' => ['required', Rule::in(['vente', 'location'])],
-            'marque_id' => ['required', 'exists:marques,id'],
-            'modele_id' => ['required', 'exists:modeles,id'],
-            'couleur_id' => ['required', 'exists:couleurs_voitures,id'],
-            'kilometrage' => ['required', 'integer', 'min:1'],
-            'image.*' => 'image|mimes:jpeg,png,pdf|max:2048',
-            'image' => 'required',
-            'annee_fabrication' => ['required', 'date_format:Y'],
-            'prix_vente' => [
-                Rule::requiredIf(
-                    $request->type_annonce == 'vente'
-                ),
-                Rule::excludeIf($request->type_annonce == 'location'),
-                'gt:2'
-            ],
-            'prix_location' => [Rule::requiredIf($request->type_annonce == 'location'), Rule::excludeIf($request->type_annonce == 'vente'), 'min:1'],
-            'disponibilite_vente' => [
-                Rule::requiredIf($request->type_annonce == 'vente'),
-                Rule::excludeIf($request->type_annonce ==
-                    'location'),
-                Rule::in('vendu', 'disponible', 'indisponible')
-            ],
-            'disponibilite_location' => [Rule::requiredIf($request->type_annonce == 'location'), Rule::excludeIf($request->type_annonce == 'vente'), Rule::in('louer', 'disponible', 'indisponible')],
-        ]);
-        // default values
-        $formElements['owner_id'] = auth()->user()->id;
-        $formElements['etat'] = 'occasion';
+        $this->rules =
+            [
+                'titre' => ['required', 'string', 'max:255'],
+                'description' => ['required', 'string'],
+                'ville_id' => ['required', 'exists:villes,id'],
+                'carburant' => ['required', Rule::in('diesel', 'hybride', 'essence', 'electrique')],
+                'type_annonce' => ['required', Rule::in(['vente', 'location'])],
+                'marque_id' => ['required', 'exists:marques,id'],
+                'modele_id' => ['required', 'exists:modeles,id'],
+                'couleur_id' => ['required', 'exists:couleurs_voitures,id'],
+                'kilometrage' => ['required', 'integer', 'min:1'],
+                'image.*' => 'image|mimes:jpeg,png,pdf|max:2048',
+                'image' => 'required',
+                'annee_fabrication' => ['required', 'date_format:Y'],
+                'prix_vente' => [
+                    Rule::requiredIf(
+                        $this->request->type_annonce == 'vente'
+                    ),
+                    Rule::excludeIf($this->request->type_annonce == 'location'),
+                    'gt:2'
+                ],
+                'prix_location' => [Rule::requiredIf($this->request->type_annonce == 'location'), Rule::excludeIf($this->request->type_annonce == 'vente'), 'min:1'],
+                'disponibilite_vente' => [
+                    Rule::requiredIf($this->request->type_annonce == 'vente'),
+                    Rule::excludeIf($this->request->type_annonce ==
+                        'location'),
+                    Rule::in('vendu', 'disponible', 'indisponible')
+                ],
+                'disponibilite_location' => [Rule::requiredIf($this->request->type_annonce == 'location'), Rule::excludeIf($this->request->type_annonce == 'vente'), Rule::in('louer', 'disponible', 'indisponible')],
+            ];
+    }
 
-        // adding images to the form
-        if ($request->file('image')) {
+    public function beforeSaveForStore()
+    {
+        $this->request['owner_id'] = auth()->user()->id;
+        if ($this->request->options) {
+            $options = [];
+            foreach ($this->request->options as $option) {
+                $options[] = $option;
+            }
+            $this->request['options'] = json_encode($options);
+        }
+        if (strpos($this->request->url(), 'occasion') !== false) {
+            $this->request['etat'] = 'occasion';
+            if ($this->request->type_annonce == 'vente') {
+                $this->request['prix_location'] = null;
+                $this->request["disponibilite_location"] = null;
+            } else if ($this->request->type_annonce == 'location') {
+                $this->request['prix_vente'] = null;
+                $this->request["disponibilite_vente"] = null;
+            }
+        }
+
+        return $this->request->all();
+    }
+    public function afterSaveForStore($new_model)
+    {
+        $image = $this->request->file('image') ?? null;
+        // adding image to the form
+        if ($image) {
             $paths = [];
-            foreach ($request->file('image') as $image) {
+            foreach ($this->request->file('image') as $image) {
                 $path =  $image->store('images/annonces', 'public');
                 $paths[] = $path;
             }
-            $formElements['image'] = json_encode($paths);
+            $new_model->update(['image' => json_encode($paths)]);
         }
-        // adding options to the form
-        if ($request->options) {
-            $options = [];
-            foreach ($request->options as $option) {
-                $options[] = $option;
-            }
-            $formElements['options'] = json_encode($options);
-        }
-        Annonce::create($formElements);
-        return response()->json(['message' => "Annonce Crée avec succès"]);
     }
     // show
     public function beforeReturnForShow($data)

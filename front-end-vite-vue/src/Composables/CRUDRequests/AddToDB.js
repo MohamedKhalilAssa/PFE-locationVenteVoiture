@@ -11,8 +11,9 @@ const AddToDB = async (button, endpoint, formElements, redirectTo, errors) => {
     await axios.post(endpoint, formElements).then((response) => {
       store.commit("setMessage", response.data.message);
     });
-
-    router.push({ name: redirectTo });
+    errors.value = null;
+    if (redirectTo != "") router.push({ name: redirectTo });
+    return true;
   } catch (error) {
     button.disabled = false;
     if (error.response.status == 422) {
@@ -23,6 +24,7 @@ const AddToDB = async (button, endpoint, formElements, redirectTo, errors) => {
         removeCredentials();
       } else store.commit("setError", error);
     }
+    return false;
   }
 };
 

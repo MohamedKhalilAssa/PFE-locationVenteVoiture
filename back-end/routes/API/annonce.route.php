@@ -7,7 +7,7 @@ Route::group(["prefix" => "annonce", 'as' => 'annonce.'], function () {
     // front End material
     Route::get('/{id}', [AnnonceController::class, 'show'])->name("show")->where("id", "[0-9]+");
     // occasion
-    Route::post('/occasion', [AnnonceController::class, 'occasionStore'])->name("store");
+    Route::post('/occasion', [AnnonceController::class, 'store'])->name("store");
     Route::get('/occasion/pagination', [AnnonceController::class, 'indexOccasion'])->name("indexPaginateOccasion");
     // location
     Route::get('/location/pagination', [AnnonceController::class, 'indexLocation'])->name("indexPaginateLocation");

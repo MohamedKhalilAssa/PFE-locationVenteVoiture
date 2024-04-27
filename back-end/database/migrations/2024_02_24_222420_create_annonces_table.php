@@ -35,7 +35,7 @@ return new class extends Migration
             $table->decimal('prix_location', 12, 3)->nullable();
             $table->enum('disponibilite_vente', ['vendu', 'disponible', 'indisponible'])->nullable();
             $table->enum('disponibilite_location', ['louer', 'disponible', 'indisponible'])->nullable();
-            $table->json('image');
+            $table->json('image')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
