@@ -15,37 +15,63 @@ class AnnonceController extends ParentController
     public function __construct()
     {
         parent::__construct();
-        $this->model = Annonce::class;
+        $this->model = new Annonce;
         $this->model_name = 'Annonce';
     }
     public function selectRelations(): array
     {
         return [
-            'marque' => [
-                'id',
-                'nom',
-                'image'
+            'marque'  => [
+                'table'           => 'marques',
+                'field'           => 'marque_id',
+                'primary_key'     =>'id',
+                'relation_column' =>
+                    [   'id',
+                        'nom',
+                        'image'
+                    ],
             ],
-            'modele' => [
-                'id',
-                'nom'
+            'modele'  => [
+                'table'           => 'modeles',
+                'field'           => 'modele_id',
+                'primary_key'     =>'id',
+                'relation_column' =>
+                    [   'id',
+                        'nom',
+                    ],
             ],
             'couleur' => [
-                'id',
-                'nom'
+                'table'           => 'couleurs_voitures',
+                'field'           => 'couleur_id',
+                'primary_key'     =>'id',
+                'relation_column' =>
+                    [   'id',
+                        'nom',
+                    ],
             ],
-            'ville' => [
-                'id',
-                'nom'
+            'ville'   => [
+                'table'           => 'villes',
+                'field'           => 'ville_id',
+                'primary_key'     =>'id',
+                'relation_column' =>
+                    [   'id',
+                        'nom',
+                    ],
             ],
-            'owner' => [
-                'id',
-                'nom',
-                'prenom',
-                'email',
-                'telephone'
-            ]
-        ];
+            'owner'   => [
+                'table'           => 'users',
+                'field'           => 'owner_id',
+                'primary_key'     =>'id',
+                'relation_column' =>
+                    [   'id',
+                        'nom',
+                        'prenom',
+                        'email',
+                        'telephone'
+                    ],
+            ],
+
+        ] ;
     }
     public function beforeValidateForStore()
     {
