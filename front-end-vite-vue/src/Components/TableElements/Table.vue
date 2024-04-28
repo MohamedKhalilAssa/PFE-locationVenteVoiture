@@ -128,7 +128,7 @@ const ChangeStatusHandler = (row, key) => {
       row[key] === "approved" ? "selected" : ""
     } value="approved">Approved</option>
     <option  ${
-      row[key] === "onhold" ? "selected" : ""
+      row[key] === "disabled" ? "selected" : ""
     } value="disabled">Disabled</option>
   </select>`,
     icon: "warning",

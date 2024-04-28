@@ -25,6 +25,14 @@ export default [
       import("@/views/FrontOffice/Annonces/DetailsAnnonceView.vue"),
     props: true,
   },
+  // edit
+  {
+    path: "/annonce/edit/:id",
+    name: "editAnnonceFront",
+    component: () => import("@/views/FrontOffice/Annonces/EditAnnonceView.vue"),
+    meta: { requiresAuth: true },
+    props: true,
+  },
   // manage annonce
   {
     path: "/annonce/manage",

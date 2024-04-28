@@ -19,7 +19,7 @@
           >Nom de la Marque</label
         >
         <input
-          v-model="nomMarque"
+          v-model="form.nom"
           id="nom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
@@ -43,30 +43,28 @@
   </section>
 </template>
 <script setup>
-import { ref, watchEffect } from "vue";
-import { useRouter } from "vue-router";
+import { ref } from "vue";
 import AddToDB from "@/Composables/CRUDRequests/AddToDB";
 import Endpoints from "@/assets/JS/Endpoints";
-import { useStore } from "vuex";
 import AddImageField from "@/Components/addImageField.vue";
+import { setFormData } from "@/Composables/Helpers/globalFunctions";
 
 const errors = ref(null);
-const router = useRouter();
-const store = useStore();
 
-const nomMarque = ref("");
-const imageMarque = ref(null);
+const form = ref({
+  nom: "",
+  image: null,
+});
+
 const button = ref(null);
 
 const imageChanged = (image) => {
-  imageMarque.value = image;
+  form.value.image = image;
 };
 
 // post method handling
 const ajouterMarque = async () => {
-  const formData = new FormData();
-  formData.append("nom", nomMarque.value);
-  formData.append("image", imageMarque.value);
+  const formData = setFormData(form);
   AddToDB(
     button.value,
     Endpoints.marque__get_all_or_add,

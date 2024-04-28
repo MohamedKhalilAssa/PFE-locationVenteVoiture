@@ -140,15 +140,12 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from "vue";
-import { useRouter } from "vue-router";
+import { ref } from "vue";
 import Endpoints from "@/assets/JS/Endpoints";
-import { useStore } from "vuex";
 import AddToDB from "@/Composables/CRUDRequests/AddToDB";
+import { setFormData } from "@/Composables/Helpers/globalFunctions";
 
 // fetching existing modele
-const user = ref({});
-
 const form = ref({
   nom: null,
   prenom: null,
@@ -158,22 +155,11 @@ const form = ref({
   password: null,
   password_confirmation: null,
 });
-
 const errors = ref(null);
-const router = useRouter();
-const store = useStore();
 const button = ref(null);
 
 const RegisterHandling = async () => {
-  const formData = new FormData();
-  formData.append("nom", form.value.nom);
-  formData.append("prenom", form.value.prenom);
-  formData.append("email", form.value.email);
-  formData.append("telephone", form.value.telephone);
-  formData.append("role", form.value.role);
-  formData.append("password", form.value.password);
-  formData.append("password_confirmation", form.value.password_confirmation);
-
+  const formData = setFormData(form);
   AddToDB(
     button.value,
     Endpoints.user__get_all_or_add,

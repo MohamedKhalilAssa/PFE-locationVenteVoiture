@@ -15,7 +15,7 @@
           >Nom du Modele</label
         >
         <input
-          v-model="nomModele"
+          v-model="form.nom"
           id="nom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
@@ -30,7 +30,7 @@
           >Marque</label
         >
         <select
-          v-model="marqueVmodel"
+          v-model="form.marque_id"
           id="marque"
           class="border border-gray-600 rounded p-2 w-full"
         >
@@ -64,19 +64,22 @@
   </section>
 </template>
 <script setup>
-import { ref, watchEffect } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import getById from "@/Composables/Getters/getById";
 import EditToDB from "@/Composables/CRUDRequests/EditToDB";
 import getFromDB from "@/Composables/Getters/getFromDB";
 import Endpoints from "@/assets/JS/Endpoints";
 import { useStore } from "vuex";
+import { setForm, setFormData } from "@/Composables/Helpers/globalFunctions";
 
 const errors = ref(null);
 const router = useRouter();
 const store = useStore();
-const nomModele = ref("");
-const marqueVmodel = ref("");
+const form = ref({
+  nom: "",
+  marque_id: "",
+});
 const button = ref(null);
 
 // fetching existing modele
@@ -84,8 +87,7 @@ const props = defineProps(["id"]);
 
 getById(Endpoints.modele__get_or_update_or_delete, props.id).then((data) => {
   if (data) {
-    nomModele.value = data.nom;
-    marqueVmodel.value = data.marque_id;
+    setForm(form, data);
   } else {
     store.commit("setError", "Modeles introuvable");
     store.commit("setErrorCode", "404");
@@ -106,14 +108,12 @@ getFromDB(Endpoints.marque__get_all_or_add).then((response) => {
 
 // post method handling
 const updateModele = async () => {
-  const form = new FormData();
-  form.append("nom", nomModele.value);
-  form.append("marque_id", marqueVmodel.value);
+  const formData = setFormData(form);
   EditToDB(
     button.value,
     Endpoints.modele__get_or_update_or_delete,
     props.id,
-    form,
+    formData,
     "modelesView",
     errors
   );

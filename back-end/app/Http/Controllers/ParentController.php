@@ -48,9 +48,9 @@ class ParentController extends BaseController
         $this->assignRelation();
         $this->assignConditions();
         //Get selected column and the search from the request
-        $sort = $this->request->get('sort') ?? 'none';
-        $search = $this->request->get('search');
+        $sort = $this->request->get('sort') == 'none' ? 'asc' : $this->request->get('sort');
         $sortColumn = $this->request->get('sortColumn') ?? 'id';
+        $search = $this->request->get('search');
 
         // Test if there is a search
         if ($search && trim($search) != '') {

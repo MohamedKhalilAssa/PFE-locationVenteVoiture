@@ -43,7 +43,7 @@ const actions = [
   },
   {
     label: "Modifier",
-    redirectToAction: "modifierUser",
+    redirectToAction: "editAnnonceFront",
     toID: "id",
     addClass: "text-blue-600",
   },

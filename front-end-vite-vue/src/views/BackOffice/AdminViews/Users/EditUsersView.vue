@@ -117,10 +117,10 @@ import getById from "@/Composables/Getters/getById";
 import EditToDB from "@/Composables/CRUDRequests/EditToDB";
 import Endpoints from "@/assets/JS/Endpoints";
 import { useStore } from "vuex";
+import { setForm, setFormData } from "@/Composables/Helpers/globalFunctions";
 
 // fetching existing modele
 const props = defineProps(["id"]);
-const user = ref({});
 
 const form = ref({
   nom: null,
@@ -137,11 +137,7 @@ const button = ref(null);
 
 getById(Endpoints.user__get_or_update_or_delete, props.id).then((data) => {
   if (data) {
-    form.value.nom = data.nom;
-    form.value.prenom = data.prenom;
-    form.value.email = data.email;
-    form.value.telephone = data.telephone;
-    form.value.role = data.role;
+    setForm(form, data);
   } else {
     store.commit("setError", "Utilisateur introuvable");
     store.commit("setErrorCode", "404");
@@ -151,12 +147,7 @@ getById(Endpoints.user__get_or_update_or_delete, props.id).then((data) => {
   }
 });
 const editUserHandling = async () => {
-  const formData = new FormData();
-  formData.append("nom", form.value.nom);
-  formData.append("prenom", form.value.prenom);
-  formData.append("email", form.value.email);
-  formData.append("telephone", form.value.telephone);
-  formData.append("role", form.value.role);
+  const formData = setFormData(form);
   EditToDB(
     button.value,
     Endpoints.user__get_or_update_or_delete,

@@ -15,7 +15,7 @@
           >Nom de la ville</label
         >
         <input
-          v-model="nomVille"
+          v-model="form.nom"
           id="nom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
@@ -41,22 +41,23 @@
 </template>
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { setForm, setFormData } from "@/Composables/Helpers/globalFunctions";
 import getById from "@/Composables/Getters/getById";
 import EditToDB from "@/Composables/CRUDRequests/EditToDB";
 import Endpoints from "@/assets/JS/Endpoints";
-import { useStore } from "vuex";
 
 const errors = ref(null);
-const nomVille = ref("");
+const form = ref({
+  nom: "",
+});
 const button = ref(null);
 
 // fetching existing modele
 const props = defineProps(["id"]);
 
 getById(Endpoints.ville__get_or_update_or_delete, props.id).then((data) => {
-   if (data) {
-    nomVille.value = data.nom;
+  if (data) {
+    setForm(form, data);
   } else {
     store.commit("setError", "Ville introuvable");
     store.commit("setErrorCode", "404");
@@ -67,15 +68,14 @@ getById(Endpoints.ville__get_or_update_or_delete, props.id).then((data) => {
 });
 // post method handling
 const updateVille = async () => {
-  const form = new FormData();
-  form.append("nom", nomVille.value);
+  const formData = setFormData(form);
   EditToDB(
     button.value,
     Endpoints.ville__get_or_update_or_delete,
     props.id,
-    form,
+    formData,
     "villesView",
-    errors,
+    errors
   );
 };
 </script>

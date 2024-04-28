@@ -15,7 +15,7 @@
           >Nom de la couleur</label
         >
         <input
-          v-model="nomCouleur"
+          v-model="form.nom"
           id="nom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
@@ -30,7 +30,7 @@
           >Le Hexadecimal / La couleur</label
         >
         <input
-          v-model="hex"
+          v-model="form.Hexadecimal"
           @change="validateHex"
           id="couleur"
           type="color"
@@ -57,26 +57,26 @@
 </template>
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { setForm, setFormData } from "@/Composables/Helpers/globalFunctions";
 import getById from "@/Composables/Getters/getById";
 import EditToDB from "@/Composables/CRUDRequests/EditToDB";
 import Endpoints from "@/assets/JS/Endpoints";
-import { useStore } from "vuex";
 
 const errors = ref(null);
-const nomVille = ref("");
 const button = ref(null);
 // variables VMODEL
-const nomCouleur = ref("");
-const hex = ref("#000000");
+
+const form = ref({
+  nom: ref(""),
+  Hexadecimal: ref("#000000"),
+});
 
 // fetching existing modele
 const props = defineProps(["id"]);
 
 getById(Endpoints.couleur__get_or_update_or_delete, props.id).then((data) => {
   if (data) {
-    nomCouleur.value = data.nom;
-    hex.value = data.Hexadecimal;
+    setForm(form, data);
   } else {
     store.commit("setError", "Couleur introuvable");
     store.commit("setErrorCode", "404");
@@ -87,14 +87,12 @@ getById(Endpoints.couleur__get_or_update_or_delete, props.id).then((data) => {
 });
 // post method handling
 const updateCouleur = async () => {
-  const form = new FormData();
-  form.append("nom", nomCouleur.value);
-  form.append("Hexadecimal", hex.value);
+  const formData = setFormData(form);
   EditToDB(
     button.value,
     Endpoints.couleur__get_or_update_or_delete,
     props.id,
-    form,
+    formData,
     "couleursView",
     errors
   );

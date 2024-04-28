@@ -15,7 +15,7 @@
           >Nom de la couleur</label
         >
         <input
-          v-model="nomCouleur"
+          v-model="form.nom"
           id="nom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
@@ -30,7 +30,7 @@
           >Le Hexadecimal / La couleur</label
         >
         <input
-          v-model="hex"
+          v-model="form.Hexadecimal"
           id="couleur"
           type="color"
           class="border border-gray-600 rounded px-2 py-1 w-full h-12"
@@ -56,22 +56,27 @@
 </template>
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 import AddToDB from "@/Composables/CRUDRequests/AddToDB";
 import Endpoints from "@/assets/JS/Endpoints";
-import { useStore } from "vuex";
+import { setFormData } from "@/Composables/Helpers/globalFunctions";
 
 const errors = ref(null);
-const nomCouleur = ref("");
-const hex = ref("#000000");
+
 const button = ref(null);
 
-
+const form = ref({
+  nom: ref(""),
+  Hexadecimal: ref("#000000"),
+});
 // post method handling
 const ajouterCouleur = async () => {
-  const form = new FormData();
-  form.append("nom", nomCouleur.value);
-  form.append("Hexadecimal", hex.value);
-  AddToDB(button.value, Endpoints.couleur__get_all_or_add, form, "couleursView", errors);
+  const formData = setFormData(form);
+  AddToDB(
+    button.value,
+    Endpoints.couleur__get_all_or_add,
+    formData,
+    "couleursView",
+    errors
+  );
 };
 </script>

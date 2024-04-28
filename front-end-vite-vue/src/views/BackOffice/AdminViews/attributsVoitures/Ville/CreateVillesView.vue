@@ -15,7 +15,7 @@
           >Nom de la ville</label
         >
         <input
-          v-model="nomVille"
+          v-model="form.nom"
           id="nom"
           type="text"
           class="border border-gray-600 rounded p-2 w-full"
@@ -36,32 +36,29 @@
         </button>
       </div>
     </form>
-   
   </section>
 </template>
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 import AddToDB from "@/Composables/CRUDRequests/AddToDB";
 import Endpoints from "@/assets/JS/Endpoints";
-import { useStore } from "vuex";
+import { setFormData } from "@/Composables/Helpers/globalFunctions";
 
 const errors = ref(null);
-const router = useRouter();
-const store = useStore();
-const nomVille = ref("");
+const form = ref({
+  nom: "",
+});
 const button = ref(null);
 
 // post method handling
 const ajouterVille = async () => {
-  const form = new FormData();
-  form.append("nom", nomVille.value);
+  const formData = setFormData(form);
   AddToDB(
     button.value,
     Endpoints.ville__get_all_or_add,
-    form,
+    formData,
     "villesView",
-    errors,
+    errors
   );
 };
 </script>
