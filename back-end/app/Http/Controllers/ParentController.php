@@ -46,33 +46,24 @@ class ParentController extends BaseController
         $this->assignConditions();
 
         //Get selected column and the search from the request
-        $sort = request('sort') ?? 'none';
-        $search = request('search');
-        $sortColumn = request('sortColumn') ?? 'id';
+        $sort = $this->model->get('sort') ?? 'none';
+        $search = $this->model->get('search');
+        $sortColumn = $this->model->get('sortColumn') ?? 'id';
 
         // Test if there is a search
         if ($search && trim($search) != '') {
-            $searchColumn = request('searchColumn') ?? 'nom';
+            $searchColumn = $this->model->get('searchColumn') ?? 'nom';
             $this->searchData($search, $searchColumn, $sort, $sortColumn, $this->model);
-            $this->sortData($sort, $sortColumn, $this->model);
-            $this->beforeGetting();
-            $data = $this->model->paginate(10)->toArray();
-            foreach ($data['data'] as $key => $value) {
-                $data['data'][$key] = nestedToNormal($value);
-            }
-            $additionalData = $this->beforeIndexBackReturn($this->model);
-            return response()->json(['PaginateQuery' => $data, ...$additionalData]);
-        } else {
-            // else if there is no search
-            $this->sortData($sort, $sortColumn, $this->model);
-            $this->beforeGetting();
-            $data = $this->model->paginate(10)->toArray();
-            foreach ($data['data'] as $key => $value) {
-                $data['data'][$key] = nestedToNormal($value);
-            }
-            $additionalData = $this->beforeIndexBackReturn($this->model);
-            return response()->json(['PaginateQuery' => $data, ...$additionalData]);
         }
+        $this->sortData($sort, $sortColumn, $this->model);
+        $this->beforeGetting();
+        $data = $this->model->paginate(10)->toArray();
+        foreach ($data['data'] as $key => $value) {
+            $data['data'][$key] = nestedToNormal($value);
+        }
+        $additionalData = $this->beforeIndexBackReturn($this->model);
+        return response()->json(['PaginateQuery' => $data, ...$additionalData]);
+
     }
     public function show($id)
     {
@@ -224,7 +215,7 @@ class ParentController extends BaseController
      */
 
     // function for the sorting
-    function sortData($sort, $sortColumn, $model)
+    function sortData($sort, $sortColumn)
     {
         if ($sort == 'asc' || $sort == 'desc') {
             /*
@@ -235,16 +226,16 @@ class ParentController extends BaseController
                 [$sort_relation, $sort_column] = explode('.', $sortColumn);
                 if (count($this->selectRelations()) == 0 || !isset($this->selectRelations()[$sort_relation]) || !in_array($sort_column, $this->selectRelations()[$sort_relation]))
                     abort(404, 'Invalid sort column');
-                $model = $model->whereHas($sort_relation, function () use ($sort_column, $sort, $model) {
-                    $model->orderBy($sort_column, $sort);
+                $this->model->whereHas($sort_relation, function ($query) use ($sort_column, $sort) {
+                    $query->orderBy($sort_column, $sort);
                 });
             } else {
                 // if the selected sort column is a simple column
-                $model = $model->orderBy($sortColumn, $sort);
+                $this->model->orderBy($sortColumn, $sort);
             }
         }
     }
-    function searchData($search, $searchColumn, $sort, $sortColumn, $model)
+    function searchData($search, $searchColumn, $sort, $sortColumn)
     {
         /*
          * Test if the selected column is from a relation
@@ -256,14 +247,14 @@ class ParentController extends BaseController
 
                 if (count($this->selectRelations()) == 0 || !isset($this->selectRelations()[$search_relation]) || !in_array($search_column, $this->selectRelations()[$search_relation]))
                     abort(400, 'Invalid search column');
-                $model = $model->whereHas($search_relation, function ($query) use ($search_column, $search) {
+                $this->model->whereHas($search_relation, function ($query) use ($search_column, $search) {
                     $query->where($search_column, 'like', '%' . $search . '%');
                 });
-                $this->sortData($sort, $sortColumn, $model);
+                $this->sortData($sort, $sortColumn);
             } else {
                 // if the selected column is a simple column
-                $model = $model->where($searchColumn, 'like', '%' . $search . '%');
-                $this->sortData($sort, $sortColumn, $model);
+                $this->model->where($searchColumn, 'like', '%' . $search . '%');
+                $this->sortData($sort, $sortColumn);
             }
         }
     }
@@ -279,7 +270,7 @@ class ParentController extends BaseController
                 $query->select($columns);
             };
         }
-        $this->model = $this->model::with($relations);
+        $this->model::with($relations);
     }
     public function assignConditions()
     {
