@@ -11,11 +11,11 @@ class ColorController extends ParentController
 {
     public function __construct()
     {
-        parent::__construct();
         $this->model = couleursVoiture::class;
         $this->model_name = 'Couleur';
         $this->middleware('auth:sanctum')->except(['index', 'show']);
         $this->middleware('admin')->except(['index', 'show']);
+        parent::__construct();
     }
     // store validation
     public function beforeValidateForStore()

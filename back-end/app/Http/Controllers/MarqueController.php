@@ -10,11 +10,11 @@ class MarqueController extends ParentController
 {
     public function __construct()
     {
-        parent::__construct();
         $this->model = Marque::class;
         $this->model_name = 'Marque';
         $this->middleware('auth:sanctum')->except(['index', 'indexBack', 'show']);
         $this->middleware('admin')->except(['index', 'show']);
+        parent::__construct();
     }
 
     // specify columns to be returned from ::all (optional)

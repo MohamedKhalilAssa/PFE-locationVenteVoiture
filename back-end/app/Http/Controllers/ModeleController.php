@@ -10,20 +10,26 @@ class ModeleController extends ParentController
 {
     public function __construct()
     {
-        parent::__construct();
         $this->model = Modele::class;
         $this->model_name = 'Modele';
         $this->middleware('auth:sanctum')->except(['index', 'show', 'showbyMarque']);
         $this->middleware('admin')->except(['index', 'show', 'showbyMarque']);
+        parent::__construct();
     }
     // for indexBack
     public function selectRelations(): array
     {
         return [
             'marque' => [
-                'id',
-                'nom'
-            ]
+                'table' => 'marques',
+                'field' => 'marque_id',
+                'primary_key' => 'id',
+                'relation_column' =>
+                [
+                    'id',
+                    'nom',
+                ],
+            ],
         ];
     }
     // Overriding the before methods to specify rules

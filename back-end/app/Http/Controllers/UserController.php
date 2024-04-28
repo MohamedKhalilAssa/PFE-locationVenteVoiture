@@ -14,11 +14,11 @@ class UserController extends ParentController
 {
     public function __construct()
     {
-        parent::__construct();
         $this->model = User::class;
         $this->model_name = 'Utilisateur';
         $this->middleware('auth:sanctum')->except(['show']);
         $this->middleware('admin')->except(['show', 'changePassword', 'update']);
+        parent::__construct();
     }
     public function beforeGetting()
     {

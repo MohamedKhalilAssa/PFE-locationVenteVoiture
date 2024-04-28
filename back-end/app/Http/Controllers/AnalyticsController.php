@@ -11,11 +11,11 @@ class AnalyticsController extends ParentController
 {
     public function __construct()
     {
-        parent::__construct();
         $this->model = Analytics::class;
         $this->model_name = 'Analytic';
         $this->middleware('auth:sanctum');
         $this->middleware('admin');
+        parent::__construct();
     }
     public function getTotalVisitors(Request $request)
     {
