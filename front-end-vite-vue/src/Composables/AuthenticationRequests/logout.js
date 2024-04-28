@@ -5,16 +5,21 @@ import store from "@/store";
 import removeCredentials from "@/Composables/AuthenticationRequests/removeCredentials";
 
 const logout = async (route) => {
-  axios.defaults.withCredentials = true;
-  axios.defaults.withXSRFToken = true;
   try {
-    await axios.post(Endpoints.config__logout).then((response) => {
+    axios.defaults.withCredentials = true;
+    axios.defaults.withXSRFToken = true;
+
+    const response = await axios.post(Endpoints.config__logout);
+
+    if (response && response.data) {
       store.commit("setMessage", response.data.message);
       store.commit("setIconColor", response.data.iconColor);
-    });
+    }
+
     if (route.meta.requiresAuth) {
       router.push({ name: "homeView" });
     }
+
     removeCredentials();
   } catch (error) {
     if (error) {

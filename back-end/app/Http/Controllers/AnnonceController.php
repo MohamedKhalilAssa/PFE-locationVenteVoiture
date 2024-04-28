@@ -179,7 +179,7 @@ class AnnonceController extends ParentController
     // show
     public function beforeReturnForShow($data)
     {
-        if (strpos($this->request->url(), 'admin') === false && $data->statut_annonce != 'approved') {
+        if (!in_array(Auth::user()->role, ['admin', 'root']) && $data->statut_annonce != 'approved') {
             return null;
         } else
             return $data;

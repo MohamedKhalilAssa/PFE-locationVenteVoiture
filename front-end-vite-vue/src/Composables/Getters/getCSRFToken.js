@@ -4,39 +4,32 @@ import removeCredentials from "@/Composables/AuthenticationRequests/removeCreden
 import store from "@/store";
 
 const getCSRFToken = async () => {
-  axios.defaults.withCredentials = true;
-  axios.defaults.withXSRFToken = true;
   try {
-    await axios.get(Endpoints.config__get_csrf_token);
-    if (
-      localStorage.getItem("Authentication")
-    ) {
-      axios.defaults.withCredentials = true;
-      axios.defaults.withXSRFToken = true;
-      try {
-        const { data } = await axios.get(
-          Endpoints.config__get_authenticated_user
-        );
+    axios.defaults.withCredentials = true;
+    axios.defaults.withXSRFToken = true;
 
-        if (data) {
-          // make sure data present:
-          // storing the data
-          localStorage.setItem("Authentication", true);
-          localStorage.setItem("User", JSON.stringify(data));
-          sessionStorage.setItem("verified", true);
-          store.commit("setAuthentication");
-          store.commit("setUser");
-        }
-      } catch (error) {
-        if (error) {
-          store.commit("setError", error);
-        }
-        removeCredentials();
-        window.location.reload();
+    await axios.get(Endpoints.config__get_csrf_token);
+
+    if (localStorage.getItem("Authentication")) {
+      const { data } = await axios.get(
+        Endpoints.config__get_authenticated_user
+      );
+
+      if (data) {
+        localStorage.setItem("Authentication", true);
+        localStorage.setItem("User", JSON.stringify(data));
+        sessionStorage.setItem("verified", true);
+        store.commit("setAuthentication");
+        store.commit("setUser");
       }
     }
   } catch (error) {
-    if (error) {
+    if (error.response) {
+      store.commit("setError", error);
+      removeCredentials();
+      window.location.reload();
+    } else {
+      console.error("An unexpected error occurred:", error);
       store.commit("setError", error);
     }
   }

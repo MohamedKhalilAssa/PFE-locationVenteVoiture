@@ -15,51 +15,50 @@ const getPaginate = async (
   searchSortParams = {},
   filters = {}
 ) => {
-  axios.defaults.withCredentials = true;
-  axios.defaults.withXSRFToken = true;
-  // Convert formData object to a query string
-
   try {
-    // default case handling
-    searchSortParams.searchColumn = searchSortParams.searchColumn
-      ? searchSortParams.searchColumn
-      : searchSortParams.defaultColumn;
-    searchSortParams.sortColumn = searchSortParams.sortColumn
-      ? searchSortParams.sortColumn
-      : "id";
+    axios.defaults.withCredentials = true;
+    axios.defaults.withXSRFToken = true;
 
-    // turning params object into query string
-    const sortSearch =
-      Object.keys(searchSortParams)
-        .map(
-          (key) =>
-            `${encodeURIComponent(key)}=${encodeURIComponent(
-              searchSortParams[key]
-            )}`
-        )
-        .join("&") ?? "";
-    const filtersQuery =
-      Object.keys(filters)
-        .map(
-          (key) =>
-            `${encodeURIComponent(key)}=${encodeURIComponent(filters[key])}`
-        )
-        .join("&") ?? "";
-    let result = await axios.get(
+    // making sure that all params are sent
+    searchSortParams.searchColumn =
+      searchSortParams.searchColumn || searchSortParams.defaultColumn;
+    searchSortParams.sortColumn = searchSortParams.sortColumn || "id";
+
+    // Convert params objects into query strings
+    const sortSearch = Object.entries(searchSortParams)
+      .map(
+        ([key, value]) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+      )
+      .join("&");
+
+    const filtersQuery = Object.entries(filters)
+      .map(
+        ([key, value]) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+      )
+      .join("&");
+
+    // Make the request
+    const result = await axios.get(
       endpoint + page + "&" + sortSearch + "&" + filtersQuery
     );
-    if (result.statusText == "OK") {
+
+    if (result.status === 200) {
       return result.data;
     } else {
-      return "Error " + result.statusText + "\n" + result.data.message;
+      return "Error " + result.status + "\n" + result.data.message;
     }
   } catch (error) {
-    if (error) {
-      // verifying if the error is that of login
-      if (error.response.status == 401 || error.response.status == 403) {
+    if (error.response) {
+      if (error.response.status === 401 || error.response.status === 403) {
         removeCredentials();
         window.location.reload();
-      } else store.commit("setError", error);
+      } else {
+        store.commit("setError", error);
+      }
+    } else {
+      console.error("An unexpected error occurred:", error);
     }
   }
 };

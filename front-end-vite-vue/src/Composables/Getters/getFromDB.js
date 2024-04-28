@@ -2,9 +2,9 @@ import axios from "axios";
 import store from "@/store";
 
 const getFromDB = async (endpoint) => {
-  axios.defaults.withCredentials = true;
-  axios.defaults.withXSRFToken = true;
   try {
+    axios.defaults.withCredentials = true;
+    axios.defaults.withXSRFToken = true;
     let result = await axios.get(endpoint);
     if (result.statusText == "OK") {
       return result.data;

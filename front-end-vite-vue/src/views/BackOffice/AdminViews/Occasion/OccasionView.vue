@@ -37,7 +37,7 @@ const columns = [
 const actions = [
   {
     label: "Details",
-    redirectToAction: "detailsUser",
+    redirectToAction: "detailsAnnonceFront",
     toID: "id",
     addClass: "text-green-600",
   },

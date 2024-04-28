@@ -145,6 +145,32 @@
                 </p>
               </div>
             </div>
+            <div class="line flex flex-wrap justify-between sm:border-b">
+              <div
+                class="field flex gap-3 py-2 px-2 w-full sm:w-80 border-b sm:border-none"
+              >
+                <h3 class="font-medium text-gray-500 whitespace-nowrap w-24">
+                  Created
+                </h3>
+                <p
+                  class="text-black font-bold max-w-max lowercase first-letter:uppercase"
+                >
+                  {{ new Date(results.created_at).toISOString().slice(0, 10) }}
+                </p>
+              </div>
+              <div
+                class="field flex gap-3 py-2 px-2 w-full sm:w-80 border-b sm:border-none"
+              >
+                <h3 class="font-medium text-gray-500 whitespace-nowrap w-24">
+                  Statut
+                </h3>
+                <p
+                  class="text-black font-bold max-w-max lowercase first-letter:uppercase"
+                >
+                  {{ results["statut_annonce"] }}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -257,75 +283,7 @@
     @closed="closedImage"
   ></ImageDisplay>
 </template>
-<style>
-a.whatsapp {
-  text-decoration: none;
-  background-color: green;
-  color: white;
-  font-size: 1.2rem;
-  padding: 10px 15px;
-  border-radius: 10px;
-}
-
-a.whatsapp:hover {
-  background-color: rgb(10, 95, 10);
-}
-
-.max-w-47Rem {
-  max-width: 47rem;
-}
-
-.max-w-70Rem {
-  max-width: 70rem;
-}
-
-.part2.max-w-47Rem {
-  max-width: 24rem;
-}
-
-.options {
-  gap: 3%;
-}
-
-.option {
-  width: calc(94% / 3);
-}
-
-@media screen and (min-width: 1024px) and (max-width: 1650px) {
-  .max-w-47Rem,
-  .part2.max-w-47Rem {
-    max-width: 70rem;
-  }
-
-  .h-40rem {
-    height: 35rem;
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .max-w-70Rem,
-  .part2.max-w-47Rem {
-    max-width: 47rem;
-  }
-}
-
-@media screen and (max-width: 568px) {
-  .option {
-    width: 100%;
-    margin-bottom: 0.4rem;
-  }
-
-  .option input {
-    width: 1.1rem;
-    height: 1.1rem;
-  }
-
-  .option label {
-    font-size: 1.2rem;
-    padding-bottom: 3px;
-  }
-}
-</style>
+<style src="@/assets/css/detailsAnnonceFront.css"></style>
 <script setup>
 import getById from "@/Composables/Getters/getById";
 import Endpoints from "@/assets/JS/Endpoints";

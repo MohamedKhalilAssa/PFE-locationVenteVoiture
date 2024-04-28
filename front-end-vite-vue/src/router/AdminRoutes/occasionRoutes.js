@@ -5,5 +5,5 @@ export default [
     component: () =>
       import("@/views/BackOffice/AdminViews/Occasion/OccasionView.vue"),
     meta: { requiresAuth: true, requiresAdmin: true },
-  },
+  }
 ];
