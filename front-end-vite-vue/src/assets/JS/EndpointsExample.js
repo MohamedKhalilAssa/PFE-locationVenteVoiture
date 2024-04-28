@@ -1,11 +1,9 @@
 const base_url = "URL"; // to be changed if the backend is hosted somewhere else
-
 export default {
   // Users
   user__get_all_or_add: base_url + "/api/users",
   user__paginate: base_url + "/api/users/pagination?page=",
   user__get_or_update_or_delete: base_url + "/api/users/",
-  user__change_password: base_url + "/api/users/change-password",
   user__get_total: base_url + "/api/users/total",
   user__get_online_admin: base_url + "/api/users/admin/online",
   // Marques
@@ -32,6 +30,7 @@ export default {
   occasion__add: base_url + "/api/annonce/occasion",
   occasion__get_max_price: base_url + "/api/annonce/occasion/maxPrice",
   occasion__paginate: base_url + "/api/annonce/occasion/pagination?page=",
+  occasion__paginate_backOffice: base_url + "/api/annonce/occasion/pagination?source=true&page=",
   // location
   location__get_max_price: base_url + "/api/annonce/location/maxPrice",
   location__paginate: base_url + "/api/annonce/location/pagination?page=",
