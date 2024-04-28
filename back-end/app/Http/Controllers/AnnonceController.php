@@ -17,7 +17,7 @@ class AnnonceController extends ParentController
 
         $this->model = Annonce::class;
         $this->model_name = 'Annonce';
-        parent::__construct();
+        parent::__construct(); 
     }
     public function selectRelations(): array
     {
