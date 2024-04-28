@@ -17,7 +17,7 @@ class AnnonceController extends ParentController
 
         $this->model = Annonce::class;
         $this->model_name = 'Annonce';
-        parent::__construct(); 
+        parent::__construct();
     }
     public function selectRelations(): array
     {
@@ -152,6 +152,29 @@ class AnnonceController extends ParentController
             }
             $new_model->update(['image' => json_encode($paths)]);
         }
+    }
+    // updating
+    // update Status only
+    public function updateStatus($id)
+    {
+        $data = $this->model->find($id);
+        $formElements = $this->request->validate([
+            'statut_annonce' => ['required', Rule::in(['approved', 'onhold', 'disabled'])],
+        ]);
+        if ($data->update($formElements)) {
+            return response()->json(['message' => "Statut modifié avec succès", 'iconColor' => 'blue']);
+        } else {
+            return abort(400, 'la modification a echoué');
+        }
+    }
+    // Deleting
+    public function beforeDestroy($current_model)
+    {
+        if (Auth::user()->role == 'client' && $current_model->owner_id != Auth::user()->id) {
+            return ['error' => ['titre' => ['Vous n\'avez pas le droit de supprimer cette annonce']]];
+        }
+
+        return $current_model;
     }
     // show
     public function beforeReturnForShow($data)

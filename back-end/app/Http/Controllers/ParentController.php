@@ -144,6 +144,11 @@ class ParentController extends BaseController
             return abort(404, 'Not found');
         }
         $current_model = $this->beforeDestroy($current_model);
+        // forme d'erreur subControllers:  ['error'=>['err1' =>[ '...'], 'err2' => [ .. ]]]
+        // pour verifier si il y a une erreur custom
+        if (isset($current_model["error"])) {
+            return response()->json(['errors' => $current_model['error']], 422);
+        }
         if ($current_model->delete()) {
             $this->afterDestroy();
             return response()->json(['message' => "$this->model_name Supprimé avec succès", 'iconColor' => 'red']);

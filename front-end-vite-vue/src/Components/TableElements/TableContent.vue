@@ -23,12 +23,13 @@
         />
       </div>
       <div
-        class="w-max h-max py-1 px-3 rounded-lg"
+        class="w-20 h-max py-1 px-3 rounded-lg"
         :class="{
           'bg-red-500': row[column.key] == 'onhold',
           'bg-green-500': row[column.key] == 'approved',
           'bg-gray-500': row[column.key] == 'disabled',
         }"
+        @click="emitChangeStatus(row, column.key)"
         v-else-if="column.isStatus"
       >
         <p
@@ -53,9 +54,12 @@ import ActionsTable from "@/Components/TableElements/ActionsTable.vue";
 import Endpoints from "@/assets/JS/Endpoints";
 
 const props = defineProps(["columns", "row", "actions"]);
-const emits = defineEmits(["delete"]);
+const emits = defineEmits(["delete", "ChangeStatus"]);
 
 const emitDelete = (id) => {
   emits("delete", id);
+};
+const emitChangeStatus = (row, column) => {
+  emits("ChangeStatus", row, column);
 };
 </script>

@@ -29,7 +29,7 @@
                 <p
                   class="text-black font-bold max-w-max lowercase first-letter:uppercase"
                 >
-                  {{ results.marque.nom }}
+                  {{ results["marque.nom"] }}
                 </p>
               </div>
               <div
@@ -41,7 +41,7 @@
                 <p
                   class="text-black font-bold max-w-max lowercase first-letter:uppercase"
                 >
-                  {{ results["modele"]["nom"] }}
+                  {{ results["modele.nom"] }}
                 </p>
               </div>
             </div>
@@ -65,7 +65,7 @@
                 <p
                   class="text-black font-bold max-w-max lowercase first-letter:uppercase"
                 >
-                  {{ results["ville"]["nom"] }}
+                  {{ results["ville.nom"] }}
                 </p>
               </div>
             </div>
@@ -129,7 +129,7 @@
                 <p
                   class="text-black font-bold max-w-max lowercase first-letter:uppercase"
                 >
-                  {{ results["couleur"]["nom"] }}
+                  {{ results["couleur.nom"] }}
                 </p>
               </div>
               <div
@@ -211,29 +211,29 @@
               <p class="text-black">
                 <span class="font-bold text-gray-500 w-24 inline-block"
                   >Nom </span
-                >{{ results["owner"]["nom"] }}
+                >{{ results["owner.nom"] }}
               </p>
               <p class="text-black">
                 <span class="font-bold text-gray-500 w-24 inline-block"
                   >Prenom </span
-                >{{ results["owner"]["prenom"] }}
+                >{{ results["owner.prenom"] }}
               </p>
               <p class="text-black">
                 <span class="font-bold text-gray-500 w-24 inline-block"
                   >Email: </span
-                >{{ results["owner"]["email"] }}
+                >{{ results["owner.email"] }}
               </p>
               <p class="text-black">
                 <span class="font-bold text-gray-500 w-24 inline-block"
                   >Telephone: </span
-                >{{ results["owner"]["telephone"] }}
+                >{{ results["owner.telephone"] }}
               </p>
             </div>
             <div
               class="buttons w-full flex items-center justify-center gap-4 mt-6"
             >
               <a
-                :href="`mailto:${results['owner']['email']}`"
+                :href="`mailto:${results['owner.email']}`"
                 class="flex items-center gap-2 bg-transparent border border-black text-black hover:bg-red-500 hover:border-red-500 hover:text-white duration-300 transition-all py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
                 <i class="fa-regular text-xl fa-envelope"></i>
@@ -241,7 +241,7 @@
               </a>
               <a
                 class="whatsapp"
-                :href="`https://wa.me/+212${results['owner']['telephone']}`"
+                :href="`https://wa.me/+212${results['owner.telephone']}`"
                 ><i class="fa-brands text-xl fa-whatsapp pr-2"></i>Whatsapp
               </a>
             </div>
@@ -367,7 +367,7 @@ const closedImage = () => {
   document.body.classList.remove("!overflow-hidden");
 };
 // loading the brand
-getById(Endpoints.annonce__get_by_id, props.id).then((data) => {
+getById(Endpoints.annonce__get_or_update_or_delete, props.id).then((data) => {
   if (data) {
     results.value = data;
   } else {

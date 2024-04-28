@@ -2,7 +2,7 @@
   <Table
     :columns="columns"
     :getter="Endpoints.occasion__paginate_backOffice"
-    :deleteFrom="Endpoints.user__get_or_update_or_delete"
+    :deleteFrom="Endpoints.annonce__get_or_update_or_delete"
     :actions="actions"
     titre="Occasion"
     addName="ajouterAnnonceFront"

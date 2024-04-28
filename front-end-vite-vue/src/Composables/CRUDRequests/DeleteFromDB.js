@@ -21,33 +21,37 @@ const DeleteFromDB = async (
     confirmButtonText: "Yes, delete it!",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      // Send a delete request to the server
-      axios.defaults.withCredentials = true;
-      axios.defaults.withXSRFToken = true;
       try {
-        // Send the FormData object to the server using axios
-        await axios.delete(endpoint + id).then((response) => {
+        // Send a delete request to the server
+        axios.defaults.withCredentials = true;
+        axios.defaults.withXSRFToken = true;
+
+        const response = await axios.delete(endpoint + id);
+
+        if (response && response.data) {
           store.commit("setMessage", response.data.message);
           store.commit("setIconColor", response.data.iconColor);
-        });
-        loadingFunction(currentPage, getter).then((data) => {
-          if (data.PaginateQuery.data.length == 0) {
-            loadingFunction(currentPage - 1, getter).then((data) => {
-              resultHolder.value = data.PaginateQuery;
-              totalHolder.value = data.total;
-            });
-          } else {
-            resultHolder.value = data.PaginateQuery;
-            totalHolder.value = data.total;
-          }
-        });
+        }
+
+        const data = await loadingFunction(currentPage, getter);
+
+        if (data.PaginateQuery.data.length === 0) {
+          const newData = await loadingFunction(currentPage - 1, getter);
+          resultHolder.value = newData.PaginateQuery;
+          totalHolder.value = newData.total;
+        } else {
+          resultHolder.value = data.PaginateQuery;
+          totalHolder.value = data.total;
+        }
       } catch (error) {
-        if (error) {
-          // verifying if the error is that of login 
-          if (error.response.status == 401 || error.response.status == 403) {
+        if (error.response) {
+          if (error.response.status === 401 || error.response.status === 403) {
             removeCredentials();
-          } else
+          } else {
             store.commit("setError", error);
+          }
+        } else {
+          console.error("An unexpected error occurred:", error);
         }
       }
     }

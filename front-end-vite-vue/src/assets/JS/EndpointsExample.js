@@ -25,12 +25,14 @@ export default {
   ville__paginate: base_url + "/api/ville/pagination?page=",
   // annonce
   annonce__get_annee_fabrication: base_url + "/api/annonce/annees",
-  annonce__get_by_id: base_url + "/api/annonce/",
+  annonce__get_or_update_or_delete: base_url + "/api/annonce/",
+  annonce__update_status: base_url + "/api/annonce/status/",
   // occasion
   occasion__add: base_url + "/api/annonce/occasion",
   occasion__get_max_price: base_url + "/api/annonce/occasion/maxPrice",
   occasion__paginate: base_url + "/api/annonce/occasion/pagination?page=",
-  occasion__paginate_backOffice: base_url + "/api/annonce/occasion/pagination?source=true&page=",
+  occasion__paginate_backOffice:
+    base_url + "/api/annonce/occasion/pagination?source=true&page=",
   // location
   location__get_max_price: base_url + "/api/annonce/location/maxPrice",
   location__paginate: base_url + "/api/annonce/location/pagination?page=",
