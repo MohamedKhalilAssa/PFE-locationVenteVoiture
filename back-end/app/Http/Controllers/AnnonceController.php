@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Annonce;
 use Illuminate\Http\Request;
+use function Pest\Laravel\json;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-
-use function Pest\Laravel\json;
 
 class AnnonceController extends ParentController
 {
@@ -179,7 +180,9 @@ class AnnonceController extends ParentController
     // show
     public function beforeReturnForShow($data)
     {
-        if (!in_array(Auth::user()->role, ['admin', 'root']) && $data->statut_annonce != 'approved') {
+        if (Auth::check() && !in_array(Auth::user()->role, ['admin', 'root']) && $data->statut_annonce != 'approved') {
+            return null;
+        } else if (!Auth::check() && $data->statut_annonce != 'approved') {
             return null;
         } else
             return $data;
@@ -255,6 +258,14 @@ class AnnonceController extends ParentController
     public function getMaxPriceVenteNeuf()
     {
         return ['max_price' => $this->model::where('etat', 'neuf')->max('prix_vente')];
+    }
+    public function getTopVilles()
+    {
+        return $this->model->leftjoin('villes', 'ville_id', '=', 'villes.id')->select('ville_id', 'villes.nom', DB::raw('COUNT(*) as count'))->groupBy('ville_id', 'villes.nom')->orderBy('count', 'desc')->take(6)->get();
+    }
+    public function getTopMarques()
+    {
+        return $this->model->leftjoin('marques', 'marque_id', '=', 'marques.id')->select('marque_id', 'marques.nom', DB::raw('COUNT(*) as count'))->groupBy('marque_id', 'marques.nom')->orderBy('count', 'desc')->take(6)->get();
     }
     // local helpers
     public function filteringDisplay($type = "vente")

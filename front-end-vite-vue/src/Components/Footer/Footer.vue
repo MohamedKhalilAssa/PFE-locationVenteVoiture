@@ -37,23 +37,23 @@
 
       <footerColumn>
         <footerMenu titre="Top Marques">
-          <footerItem link="">Lambo</footerItem>
-          <footerItem link="">Dacia</footerItem>
-          <footerItem link="">Audi</footerItem>
-          <footerItem link="">BMW</footerItem>
-          <footerItem link="">Toyota</footerItem>
-          <footerItem link="">Renault</footerItem>
+          <footerItem
+            v-for="topMarques in results.topMarques"
+            :key="topMarques.id"
+            link=""
+            >{{ topMarques.nom }}</footerItem
+          >
         </footerMenu>
       </footerColumn>
 
       <footerColumn>
         <footerMenu titre="Top Villes">
-          <footerItem link="">Kenitra</footerItem>
-          <footerItem link="">Berrechid</footerItem>
-          <footerItem link="">Rabat</footerItem>
-          <footerItem link="">Casablanca</footerItem>
-          <footerItem link="">Tanger</footerItem>
-          <footerItem link="">Oujda</footerItem>
+          <footerItem
+            link=""
+            v-for="topVilles in results.topVilles"
+            :key="topVilles.id"
+            >{{ topVilles.nom }}</footerItem
+          >
         </footerMenu>
       </footerColumn>
 
@@ -155,4 +155,21 @@ import footerSocialLink from "@/Components/Footer/footer-social-link.vue";
 import footerSocialContainer from "@/Components/Footer/footer-social-container.vue";
 import footerCallTo from "@/Components/Footer/footer-callTo.vue";
 import Logo from "@/Components/Logo.vue";
+import getFromDB from "@/Composables/Getters/getFromDB";
+import Endpoints from "@/assets/JS/Endpoints";
+import { ref } from "vue";
+const results = ref({
+  topVilles: [],
+  topMarques: [],
+});
+getFromDB(Endpoints.annonce__get_top_villes).then((response) => {
+  if (response) {
+    results.value.topVilles = response;
+  }
+});
+getFromDB(Endpoints.annonce__get_top_marques).then((response) => {
+  if (response) {
+    results.value.topMarques = response;
+  }
+});
 </script>
