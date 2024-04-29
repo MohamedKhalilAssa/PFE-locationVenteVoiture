@@ -31,13 +31,17 @@ const getPaginate = async (
           `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
       )
       .join("&");
-
-    const filtersQuery = Object.entries(filters)
-      .map(
-        ([key, value]) =>
-          `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-      )
-      .join("&");
+    let filtersQuery;
+    if (typeof filters === "string") {
+      filtersQuery = filters;
+    } else {
+      filtersQuery = Object.entries(filters)
+        .map(
+          ([key, value]) =>
+            `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+        )
+        .join("&");
+    }
 
     // Make the request
     const result = await axios.get(

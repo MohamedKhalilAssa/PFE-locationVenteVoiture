@@ -124,6 +124,7 @@
       ></rangeSlider>
       <button
         @click="filterDisplay"
+        ref="filterButton"
         class="bg-red-500 hover:bg-red-800 text-white rounded py-2 px-4"
       >
         Rechercher
@@ -136,11 +137,24 @@ import rangeSlider from "@/Components/RangeSlider.vue";
 import getFromDB from "@/Composables/Getters/getFromDB";
 import getPaginate from "@/Composables/Getters/getPaginate";
 import Endpoints from "@/assets/JS/Endpoints";
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
-const props = defineProps(["title", "type", "getter"]);
+const props = defineProps(["title", "type", "getter", "filters"]);
 const emits = defineEmits(["updatePage"]);
-
+const filterButton = ref(null);
+const treatment = () => {
+  if (props.filters != "") {
+    for (const [key, value] of Object.entries(form.value)) {
+      if (key == "min_price" || key == "max_price") {
+        form.value[key] = parseFloat(value);
+      }
+      form.value[key] = "";
+    }
+    let [key, value] = props.filters.split("=");
+    form.value[key] = value;
+    filterButton.value.click();
+  }
+};
 const form = ref({
   annee_fabrication: "",
   marque_id: "",
@@ -159,6 +173,17 @@ const filterDisplay = () => {
     }
   });
 };
+onMounted(() => {
+  treatment();
+  watch(
+    () => props.filters,
+    (newVal, old) => {
+      if (newVal && newVal !== old) {
+        treatment();
+      }
+    }
+  );
+});
 
 /**
  *

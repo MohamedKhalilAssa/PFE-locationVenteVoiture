@@ -39,8 +39,13 @@
         <footerMenu titre="Top Marques">
           <footerItem
             v-for="topMarques in results.topMarques"
-            :key="topMarques.id"
-            link=""
+            :key="topMarques.marque_id"
+            :link="{
+              name: 'occasionFrontView',
+              query: {
+                filters: `marque_id=${topMarques.marque_id}`,
+              },
+            }"
             >{{ topMarques.nom }}</footerItem
           >
         </footerMenu>
@@ -49,9 +54,14 @@
       <footerColumn>
         <footerMenu titre="Top Villes">
           <footerItem
-            link=""
             v-for="topVilles in results.topVilles"
-            :key="topVilles.id"
+            :key="topVilles.ville_id"
+            :link="{
+              name: 'occasionFrontView',
+              query: {
+                filters: `ville_id=${topVilles.ville_id}`,
+              },
+            }"
             >{{ topVilles.nom }}</footerItem
           >
         </footerMenu>
@@ -157,19 +167,21 @@ import footerCallTo from "@/Components/Footer/footer-callTo.vue";
 import Logo from "@/Components/Logo.vue";
 import getFromDB from "@/Composables/Getters/getFromDB";
 import Endpoints from "@/assets/JS/Endpoints";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 const results = ref({
   topVilles: [],
   topMarques: [],
 });
-getFromDB(Endpoints.annonce__get_top_villes).then((response) => {
-  if (response) {
-    results.value.topVilles = response;
-  }
-});
-getFromDB(Endpoints.annonce__get_top_marques).then((response) => {
-  if (response) {
-    results.value.topMarques = response;
-  }
+onMounted(() => {
+  getFromDB(Endpoints.annonce__get_top_villes).then((response) => {
+    if (response) {
+      results.value.topVilles = response;
+    }
+  });
+  getFromDB(Endpoints.annonce__get_top_marques).then((response) => {
+    if (response) {
+      results.value.topMarques = response;
+    }
+  });
 });
 </script>

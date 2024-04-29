@@ -18,13 +18,14 @@
       :title="title"
       :type="type"
       :getter="getter"
+      :filters="filters"
     />
   </div>
 </template>
 <script setup>
 import PartialSearchField from "@/views/Partials/PartialSearchField.vue";
 
-const props = defineProps(["title", "type", "getter"]);
+const props = defineProps(["title", "type", "getter", "filters"]);
 const emit = defineEmits(["updatePage"]);
 
 const updatePage = (data, filter) => {
