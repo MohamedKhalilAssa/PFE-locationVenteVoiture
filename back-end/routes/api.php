@@ -16,5 +16,3 @@ use App\Http\Controllers\PusherAuthController;
 */
 
 includeAllFiles('/routes/API/');
-
-Route::post('/pusher/auth', [PusherAuthController::class, 'auth'])->name('pusher.auth')->middleware('auth:sanctum');

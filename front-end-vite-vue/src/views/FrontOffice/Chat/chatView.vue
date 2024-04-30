@@ -11,7 +11,7 @@
         </h3>
       </div>
       <div
-        class="body bg-gray-200 overflow-auto sm:!max-h-96 rounded-lg p-2 h-full"
+        class="body relative bg-gray-200 overflow-auto sm:!max-h-96 rounded-lg p-2 h-full scroll-smooth"
         style="max-height: 60vh"
         ref="messagingBody"
       >
@@ -36,6 +36,13 @@
             </li>
           </div>
         </ul>
+        <div
+          class="scrollDown sticky bottom-2 left-1 bg-white w-8 h-8 flex items-center justify-center cursor-pointer rounded-full"
+          v-if="showScrollDown"
+          @click="scrollToBottom"
+        >
+          <i class="fa-solid fa-angles-down"></i>
+        </div>
       </div>
       <div class="sendMessage w-full h-16 mt-6">
         <form
@@ -63,22 +70,19 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted, onUpdated, computed } from "vue";
 import Endpoints from "@/assets/JS/Endpoints";
 import AddToDB from "@/Composables/CRUDRequests/AddToDB";
 import { setFormData } from "@/Composables/Helpers/globalFunctions";
 import getFromDB from "@/Composables/Getters/getFromDB";
-import { useStore } from "vuex";
-import axios from "axios";
-Pusher.logToConsole = true;
 
 const props = defineProps(["id"]);
 const button = ref(null);
 const errors = ref(null);
 const messages = ref({});
-const store = useStore();
 const receiver = ref({});
 const messagingBody = ref(null);
+const scrolledDown = ref(false);
 
 const form = ref({
   receiver_id: props.id,
@@ -88,72 +92,48 @@ const form = ref({
 const fetchMessages = async () => {
   getFromDB(Endpoints.chat__get_messages + props.id).then((response) => {
     messages.value = response;
-    setTimeout(() => {
-      messagingBody.value.scrollTop =
-        messagingBody.value.scrollHeight - messagingBody.value.clientHeight;
-    }, 0);
   });
 };
 const submitMessage = async () => {
   const formData = setFormData(form);
   AddToDB(button.value, Endpoints.chat__message, formData, "", errors);
   fetchMessages();
-
   form.value.message = "";
 };
-axios;
+let counter;
+let showScrollDown;
 onMounted(() => {
-  const token = ref();
-  if (!localStorage.getItem("BearerToken")) {
-    axios.get(Endpoints.config__get_bearer_token).then((response) => {
-      token.value = response.data.token;
-      localStorage.setItem("BearerToken", token.value);
-    });
-  } else {
-    token.value = localStorage.getItem("BearerToken");
-  }
-  const pusher = new Pusher("4c8637a085e3c6ecffb9", {
-    cluster: "eu",
-    authEndpoint: Endpoints.pusher__auth,
-    auth: {
-      headers: {
-        Authorization: "Bearer " + token.value,
-        "Access-Control-Allow-Origin": "*",
-      },
-    },
-  });
-  var channel = pusher.subscribe(
-    `private-message-channel.${store.getters.getUser.id}`
-  );
-
-  channel.bind(`message-sent`, function (event) {
-    // Callback function to handle the event
-    console.log(event);
-  });
-
+  // first fetch
+  fetchMessages();
   getFromDB(Endpoints.user__get_or_update_or_delete + props.id).then(
     (response) => {
       receiver.value = response;
     }
   );
-  fetchMessages();
+  // interval for regular fetch
+  counter = setInterval(() => {
+    fetchMessages();
+  }, 4000);
+  // computed value
 });
-// // Enable pusher logging - don't include this in production
-// const messages = ref([]);
-// const message = ref("");
+onUpdated(() => {
+  if (!scrolledDown.value) {
+    scrollToBottom();
+    scrolledDown.value = true;
+  }
+  showScrollDown = computed(() => {
+    return messagingBody.value.scrollTop <= messagingBody.value.scrollHeight;
+  });
+  console.log(showScrollDown.value);
+});
+onUnmounted(() => {
+  clearInterval(counter);
+});
 
-//   const channel = pusher.subscribe("chat");
-//   channel.bind("message", (data) => {
-//     messages.value.push(data);
-//   });
-// });
-
-// const submitMessage = async () => {
-//   axios.post(Endpoints.chat__message, {
-//     email: store.getters.getUser.email,
-//     message: message.value,
-//   });
-
-//   message.value = "";
-// };
+const scrollToBottom = () => {
+  setTimeout(() => {
+    messagingBody.value.scrollTop =
+      messagingBody.value.scrollHeight - messagingBody.value.clientHeight;
+  }, 0);
+};
 </script>

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\MessageSent;
+use Pusher\Pusher;
 use App\Models\Message;
+use App\Events\MessageSent;
 use Illuminate\Support\Facades\Auth;
 
 class MessageController extends ParentController
@@ -30,8 +31,6 @@ class MessageController extends ParentController
     }
     public function afterSaveForStore($new_model)
     {
-        event(new MessageSent($new_model));
-
         return 'Message Sent';
     }
     public function getMessages($id)

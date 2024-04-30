@@ -6,6 +6,7 @@ export default {
   user__get_or_update_or_delete: base_url + "/api/users/",
   user__get_total: base_url + "/api/users/total",
   user__get_online_admin: base_url + "/api/users/admin/online",
+  users__chatted_with: base_url + "/api/users/get-chat",
   // Marques
   marque__get_all_or_add: base_url + "/api/marque",
   marque__get_or_update_or_delete: base_url + "/api/marque/",
@@ -47,7 +48,8 @@ export default {
   analytics__get_or_update_or_delete: base_url + "/api/analytics/",
   analytics__get_paginate: base_url + "/api/analytics/pagination?page=",
   // chat
-  chat__messages: base_url + "/api/chat/messages",
+  chat__message: base_url + "/api/chat/send",
+  chat__get_messages: base_url + "/api/chat/get-messages/",
   // general getters
   getStoragePath: base_url + "/storage/",
   // Config Endpoints
@@ -58,4 +60,5 @@ export default {
   config__send_password_reset_link: base_url + "/forgot-password",
   config__reset_password: base_url + "/reset-password",
   config__get_authenticated_user: base_url + "/api/user",
+  config__get_bearer_token: base_url + "/api/user/token",
 };
