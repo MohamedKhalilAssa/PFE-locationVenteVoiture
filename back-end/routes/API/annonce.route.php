@@ -22,6 +22,10 @@ Route::group(["prefix" => "annonce", 'as' => 'annonce.'], function () {
     Route::get('/topMarques', [AnnonceController::class, 'getTopMarques'])->name("getTopMarques");
     // for deleting
     Route::delete('/{id}', [AnnonceController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
+    // for updating
+    Route::post('/{id}', [
+        AnnonceController::class, 'update'
+    ])->where("id", "[0-9]+")->name("update");
     // annonce status change
     Route::post('/status/{id}', [
         AnnonceController::class, 'updateStatus'

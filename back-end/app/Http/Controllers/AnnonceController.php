@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AnnonceController extends ParentController
@@ -92,7 +93,7 @@ class AnnonceController extends ParentController
                 'marque_id' => ['required', 'exists:marques,id'],
                 'modele_id' => ['required', 'exists:modeles,id'],
                 'couleur_id' => ['required', 'exists:couleurs_voitures,id'],
-                'kilometrage' => ['required', 'integer', 'min:1'],
+                'kilometrage' => ['required', 'integer', 'gt:-1'],
                 'image.*' => 'image|mimes:jpeg,png,pdf|max:2048',
                 'image' => 'required',
                 'annee_fabrication' => ['required', 'date_format:Y'],
@@ -102,9 +103,9 @@ class AnnonceController extends ParentController
                         $this->request->type_annonce == 'vente'
                     ),
                     Rule::excludeIf($this->request->type_annonce == 'location'),
-                    'gt:2'
+                    'gt:10000'
                 ],
-                'prix_location' => [Rule::requiredIf($this->request->type_annonce == 'location'), Rule::excludeIf($this->request->type_annonce == 'vente'), 'min:1'],
+                'prix_location' => [Rule::requiredIf($this->request->type_annonce == 'location'), Rule::excludeIf($this->request->type_annonce == 'vente'), 'gt:50'],
                 'disponibilite_vente' => [
                     Rule::requiredIf($this->request->type_annonce == 'vente'),
                     Rule::excludeIf($this->request->type_annonce ==
@@ -117,8 +118,9 @@ class AnnonceController extends ParentController
 
     public function beforeSaveForStore()
     {
-        $data = $this->request->all();
+        $data = $this->request->except('image');
         $data['owner_id'] = auth()->user()->id;
+        // setting options
         if ($this->request->options) {
             $options = [];
             foreach ($this->request->options as $option) {
@@ -126,28 +128,35 @@ class AnnonceController extends ParentController
             }
             $data['options'] = json_encode($options);
         }
-        if ($data['etat'] != 'occasion' && Auth::user()->role == 'client') {
+        // setting default values
+        if ($this->request->type_annonce == 'vente') {
+            $data['prix_location'] = null;
+            $data["disponibilite_location"] = null;
+        } else if ($this->request->type_annonce == 'location') {
+            $data['prix_vente'] = null;
+            $data["disponibilite_vente"] = null;
+        }
+        // verifying if the user is a client and the request
+        if ($data['etat'] != 'occasion' && (!Auth::check() || Auth::user()->role == 'client')) {
             return ['error' => ['etat' => ['Seules les responsable peuvent changer l\'etat d\'une annonce']]];
         } else if ($data['etat'] == 'occasion') {
-            if ($this->request->type_annonce == 'vente') {
-                $data['prix_location'] = null;
-                $data["disponibilite_location"] = null;
-            } else if ($this->request->type_annonce == 'location') {
-                $data['prix_vente'] = null;
-                $data["disponibilite_vente"] = null;
+            if ($data["kilometrage"] == 0) {
+                return ['error' => ['kilometrage' => ['Le kilometrage doit etre superieur a 0 pour une annonce occasion']]];
             }
         } else if ($data['etat'] == 'neuf') {
+            if ($data["kilometrage"] != 0) {
+                return ['error' => ['kilometrage' => ['Le kilometrage doit etre egale a 0 pour une annonce neuf']]];
+            }
         }
-        unset($data['image']);
         return $data;
     }
     public function afterSaveForStore($new_model)
     {
-        $image = $this->request->file('image') ?? null;
+        $images = $this->request->file('image') ?? null;
         // adding image to the form
-        if ($image) {
+        if ($images) {
             $paths = [];
-            foreach ($this->request->file('image') as $image) {
+            foreach ($images as $image) {
                 $path = $image->store('images/annonces', 'public');
                 $paths[] = $path;
             }
@@ -155,6 +164,103 @@ class AnnonceController extends ParentController
         }
     }
     // updating
+    public function beforeValidateForUpdate()
+    {
+        $this->rules =
+            [
+                'titre' => ['required', 'string', 'max:255'],
+                'description' => ['required', 'string'],
+                'ville_id' => ['required', 'exists:villes,id'],
+                'carburant' => ['required', Rule::in('diesel', 'hybride', 'essence', 'electrique')],
+                'type_annonce' => ['required', Rule::in(['vente', 'location'])],
+                'marque_id' => ['required', 'exists:marques,id'],
+                'modele_id' => ['required', 'exists:modeles,id'],
+                'couleur_id' => ['required', 'exists:couleurs_voitures,id'],
+                'kilometrage' => ['required', 'integer', 'gt:-1'],
+                'old_image' => ['nullable'],
+                'old_image.*' => ['nullable', 'string'],
+                'image' => 'required_if:old_image,null',
+                'image.*' =>  ['required_if:old_image,null', 'image', 'mimes:jpeg,svg,png', 'max:2048'],
+                'annee_fabrication' => ['required', 'date_format:Y'],
+                'etat' => ['required', Rule::in('neuf', 'occasion')],
+                'prix_vente' => [
+                    Rule::requiredIf(
+                        $this->request->type_annonce == 'vente'
+                    ),
+                    Rule::excludeIf($this->request->type_annonce == 'location'),
+                    'gt:10000'
+                ],
+                'prix_location' => [Rule::requiredIf($this->request->type_annonce == 'location'), Rule::excludeIf($this->request->type_annonce == 'vente'), 'gt:50'],
+                'disponibilite_vente' => [
+                    Rule::requiredIf($this->request->type_annonce == 'vente'),
+                    Rule::excludeIf($this->request->type_annonce ==
+                        'location'),
+                    Rule::in('vendu', 'disponible', 'indisponible')
+                ],
+                'disponibilite_location' => [Rule::requiredIf($this->request->type_annonce == 'location'), Rule::excludeIf($this->request->type_annonce == 'vente'), Rule::in('louer', 'disponible', 'indisponible')],
+            ];
+    }
+
+    public function beforeSaveForUpdate($current_model)
+    {
+        $data = $this->request->except('image');
+        if (!Auth::check()) {
+            return ['error' => ['titre' => ['Veuillez vous connecter']]];
+        } else if ($current_model["owner_id"] != Auth::user()->id && Auth::user()->role == "client") {
+            return ['error' => ['titre' => ['Seules les responsable peuvent changer les annonces des clients']]];
+        }
+
+        if ($this->request->options) {
+            $options = [];
+            foreach ($this->request->options as $option) {
+                $options[] = $option;
+            }
+            $data['options'] = json_encode($options);
+        }
+        // setting default values
+        if ($this->request->type_annonce == 'vente') {
+            $data['prix_location'] = null;
+            $data["disponibilite_location"] = null;
+        } else if ($this->request->type_annonce == 'location') {
+            $data['prix_vente'] = null;
+            $data["disponibilite_vente"] = null;
+        }
+        // verifying if the user is a client and the request
+        if ($data['etat'] != 'occasion' && (!Auth::check() || Auth::user()->role == 'client')) {
+            return ['error' => ['etat' => ['Seules les responsable peuvent changer l\'etat d\'une annonce']]];
+        } else if ($data['etat'] == 'occasion') {
+            if ($data["kilometrage"] == 0) {
+                return ['error' => ['kilometrage' => ['Le kilometrage doit etre superieur a 0 pour une annonce occasion']]];
+            }
+        } else if ($data['etat'] == 'neuf') {
+            if ($data["kilometrage"] != 0) {
+                return ['error' => ['kilometrage' => ['Le kilometrage doit etre egale a 0 pour une annonce neuf']]];
+            }
+        }
+        return $data;
+    }
+    public function afterSaveForUpdate($current_model)
+    {
+        $images = $this->request->file('image') ?? null;
+        $current_model_images = json_decode($current_model->image);
+        $old_images = $this->request->get('old_image') ?? null;
+        $diff = array_diff($current_model_images, $old_images);
+        $paths = [];
+        foreach ($diff as $image) {
+            if (strpos($image, "/assets") != 0)
+                Storage::delete('public/' . $image);
+        }
+        // adding image to the form
+        if ($images) {
+            foreach ($images as $image) {
+                $path = $image->store('images/annonces', 'public');
+                $paths[] = $path;
+            }
+        }
+        $current_model->update(['image' => json_encode(array_merge($old_images, $paths))]);
+        // adding image to the form
+
+    }
     // update Status only
     public function updateStatus($id)
     {

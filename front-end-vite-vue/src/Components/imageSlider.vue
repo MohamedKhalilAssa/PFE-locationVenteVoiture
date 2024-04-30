@@ -36,10 +36,17 @@
 </template>
 <script setup>
 import Endpoints from "@/assets/JS/Endpoints";
-import { computed, ref } from "vue";
-const props = defineProps(["data", "isLink", "addClass"]);
-const images = computed(() => JSON.parse(props.data["image"]));
+import { computed, ref, watch } from "vue";
+const props = defineProps(["data", "isLink", "addClass", "images"]);
+const images = computed(() => {
+  return props.images ? props.images : JSON.parse(props.data["image"]);
+});
 const curr_image = ref(0);
+watch(()=>props.images, (to, from) => {
+  if (to != from) {
+    if(curr_image.value != 0) curr_image.value = 0
+  }
+})
 
 const emits = defineEmits(["clicked"]);
 const emitImage = () => emits("clicked", images.value, curr_image.value);

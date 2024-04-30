@@ -48,18 +48,6 @@
   </div>
 </template>
 <script setup>
-import Endpoints from "@/assets/JS/Endpoints";
 import imageSlider from "@/Components/imageSlider.vue";
-import { computed, ref } from "vue";
 const props = defineProps(["data"]);
-const images = computed(() => JSON.parse(props.data["image"]));
-const curr_image = ref(0);
-
-const nextImage = () => {
-  curr_image.value = (curr_image.value + 1) % images.value.length;
-};
-const prevImage = () => {
-  if (curr_image.value == 0) curr_image.value = images.value.length - 1;
-  else curr_image.value = (curr_image.value - 1) % images.value.length;
-};
 </script>

@@ -114,6 +114,8 @@ class ParentController extends BaseController
         $this->beforeValidateForUpdate();
         $validator = Validator::make($this->request->all(), $this->rules);
         $this->afterValidateForUpdate($validator);
+
+
         // verifying for errors
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);

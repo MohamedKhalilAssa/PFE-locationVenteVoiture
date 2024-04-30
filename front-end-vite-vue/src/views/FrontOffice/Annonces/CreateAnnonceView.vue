@@ -462,7 +462,11 @@
             v-for="image in files"
             :key="image.id"
           >
-            <p>{{ image.file.name }}</p>
+            <p
+              class="tracking-tight text-gray-900 text-ellipsis overflow-hidden whitespace-nowrap"
+            >
+              {{ image.file.name }}
+            </p>
             <button
               class="outline-none border-none"
               @click="removeFile(image.id)"

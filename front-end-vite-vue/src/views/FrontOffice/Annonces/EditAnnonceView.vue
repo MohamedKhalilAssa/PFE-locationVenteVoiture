@@ -440,6 +440,10 @@
         <label for="image" class="inline-block text-lg mb-2 required"
           >Images</label
         >
+        <imageSlider
+          :images="form.old_image"
+          addClass="w-full h-72"
+        ></imageSlider>
         <div class="afficherImages border border-gray-200 rounded p-2 w-full">
           <label>
             <p
@@ -459,10 +463,31 @@
 
           <div
             class="inserted flex justify-between mx-3"
-            v-for="image in files"
-            :key="image.id"
+            v-for="image in form.old_image"
+            :key="image"
           >
-            <p>{{ image.file.name }}</p>
+            <p
+              class="tracking-tight text-gray-900 text-ellipsis overflow-hidden whitespace-nowrap"
+            >
+              {{ image }}
+            </p>
+            <button
+              class="outline-none border-none"
+              @click="removeOldFile(image)"
+            >
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div
+            class="inserted flex justify-between mx-3"
+            v-for="image in files"
+            :key="image"
+          >
+            <p
+              class="tracking-tight text-gray-900 text-ellipsis overflow-hidden whitespace-nowrap"
+            >
+              {{ image.file.name }}
+            </p>
             <button
               class="outline-none border-none"
               @click="removeFile(image.id)"
@@ -483,7 +508,7 @@
           type="submit"
           class="bg-black text-white rounded py-2 px-4 hover:scale-105 duration-300 disabled:opacity-70 disabled:cursor-progress"
         >
-          Créer l'annonce
+          Modifier l'annonce
         </button>
       </div>
     </form>
@@ -496,9 +521,10 @@ import { useStore } from "vuex";
 import getById from "@/Composables/Getters/getById";
 import Endpoints from "@/assets/JS/Endpoints";
 import getFromDB from "@/Composables/Getters/getFromDB";
-import AddToDB from "@/Composables/CRUDRequests/AddToDB";
 import { setForm, setFormData } from "@/Composables/Helpers/globalFunctions";
 import { useRouter } from "vue-router";
+import imageSlider from "@/Components/imageSlider.vue";
+import EditToDB from "@/Composables/CRUDRequests/EditToDB";
 
 const store = useStore();
 const props = defineProps(["id"]);
@@ -524,6 +550,7 @@ const form = ref({
   annee_fabrication: null,
   etat: allowed.value ? "" : "occasion",
   options: [],
+  old_image: [],
   prix_vente: null,
   prix_location: null,
   disponibilite_vente: null,
@@ -532,6 +559,7 @@ const form = ref({
 getById(Endpoints.annonce__get_or_update_or_delete, props.id).then((data) => {
   if (data) {
     setForm(form, data);
+    form.value.old_image = JSON.parse(data.image);
     marqueSelected();
   } else {
     store.commit("setError", "Annonce introuvable");
@@ -550,18 +578,27 @@ const handleFileChange = (e) => {
 const removeFile = (id) => {
   files.value = files.value.filter((file) => file.id != id);
 };
+const removeOldFile = (image) => {
+  form.value.old_image = form.value.old_image.filter(
+    (oldImage) => oldImage != image
+  );
+};
 // end image
 
 const uploadFiles = async () => {
-  let formData = setFormData(form, "options");
+  let formData = setFormData(form, ["options", "old_image"]);
 
   // storing images in formData
   files.value.forEach((file) => {
-    formData.append("image[]", file.file);
+    if (typeof file == "string") formData.append("image[]", file);
+    else formData.append("image[]", file.file);
   });
   // storing options in formData
   form.value.options.forEach((value, index) => {
     formData.append("options[]", value);
+  });
+  form.value.old_image.forEach((value, index) => {
+    formData.append("old_image[]", value);
   });
 
   let redirectTo =
@@ -570,11 +607,12 @@ const uploadFiles = async () => {
       : form.value.type_annonce == "vente"
       ? "occasionFrontView"
       : "homeView";
-  AddToDB(
+  EditToDB(
     submitButton.value,
-    Endpoints.occasion__add,
+    Endpoints.annonce__get_or_update_or_delete,
+    props.id,
     formData,
-    redirectTo,
+    "",
     errors
   );
 };

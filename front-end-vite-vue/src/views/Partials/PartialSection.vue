@@ -4,7 +4,7 @@
     style="height: 33rem; margin-bottom: 48rem"
   >
     <div
-      class="backgroundImage z-0 absolute top-0 left-0 w-full h-full bg-auto bg-fixed bg-no-repeat bg-left-bottom"
+      class="backgroundImage z-0 absolute top-0 left-0 w-full h-full bg-cover bg-fixed bg-no-repeat bg-left-bottom"
     ></div>
     <div
       class="content absolute z-10 text-4xl sm:text-5xl md:text-6xl text-white font-mono font-bold"

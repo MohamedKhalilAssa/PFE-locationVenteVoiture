@@ -143,7 +143,7 @@ const props = defineProps(["title", "type", "getter", "filters"]);
 const emits = defineEmits(["updatePage"]);
 const filterButton = ref(null);
 const treatment = () => {
-  if (props.filters != "") {
+  if (props.filters) {
     for (const [key, value] of Object.entries(form.value)) {
       if (key == "min_price" || key == "max_price") {
         form.value[key] = parseFloat(value);
