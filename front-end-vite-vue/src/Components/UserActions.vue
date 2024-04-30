@@ -17,7 +17,7 @@
     </div>
     <div class="userActions flex flex-col justify-around gap-8" v-else>
       <router-link :to="{ name: 'Profile' }"
-        ><Button class="flex justify-center items-center gap-2">
+        ><Button class="flex justify-center items-center gap-2 text-lg">
           <i class="fa-solid fa-user"></i> Profile
         </Button>
       </router-link>
@@ -26,12 +26,21 @@
           name: 'manageAnnoncesView',
         }"
         ><Button class="flex justify-center items-center gap-2">
-          <i class="fa-solid fa-cog text-sm"></i>
-          <p class="text-sm w-max">Manage annonces</p></Button
+          <i class="fa-solid fa-cog text-lg"></i>
+          <p class="text-lg w-max">Manage annonces</p></Button
+        >
+      </router-link>
+      <router-link
+        :to="{
+          name: 'chatView',
+        }"
+        ><Button class="flex justify-center items-center gap-2">
+          <i class="fa-solid fa-message text-lg"></i>
+          <p class="text-lg w-max">Chat</p></Button
         >
       </router-link>
       <form @submit.prevent="logout(route)">
-        <Button class="flex justify-center items-center gap-2"
+        <Button class="text-lg flex justify-center items-center gap-2"
           ><p>Logout</p>
           <i class="fa-solid fa-sign-out"></i>
         </Button>
@@ -85,7 +94,7 @@ const showUserActions = () => {
 <style scoped>
 aside {
   position: fixed;
-  width: 200px;
+  width: 250px;
   height: min-content;
   padding: 1rem;
   z-index: 51;

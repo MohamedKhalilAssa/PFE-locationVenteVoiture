@@ -297,12 +297,19 @@ class AnnonceController extends ParentController
     public function indexOccasion()
     {
         $fromBack = $this->request->source ?? false;
+        $this->conditions = [
+            [
+                'column' => 'etat',
+                'operator' => 'like',
+                'value' => 'occasion'
+            ],
+        ];
         if (!$fromBack) {
-            $this->conditions = [
+            $this->conditions[] = [
                 [
-                    'column' => 'etat',
+                    'column' => 'statut_annonce',
                     'operator' => 'like',
-                    'value' => 'occasion'
+                    'value' => 'approved'
                 ],
                 [
                     'column' => 'type_annonce',
@@ -333,18 +340,31 @@ class AnnonceController extends ParentController
     }
     public function indexNeuf()
     {
+        $fromBack = $this->request->source ?? false;
         $this->conditions = [
             [
                 'column' => 'etat',
                 'operator' => 'like',
                 'value' => 'neuf'
             ],
-            [
-                'column' => 'type_annonce',
-                'operator' => 'like',
-                'value' => 'vente'
-            ]
         ];
+        if (!$fromBack) {
+            $this->conditions[] = [
+                [
+                    'column' => 'statut_annonce',
+                    'operator' => 'like',
+                    'value' => 'approved'
+                ],
+                [
+                    'column' => 'type_annonce',
+                    'operator' => 'like',
+                    'value' => 'vente'
+                ]
+            ];
+        } else if ($fromBack && !in_array(Auth::user()->role, ['admin', 'root'])) {
+            abort(400, 'Unauthorized action');
+        }
+
         $this->filteringDisplay();
 
         return $this->indexPaginate();

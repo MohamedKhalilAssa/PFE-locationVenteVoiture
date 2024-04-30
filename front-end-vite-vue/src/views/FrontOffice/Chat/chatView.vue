@@ -3,19 +3,20 @@
     <div
       class="wrapper sm:h-max mt-14 p-4 bg-white rounded-lg max-w-3xl w-full min-h-96 shadow-lg"
     >
-      <div class="header">
+      <div class="header w-full min-h-16">
         <h3
+          v-if="receiver"
           class="relative text-2xl mb-6 sm:text-3xl leading-6 font-medium tracking-tight text-gray-900 text-ellipsis overflow-hidden whitespace-nowrap block after:border-b-4 after:border-red-500 after:absolute after:left-0 after:bottom-1 after:w-8 pb-2"
         >
           {{ receiver.nom + " " + receiver.prenom }}
         </h3>
       </div>
       <div
-        class="body relative bg-gray-200 overflow-auto sm:!max-h-96 rounded-lg p-2 h-full scroll-smooth"
+        class="body relative bg-gray-200 overflow-auto sm:!max-h-96 sm:!min-h-96 rounded-lg p-2 h-full scroll-smooth"
         style="max-height: 60vh"
         ref="messagingBody"
       >
-        <ul class="relative flex flex-col gap-2" v-if="messages">
+        <ul class="relative flex flex-col gap-2" v-if="messages && receiver">
           <div
             v-for="message in messages"
             :key="message.id"
@@ -38,8 +39,8 @@
         </ul>
         <div
           class="scrollDown sticky bottom-2 left-1 bg-white w-8 h-8 flex items-center justify-center cursor-pointer rounded-full"
-          v-if="showScrollDown"
           @click="scrollToBottom"
+          v-if="showScroller"
         >
           <i class="fa-solid fa-angles-down"></i>
         </div>
@@ -70,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, onUpdated, computed } from "vue";
+import { defineProps, onMounted, onUnmounted, onUpdated, ref } from "vue";
 import Endpoints from "@/assets/JS/Endpoints";
 import AddToDB from "@/Composables/CRUDRequests/AddToDB";
 import { setFormData } from "@/Composables/Helpers/globalFunctions";
@@ -80,9 +81,10 @@ const props = defineProps(["id"]);
 const button = ref(null);
 const errors = ref(null);
 const messages = ref({});
-const receiver = ref({});
+const receiver = ref(null);
 const messagingBody = ref(null);
 const scrolledDown = ref(false);
+const showScroller = ref(false);
 
 const form = ref({
   receiver_id: props.id,
@@ -90,42 +92,52 @@ const form = ref({
 });
 
 const fetchMessages = async () => {
-  getFromDB(Endpoints.chat__get_messages + props.id).then((response) => {
-    messages.value = response;
-  });
+  messages.value = await getFromDB(Endpoints.chat__get_messages + props.id);
 };
+
 const submitMessage = async () => {
   const formData = setFormData(form);
-  AddToDB(button.value, Endpoints.chat__message, formData, "", errors);
-  fetchMessages();
+  await AddToDB(button.value, Endpoints.chat__message, formData, "", errors);
+  await fetchMessages();
+  scrollToBottom();
+  messages.value.push(form.value);
   form.value.message = "";
 };
+
 let counter;
-let showScrollDown;
 onMounted(() => {
-  // first fetch
   fetchMessages();
   getFromDB(Endpoints.user__get_or_update_or_delete + props.id).then(
     (response) => {
       receiver.value = response;
     }
   );
-  // interval for regular fetch
-  counter = setInterval(() => {
-    fetchMessages();
-  }, 4000);
-  // computed value
+
+  counter = setInterval(fetchMessages, 4000);
+
+  if (messagingBody.value) {
+    messagingBody.value.addEventListener("scroll", () => {
+      showScroller.value =
+        document.querySelector(".body").scrollTop <
+        document.querySelector(".body").scrollHeight -
+          document.querySelector(".body").clientHeight -
+          50;
+    });
+  }
 });
+
 onUpdated(() => {
-  if (!scrolledDown.value) {
+  if (
+    !scrolledDown.value &&
+    messagingBody.value &&
+    receiver.value &&
+    messages.value
+  ) {
     scrollToBottom();
     scrolledDown.value = true;
   }
-  showScrollDown = computed(() => {
-    return messagingBody.value.scrollTop <= messagingBody.value.scrollHeight;
-  });
-  console.log(showScrollDown.value);
 });
+
 onUnmounted(() => {
   clearInterval(counter);
 });

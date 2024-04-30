@@ -256,20 +256,29 @@
               </p>
             </div>
             <div
-              class="buttons w-full flex items-center justify-center gap-4 mt-6"
+              class="buttons w-full flex items-center justify-center gap-4 mt-6 h-16"
             >
               <a
                 :href="`mailto:${results['owner.email']}`"
-                class="flex items-center gap-2 bg-transparent border border-black text-black hover:bg-red-500 hover:border-red-500 hover:text-white duration-300 transition-all py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                class="flex items-center gap-2 bg-transparent border w-max border-black text-black hover:bg-red-500 hover:border-red-500 hover:text-white duration-300 transition-all py-2 px-4 rounded focus:outline-none focus:shadow-outline h-full"
               >
                 <i class="fa-regular text-xl fa-envelope"></i>
-                Send Email
+                Email
               </a>
               <a
-                class="whatsapp"
+                class="whatsapp h-full w-max flex items-center justify-center"
                 :href="`https://wa.me/+212${results['owner.telephone']}`"
                 ><i class="fa-brands text-xl fa-whatsapp pr-2"></i>Whatsapp
               </a>
+              <router-link
+                class="bg-red-500 flex items-center justify-center text-white hover:bg-red-800 py-2 px-6 rounded focus:outline-none focus:shadow-outline w-max h-full"
+                :to="{
+                  name: 'chatWithView',
+                  params: { id: results['owner_id'] },
+                }"
+              >
+                <i class="fa-regular text-xl fa-message"></i>
+              </router-link>
             </div>
           </div>
         </div>
