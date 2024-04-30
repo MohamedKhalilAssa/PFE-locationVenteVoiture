@@ -132,7 +132,7 @@ class ParentController extends BaseController
         }
 
         if ($current_model->update($data)) {
-            $this->afterSaveForUpdate($current_model);
+           return  $this->afterSaveForUpdate($current_model);
             return response()->json(['message' => "$this->model_name modifié avec succès", 'iconColor' => 'blue']);
         } else {
             return abort(400, 'la modification a echoué');

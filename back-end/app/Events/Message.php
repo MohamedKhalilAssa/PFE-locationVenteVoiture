@@ -30,7 +30,11 @@ class Message implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('channel-name'),
+            'chat'
         ];
+    }
+    public function broadcastAs()
+    {
+        return 'message';
     }
 }

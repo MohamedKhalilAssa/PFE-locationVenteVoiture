@@ -118,7 +118,7 @@ class AnnonceController extends ParentController
 
     public function beforeSaveForStore()
     {
-        $data = $this->request->except('image');
+        $data = $this->request->except(['image']);
         $data['owner_id'] = auth()->user()->id;
         // setting options
         if ($this->request->options) {
@@ -203,7 +203,7 @@ class AnnonceController extends ParentController
 
     public function beforeSaveForUpdate($current_model)
     {
-        $data = $this->request->except('image');
+        $data = $this->request->except(['image']);
         if (!Auth::check()) {
             return ['error' => ['titre' => ['Veuillez vous connecter']]];
         } else if ($current_model["owner_id"] != Auth::user()->id && Auth::user()->role == "client") {
@@ -247,8 +247,9 @@ class AnnonceController extends ParentController
         $diff = array_diff($current_model_images, $old_images);
         $paths = [];
         foreach ($diff as $image) {
-            if (strpos($image, "/assets") != 0)
+            if (strpos($image, "assets") === false) {
                 Storage::delete('public/' . $image);
+            }
         }
         // adding image to the form
         if ($images) {

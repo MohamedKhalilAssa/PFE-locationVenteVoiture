@@ -34,6 +34,11 @@ class MarqueController extends ParentController
             'image' => ['required', 'image', 'mimes:jpeg,svg,png', 'max:2048']
         ];
     }
+    public function beforeSaveForStore()
+    {
+        $data = $this->request->except(['image']);
+        return $data;
+    }
     public function afterSaveForStore($new_model)
     {
         $image = $this->request->file('image') ?? null;
@@ -57,7 +62,7 @@ class MarqueController extends ParentController
     }
     public function beforeSaveForUpdate($current_model)
     {
-        $data = $this->request->all();
+        $data = $this->request->except(['image']);
         $found = $this->model::where('nom', $data['nom'])->first() ?? false;
         if ($found != false && $data['nom'] != $current_model->nom) {
             return  ['error' => ['nom' => [$this->model_name . ' existe deja']]];
@@ -70,8 +75,9 @@ class MarqueController extends ParentController
         $image = $this->request->file('image') ?? null;
         // adding image to the form
         if ($image) {
-            if (strpos($current_model->image, "/assets") != 0)
+            if (strpos($current_model->image, "assets") === false) {
                 Storage::delete('public/' . $current_model->image);
+            }
             $path = $image->store('images/marques', 'public');
             $current_model->update(['image' => $path]);
         }
