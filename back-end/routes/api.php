@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ModeleController;
+use App\Http\Controllers\PusherAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,4 @@ use App\Http\Controllers\ModeleController;
 
 includeAllFiles('/routes/API/');
 
-Route::get('test', [ModeleController::class, 'indexBack']);
+Route::post('/pusher/auth', [PusherAuthController::class, 'auth'])->name('pusher.auth')->middleware('auth:sanctum');

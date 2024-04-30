@@ -105,7 +105,10 @@ class ParentController extends BaseController
         // create model
         $new_model = $this->model::create($data_to_save);
         // treatment to do after create like uploading a file
-        $this->afterSaveForStore($new_model);
+        $custom_response = $this->afterSaveForStore($new_model);
+        if ($custom_response) {
+            return response()->json(['custom' => "$custom_response"]);
+        }
         return response()->json(['message' => "$this->model_name Crée avec succès"]);
     }
     // ! 3. Updating
@@ -132,7 +135,7 @@ class ParentController extends BaseController
         }
 
         if ($current_model->update($data)) {
-           return  $this->afterSaveForUpdate($current_model);
+            $this->afterSaveForUpdate($current_model);
             return response()->json(['message' => "$this->model_name modifié avec succès", 'iconColor' => 'blue']);
         } else {
             return abort(400, 'la modification a echoué');
@@ -293,7 +296,11 @@ class ParentController extends BaseController
     {
         // customizing depending on the function
         foreach ($this->conditions as $condition) {
-            $this->model->where($this->model_table . '.' . $condition['column'], $condition['operator'], $condition['value']);
+            if (isset($condition['OrCondition']) && $condition['OrCondition'] == 'true') {
+                $this->model->orWhere($this->model_table . '.' . $condition['column'], $condition['operator'], $condition['value']);
+            } else {
+                $this->model->where($this->model_table . '.' . $condition['column'], $condition['operator'], $condition['value']);
+            }
         }
     }
 }

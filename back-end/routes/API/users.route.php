@@ -8,6 +8,13 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 })->name("user.authenticated");
 
+Route::middleware(['auth:sanctum'])->get('/user/token', function (Request $request) { {
+        $token = $request->user()->createToken('test');
+
+        return ['token' => $token->plainTextToken];
+    }
+})->name("user.token");
+
 Route::group(['prefix' => 'users', 'as' => 'user.'], function () {
     // only name and id here based on marque
     //show with id

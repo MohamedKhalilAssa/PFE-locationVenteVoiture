@@ -27,9 +27,9 @@ class UserController extends ParentController
     }
     public function beforeReturnForShow($data)
     {
-        if ($data->role == 'root') {
-            abort(403, 'Le compte  root ne peut pas etre affiche');
-        }
+        // if ($data->role == 'root') {
+        //     abort(403, 'Le compte  root ne peut pas etre affiche');
+        // }
 
         return $data;
     }

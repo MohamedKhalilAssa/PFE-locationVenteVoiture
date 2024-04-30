@@ -1,6 +1,8 @@
 <template>
-  <main class="flex justify-center sm:p-5">
-    <div class="wrapper mt-14 p-4 bg-white rounded-lg max-w-3xl w-full h-96">
+  <main class="flex justify-center sm:p-5 mb-14">
+    <div
+      class="wrapper h-max mt-14 p-4 bg-white rounded-lg max-w-3xl w-full min-h-96 shadow-lg"
+    >
       <h3
         class="relative text-2xl mb-6 sm:text-3xl leading-6 font-medium text-gray-900 block after:border-b-4 after:border-red-500 after:absolute after:left-0 after:bottom-1 after:w-8 pb-2"
       >
@@ -40,10 +42,5 @@ import Endpoints from "@/assets/JS/Endpoints.js";
 const users = ref({});
 getFromDB(Endpoints.users__chatted_with).then((response) => {
   users.value = response.message;
-  console.log(response);
-  console.log(lastActivity.value);
-});
-const lastActivity = computed(() => {
-  return new Date() - users.value.lastActivity;
 });
 </script>
