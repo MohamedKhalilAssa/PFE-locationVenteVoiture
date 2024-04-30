@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -130,5 +131,25 @@ class UserController extends ParentController
     public function index()
     {
         return;
+    }
+    public function getChattedWith()
+    {
+        $authUserId = Auth::user()->id;
+
+        $users = Message::with('receiver', 'sender')
+            ->where('sender_id', $authUserId)->orWhere('receiver_id', $authUserId)->distinct()
+            ->get();
+
+        $results = [];
+        foreach ($users as $user) {
+            if ($user->sender_id == $authUserId) {
+                if (!in_array($user->receiver, $results))
+                    $results[] = $user->receiver;
+            } else {
+                if (!in_array($user->sender, $results))
+                    $results[] = $user->sender;
+            }
+        }
+        return response()->json(['message' => $results]);
     }
 }

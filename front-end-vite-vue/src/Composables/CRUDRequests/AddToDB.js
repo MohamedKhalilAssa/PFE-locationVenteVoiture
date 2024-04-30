@@ -16,6 +16,7 @@ const AddToDB = async (button, endpoint, formElements, redirectTo, errors) => {
     }
 
     if (errors) errors.value = null;
+    if (button) button.disabled = false;
     if (redirectTo) router.push({ name: redirectTo });
 
     return true;

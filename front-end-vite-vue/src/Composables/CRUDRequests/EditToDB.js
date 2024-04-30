@@ -24,6 +24,7 @@ const EditToDB = async (
     }
 
     if (errors) errors.value = null;
+    if (button) button.disabled = false;
     if (redirectTo) router.push({ name: redirectTo });
 
     return true;

@@ -17,9 +17,11 @@ class Message implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct()
-    {
-        //
+    public function __construct(
+        public int $id,
+        public string $email,
+        public string $message
+    ) {
     }
 
     /**

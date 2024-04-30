@@ -28,6 +28,7 @@ Route::group(['prefix' => 'users', 'as' => 'user.'], function () {
     // for creating
     Route::post('/', [UserController::class, 'store'])->name("store");
     // getters
+    Route::get('/get-chat', [UserController::class, 'getChattedWith'])->name("getChattedWith");
     Route::get('/total', [UserController::class, 'getTotal'])->name("total");
     Route::get('/admin/online', [UserController::class, 'getOnlineAdmins'])->name("admin.online");
 });

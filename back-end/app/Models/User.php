@@ -49,7 +49,7 @@ class User extends Authenticatable
     {
         parent::boot();
         static::creating(function ($user) {
-            if (empty ($user->role)) {
+            if (empty($user->role)) {
                 $user->role = 'client';
             }
         });
@@ -71,5 +71,13 @@ class User extends Authenticatable
     public function locations()
     {
         return $this->hasMany(Location::class);
+    }
+    public function sender()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+    public function receiver()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
     }
 }

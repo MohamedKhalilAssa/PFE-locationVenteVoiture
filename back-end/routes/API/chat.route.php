@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MessageController;
 
-Route::group(['prefix' => 'chat', 'as' => 'chat.'], function () {
-    Route::post('messages', [ChatController::class, 'message'])->name("message");
+Route::group(['prefix' => 'chat', 'as' => 'chat.', 'middleware' => ['auth:sanctum']], function () {
+    Route::post('send', [MessageController::class, 'store'])->name("store");
 });
