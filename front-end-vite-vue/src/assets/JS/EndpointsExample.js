@@ -26,7 +26,10 @@ export default {
   // annonce
   annonce__get_annee_fabrication: base_url + "/api/annonce/annees",
   annonce__get_or_update_or_delete: base_url + "/api/annonce/",
+  annonce__show_backOffice: base_url + "/api/annonce/",
   annonce__update_status: base_url + "/api/annonce/status/",
+  annonce__get_top_villes: base_url + "/api/annonce/topVilles",
+  annonce__get_top_marques: base_url + "/api/annonce/topMarques",
   // occasion
   occasion__add: base_url + "/api/annonce/occasion",
   occasion__get_max_price: base_url + "/api/annonce/occasion/maxPrice",
@@ -39,6 +42,14 @@ export default {
   // neuf
   neuf__get_max_price: base_url + "/api/annonce/neuf/maxPrice",
   neuf__paginate: base_url + "/api/annonce/neuf/pagination?page=",
+  // analytics
+  analytics__get_visitors: base_url + "/api/analytics/visitors",
+  analytics__get_or_update_or_delete: base_url + "/api/analytics/",
+  analytics__get_paginate: base_url + "/api/analytics/pagination?page=",
+  // chat
+  chat__messages: base_url + "/api/chat/messages",
+  // general getters
+  getStoragePath: base_url + "/storage/",
   // Config Endpoints
   config__get_csrf_token: base_url + "/sanctum/csrf-cookie",
   config__login: base_url + "/login",
@@ -47,10 +58,4 @@ export default {
   config__send_password_reset_link: base_url + "/forgot-password",
   config__reset_password: base_url + "/reset-password",
   config__get_authenticated_user: base_url + "/api/user",
-  // analytics
-  analytics__get_visitors: base_url + "/api/analytics/visitors",
-  analytics__get_or_update_or_delete: base_url + "/api/analytics/",
-  analytics__get_paginate: base_url + "/api/analytics/pagination?page=",
-  // general getters
-  getStoragePath: base_url + "/storage/",
 };
