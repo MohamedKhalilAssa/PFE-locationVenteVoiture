@@ -44,6 +44,13 @@ const columns = [
     sortable: true,
     isStatus: true,
   },
+  {
+    name: "Disponibilite",
+    key: "disponibilite_",
+    capitalize: true,
+    sortable: true,
+    isDisponibility: true,
+  },
   { name: "actions" },
 ];
 // action

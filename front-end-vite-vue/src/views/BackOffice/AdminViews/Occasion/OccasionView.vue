@@ -42,6 +42,13 @@ const actions = [
     addClass: "text-green-600",
   },
   {
+    name: "Disponibilite",
+    key: "disponibilite_",
+    capitalize: true,
+    sortable: true,
+    isDisponibility: true,
+  },
+  {
     label: "Modifier",
     redirectToAction: "editAnnonceFront",
     toID: "id",

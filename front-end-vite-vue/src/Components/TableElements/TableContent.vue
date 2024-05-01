@@ -39,6 +39,25 @@
           {{ row[column.key] ?? " N/A" }}
         </p>
       </div>
+      <div
+        class="w-24 h-max py-1 px-3 rounded-lg"
+        v-else-if="column.isDisponibility"
+        :class="{
+          'bg-red-500': row[column.key + dispo] == 'indisponible',
+          'bg-green-500': row[column.key + dispo] == 'disponible',
+          'bg-gray-500':
+            row[column.key + dispo] == 'vendu' ||
+            row[column.key + dispo] == 'louer',
+        }"
+        @click="emitChangeDispo(row, column.key + dispo)"
+      >
+        <p
+          :class="{ uppercase: column.capitalize }"
+          class="text-white rounded-lg flex justify-center items-center"
+        >
+          {{ row[column.key + dispo] ?? " N/A" }}
+        </p>
+      </div>
       <p v-else :class="{ uppercase: column.capitalize }">
         {{ row[column.key] ?? "N/A" }}
       </p>
@@ -52,9 +71,10 @@
 <script setup>
 import ActionsTable from "@/Components/TableElements/ActionsTable.vue";
 import Endpoints from "@/assets/JS/Endpoints";
+import { computed } from "vue";
 
 const props = defineProps(["columns", "row", "actions"]);
-const emits = defineEmits(["delete", "ChangeStatus"]);
+const emits = defineEmits(["delete", "ChangeStatus", "ChangeDisponibility"]);
 
 const emitDelete = (id) => {
   emits("delete", id);
@@ -62,4 +82,11 @@ const emitDelete = (id) => {
 const emitChangeStatus = (row, column) => {
   emits("ChangeStatus", row, column);
 };
+
+const emitChangeDispo = (row, column) => {
+  emits("ChangeDisponibility", row, column);
+};
+const dispo = computed(() => {
+  return props.row.type_annonce == "vente" ? "vente" : "location";
+});
 </script>
