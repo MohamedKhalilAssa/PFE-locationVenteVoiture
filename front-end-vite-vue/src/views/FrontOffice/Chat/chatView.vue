@@ -1,7 +1,7 @@
 <template>
-  <main class="flex justify-center p-4">
+  <main class="flex justify-center sm:p-4 mb-14 sm:mb-4">
     <div
-      class="wrapper sm:h-max mt-14 p-4 bg-white rounded-lg max-w-3xl w-full min-h-96 shadow-lg"
+      class="wrapper sm:h-max mt-14 p-2 sm:p-4 bg-white rounded-lg max-w-3xl w-full min-h-96 shadow-lg"
     >
       <div class="header w-full min-h-16">
         <h3
@@ -26,7 +26,8 @@
             "
           >
             <li
-              class="rounded-lg p-2 text-lg w-80 min-w-40 break-all"
+              class="rounded-lg p-2 text-lg min-w-40 break-all"
+              style="max-width: 80%"
               :class="
                 message.sender_id == receiver.id
                   ? ' bg-red-500 text-white'
@@ -98,9 +99,8 @@ const fetchMessages = async () => {
 const submitMessage = async () => {
   const formData = setFormData(form);
   await AddToDB(button.value, Endpoints.chat__message, formData, "", errors);
-  await fetchMessages();
   scrollToBottom();
-  messages.value.push(form.value);
+  messages.value.push({ receiver_id: props.id, message: form.value.message });
   form.value.message = "";
 };
 
@@ -112,9 +112,7 @@ onMounted(() => {
       receiver.value = response;
     }
   );
-
-  counter = setInterval(fetchMessages, 4000);
-
+  counter = setInterval(fetchMessages, 5000);
   if (messagingBody.value) {
     messagingBody.value.addEventListener("scroll", () => {
       showScroller.value =

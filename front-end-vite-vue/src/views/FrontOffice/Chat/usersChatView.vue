@@ -35,7 +35,7 @@
   </main>
 </template>
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import getFromDB from "@/Composables/Getters/getFromDB";
 import Endpoints from "@/assets/JS/Endpoints.js";
 

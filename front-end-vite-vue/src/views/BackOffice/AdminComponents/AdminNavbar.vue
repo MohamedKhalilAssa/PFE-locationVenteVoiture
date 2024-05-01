@@ -26,10 +26,35 @@
 
     <nav>
       <dropDown :title="$store.getters.getFullName">
-        <router-link :to="{ name: 'Profile' }">Profile</router-link>
+        <router-link
+          :to="{ name: 'Profile' }"
+          class="!flex justify-start items-center gap-2"
+        >
+          <i class="fa-solid fa-user text-lg"></i>
+          <p class="text-lg w-max">Profile</p>
+        </router-link>
+        <hr />
+        <router-link
+          class="!flex justify-start items-center"
+          :to="{
+            name: 'chatView',
+          }"
+          ><button class="!flex justify-center items-center gap-2 !p-0">
+            <i class="fa-solid fa-message text-lg"></i>
+            <p class="text-lg w-max">Chat</p>
+          </button>
+        </router-link>
+        <hr />
+
         <hr />
         <form @submit.prevent="logout(route)">
-          <button type="submit" class="w-full text-left">Logout</button>
+          <button
+            type="submit"
+            class="!flex justify-start items-center gap-2 w-full"
+          >
+            <i class="fa-solid fa-sign-out text-lg"></i>
+            <p class="text-lg w-max">Logout</p>
+          </button>
         </form>
       </dropDown>
     </nav>
@@ -41,14 +66,11 @@ import SideBar from "@/views/BackOffice/AdminComponents/SideBar.vue";
 import Logo from "@/Components/Logo.vue";
 import dropDown from "@/Components/DropDown.vue";
 import { ref } from "vue";
-import { useStore } from "vuex";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import logout from "@/Composables/AuthenticationRequests/logout";
 
 // for slots
-const store = useStore();
 const route = useRoute();
-const router = useRouter();
 const HamburgerClicked = ref(false);
 
 const openSideBar = () => {

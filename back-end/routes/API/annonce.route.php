@@ -31,4 +31,8 @@ Route::group(["prefix" => "annonce", 'as' => 'annonce.'], function () {
     Route::post('/status/{id}', [
         AnnonceController::class, 'updateStatus'
     ])->where("id", "[0-9]+")->name("updateStatus");
+    // annonce dispo change
+    Route::post('/disponibilite/{id}', [
+        AnnonceController::class, 'updateDisponibilite'
+    ])->where("id", "[0-9]+")->name("updateDisponibilite");
 });

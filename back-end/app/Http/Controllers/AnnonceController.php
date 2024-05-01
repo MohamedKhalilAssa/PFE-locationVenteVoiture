@@ -266,9 +266,35 @@ class AnnonceController extends ParentController
     public function updateStatus($id)
     {
         $data = $this->model->find($id);
+        if ($data['owner_id'] != Auth::user()->id && Auth::user()->role == "client") {
+            return response()->json(['message' => "Seules les proprietaires / responsables peuvent changer le statut d'une annonce", 'iconColor' => 'red']);
+        }
         $formElements = $this->request->validate([
             'statut_annonce' => ['required', Rule::in(['approved', 'onhold', 'disabled'])],
         ]);
+        if ($data->update($formElements)) {
+            return response()->json(['message' => "Statut modifié avec succès", 'iconColor' => 'blue']);
+        } else {
+            return abort(400, 'la modification a echoué');
+        }
+    }
+    // update disponibilite only
+    public function updateDisponibilite($id)
+    {
+        $data = $this->model->find($id);
+        $formElements = [];
+        if ($data['owner_id'] != Auth::user()->id && Auth::user()->role == "client") {
+            return response()->json(['message' => "Seules les proprietaires / responsables peuvent changer le statut d'une annonce", 'iconColor' => 'red']);
+        }
+        if ($data->type_annonce == 'vente') {
+            $formElements = $this->request->validate([
+                'disponibilite_vente' => ['required', Rule::in('vendu', 'disponible', 'indisponible')],
+            ]);
+        } else if ($data->type_annonce == 'location') {
+            $formElements = $this->request->validate([
+                'disponibilite_location' => ['required', Rule::in('louer', 'disponible', 'indisponible')],
+            ]);
+        }
         if ($data->update($formElements)) {
             return response()->json(['message' => "Statut modifié avec succès", 'iconColor' => 'blue']);
         } else {

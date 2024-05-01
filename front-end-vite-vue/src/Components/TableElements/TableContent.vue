@@ -23,7 +23,7 @@
         />
       </div>
       <div
-        class="w-20 h-max py-1 px-3 rounded-lg"
+        class="w-24 h-max py-2 px-4 rounded-lg"
         :class="{
           'bg-red-500': row[column.key] == 'onhold',
           'bg-green-500': row[column.key] == 'approved',
@@ -40,7 +40,7 @@
         </p>
       </div>
       <div
-        class="w-24 h-max py-1 px-3 rounded-lg"
+        class="w-28 h-max py-2 px-3 rounded-lg"
         v-else-if="column.isDisponibility"
         :class="{
           'bg-red-500': row[column.key + dispo] == 'indisponible',
