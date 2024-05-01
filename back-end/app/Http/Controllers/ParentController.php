@@ -101,6 +101,8 @@ class ParentController extends BaseController
         // pour verifier si il y a une erreur custom
         if (isset($data_to_save["error"])) {
             return response()->json(['errors' => $data_to_save['error']], 422);
+        } else if (isset($data_to_save["response"])) {
+            return response()->json($data_to_save['response']);
         }
         // create model
         $new_model = $this->model::create($data_to_save);
@@ -132,6 +134,8 @@ class ParentController extends BaseController
         // pour verifier si il y a une erreur custom
         if (isset($data["error"])) {
             return response()->json(['errors' => $data['error']], 422);
+        } else if (isset($data["response"])) {
+            return response()->json($data['response']);
         }
 
         if ($current_model->update($data)) {
@@ -153,6 +157,8 @@ class ParentController extends BaseController
         // pour verifier si il y a une erreur custom
         if (isset($current_model["error"])) {
             return response()->json(['errors' => $current_model['error']], 422);
+        } else if (isset($current_model["response"])) {
+            return response()->json($current_model['response']);
         }
         if ($current_model->delete()) {
             $this->afterDestroy();

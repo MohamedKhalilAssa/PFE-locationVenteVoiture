@@ -66,9 +66,8 @@ import TablePagination from "@/Components/Pagination.vue";
 import TableContent from "@/Components/TableElements/TableContent.vue";
 import TableColumns from "@/Components/TableElements/TableColumns.vue";
 import { ref } from "vue";
-import Swal from "sweetalert2";
-import EditToDB from "@/Composables/CRUDRequests/EditToDB";
-import Endpoints from "@/assets/JS/Endpoints";
+import changeDisponibility from "@/Composables/Custom/changeDisponibility";
+import changeStatus from "@/Composables/Custom/changeStatus";
 
 const props = defineProps([
   "columns",
@@ -119,67 +118,16 @@ const sortingBy = (column, sort) => {
   fetching();
 };
 // ChangeStatusHandler
-const ChangeStatusHandler = (row, key) => {
-  Swal.fire({
-    title: "Change status",
-    html: `<select id="statusChange"  class="mx-auto block w-1/2 rounded-md border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-    <option ${
-      row[key] === "onhold" ? "selected" : ""
-    } value="onhold">On Hold</option>
-    <option  ${
-      row[key] === "approved" ? "selected" : ""
-    } value="approved">Approved</option>
-    <option  ${
-      row[key] === "disabled" ? "selected" : ""
-    } value="disabled">Disabled</option>
-  </select>`,
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, change it!",
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      const status = document.querySelector("#statusChange").value;
-      const form = new FormData();
-      form.append("statut_annonce", status);
-      EditToDB(null, Endpoints.annonce__update_status, row.id, form, "");
-      fetching();
-    }
-  });
+const ChangeStatusHandler = async (row, key) => {
+  await changeStatus(row, key);
+  fetching();
 };
 // ChangeStatusHandler
-const ChangeDisponibilityHandler = (row, key) => {
+const ChangeDisponibilityHandler = async (row, key) => {
   const type = key.split("_")[1];
   const value = type == "vente" ? "vendu" : "louer";
-  Swal.fire({
-    title: "Change disponibilite",
-    html: `<select id="dispoChange"  class="mx-auto block w-1/2 rounded-md border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-    <option ${
-      row[key] === "disponible" ? "selected" : ""
-    } value="disponible">Disponible</option>
-    <option  ${
-      row[key] === "indisponible" ? "selected" : ""
-    } value="indisponible">Indisponible</option>
-    <option  ${
-      row[key] === "vendu" || row[key] === "louer" ? "selected" : ""
-    } value="${value}">${value}</option>
-  </select>`,
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, change it!",
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      const disponibilite = document.querySelector("#dispoChange").value;
-      const form = new FormData();
-      form.append("disponibilite_" + type, disponibilite);
-      console.log(disponibilite);
-      EditToDB(null, Endpoints.annonce__update_disponibilite, row.id, form, "");
-      fetching();
-    }
-  });
+  await changeDisponibility(row, key, value, type);
+  fetching();
 };
 // deleting
 const DeleteHandler = (id) => {

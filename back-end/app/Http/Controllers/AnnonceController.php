@@ -205,9 +205,11 @@ class AnnonceController extends ParentController
     {
         $data = $this->request->except(['image']);
         if (!Auth::check()) {
-            return ['error' => ['titre' => ['Veuillez vous connecter']]];
+            return ['response' => ['message' => 'Veuillez vous connecter', 'iconColor' => 'red']];
         } else if ($current_model["owner_id"] != Auth::user()->id && Auth::user()->role == "client") {
-            return ['error' => ['titre' => ['Seules les responsable peuvent changer les annonces des clients']]];
+            return ['response' => ['message' => 'Seules les responsable peuvent changer les annonces des clients', 'iconColor' => 'red']];
+        } else if ($current_model->disponibilite_vente == 'vendu' || $current_model->disponibilite_location == 'louer') {
+            return response()->json(['message' => "Les voitures vendue/louer ne peuvent pas étre remodifiée", 'iconColor' => 'red']);
         }
 
         if ($this->request->options) {
@@ -285,7 +287,11 @@ class AnnonceController extends ParentController
         $formElements = [];
         if ($data['owner_id'] != Auth::user()->id && Auth::user()->role == "client") {
             return response()->json(['message' => "Seules les proprietaires / responsables peuvent changer le statut d'une annonce", 'iconColor' => 'red']);
+        } else if ($data->disponibilite_vente == 'vendu' || $data->disponibilite_location == 'louer') {
+            return response()->json(['message' => "Les voitures vendue/louer ne peuvent pas étre remodifiée", 'iconColor' => 'red']);
         }
+
+
         if ($data->type_annonce == 'vente') {
             $formElements = $this->request->validate([
                 'disponibilite_vente' => ['required', Rule::in('vendu', 'disponible', 'indisponible')],
@@ -305,7 +311,9 @@ class AnnonceController extends ParentController
     public function beforeDestroy($current_model)
     {
         if (Auth::user()->role == 'client' && $current_model->owner_id != Auth::user()->id) {
-            return ['error' => ['titre' => ['Vous n\'avez pas le droit de supprimer cette annonce']]];
+            return ['response' => ['message' => 'Vous n\'avez pas le droit de supprimer cette annonce', 'iconColor' => 'red']];
+        } else if ($current_model->disponibilite_vente == 'vendu' || $current_model->disponibilite_location == 'louer') {
+            return ['response' => ['message' => "Les voitures vendue/louer ne peuvent pas étre supprimée", 'iconColor' => 'red']];
         }
 
         return $current_model;
@@ -313,7 +321,9 @@ class AnnonceController extends ParentController
     // show
     public function beforeReturnForShow($data)
     {
-        if (Auth::user()->id == $data->owner_id) {
+        if (!Auth::check() && $data->statut_annonce != 'approved') {
+            return null;
+        } else if (Auth::check() && Auth::user()->id == $data->owner_id) {
             return $data;
         } else if ($data->statut_annonce != 'approved' && !in_array(Auth::user()->role, ['admin', 'root'])) {
             return null;
@@ -344,15 +354,10 @@ class AnnonceController extends ParentController
                     'value' => 'disponible'
                 ],
                 [
-                    'column' => 'statut_annonce',
+                    'column' => 'type_annonce',
                     'operator' => 'like',
-                    'value' => 'approved',
-                    'OrCondition' => true
-                ], [
-                    'column' => 'disponibilite_location',
-                    'operator' => 'like',
-                    'value' => 'disponible'
-                ],
+                    'value' => 'vente'
+                ]
             ];
         } else if ($fromBack && !in_array(Auth::user()->role, ['admin', 'root'])) {
             abort(400, 'Unauthorized action');
@@ -407,6 +412,11 @@ class AnnonceController extends ParentController
                     'operator' => 'like',
                     'value' => 'disponible'
                 ],
+                [
+                    'column' => 'type_annonce',
+                    'operator' => 'like',
+                    'value' => 'vente'
+                ]
             ];
         } else if ($fromBack && !in_array(Auth::user()->role, ['admin', 'root'])) {
             abort(400, 'Unauthorized action');
