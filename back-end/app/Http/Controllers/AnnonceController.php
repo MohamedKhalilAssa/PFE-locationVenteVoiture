@@ -297,7 +297,7 @@ class AnnonceController extends ParentController
     public function indexOccasion()
     {
         $fromBack = $this->request->source ?? false;
-        $this->conditions = [
+        $defaultCondition = [
             [
                 'column' => 'etat',
                 'operator' => 'like',
@@ -305,17 +305,28 @@ class AnnonceController extends ParentController
             ],
         ];
         if (!$fromBack) {
-            $this->conditions[] = [
+            $this->conditions = [
+                ...$defaultCondition,
                 [
                     'column' => 'statut_annonce',
                     'operator' => 'like',
                     'value' => 'approved'
                 ],
                 [
-                    'column' => 'type_annonce',
+                    'column' => 'disponibilite_vente',
                     'operator' => 'like',
-                    'value' => 'vente'
-                ]
+                    'value' => 'disponible'
+                ],
+                [
+                    'column' => 'statut_annonce',
+                    'operator' => 'like',
+                    'value' => 'approved',
+                    'OrCondition' => true
+                ], [
+                    'column' => 'disponibilite_location',
+                    'operator' => 'like',
+                    'value' => 'disponible'
+                ],
             ];
         } else if ($fromBack && !in_array(Auth::user()->role, ['admin', 'root'])) {
             abort(400, 'Unauthorized action');
@@ -331,7 +342,16 @@ class AnnonceController extends ParentController
                 'column' => 'type_annonce',
                 'operator' => 'like',
                 'value' => 'location'
-            ]
+            ],
+            [
+                'column' => 'statut_annonce',
+                'operator' => 'like',
+                'value' => 'approved'
+            ], [
+                'column' => 'disponibilite_location',
+                'operator' => 'like',
+                'value' => 'disponible'
+            ],
         ];
 
         $this->filteringDisplay("location");
@@ -341,7 +361,7 @@ class AnnonceController extends ParentController
     public function indexNeuf()
     {
         $fromBack = $this->request->source ?? false;
-        $this->conditions = [
+        $defaultCondition = [
             [
                 'column' => 'etat',
                 'operator' => 'like',
@@ -349,17 +369,18 @@ class AnnonceController extends ParentController
             ],
         ];
         if (!$fromBack) {
-            $this->conditions[] = [
+            $this->conditions = [
+                ...$defaultCondition,
                 [
                     'column' => 'statut_annonce',
                     'operator' => 'like',
                     'value' => 'approved'
                 ],
                 [
-                    'column' => 'type_annonce',
+                    'column' => 'disponibilite_vente',
                     'operator' => 'like',
-                    'value' => 'vente'
-                ]
+                    'value' => 'disponible'
+                ],
             ];
         } else if ($fromBack && !in_array(Auth::user()->role, ['admin', 'root'])) {
             abort(400, 'Unauthorized action');

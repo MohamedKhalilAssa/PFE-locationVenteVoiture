@@ -152,5 +152,4 @@ class UserController extends ParentController
         }
         return response()->json(['message' => $results]);
     }
-
 }

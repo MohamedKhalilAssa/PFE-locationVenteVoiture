@@ -296,7 +296,7 @@ class ParentController extends BaseController
     {
         // customizing depending on the function
         foreach ($this->conditions as $condition) {
-            if (isset($condition['OrCondition']) && $condition['OrCondition'] == 'true') {
+            if (isset($condition['OrCondition']) && $condition['OrCondition'] === true) {
                 $this->model->orWhere($this->model_table . '.' . $condition['column'], $condition['operator'], $condition['value']);
             } else {
                 $this->model->where($this->model_table . '.' . $condition['column'], $condition['operator'], $condition['value']);
