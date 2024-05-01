@@ -20,6 +20,7 @@ Route::group(["prefix" => "annonce", 'as' => 'annonce.'], function () {
     Route::get('/neuf/maxPrice', [AnnonceController::class, 'getMaxPriceVenteNeuf'])->name("getMaxPriceVenteNeuf");
     Route::get('/topVilles', [AnnonceController::class, 'getTopVilles'])->name("getTopVilles");
     Route::get('/topMarques', [AnnonceController::class, 'getTopMarques'])->name("getTopMarques");
+    Route::get('/user-annonces', [AnnonceController::class, 'getUserAnnonces'])->name("getUserAnnonces");
     // for deleting
     Route::delete('/{id}', [AnnonceController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
     // for updating

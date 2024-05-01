@@ -1,8 +1,8 @@
 <template>
-  <TableHeader :titre="titre" :addDestination="addName">
+  <TableHeader :titre="titre" :addDestination="addName" v-if="!noHeader">
     {{ total }}
   </TableHeader>
-  <div class="bg-white relative shadow-lg sm:rounded-lg">
+  <div class="bg-white relative shadow-lg sm:rounded-lg" :class="customClass">
     <SearchField
       :columns="columns"
       @search="handlingSearch"
@@ -76,6 +76,8 @@ const props = defineProps([
   "deleteFrom",
   "titre",
   "addName",
+  "noHeader",
+  "customClass",
 ]);
 let result = ref({});
 let total = ref(0);

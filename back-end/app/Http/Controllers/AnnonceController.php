@@ -370,6 +370,18 @@ class AnnonceController extends ParentController
         return $this->indexPaginate();
     }
     // getters
+    public function getUserAnnonces()
+    {
+        $this->conditions = [
+            [
+                'column' => 'owner_id',
+                'operator' => 'like',
+                'value' => Auth::user()->id
+            ],
+        ];
+
+        return $this->indexPaginate();
+    }
     public function getAnneeFabrication()
     {
         return $this->model::select('annee_fabrication as annees')->distinct()->orderBy('annee_fabrication', 'desc')->get();

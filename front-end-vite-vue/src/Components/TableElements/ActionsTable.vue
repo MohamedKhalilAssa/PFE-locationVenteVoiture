@@ -8,7 +8,12 @@
         @submit.prevent="$emit('delete')"
         class="inline-block font-medium text-red-600"
       >
-        <button type="submit" class="hover:underline">Supprimer</button>
+        <button v-if="!action.hasIcon" type="submit" class="hover:underline">
+          Supprimer
+        </button>
+        <button v-else type="submit" class="hover:underline">
+          <i class="text-xl fa fa-trash" aria-hidden="true"></i>
+        </button>
       </form>
       <router-link
         v-else
@@ -18,8 +23,10 @@
         }"
         class="font-medium text-black hover:underline"
         :class="action.addClass"
-        >{{ action.label }}</router-link
       >
+        <span v-if="!action.hasIcon">{{ action.label }}</span>
+        <i v-else class="text-xl" :class="action.hasIcon"></i>
+      </router-link>
     </div>
   </td>
 </template>
