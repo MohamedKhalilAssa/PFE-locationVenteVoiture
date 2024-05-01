@@ -77,9 +77,13 @@ import Endpoints from "@/assets/JS/Endpoints";
 import AddToDB from "@/Composables/CRUDRequests/AddToDB";
 import { setFormData } from "@/Composables/Helpers/globalFunctions";
 import getFromDB from "@/Composables/Getters/getFromDB";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 const props = defineProps(["id"]);
 const button = ref(null);
+const store = useStore();
+const router = useRouter();
 const errors = ref(null);
 const messages = ref({});
 const receiver = ref(null);
@@ -106,6 +110,10 @@ const submitMessage = async () => {
 
 let counter;
 onMounted(() => {
+  if (form.value.receiver_id == store.getters.getUser.id) {
+    router.push({ name: "homeView" });
+  }
+
   fetchMessages();
   getFromDB(Endpoints.user__get_or_update_or_delete + props.id).then(
     (response) => {

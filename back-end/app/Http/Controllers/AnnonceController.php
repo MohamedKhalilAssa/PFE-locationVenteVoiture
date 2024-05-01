@@ -313,9 +313,9 @@ class AnnonceController extends ParentController
     // show
     public function beforeReturnForShow($data)
     {
-        if (Auth::check() && !in_array(Auth::user()->role, ['admin', 'root']) && $data->statut_annonce != 'approved') {
-            return null;
-        } else if (!Auth::check() && $data->statut_annonce != 'approved') {
+        if (Auth::user()->id == $data->owner_id) {
+            return $data;
+        } else if ($data->statut_annonce != 'approved' && !in_array(Auth::user()->role, ['admin', 'root'])) {
             return null;
         } else
             return $data;

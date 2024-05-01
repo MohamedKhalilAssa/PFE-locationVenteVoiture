@@ -27,6 +27,9 @@ class MessageController extends ParentController
     {
         $data = $this->request->all();
         $data['sender_id'] = Auth::user()->id;
+        if ($data['receiver_id'] == Auth::user()->id) {
+            return ['error' => ['message' => ['Vous ne pouvez pas vous envoyer un message vers vous meme']]];
+        }
         return $data;
     }
     public function afterSaveForStore($new_model)

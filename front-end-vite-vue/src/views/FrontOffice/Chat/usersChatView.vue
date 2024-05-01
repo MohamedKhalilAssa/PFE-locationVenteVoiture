@@ -9,8 +9,13 @@
         Users
       </h3>
       <div class="usersList">
-        <div v-for="user in users" :key="user.id">
+        <div
+          v-for="user in users"
+          :key="user.id"
+          v-if="users && users[0].id != $store.state.user.id"
+        >
           <router-link
+            v-if="user.id != $store.state.user.id"
             :to="{ name: 'chatWithView', params: { id: user.id } }"
             class="line cursor-pointer flex items-center justify-between flex-wrap h-28 p-4 border-b-2 border-gray-200 hover:bg-gray-200 gap-2"
           >
@@ -29,6 +34,9 @@
               ></i>
             </div>
           </router-link>
+        </div>
+        <div v-else class="text-2xl sm:text-3xl text-center">
+          Vous n'etes pas en contact avec d'autres utilisateurs
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@ class UserController extends ParentController
         $this->model = User::class;
         $this->model_name = 'Utilisateur';
         $this->middleware('auth:sanctum')->except(['show']);
-        $this->middleware('admin')->except(['show', 'changePassword', 'update']);
+        $this->middleware('admin')->except(['show', 'changePassword', 'getChattedWith', 'update']);
         parent::__construct();
     }
     public function beforeGetting()
