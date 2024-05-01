@@ -266,8 +266,8 @@ class AnnonceController extends ParentController
     public function updateStatus($id)
     {
         $data = $this->model->find($id);
-        if ($data['owner_id'] != Auth::user()->id && Auth::user()->role == "client") {
-            return response()->json(['message' => "Seules les proprietaires / responsables peuvent changer le statut d'une annonce", 'iconColor' => 'red']);
+        if (Auth::user()->role == "client") {
+            return response()->json(['message' => "Seules les responsables peuvent changer le statut d'une annonce", 'iconColor' => 'red']);
         }
         $formElements = $this->request->validate([
             'statut_annonce' => ['required', Rule::in(['approved', 'onhold', 'disabled'])],

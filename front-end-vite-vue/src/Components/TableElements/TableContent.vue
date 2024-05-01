@@ -72,7 +72,9 @@
 import ActionsTable from "@/Components/TableElements/ActionsTable.vue";
 import Endpoints from "@/assets/JS/Endpoints";
 import { computed } from "vue";
+import { useStore } from "vuex";
 
+const store = useStore();
 const props = defineProps(["columns", "row", "actions"]);
 const emits = defineEmits(["delete", "ChangeStatus", "ChangeDisponibility"]);
 
@@ -80,7 +82,11 @@ const emitDelete = (id) => {
   emits("delete", id);
 };
 const emitChangeStatus = (row, column) => {
-  emits("ChangeStatus", row, column);
+  if (
+    store.getters.getUser.role == "admin" ||
+    store.getters.getUser.role == "root"
+  )
+    emits("ChangeStatus", row, column);
 };
 
 const emitChangeDispo = (row, column) => {
