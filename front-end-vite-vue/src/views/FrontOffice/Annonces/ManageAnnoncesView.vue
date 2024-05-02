@@ -1,5 +1,5 @@
 <template>
-  <main class="p-2 sm:p-4 md:ml-12 md:p-8 my-10 flex justify-center">
+  <main class="p-2 sm:p-4 ml-3 md:p-8 my-10 flex justify-center min-h-screen">
     <div
       class="content p-4 mt-14 bg-white rounded-lg w-full min-h-96 shadow-lg"
     >

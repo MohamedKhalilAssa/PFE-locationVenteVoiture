@@ -55,6 +55,12 @@
       addClass="py-4"
     ></TablePagination>
   </div>
+  <disponibilityModal
+    v-if="showDispoModal"
+    :row="rowDispo"
+    :dispo_key="dispo_key"
+    @closed="closeDispoModal"
+  ></disponibilityModal>
 </template>
 
 <script setup>
@@ -66,9 +72,14 @@ import TablePagination from "@/Components/Pagination.vue";
 import TableContent from "@/Components/TableElements/TableContent.vue";
 import TableColumns from "@/Components/TableElements/TableColumns.vue";
 import { ref } from "vue";
-import changeDisponibility from "@/Composables/Custom/changeDisponibility";
 import changeStatus from "@/Composables/Custom/changeStatus";
+import disponibilityModal from "./disponibilityModal.vue";
 
+// values for dispoModals
+const rowDispo = ref(null);
+const dispo_key = ref(null);
+const showDispoModal = ref(false);
+// end
 const props = defineProps([
   "columns",
   "actions",
@@ -124,10 +135,15 @@ const ChangeStatusHandler = async (row, key) => {
 };
 // ChangeStatusHandler
 const ChangeDisponibilityHandler = async (row, key) => {
-  const type = key.split("_")[1];
-  const value = type == "vente" ? "vendu" : "louer";
-  await changeDisponibility(row, key, value, type);
-  fetching();
+  showDispoModal.value = true;
+  rowDispo.value = row;
+  dispo_key.value = key;
+};
+const closeDispoModal = (fetch = false) => {
+  if (fetch) {
+    fetching();
+  }
+  showDispoModal.value = false;
 };
 // deleting
 const DeleteHandler = (id) => {
