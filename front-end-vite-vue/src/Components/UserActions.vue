@@ -99,7 +99,7 @@ aside {
   padding: 1rem;
   z-index: 51;
   left: 0;
-  top: 20vh;
+  top: 25vh;
   background: #fff;
 }
 

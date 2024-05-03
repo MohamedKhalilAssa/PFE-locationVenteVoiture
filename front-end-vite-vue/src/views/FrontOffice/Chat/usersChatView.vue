@@ -28,9 +28,14 @@
               <p class="text-lg h-max text-gray-500">{{ user.email }}</p>
             </div>
             <div class="status flex items-center gap-2 w-full sm:w-auto">
-              <p class="pb-0.5">online</p>
+              <p class="pb-0.5">
+                {{ user.status == "Online" ? "Online" : "Offline" }}
+              </p>
               <i
-                class="fa-solid fa-circle text-green-500 flex items-center"
+                class="fa-solid fa-circle flex items-center"
+                :class="
+                  user.status == 'Online' ? 'text-green-500' : 'text-red-500'
+                "
               ></i>
             </div>
           </router-link>

@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Annonce;
-use Illuminate\Http\Request;
-use function Pest\Laravel\json;
+use App\Models\Location;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\LocationController;
+use Illuminate\Validation\ValidationException;
 
 class AnnonceController extends ParentController
 {
@@ -18,6 +17,7 @@ class AnnonceController extends ParentController
     {
 
         $this->model = Annonce::class;
+        $this->middleware('auth:sanctum')->only(['store', 'update', 'destroy', 'updateStatus', 'updateDisponibilite']);
         $this->model_name = 'Annonce';
         parent::__construct();
     }
@@ -203,42 +203,54 @@ class AnnonceController extends ParentController
 
     public function beforeSaveForUpdate($current_model)
     {
-        $data = $this->request->except(['image']);
+        // Check if the user is authenticated
         if (!Auth::check()) {
             return ['response' => ['message' => 'Veuillez vous connecter', 'iconColor' => 'red']];
-        } else if ($current_model["owner_id"] != Auth::user()->id && Auth::user()->role == "client") {
-            return ['response' => ['message' => 'Seules les responsable peuvent changer les annonces des clients', 'iconColor' => 'red']];
-        } else if ($current_model->disponibilite_vente == 'vendu' || $current_model->disponibilite_location == 'louer') {
-            return response()->json(['message' => "Les voitures vendue/louer ne peuvent pas étre remodifiée", 'iconColor' => 'red']);
         }
 
-        if ($this->request->options) {
-            $options = [];
-            foreach ($this->request->options as $option) {
-                $options[] = $option;
-            }
-            $data['options'] = json_encode($options);
+        // Check if the user is authorized to update the model
+        if ($current_model["owner_id"] != Auth::user()->id && Auth::user()->role == "client") {
+            return ['response' => ['message' => 'Seules les responsables peuvent changer les annonces des clients', 'iconColor' => 'red']];
         }
-        // setting default values
+
+        // Check if the model is not already sold or rented
+        if ($current_model->disponibilite_vente == 'vendu' || $current_model->disponibilite_location == 'louer') {
+            return response()->json(['message' => "Les voitures vendues/louées ne peuvent pas être modifiées", 'iconColor' => 'red']);
+        }
+
+        // Verify if the model's announcement status is approved
+        if ($current_model->statut_annonce != 'approved') {
+            return response()->json(['message' => "L'annonce doit être approuvée pour pouvoir modifier sa disponibilité", 'iconColor' => 'red']);
+        }
+
+        $data = $this->request->except(['image']);
+
+        // Convert options array to JSON if provided
+        if ($this->request->has('options')) {
+            $data['options'] = json_encode($this->request->options);
+        }
+
+        // Setting default values based on type_annonce
         if ($this->request->type_annonce == 'vente') {
             $data['prix_location'] = null;
             $data["disponibilite_location"] = null;
-        } else if ($this->request->type_annonce == 'location') {
+        } elseif ($this->request->type_annonce == 'location') {
             $data['prix_vente'] = null;
             $data["disponibilite_vente"] = null;
         }
-        // verifying if the user is a client and the request
-        if ($data['etat'] != 'occasion' && (!Auth::check() || Auth::user()->role == 'client')) {
-            return ['error' => ['etat' => ['Seules les responsable peuvent changer l\'etat d\'une annonce']]];
-        } else if ($data['etat'] == 'occasion') {
-            if ($data["kilometrage"] == 0) {
-                return ['error' => ['kilometrage' => ['Le kilometrage doit etre superieur a 0 pour une annonce occasion']]];
-            }
-        } else if ($data['etat'] == 'neuf') {
-            if ($data["kilometrage"] != 0) {
-                return ['error' => ['kilometrage' => ['Le kilometrage doit etre egale a 0 pour une annonce neuf']]];
-            }
+
+        // Verify if the user is authorized to change the model's state
+        if ($data['etat'] != 'occasion' && Auth::user()->role == 'client') {
+            return ['error' => ['etat' => ['Seules les responsables peuvent changer l\'état d\'une annonce']]];
         }
+
+        // Additional validations based on etat
+        if ($data['etat'] == 'occasion' && $data["kilometrage"] == 0) {
+            return ['error' => ['kilometrage' => ['Le kilométrage doit être supérieur à 0 pour une annonce occasion']]];
+        } elseif ($data['etat'] == 'neuf' && $data["kilometrage"] != 0) {
+            return ['error' => ['kilometrage' => ['Le kilométrage doit être égal à 0 pour une annonce neuve']]];
+        }
+
         return $data;
     }
     public function afterSaveForUpdate($current_model)
@@ -284,29 +296,55 @@ class AnnonceController extends ParentController
     public function updateDisponibilite($id)
     {
         $data = $this->model->find($id);
-        $formElements = [];
+
+        // Authorization Check
         if ($data['owner_id'] != Auth::user()->id && Auth::user()->role == "client") {
             return response()->json(['message' => "Seules les proprietaires / responsables peuvent changer le statut d'une annonce", 'iconColor' => 'red']);
-        } else if ($data->disponibilite_vente == 'vendu' || $data->disponibilite_location == 'louer') {
+        }
+        // verify approval
+
+        if ($data->statut_annonce != 'approved') {
+            return response()->json(['message' => "L'annonce doit être approuvée pour pouvoir modifer sa disponibilité", 'iconColor' => 'red']);
+        }
+
+        // Check if the item is not already vendu or loaned
+        if ($data->disponibilite_vente == 'vendu' || $data->disponibilite_location == 'louer') {
             return response()->json(['message' => "Les voitures vendue/louer ne peuvent pas étre remodifiée", 'iconColor' => 'red']);
         }
 
-
+        // Validation
+        $validatedData = [];
         if ($data->type_annonce == 'vente') {
-            $formElements = $this->request->validate([
-                'disponibilite_vente' => ['required', Rule::in('vendu', 'disponible', 'indisponible')],
+            $validatedData = $this->request->validate([
+                'disponibilite_vente' => ['required', Rule::in(['vendu', 'disponible', 'indisponible'])],
             ]);
-        } else if ($data->type_annonce == 'location') {
-            $formElements = $this->request->validate([
-                'disponibilite_location' => ['required', Rule::in('louer', 'disponible', 'indisponible')],
+
+            // If the announcement type is 'vente' and  'vendu',  Vente update
+            if ($validatedData['disponibilite_vente'] == 'vendu') {
+                $VenteController = new VenteController;
+                $VenteController->store($data);
+            }
+        } elseif ($data->type_annonce == 'location') {
+            $validatedData = $this->request->validate([
+                'disponibilite_location' => ['required', Rule::in(['louer', 'disponible', 'indisponible'])],
             ]);
+
+            // If the announcement type is 'location' and  'louer',  location update
+            if ($validatedData['disponibilite_location'] == 'louer') {
+                $locationController = new LocationController;
+                $response = $locationController->store($this->request, $data);
+                if ($response !== true) {
+                    return $response;
+                }
+            }
         }
-        if ($data->update($formElements)) {
-            return response()->json(['message' => "Statut modifié avec succès", 'iconColor' => 'blue']);
-        } else {
+
+        if (!$data->update($validatedData)) {
             return abort(400, 'la modification a echoué');
         }
+        return response()->json(['message' => "Disponibilité modifié avec succès", 'iconColor' => 'blue']);
     }
+
     // Deleting
     public function beforeDestroy($current_model)
     {

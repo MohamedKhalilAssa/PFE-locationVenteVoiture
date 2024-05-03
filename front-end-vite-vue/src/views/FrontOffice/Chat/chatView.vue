@@ -3,13 +3,29 @@
     <div
       class="wrapper sm:h-max mt-14 p-2 sm:p-4 bg-white rounded-lg max-w-3xl w-full min-h-96 shadow-lg"
     >
-      <div class="header w-full min-h-16">
+      <div
+        class="header w-full p-2 min-h-16 flex flex-wrap justify-between items-center sm:items-start"
+      >
         <h3
           v-if="receiver"
-          class="relative text-2xl mb-6 sm:text-3xl leading-6 font-medium tracking-tight text-gray-900 text-ellipsis overflow-hidden whitespace-nowrap block after:border-b-4 after:border-red-500 after:absolute after:left-0 after:bottom-1 after:w-8 pb-2"
+          class="relative text-2xl mb-3 sm:mb-6 sm:text-3xl leading-6 font-medium tracking-tight text-gray-900 text-ellipsis overflow-hidden whitespace-nowrap block after:border-b-4 after:border-red-500 after:absolute after:left-0 after:bottom-1 after:w-8 pb-3"
         >
           {{ receiver.nom + " " + receiver.prenom }}
         </h3>
+        <div
+          class="status flex justify-end items-center gap-2 w-full sm:w-auto sm:pt-2"
+          v-if="receiver"
+        >
+          <p class="pb-0.5">
+            {{ receiver.status == "Online" ? "Online" : "Offline" }}
+          </p>
+          <i
+            class="fa-solid fa-circle flex items-center"
+            :class="
+              receiver.status == 'Online' ? 'text-green-500' : 'text-red-500'
+            "
+          ></i>
+        </div>
       </div>
       <div
         class="body relative bg-gray-200 overflow-auto sm:!max-h-96 sm:!min-h-96 rounded-lg p-2 h-full scroll-smooth"
@@ -118,6 +134,7 @@ onMounted(() => {
   getFromDB(Endpoints.user__get_or_update_or_delete + props.id).then(
     (response) => {
       receiver.value = response;
+      console.log(response);
     }
   );
   counter = setInterval(fetchMessages, 5000);

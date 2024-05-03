@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('ventes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('voiture_id')->constrained('annonces')->onDelete('cascade');
-            $table->dateTime('date_vente')->default(now());
-            $table->enum('statut_vente', ['en_cours', 'termine', 'annule']);
-            $table->decimal('prix_total_vente', 12, 3);
+            $table->decimal('prix_vente', 12, 3);
             $table->timestamps();
         });
     }

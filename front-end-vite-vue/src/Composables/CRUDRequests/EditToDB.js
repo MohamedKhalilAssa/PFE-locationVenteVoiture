@@ -33,8 +33,8 @@ const EditToDB = async (
 
     if (error.response) {
       if (error.response.status === 422) {
+        console.log(error.response.data.errors);
         if (errors) errors.value = error.response.data.errors;
-        console.log(errors && errors.value);
       } else if (
         error.response.status === 401 ||
         error.response.status === 403

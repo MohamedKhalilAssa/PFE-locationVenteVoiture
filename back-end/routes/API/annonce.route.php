@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnnonceController;
 
-Route::group(["prefix" => "annonce", 'as' => 'annonce.'], function () {
+Route::group(["prefix" => "annonce", 'as' => 'annonce.', "middleware" => ["verifyLocationDate"]], function () {
     // front End material
     Route::get('/{id}', [AnnonceController::class, 'show'])->name("show")->where("id", "[0-9]+");
     // occasion

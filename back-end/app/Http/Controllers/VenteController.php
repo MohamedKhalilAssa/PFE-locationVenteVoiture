@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Vente;
 use Illuminate\Http\Request;
 
-class VenteController extends ParentController
+class VenteController extends Controller
 {
-    public function __construct()
+    public function store($data)
     {
-        $this->model = Vente::class;
-        $this->model_name = 'Vente';
-        $this->middleware('auth:sanctum');
-        $this->middleware('admin');
-        parent::__construct();
-    }
+        Vente::create([
+            'voiture_id' => $data->id,
+            'prix_vente' => $data->prix_vente,
+        ]);
 
+        return true;
+    }
 }
