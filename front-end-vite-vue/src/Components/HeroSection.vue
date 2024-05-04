@@ -7,7 +7,7 @@
       class="backgroundImage z-0 absolute top-0 left-0 w-full h-full bg-cover rounded-xl bg-no-repeat bg-left-bottom"
     ></div>
     <div class="content absolute z-10 text-white font-mono">
-      <p class="text-center" style="font-size: 1rem">
+      <p class="text-center hidden sm:block" style="font-size: 1rem">
         acheter ou louer des voitures en toute simplicité
       </p>
       <p

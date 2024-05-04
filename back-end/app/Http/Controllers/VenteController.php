@@ -24,4 +24,10 @@ class VenteController extends ParentController
 
         return true;
     }
+    public function getVenteByMonth()
+    {
+        return $this->model->selectRaw('COUNT(*) as total_announces, MONTH(created_at) as month')
+            ->groupBy('month')
+            ->get();
+    }
 }

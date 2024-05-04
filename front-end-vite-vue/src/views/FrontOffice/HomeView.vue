@@ -31,7 +31,7 @@
         </div>
       </div>
     </section>
-    <section class="w-full p-4 md:p-8 mb-20" style="max-height: 70vh">
+    <section class="w-full p-4 md:p-8 mb-20">
       <p class="text-3xl font-bold text-center uppercase">
         Parcourir les annonces
       </p>
@@ -79,10 +79,13 @@
         </router-link>
       </div>
     </section>
-    <section class="w-full p-4 md:p-8" style="min-height: 50vh">
+    <section
+      class="w-full overflow-hidden p-4 md:p-8 flex flex-col items-center gap-4"
+      style="min-height: 50vh"
+    >
       <p class="text-3xl font-bold text-center uppercase">Contactez-nous</p>
 
-      <div class="ml-10 mt-20 container flex items-center justify-center gap-6">
+      <div class="mt-20 container flex items-center justify-center gap-6">
         <a
           :href="`mailto:support@email.com`"
           class="flex items-center h-16 gap-2 bg-transparent rounded-lg border w-36 border-black text-black hover:bg-red-500 hover:border-red-500 hover:text-white duration-300 transition-all py-2 px-4 focus:outline-none focus:shadow-outline"

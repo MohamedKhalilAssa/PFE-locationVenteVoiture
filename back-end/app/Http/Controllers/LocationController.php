@@ -45,4 +45,10 @@ class LocationController extends ParentController
 
         return true;
     }
+    public function getLocationByMonth()
+    {
+        return $this->model->selectRaw('COUNT(*) as total_announces, MONTH(date_debut) as month')
+            ->groupBy('month')
+            ->get();
+    }
 }
