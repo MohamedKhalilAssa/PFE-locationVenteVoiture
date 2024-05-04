@@ -13,6 +13,7 @@ class MessageController extends ParentController
     {
         $this->model = Message::class;
         $this->model_name = 'Message';
+        $this->middleware('auth:sanctum');
         parent::__construct();
     }
     public function beforeValidateForStore()

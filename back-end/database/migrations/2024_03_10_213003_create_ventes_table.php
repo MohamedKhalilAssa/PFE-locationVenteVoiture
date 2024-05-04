@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('voiture_id')->constrained('annonces')->onDelete('cascade');
             $table->decimal('prix_vente', 12, 3);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

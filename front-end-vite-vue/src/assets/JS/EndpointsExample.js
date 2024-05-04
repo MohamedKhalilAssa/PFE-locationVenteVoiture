@@ -25,10 +25,12 @@ export default {
   ville__get_or_update_or_delete: base_url + "/api/ville/",
   ville__paginate: base_url + "/api/ville/pagination?page=",
   // annonce
+  annonce__get_user_annonces: base_url + "/api/annonce/user-annonces?page=",
   annonce__get_annee_fabrication: base_url + "/api/annonce/annees",
   annonce__get_or_update_or_delete: base_url + "/api/annonce/",
   annonce__show_backOffice: base_url + "/api/annonce/",
   annonce__update_status: base_url + "/api/annonce/status/",
+  annonce__update_disponibilite: base_url + "/api/annonce/disponibilite/",
   annonce__get_top_villes: base_url + "/api/annonce/topVilles",
   annonce__get_top_marques: base_url + "/api/annonce/topMarques",
   // occasion
@@ -40,9 +42,16 @@ export default {
   // location
   location__get_max_price: base_url + "/api/annonce/location/maxPrice",
   location__paginate: base_url + "/api/annonce/location/pagination?page=",
+  // traitement
+  traitement_location__paginate: base_url + "/api/location/pagination?page=",
+  traitement_location__delete: base_url + "/api/location/",
+  traitement_vente__paginate: base_url + "/api/vente/pagination?page=",
+  traitement_vente__delete: base_url + "/api/vente/",
   // neuf
   neuf__get_max_price: base_url + "/api/annonce/neuf/maxPrice",
   neuf__paginate: base_url + "/api/annonce/neuf/pagination?page=",
+  neuf__paginate_backOffice:
+    base_url + "/api/annonce/neuf/pagination?source=true&page=",
   // analytics
   analytics__get_visitors: base_url + "/api/analytics/visitors",
   analytics__get_or_update_or_delete: base_url + "/api/analytics/",

@@ -322,7 +322,7 @@ class AnnonceController extends ParentController
             // If the announcement type is 'vente' and  'vendu',  Vente update
             if ($validatedData['disponibilite_vente'] == 'vendu') {
                 $VenteController = new VenteController;
-                $VenteController->store($data);
+                $VenteController->storeVente($data);
             }
         } elseif ($data->type_annonce == 'location') {
             $validatedData = $this->request->validate([
@@ -332,7 +332,7 @@ class AnnonceController extends ParentController
             // If the announcement type is 'location' and  'louer',  location update
             if ($validatedData['disponibilite_location'] == 'louer') {
                 $locationController = new LocationController;
-                $response = $locationController->store($this->request, $data);
+                $response = $locationController->storeLocation($this->request, $data);
                 if ($response !== true) {
                     return $response;
                 }
@@ -501,6 +501,7 @@ class AnnonceController extends ParentController
     {
         return $this->model->leftjoin('marques', 'marque_id', '=', 'marques.id')->select('marque_id', 'marques.nom', DB::raw('COUNT(*) as count'))->groupBy('marque_id', 'marques.nom')->orderBy('count', 'desc')->take(6)->get();
     }
+
     // local helpers
     public function filteringDisplay($type = "vente")
     {

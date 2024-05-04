@@ -6,9 +6,17 @@ use Carbon\Carbon;
 use App\Models\Location;
 use Illuminate\Http\Request;
 
-class LocationController extends Controller
+class LocationController extends ParentController
 {
-    public function store(Request $request, $data)
+    public function __construct()
+    {
+        $this->model = Location::class;
+        $this->model_name = 'Location';
+        $this->middleware('auth:sanctum');
+        $this->middleware('admin')->except(['storeLocation']);
+        parent::__construct();
+    }
+    public function storeLocation(Request $request, $data)
     {
         $locations = $request->validate([
             'date_debut' => [
