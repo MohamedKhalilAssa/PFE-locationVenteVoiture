@@ -18,7 +18,7 @@ class UserController extends ParentController
         $this->model = User::class;
         $this->model_name = 'Utilisateur';
         $this->middleware('auth:sanctum')->except(['show']);
-        $this->middleware('admin')->except(['show', 'changePassword', 'getChattedWith', 'update']);
+        $this->middleware('admin')->except(['show', 'changePassword', 'getChattedWith','getNotif', 'update']);
         parent::__construct();
     }
     public function beforeGetting()
@@ -154,5 +154,11 @@ class UserController extends ParentController
             }
         }
         return response()->json(['message' => $results]);
+    }
+    public function getNotif()
+    {
+        $authUserId = Auth::user()->id;
+        $count = Message::where('receiver_id', $authUserId)->where('is_read', false)->count();
+        return response()->json(['result' => $count]);
     }
 }

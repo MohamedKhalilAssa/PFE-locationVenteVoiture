@@ -34,10 +34,17 @@
         :to="{
           name: 'chatView',
         }"
-        ><Button class="flex justify-start items-center gap-2">
-          <i class="fa-solid fa-message text-lg"></i>
-          <p class="text-lg w-max">Chat</p></Button
-        >
+        ><Button class="flex justify-between items-center gap-2">
+          <div class="desc flex justify-start items-center flex-row gap-2">
+            <i class="fa-solid fa-message text-lg"></i>
+            <p class="text-lg w-max">Chat</p>
+          </div>
+          <div
+            class="bg-white w-6 h-6 flex justify-center items-center rounded-full text-red-500"
+          >
+            {{ notif }}
+          </div>
+        </Button>
       </router-link>
       <form @submit.prevent="logout(route)">
         <Button class="text-lg flex justify-start items-center gap-2">
@@ -54,20 +61,28 @@
         v-if="!$store.getters.getAuthentication"
         class="fa-solid fa-user text-2xl"
       ></i>
-      <i v-else class="fa-solid fa-lock text-2xl"></i>
+      <i
+        v-else
+        class="fa-solid fa-lock text-2xl"
+        :class="{ 'text-red-500': notif != false }"
+      ></i>
     </div>
   </aside>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import Button from "./ButtonRed.vue";
 import logout from "@/Composables/AuthenticationRequests/logout";
+import getFromDB from "@/Composables/Getters/getFromDB";
+import Endpoints from "@/assets/JS/Endpoints";
+import { useStore } from "vuex";
 
 const aside = ref(null);
 const isUserMenu = ref(false);
-
+const notif = ref(false);
+const store = useStore();
 // using vue elements
 const route = useRoute();
 
@@ -89,6 +104,14 @@ const showUserActions = () => {
     }, 5500);
   }
 };
+
+onMounted(() => {
+  if (localStorage.getItem("Authentication")) {
+    getFromDB(Endpoints.chat__get_notif).then((resp) => {
+      notif.value = resp.result;
+    });
+  }
+});
 </script>
 
 <style scoped>
