@@ -143,11 +143,14 @@ class UserController extends ParentController
         $results = [];
         foreach ($users as $user) {
             if ($user->sender_id == $authUserId) {
-                if (!in_array($user->receiver, $results))
-                    $results[] = $user->receiver;
+                if (!in_array($user->receiver, $results)) {
+                    $results[] = ['user' => $user->receiver];
+                    return response()->json(['message' => $results]);
+                }
             } else {
-                if (!in_array($user->sender, $results))
-                    $results[] = $user->sender;
+                if (!in_array($user->sender, $results)) {
+                    $results[] = ['user' => $user->sender, "is_read" => $user->is_read];
+                }
             }
         }
         return response()->json(['message' => $results]);

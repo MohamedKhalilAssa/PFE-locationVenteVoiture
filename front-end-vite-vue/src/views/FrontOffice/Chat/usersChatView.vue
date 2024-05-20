@@ -10,32 +10,42 @@
       </h3>
       <div class="usersList">
         <div
-          v-for="user in users"
-          :key="user.id"
-          v-if="users && users[0].id != $store.state.user.id"
+          v-if="users && users[0] && users[0].user.id != $store.state.user.id"
+          v-for="result in users"
+          :key="result.user.id"
         >
           <router-link
-            v-if="user.id != $store.state.user.id"
-            :to="{ name: 'chatWithView', params: { id: user.id } }"
+            v-if="result.user.id != $store.state.user.id"
+            :to="{ name: 'chatWithView', params: { id: result.user.id } }"
             class="line cursor-pointer flex items-center justify-between flex-wrap h-28 p-4 border-b-2 border-gray-200 hover:bg-gray-200 gap-2"
           >
             <div class="text">
               <p
                 class="text-xl w-52 tracking-tight text-gray-900 text-ellipsis overflow-hidden whitespace-nowrap"
               >
-                {{ user.nom + " " + user.prenom }}
+                {{ result.user.nom + " " + result.user.prenom }}
               </p>
-              <p class="text-lg h-max text-gray-500">{{ user.email }}</p>
+              <p class="text-lg h-max text-gray-500">{{ result.user.email }}</p>
             </div>
-            <div class="status flex items-center gap-2 w-full sm:w-auto">
-              <p class="pb-0.5">
-                {{ user.status == "Online" ? "Online" : "Offline" }}
-              </p>
+            <div
+              class="status w-full sm:w-auto flex justify-between sm:items-end gap-2 sm:flex-col"
+            >
+              <div class="statusUser flex items-center gap-2">
+                <p class="pb-0.5">
+                  {{ result.user.status == "Online" ? "Online" : "Offline" }}
+                </p>
+                <i
+                  class="fa-solid fa-circle flex items-center"
+                  :class="
+                    result.user.status == 'Online'
+                      ? 'text-green-500'
+                      : 'text-red-500'
+                  "
+                ></i>
+              </div>
               <i
-                class="fa-solid fa-circle flex items-center"
-                :class="
-                  user.status == 'Online' ? 'text-green-500' : 'text-red-500'
-                "
+                class="fa-solid fa-envelope text-red-400 text-xl"
+                v-if="result['is_read'] == 0"
               ></i>
             </div>
           </router-link>

@@ -39,7 +39,10 @@ class MessageController extends ParentController
     }
     public function getMessages($id)
     {
-
+        $messages = $this->model->where('sender_id', $id)->where('receiver_id', '=', Auth::user()->id)->get();
+        foreach ($messages as $message) {
+            $message->update(['is_read' => true]);
+        }
         return $this->model->where('receiver_id', $id)->where('sender_id', '=', Auth::user()->id)->orWhere('sender_id', $id)->where('receiver_id', '=', Auth::user()->id)->get();
     }
     public function index()
