@@ -97,6 +97,23 @@
           </p>
         </div>
       </div>
+      <div class="mb-6">
+        <input
+          type="checkbox"
+          ref="check_is_blocked"
+          id="is_blocked"
+          class="mr-4"
+          @change="block"
+        />
+        <label for="is_blocked" class="inline-block text-lg mb-2"
+          >Block l'utilisateur
+        </label>
+        <div class="errors" v-if="errors">
+          <p class="text-red-600" v-if="errors.is_blocked">
+            {{ errors.is_blocked[0] }}
+          </p>
+        </div>
+      </div>
       <div class="mb-6 flex justify-center items-center">
         <button
           type="submit"
@@ -121,8 +138,9 @@ import { setForm, setFormData } from "@/Composables/Helpers/globalFunctions";
 
 // fetching existing modele
 const props = defineProps(["id"]);
-
+const check_is_blocked = ref(null);
 const form = ref({
+  is_blocked: 0,
   nom: null,
   prenom: null,
   email: null,
@@ -135,9 +153,16 @@ const router = useRouter();
 const store = useStore();
 const button = ref(null);
 
+const block = () => {
+  form.value.is_blocked = form.value.is_blocked == 0 ? 1 : 0;
+  console.log(form.value.is_blocked);
+};
 getById(Endpoints.user__get_or_update_or_delete, props.id).then((data) => {
   if (data) {
     setForm(form, data);
+    if (form.value.is_blocked == 1) {
+      check_is_blocked.value.checked = true;
+    }
   } else {
     store.commit("setError", "Utilisateur introuvable");
     store.commit("setErrorCode", "404");

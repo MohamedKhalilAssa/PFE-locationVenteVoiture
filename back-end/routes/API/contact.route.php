@@ -10,6 +10,8 @@ Route::group(['prefix' => 'contact-us', 'as' => 'contact.'], function () {
     Route::get('/{id}', [ContactUsController::class, 'show'])->where("id", "[0-9]+")->name("show");
     // for creating
     Route::post('/', [ContactUsController::class, 'store'])->name("store");
+    Route::post('/answer/{id}', [ContactUsController::class, 'answer'])->where("id", "[0-9]+")->name("answer");
+
     // for deleting
     Route::delete('/{id}', [ContactUsController::class, 'destroy'])->where("id", "[0-9]+")->name("destroy");
 });

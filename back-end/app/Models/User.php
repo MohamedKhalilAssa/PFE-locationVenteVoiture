@@ -30,6 +30,7 @@ class User extends Authenticatable
         'password',
         'status',
         'last_activity',
+        'is_blocked',
     ];
 
     /**

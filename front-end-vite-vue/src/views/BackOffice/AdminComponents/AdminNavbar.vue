@@ -37,6 +37,16 @@
         <router-link
           class="!flex justify-start items-center"
           :to="{
+            name: 'ContactUsBackView',
+          }"
+          ><button class="!flex justify-center items-center gap-2 !p-0">
+            <i class="fa-solid fa-headset text-lg"></i>
+            <p class="text-lg w-max">Support Messages</p>
+          </button>
+        </router-link>
+        <router-link
+          class="!flex justify-start items-center"
+          :to="{
             name: 'chatView',
           }"
           ><button class="!flex justify-center items-center gap-2 !p-0">

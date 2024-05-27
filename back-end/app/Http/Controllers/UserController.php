@@ -18,7 +18,7 @@ class UserController extends ParentController
         $this->model = User::class;
         $this->model_name = 'Utilisateur';
         $this->middleware('auth:sanctum')->except(['show']);
-        $this->middleware('admin')->except(['show', 'changePassword', 'getChattedWith','getNotif', 'update']);
+        $this->middleware('admin')->except(['show', 'changePassword', 'getChattedWith', 'getNotif', 'update']);
         parent::__construct();
     }
     public function beforeGetting()
@@ -80,7 +80,7 @@ class UserController extends ParentController
                 'max:255',
             ],
             'password' => ['exclude'],
-            'is_blocked' => ['boolean','required']
+            'is_blocked' => ['boolean', 'required']
         ];
     }
     public function beforeSaveForUpdate($current_model)
@@ -137,25 +137,35 @@ class UserController extends ParentController
     {
         $authUserId = Auth::user()->id;
 
-        $users = Message::with('receiver', 'sender')
-            ->where('sender_id', $authUserId)->orWhere('receiver_id', $authUserId)->distinct()
+        $messages = Message::with('receiver', 'sender')
+            ->where('sender_id', $authUserId)
+            ->orWhere('receiver_id', $authUserId)
             ->get();
 
         $results = [];
-        foreach ($users as $user) {
-            if ($user->sender_id == $authUserId) {
-                if (!in_array($user->receiver, $results)) {
-                    $results[] = ['user' => $user->receiver];
-                    return response()->json(['message' => $results]);
-                }
+        $uniqueUsers = [];
+
+        foreach ($messages as $message) {
+            if ($message->sender_id == $authUserId) {
+                $userId = $message->receiver_id;
+                $user = $message->receiver;
             } else {
-                if (!in_array($user->sender, $results)) {
-                    $results[] = ['user' => $user->sender, "is_read" => $user->is_read];
-                }
+                $userId = $message->sender_id;
+                $user = $message->sender;
+            }
+
+            if (!in_array($userId, $uniqueUsers)) {
+                $uniqueUsers[] = $userId;
+                $results[] = [
+                    'user' => $user,
+                    'is_read' => $message->is_read
+                ];
             }
         }
+
         return response()->json(['message' => $results]);
     }
+
     public function getNotif()
     {
         $authUserId = Auth::user()->id;

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\ContactUs;
 use Illuminate\Http\Request;
+use App\Mail\ContactFormMail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ContactUsController extends ParentController
 {
@@ -30,5 +32,21 @@ class ContactUsController extends ParentController
     {
         $data = array_merge($this->request->all(), ['user_id' => Auth::user()->id]);
         return $data;
+    }
+    public function answer($id)
+    {
+        $contact = ContactUs::find($id);
+
+        $this->request->validate([
+            'answer' => 'required|string|min:10|max:1024',
+        ]);
+
+        $email = $contact->email;
+        $messageContent = $this->request->input('answer');
+
+        Mail::to($email)->send(new ContactFormMail($email, $messageContent));
+
+        $contact->update(['is_answered' => true]);
+        return response()->json(['message' => 'Email sent successfully!']);
     }
 }

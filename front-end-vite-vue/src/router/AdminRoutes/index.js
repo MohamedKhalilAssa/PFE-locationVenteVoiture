@@ -20,4 +20,18 @@ export default [
   ...locationRoutes,
   ...occasionRoutes,
   ...neufRoutes,
+  {
+    path: "contact-us",
+    name: "ContactUsBackView",
+    component: () => import("@/views/BackOffice/Contact/ContactUsView.vue"),
+    meta: { requiresAuth: true, requiresAdmin: true },
+  },
+  {
+    path: "contact-us/:id",
+    name: "detailsContactUs",
+    component: () =>
+      import("@/views/BackOffice/Contact/DetailContactUsView.vue"),
+    meta: { requiresAuth: true, requiresAdmin: true },
+    props: true,
+  },
 ];

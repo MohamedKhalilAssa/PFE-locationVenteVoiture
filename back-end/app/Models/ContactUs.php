@@ -15,8 +15,10 @@ class ContactUs extends Model
         'email',
         'object',
         'message',
+        'is_answered',
     ];
-    public function users(){
+    public function users()
+    {
         return $this->belongsTo(User::class);
     }
 }
