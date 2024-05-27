@@ -44,7 +44,9 @@
         v-for="column in columns"
         :key="column.key"
         :value="column.key"
-        v-show="!column.isHidden && column.name != 'actions'"
+        v-show="
+          !column.isHidden && column.name != 'actions' && !column.unsearchable
+        "
       >
         {{ column.name }}
       </option>

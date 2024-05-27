@@ -35,7 +35,7 @@ const columns = [
     name: "Disponibilite",
     key: "disponibilite_",
     capitalize: true,
-    sortable: true,
+    unsearchable: true,
     isDisponibility: true,
   },
   { name: "actions" },
