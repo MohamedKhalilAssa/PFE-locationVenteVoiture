@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -21,9 +22,18 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        User::find(Auth::user()->id)->update(['last_activity' => now(), 'status' => 'Online']);
+        $user = User::find(Auth::user()->id);
 
+        if ($user->is_blocked) {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            throw ValidationException::withMessages([
+                'email' => __('Utilisateur est blocker'),
+            ]);
+        }
 
+        $user->update(['last_activity' => now(), 'status' => 'Online']);
         return response()->json([
             'message' => 'Login successful',
         ]);

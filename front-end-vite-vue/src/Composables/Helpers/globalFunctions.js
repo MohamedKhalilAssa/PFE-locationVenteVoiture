@@ -12,7 +12,8 @@ const setForm = (form, data) => {
 const setFormData = (form, except = []) => {
   let formData = new FormData();
   for (const [key, value] of Object.entries(form.value)) {
-    if (!except.includes(key)) formData.append(key, value);
+    if (!except.includes(key) && value) formData.append(key, value);
+    else formData.append(key, null);
   }
   return formData;
 };

@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('prenom');
             $table->string('nom');
             $table->string('email')->unique();
+            $table->boolean('is_blocked')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('telephone')->unique()->nullable();

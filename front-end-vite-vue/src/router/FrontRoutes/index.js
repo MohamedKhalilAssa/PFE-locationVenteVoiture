@@ -19,5 +19,11 @@ export default [
     meta: { requiresAuth: true },
     props: true,
   },
+  {
+    path: "/contact-us",
+    name: "contactUsView",
+    component: () => import("@/views/FrontOffice/ContactUsView.vue"),
+    meta: { requiresAuth: true },
+  },
   ...annonceRoutes,
 ];

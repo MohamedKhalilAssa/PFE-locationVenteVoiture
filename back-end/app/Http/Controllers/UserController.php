@@ -80,6 +80,7 @@ class UserController extends ParentController
                 'max:255',
             ],
             'password' => ['exclude'],
+            'is_blocked' => ['boolean','required']
         ];
     }
     public function beforeSaveForUpdate($current_model)

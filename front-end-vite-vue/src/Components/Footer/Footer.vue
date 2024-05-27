@@ -24,7 +24,7 @@
           </div>
         </template>
         <footerMenu titre="Societe">
-          <footerItem link="/contact">Contact</footerItem>
+          <footerItem link="/contact-us">Contact</footerItem>
           <footerItem link="/news">Actualites</footerItem>
           <footerItem link="/carrieres">Carrières</footerItem>
         </footerMenu>
@@ -74,7 +74,7 @@
         >
           <router-link
             class="footer-call-to-action-button button bg-red-500 hover:bg-red-700"
-            to="/contact"
+            to="/contact-us"
             target="_self"
           >
             Get in Touch

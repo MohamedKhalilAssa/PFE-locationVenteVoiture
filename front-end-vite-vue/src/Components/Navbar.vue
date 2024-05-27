@@ -26,6 +26,11 @@
       >
       <router-link
         class="link hover:font-bold duration-100"
+        :to="{ name: 'contactUsView' }"
+        >Contact Us</router-link
+      >
+      <router-link
+        class="link hover:font-bold duration-100"
         :to="{ name: 'adminHome' }"
         v-if="computedRole"
         >Dashboard</router-link
@@ -72,7 +77,13 @@
       >Location</router-link
     >
     <router-link
-      class="linkMob max-w-min hover:font-bold duration-100"
+      class="linkMob max-w-max w-full hover:font-bold duration-100"
+      @click="toggleMenu"
+      :to="{ name: 'contactUsView' }"
+      >Contact Us</router-link
+    >
+    <router-link
+      class="linkMob max-w-max w-full hover:font-bold duration-100"
       :to="{ name: 'adminHome' }"
       v-if="computedRole"
       >Dashboard</router-link
