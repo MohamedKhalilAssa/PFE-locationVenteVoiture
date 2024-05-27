@@ -6,6 +6,7 @@ export default {
   user__get_or_update_or_delete: base_url + "/api/users/",
   user__get_total: base_url + "/api/users/total",
   user__get_online_admin: base_url + "/api/users/admin/online",
+  user__change_password: base_url + "/api/users/change-password",
   users__chatted_with: base_url + "/api/users/get-chat",
   // Marques
   marque__get_all_or_add: base_url + "/api/marque",
@@ -45,8 +46,10 @@ export default {
   // traitement
   traitement_location__paginate: base_url + "/api/location/pagination?page=",
   traitement_location__delete: base_url + "/api/location/",
+  traitement_location__getByMonth: base_url + "/api/location/byMonth",
   traitement_vente__paginate: base_url + "/api/vente/pagination?page=",
   traitement_vente__delete: base_url + "/api/vente/",
+  traitement_vente__getByMonth: base_url + "/api/vente/byMonth",
   // neuf
   neuf__get_max_price: base_url + "/api/annonce/neuf/maxPrice",
   neuf__paginate: base_url + "/api/annonce/neuf/pagination?page=",
@@ -59,6 +62,12 @@ export default {
   // chat
   chat__message: base_url + "/api/chat/send",
   chat__get_messages: base_url + "/api/chat/get-messages/",
+  chat__get_notif: base_url + "/api/users/get-notif",
+  // contact
+  contact__store: base_url + "/api/contact-us",
+  contact__paginate: base_url + "/api/contact-us/pagination?page=",
+  contact__get_or_update_or_delete: base_url + "/api/contact-us/",
+  contact__answer: base_url + "/api/contact-us/answer/",
   // general getters
   getStoragePath: base_url + "/storage/",
   // Config Endpoints
@@ -71,3 +80,4 @@ export default {
   config__get_authenticated_user: base_url + "/api/user",
   config__get_bearer_token: base_url + "/api/user/token",
 };
+
