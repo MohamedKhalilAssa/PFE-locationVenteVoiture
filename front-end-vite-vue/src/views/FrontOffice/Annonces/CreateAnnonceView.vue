@@ -512,8 +512,8 @@ const allowed = computed(() => {
   );
 });
 const form = ref({
-  titre: null,
-  description: null,
+  titre: "",
+  description: "",
   ville_id: null,
   carburant: "",
   type_annonce: "",

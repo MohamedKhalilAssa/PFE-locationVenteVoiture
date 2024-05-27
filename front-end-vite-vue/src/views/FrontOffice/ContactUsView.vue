@@ -70,14 +70,13 @@ import Endpoints from "@/assets/JS/Endpoints";
 const button = ref(null);
 const errors = ref(null);
 const form = ref({
-  full_name: null,
-  email: null,
-  object: null,
-  message: null,
+  full_name: "",
+  email: "",
+  object: "",
+  message: "",
 });
 
 const submitMessage = async () => {
-  console.log(form.value);
   const formData = setFormData(form);
   await AddToDB(
     button.value,

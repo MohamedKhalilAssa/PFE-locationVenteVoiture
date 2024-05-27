@@ -87,10 +87,12 @@ class ParentController extends BaseController
     public function store()
     {
         // treatment to do before validate
+
         $this->beforeValidateForStore();
         $validator = Validator::make($this->request->all(), $this->rules);
         // treatment to do after validate
         $this->afterValidateForStore($validator);
+
         // verifying for errors
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);

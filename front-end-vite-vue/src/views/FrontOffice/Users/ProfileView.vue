@@ -225,21 +225,19 @@ const editProfileHandling = async () => {
 
 const editPassword = async () => {
   // editing password
-  if (form.value.password) {
-    const passData = new FormData();
-    passData.append("password", form.value.password);
-    passData.append("password_confirmation", form.value.password_confirmation);
-    AddToDB(
-      buttonPassword.value,
-      Endpoints.user__change_password,
-      passData,
-      "",
-      errors
-    ).then(() => {
-      form.value.password = null;
-      form.value.password_confirmation = null;
-      buttonPassword.value.disabled = false;
-    });
-  }
+  const passData = new FormData();
+  passData.append("password", form.value.password);
+  passData.append("password_confirmation", form.value.password_confirmation);
+  AddToDB(
+    buttonPassword.value,
+    Endpoints.user__change_password,
+    passData,
+    "",
+    errors
+  ).then(() => {
+    form.value.password = null;
+    form.value.password_confirmation = null;
+    buttonPassword.value.disabled = false;
+  });
 };
 </script>
