@@ -1,6 +1,7 @@
 <template>
   <div
-    class="modal bg-white w-96 sm:w-80 h-32 p-4 rounded-lg shadow-lg flex gap-8 items-center"
+    class="modal w-96 sm:w-80 h-32 p-4 rounded-lg shadow-lg flex gap-8 items-center"
+    :class="bg"
   >
     <i
       class="fa-solid text-5xl w-28 h-24 flex items-center justify-center p-5 rounded-lg"
@@ -16,7 +17,7 @@
 import getFromDB from "@/Composables/Getters/getFromDB";
 import { ref } from "vue";
 
-const props = defineProps(["endpoint", "icon"]);
+const props = defineProps(["endpoint", "icon", "bg"]);
 
 const data = ref([]);
 
