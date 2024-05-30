@@ -1,13 +1,6 @@
 <template>
-  <aside
-    class="-translate-x-full duration-500 ease-in-out"
-    ref="aside"
-    v-if="!isUserMenu"
-  >
-    <div
-      class="userActions flex flex-col justify-around gap-8"
-      v-if="!$store.getters.getAuthentication"
-    >
+  <aside class="-translate-x-full duration-500 ease-in-out" ref="aside" v-if="!isUserMenu">
+    <div class="userActions flex flex-col justify-around gap-8" v-if="!$store.getters.getAuthentication">
       <router-link :to="{ name: 'Login', query: { previous: route.name } }">
         <Button> Login </Button>
       </router-link>
@@ -16,32 +9,25 @@
       </router-link>
     </div>
     <div class="userActions flex flex-col justify-around gap-8" v-else>
-      <router-link :to="{ name: 'Profile' }"
-        ><Button class="flex justify-start items-center gap-2 text-lg">
+      <router-link :to="{ name: 'Profile' }"><Button class="flex justify-start items-center gap-2 text-lg">
           <i class="fa-solid fa-user"></i> Profile
         </Button>
       </router-link>
-      <router-link
-        :to="{
-          name: 'manageAnnoncesView',
-        }"
-        ><Button class="flex justify-start items-center gap-2">
+      <router-link :to="{
+    name: 'manageAnnoncesView',
+  }"><Button class="flex justify-start items-center gap-2">
           <i class="fa-solid fa-cog text-lg"></i>
-          <p class="text-lg w-max">Manage annonces</p></Button
-        >
+          <p class="text-lg w-max">Manage annonces</p>
+        </Button>
       </router-link>
-      <router-link
-        :to="{
-          name: 'chatView',
-        }"
-        ><Button class="flex justify-between items-center gap-2">
+      <router-link :to="{
+    name: 'chatView',
+  }"><Button class="flex justify-between items-center gap-2">
           <div class="desc flex justify-start items-center flex-row gap-2">
             <i class="fa-solid fa-message text-lg"></i>
             <p class="text-lg w-max">Chat</p>
           </div>
-          <div
-            class="bg-white w-6 h-6 flex justify-center items-center rounded-full text-red-500"
-          >
+          <div class="bg-white w-6 h-6 flex justify-center items-center rounded-full text-red-500">
             {{ notif }}
           </div>
         </Button>
@@ -53,19 +39,10 @@
         </Button>
       </form>
     </div>
-    <div
-      class="userIcon absolute -right-9 top-0 cursor-pointer min-w-4 px-2 py-1"
-      @click="showUserActions"
-    >
-      <i
-        v-if="!$store.getters.getAuthentication"
-        class="fa-solid fa-user text-2xl"
-      ></i>
-      <i
-        v-else
-        class="fa-solid fa-lock text-2xl"
-        :class="{ 'text-red-500': notif != false }"
-      ></i>
+    <div class="userIcon absolute -right-9 top-0 cursor-pointer min-w-4 px-2 py-1" @click="showUserActions">
+      <i v-if="!$store.getters.getAuthentication" class="fa-solid fa-user text-2xl"></i>
+      <i v-else class="fa-solid fa-lock text-2xl" :class="{ 'text-red-500': notif != false && !lockClicked }"
+        @click="lockClicked = true"></i>
     </div>
   </aside>
 </template>
@@ -83,6 +60,7 @@ const aside = ref(null);
 const isUserMenu = ref(false);
 const notif = ref(false);
 const store = useStore();
+const lockClicked = ref(false);
 // using vue elements
 const route = useRoute();
 
