@@ -146,22 +146,42 @@ class UserController extends ParentController
         $uniqueUsers = [];
 
         foreach ($messages as $message) {
-            if ($message->sender_id == $authUserId) {
-                $userId = $message->receiver_id;
-                $user = $message->receiver;
-            } else {
-                $userId = $message->sender_id;
-                $user = $message->sender;
+            $is_read = null;
+            if ($message->receiver_id == $authUserId) {
+                $is_read = $message->is_read;
             }
+
+            $userId = $message->sender_id == $authUserId ? $message->receiver_id : $message->sender_id;
+            $user = $message->sender_id == $authUserId ? $message->receiver : $message->sender;
 
             if (!in_array($userId, $uniqueUsers)) {
                 $uniqueUsers[] = $userId;
                 $results[] = [
                     'user' => $user,
-                    'is_read' => $message->is_read
+                    'is_read' => $is_read == 0 ? $is_read : null
                 ];
+            } elseif ($is_read === 0) {
+                foreach ($results as &$result) {
+                    if ($result['user']->id == $userId) {
+                        $result['is_read'] = $is_read;
+                        break;
+                    }
+                }
             }
         }
+        // remove duplicates
+        // $uniqueResults = [];
+        // foreach ($results as $result) {
+        //     if (!in_array($result['user']->id, array_column($uniqueResults, 'user_id'))) {
+        //         $uniqueResults[] = [
+        //             'user_id' => $result['user']->id,
+        //             'user' => $result['user'],
+        //             'is_read' => $result['is_read']
+        //         ];
+        //     }
+        // }
+
+
 
         return response()->json(['message' => $results]);
     }
