@@ -90,6 +90,12 @@
           placeholder="Message..."
           v-model="form.answer"
         ></textarea>
+
+        <div class="errors" v-if="errors">
+          <p class="text-red-600" v-if="errors.answer">
+            {{ errors.answer[0] }}
+          </p>
+        </div>
         <button
           type="submit"
           ref="button"
