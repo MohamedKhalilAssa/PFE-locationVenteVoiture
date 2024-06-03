@@ -32,7 +32,7 @@ class AnnonceFactory extends Factory
             'image' => json_encode(['assets/annonces/1.png', 'assets/annonces/2.jpeg']),
             'statut_annonce' => fake()->randomElement(['approved', 'onhold']),
         ];
-        $annonces['modele_id'] = fake()->numberBetween($annonces['marque_id'] * 3 - 2, $annonces['marque_id'] * 3);
+            $annonces['modele_id'] = fake()->numberBetween($annonces['marque_id'] * 3 - 2, $annonces['marque_id'] * 3);
         if ($annonces['type_annonce'] == 'vente') {
             $annonces['prix_vente'] = fake()->numberBetween(1000, 100000);
             $annonces['prix_location'] = null;
