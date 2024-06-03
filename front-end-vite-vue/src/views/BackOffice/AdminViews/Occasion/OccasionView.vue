@@ -31,6 +31,13 @@ const columns = [
     sortable: true,
     isStatus: true,
   },
+  {
+    name: "Disponibilite",
+    key: "disponibilite_",
+    capitalize: true,
+    unsearchable: true,
+    isDisponibility: true,
+  },
   { name: "actions" },
 ];
 // action
@@ -41,14 +48,7 @@ const actions = [
     toID: "id",
     addClass: "text-green-600",
   },
-  {
-    name: "Disponibilite",
-    key: "disponibilite_",
-    capitalize: true,
-    unsearchable: true,
 
-    isDisponibility: true,
-  },
   {
     label: "Modifier",
     redirectToAction: "editAnnonceFront",
