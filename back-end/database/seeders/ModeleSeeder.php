@@ -30,10 +30,10 @@ class ModeleSeeder extends Seeder
             ['nom' => 'Escape', 'marque_id' => 3],
             ['nom' => 'Explorer', 'marque_id' => 3],
 
-            ['nom' => 'Silverado', 'marque_id' => 4],
-            ['nom' => 'Malibu', 'marque_id' => 4],
-            ['nom' => 'Equinox', 'marque_id' => 4],
-            ['nom' => 'Tahoe', 'marque_id' => 4],
+            ['nom' => 'A3', 'marque_id' => 4],
+            ['nom' => 'A4', 'marque_id' => 4],
+            ['nom' => 'Q5', 'marque_id' => 4],
+            ['nom' => 'Q7', 'marque_id' => 4],
 
             ['nom' => 'Golf', 'marque_id' => 5],
             ['nom' => 'Passat', 'marque_id' => 5],
@@ -55,40 +55,9 @@ class ModeleSeeder extends Seeder
             ['nom' => 'GLC', 'marque_id' => 8],
             ['nom' => 'GLE', 'marque_id' => 8],
 
-            ['nom' => 'A3', 'marque_id' => 9],
-            ['nom' => 'A4', 'marque_id' => 9],
-            ['nom' => 'Q5', 'marque_id' => 9],
-            ['nom' => 'Q7', 'marque_id' => 9],
 
-            ['nom' => 'Soul', 'marque_id' => 10],
-            ['nom' => 'Sorento', 'marque_id' => 10],
-            ['nom' => 'Sportage', 'marque_id' => 10],
-            ['nom' => 'Telluride', 'marque_id' => 10],
 
-            ['nom' => 'XC40', 'marque_id' => 11],
-            ['nom' => 'XC60', 'marque_id' => 11],
-            ['nom' => 'S60', 'marque_id' => 11],
-            ['nom' => 'V90', 'marque_id' => 11],
 
-            ['nom' => 'Model S', 'marque_id' => 12],
-            ['nom' => 'Model 3', 'marque_id' => 12],
-            ['nom' => 'Model X', 'marque_id' => 12],
-            ['nom' => 'Model Y', 'marque_id' => 12],
-
-            ['nom' => '488 GTB', 'marque_id' => 13],
-            ['nom' => 'Portofino', 'marque_id' => 13],
-            ['nom' => 'Roma', 'marque_id' => 13],
-            ['nom' => 'F8 Tributo', 'marque_id' => 13],
-
-            ['nom' => '911', 'marque_id' => 14],
-            ['nom' => 'Cayenne', 'marque_id' => 14],
-            ['nom' => 'Panamera', 'marque_id' => 14],
-            ['nom' => 'Taycan', 'marque_id' => 14],
-
-            ['nom' => 'Huracan', 'marque_id' => 15],
-            ['nom' => 'Aventador', 'marque_id' => 15],
-            ['nom' => 'Urus', 'marque_id' => 15],
-            ['nom' => 'Sián', 'marque_id' => 15],
         ];
         foreach ($carModels as $model) {
             Modele::create($model);

@@ -21,8 +21,8 @@ class AnnonceFactory extends Factory
     {
         $elements = fake()->randomElements($this->options, 3);
         $annonces = [
-            'owner_id' => fake()->numberBetween(1, 10),
-            'marque_id' => fake()->numberBetween(1, 15),
+            'owner_id' => fake()->numberBetween(1, 12),
+            'marque_id' => fake()->numberBetween(1, 5),
             'couleur_id' => fake()->numberBetween(1, 20),
             'description' => fake()->sentence(10),
             'ville_id' => fake()->numberBetween(1, 25),
@@ -30,21 +30,26 @@ class AnnonceFactory extends Factory
             'etat' => fake()->randomElement(['neuf', 'occasion']),
             'carburant' => fake()->randomElement(['diesel', 'hybride', 'essence', 'electrique']),
             'kilometrage' => fake()->numberBetween(1, 10000),
-            'annee_fabrication' => fake()->year(),
+            'annee_fabrication' => fake()->numberBetween(2000, 2024),
             'options' => in_array('toutes_options', $elements) ? json_encode('toutes_options') : json_encode($elements),
-            'image' => json_encode(['assets/annonces/1.png', 'assets/annonces/2.jpeg']),
             'statut_annonce' => fake()->randomElement(['approved', 'onhold']),
         ];
-        $annonces['modele_id'] = fake()->numberBetween($annonces['marque_id'] * 4 - 2, $annonces['marque_id'] * 4);
+        $annonces['modele_id'] =  fake()->numberBetween($annonces['marque_id'] * 4 - 2, $annonces['marque_id'] * 4);
         $modele = Modele::find($annonces['modele_id']);
         $annonces['titre'] = "{$modele->marque->nom} {$modele->nom} modèle {$annonces['annee_fabrication']} {$annonces['carburant']}";
+        $modele = $annonces['modele_id'] % 4 == 0 ? 4 : $annonces['modele_id'] % 4;
+        $annonces['image'] = json_encode(['assets/annonces/' . $annonces['marque_id'] . '_' . $modele . '_' . $annonces['etat'] . '1.png', 'assets/annonces/' . $annonces['marque_id'] . '_' . $modele . '_' . $annonces['etat'] . '2.png']);
 
+
+
+        $annonces['kilometrage'] = $annonces['etat'] == 'neuf' ? 0 : $annonces['kilometrage'];
         if ($annonces['type_annonce'] == 'vente') {
             $annonces['prix_vente'] = fake()->numberBetween(10000, 100000);
             $annonces['prix_location'] = null;
             $annonces['disponibilite_vente'] = 'disponible';
             $annonces['disponibilite_location'] = null;
         } elseif ($annonces['type_annonce'] == 'location') {
+            $annonces['etat'] = 'occasion';
             $annonces['prix_vente'] = null;
             $annonces['prix_location'] = fake()->numberBetween(1, 1000);
             $annonces['disponibilite_vente'] = null;
