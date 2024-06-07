@@ -42,7 +42,6 @@ class AnnonceFactory extends Factory
 
 
 
-        $annonces['kilometrage'] = $annonces['etat'] == 'neuf' ? 0 : $annonces['kilometrage'];
         if ($annonces['type_annonce'] == 'vente') {
             $annonces['prix_vente'] = fake()->numberBetween(10000, 100000);
             $annonces['prix_location'] = null;
@@ -55,6 +54,7 @@ class AnnonceFactory extends Factory
             $annonces['disponibilite_vente'] = null;
             $annonces['disponibilite_location'] = 'disponible';
         }
+        $annonces['kilometrage'] = $annonces['etat'] == 'neuf' ? 0 : $annonces['kilometrage'];
         return $annonces;
     }
 }
