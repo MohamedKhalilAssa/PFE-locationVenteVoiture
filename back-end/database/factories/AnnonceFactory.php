@@ -55,6 +55,7 @@ class AnnonceFactory extends Factory
             $annonces['disponibilite_location'] = 'disponible';
         }
         $annonces['kilometrage'] = $annonces['etat'] == 'neuf' ? 0 : $annonces['kilometrage'];
+        $annonces['owner_id'] = $annonces['etat'] == 'neuf' ? 12 : $annonces['owner_id'];
         return $annonces;
     }
 }

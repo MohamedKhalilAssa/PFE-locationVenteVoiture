@@ -29,6 +29,9 @@ class LocationController extends ParentController
         $dateDebut = Carbon::parse($locations['date_debut']);
         $dateFin = Carbon::parse($locations['date_fin']);
 
+        if ($dateDebut->notEqualTo(today())) {
+            return response()->json(['errors' => ['date_debut' => ["La date de reservation doit commencer des aujourd'hui"]]], 422);
+        }
         if ($dateFin->lessThanOrEqualTo($dateDebut)) {
             return response()->json(['errors' => ['date_fin' => ["La date de fin doit être supérieure à la date de début"]]], 422);
         }

@@ -34,13 +34,13 @@
       >
         <p
           :class="{ uppercase: column.capitalize }"
-          class="text-white rounded-lg flex justify-center items-center"
+          class="text-white rounded-lg flex cursor-pointer justify-center items-center"
         >
           {{ row[column.key] ?? " N/A" }}
         </p>
       </div>
       <div
-        class="w-28 h-max py-2 px-3 rounded-lg"
+        class="w-28 h-max py-2 cursor-pointer px-3 rounded-lg"
         v-else-if="column.isDisponibility"
         :class="{
           'bg-red-500': row[column.key + dispo] == 'indisponible',
