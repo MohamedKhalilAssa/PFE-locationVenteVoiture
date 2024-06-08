@@ -33,8 +33,13 @@
         v-else-if="column.isStatus"
       >
         <p
-          :class="{ uppercase: column.capitalize }"
-          class="text-white rounded-lg flex cursor-pointer justify-center items-center"
+          :class="{
+            uppercase: column.capitalize,
+            'cursor-pointer':
+              $store.getters.getUser.role == 'admin' ||
+              $store.getters.getUser.role == 'root',
+          }"
+          class="text-white rounded-lg flex justify-center items-center"
         >
           {{ row[column.key] ?? " N/A" }}
         </p>

@@ -113,9 +113,11 @@ onMounted(() => {
       notif.value = resp.result;
     });
     setInterval(() => {
-      counter = getFromDB(Endpoints.chat__get_notif).then((resp) => {
-        notif.value = resp.result;
-      });
+      if (localStorage.getItem("Authentication")) {
+        counter = getFromDB(Endpoints.chat__get_notif).then((resp) => {
+          notif.value = resp.result;
+        });
+      }
     }, 6000);
   }
 });
