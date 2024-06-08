@@ -26,11 +26,11 @@
               { key: 'desc-' + price, name: 'Par prix décroissant' },
               {
                 key: 'asc-annee_fabrication',
-                name: 'Par date croissante',
+                name: 'Par annee de fabrication croissante',
               },
               {
                 key: 'desc-annee_fabrication',
-                name: 'Par date décroissante',
+                name: 'Par annee de fabrication décroissante',
               },
               {
                 key: 'desc-created_at',
