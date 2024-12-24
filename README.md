@@ -7,6 +7,15 @@ This platform provides a seamless experience for users looking to buy, rent, or 
 
 ---
 
+## How To start the project
+
+  - To Start the project make sure to install the dependencies for both front-end and backend using the *install.sh* script.
+  - Remember to set up the .env file in the back end
+  - Make sure to also set up the ip for the routing files
+  - and finally start the servers using the scripts depending on your platform
+
+---
+
 ## Key Features
 - **Search and Filtering**  
   Effortlessly explore listings for new, used, or rental cars with advanced filters and sorting options.
